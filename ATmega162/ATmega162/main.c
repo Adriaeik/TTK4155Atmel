@@ -15,6 +15,8 @@ int main(void) {
 	// Sett Port B pin 0 som utgang
 	DDRB |= (1 << PB0);
 
+	int a = 3;
+
 	while (1) {
 		// Sett PB0 høg
 		PORTB |= (1 << PB0);
