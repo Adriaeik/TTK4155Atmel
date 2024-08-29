@@ -74,8 +74,8 @@ Disassembly of section .text:
   84:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
 
 00000088 <main>:
-#include <avr/io.h>
-#include <util/delay.h>
+
+
 
 int main(void) {
 	// Sett Port B pin 0 som utgang

@@ -8,6 +8,9 @@
 #include <avr/io.h>
 #include <util/delay.h>
 
+
+
+
 int main(void) {
 	// Sett Port B pin 0 som utgang
 	DDRB |= (1 << PB0);
