@@ -129,6 +129,9 @@
     <Compile Include="main.c">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="Utils.c">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="Utils.h">
       <SubType>compile</SubType>
     </Compile>
