@@ -1,0 +1,59 @@
+Litt info fra datasheet som kan være brukbart?
+
+Port A (Pa7..Pa0): 
+    -8 bit
+    -I/O, støtter både input og output
+    -Har innebygde pull-up motstander
+
+Anbefalt håndtering av minne:
+    - 0x0000 -> 0x045F er internal, og kan ikke skrives til fra
+    - 0x1000 -> 0x13FF (1kB) brukes for OLED skjermen, der det deles 50/50 for kommandoer og datasheet
+        0001 0000 0000 0000 
+        0001 0011 1111 1111
+    - 0x1400 -> 0x17FF (1kB) brukes til ADC
+        0001 0100 0000 0000
+        0001 0111 1111 1111
+    - 0x1800 -> 0x1FFF (2kB) brukes til SRAM
+        0001 1000 0000 0000
+        0001 1111 1111 1111
+    
+    Kan derfor se på første byte, om den er 1 (0001) så hører adressen til utenfor (enten OLED, ADC eller SRAM)
+    Man vil derfor vite at dataen skal sendes ut gjennom latchen
+    Samme prinsipp for neste byte, og vil si hvilken latch som skal åpnes:
+        om den er 00xx så skal den til OLED
+        om den er 01xx så skal den til ADC
+        om den er 1xxx så skal den til SRAM
+
+    Må sjekke datasheet til ATMEGA for å finne ut av hva som er hva i MCUen, tipper disse er koblet til AD7-AD0
+    tolker det som at man bare skal sende adressen som bytes gjennom latch-activate til latchen
+
+    kan bruke digitale logiske operasjoner for å tolke hvor data skal sendes basert på adressen. 
+    Siden disse 4 bytes skal kobles med LA til MCU, tipper jeg den har 16 bits ci kan manipulere basert på adresse.
+    husker ikke vilken pin vi brukte til LA, men tror der er  PE1. Kode for å sjekke hvor det skal kan da være:
+        RAM = /(PE116 * PE115 * PE114 * PE113) //Den er i RAM om bit 16, 15, 14, 13 ikke er 1 (er 0)
+        LATCH0 = /(PE116 * PE115 * PE114 * /PE113 * PE112 * PE111)      //første fire lik som over utenom at 13 er 1, 
+                                                                        //vet derfor at den skal ut. sjekker om bit 12 og 11 er av.
+                                                                        //Om de er det, kan vi da vite at adressen hører til  
+                                                                        //oled skjermen, og vil aktivere latch0 i latchen
+        LATCH1 = /(PE116 * PE115 * PE114 * /PE113 * PE112 * /PE111)     //Samme logikk som over, latch til ADC
+        LATCH2 = /(PE116 * PE115 * PE114 * /PE113 * /PE112)             //Samme logikk som over, latch til RAM
+    (Dobbelsjekk at logikken der er riktig, men prinsippet holder)
+
+    Om jeg har skjønt det riktig, kommer 4 av pinsa til å brukes som read og 4 som write.
+    Regner derfor med at hver pin sender hver av bytesa parralelt til latch 
+
+
+    Tar det tilbake, tror PE1 bare er bit 1 i byten i port E, og vil bare være 1 eller 0 basert på om latch skal aktiveres eller ikke.
+    Blir vel da PA istedenfor PE og 0-7 basert på pin.
+    Adressen blir da sikkert sendt på PA7..PA0.
+    Kanskje latchen husker adressen på noe vis, og data kan da sendes/mottas gjennom PA7..PA0
+
+
+
+
+
+
+
+
+
+
