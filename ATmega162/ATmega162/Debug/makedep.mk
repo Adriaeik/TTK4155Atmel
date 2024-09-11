@@ -10,3 +10,5 @@ SRAM_Test.c
 
 Utils.c
 
+XMEM_Decode.c
+

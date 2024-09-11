@@ -6,6 +6,7 @@
  */ 
 
 #include "DriverUART.h"
+#include "XMEM_Decode.h"
 
 
 
@@ -30,25 +31,30 @@ int main(void) {
 	
 	//SRAM_test();
 	
-	uint16_t addr = 420;
+	uint16_t addr = 1 + OLED_SIZE;
 	uint8_t data = 69;
 	
 
-	//SRAM_write(addr, data);
-	//
-	//uint8_t rdata = SRAM_read(addr);
-	//printf(rdata);
-	//printf("\n\r");
-	//printf("Write phase error: ext_ram[%4d] = %02X (should be %02X)\n\r", 0, rdata, data);
-		
 	while (1) {
-		SRAM_write(addr, data);
-		
-		uint8_t rdata = SRAM_read(addr);
-		printf("%02X", rdata);
-		printf("\n\r");
-		printf("Write phase error: ext_ram[%4d] = %2d (should be %2d)\n\r", addr, rdata, data);
-		_delay_ms(1000);
+		Universal_write(addr, data);
+		//while(addr++ < OLED_SIZE+ADC_SIZE+SRAM_SIZE){
+			//Universal_write(addr, data);
+//
+			//if (addr > OLED_SIZE ){
+				//uint8_t rdata = Universal_read(addr);
+				//printf("%02X", rdata);
+				//printf("\n\r");
+				//printf("Write phase error: ext_ram[%4d] = %2d (should be %2d)\n\r", addr, rdata, data);
+			//}
+		//}
+				
+		//SRAM_write(addr, data);
+		//
+		//uint8_t rdata = SRAM_read(addr);
+		//printf("%02X", rdata);
+		//printf("\n\r");
+		//printf("Write phase error: ext_ram[%4d] = %2d (should be %2d)\n\r", addr, rdata, data);
+		//_delay_ms(1000);
 	}
 
 	return 0;
