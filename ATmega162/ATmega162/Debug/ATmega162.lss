@@ -3,29 +3,29 @@ ATmega162.elf:     file format elf32-avr
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .data         00000000  00800100  00800100  000001e8  2**0
+  0 .data         00000000  00800100  00800100  00000142  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  1 .text         00000194  00000000  00000000  00000054  2**1
+  1 .text         000000ee  00000000  00000000  00000054  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  2 .comment      00000030  00000000  00000000  000001e8  2**0
+  2 .comment      00000030  00000000  00000000  00000142  2**0
                   CONTENTS, READONLY
-  3 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  00000218  2**2
+  3 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  00000174  2**2
                   CONTENTS, READONLY
-  4 .debug_aranges 000000b8  00000000  00000000  00000254  2**0
+  4 .debug_aranges 00000080  00000000  00000000  000001b0  2**0
                   CONTENTS, READONLY, DEBUGGING
-  5 .debug_info   00000ee3  00000000  00000000  0000030c  2**0
+  5 .debug_info   000009eb  00000000  00000000  00000230  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_abbrev 00000a52  00000000  00000000  000011ef  2**0
+  6 .debug_abbrev 00000840  00000000  00000000  00000c1b  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_line   000005db  00000000  00000000  00001c41  2**0
+  7 .debug_line   00000309  00000000  00000000  0000145b  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_frame  000001a8  00000000  00000000  0000221c  2**2
+  8 .debug_frame  000000e0  00000000  00000000  00001764  2**2
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_str    00000534  00000000  00000000  000023c4  2**0
+  9 .debug_str    00000484  00000000  00000000  00001844  2**0
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_loc    000004e7  00000000  00000000  000028f8  2**0
+ 10 .debug_loc    00000180  00000000  00000000  00001cc8  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_ranges 000000b8  00000000  00000000  00002ddf  2**0
+ 11 .debug_ranges 00000060  00000000  00000000  00001e48  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -72,8 +72,8 @@ Disassembly of section .text:
   7c:	11 e0       	ldi	r17, 0x01	; 1
   7e:	a0 e0       	ldi	r26, 0x00	; 0
   80:	b1 e0       	ldi	r27, 0x01	; 1
-  82:	e4 e9       	ldi	r30, 0x94	; 148
-  84:	f1 e0       	ldi	r31, 0x01	; 1
+  82:	ee ee       	ldi	r30, 0xEE	; 238
+  84:	f0 e0       	ldi	r31, 0x00	; 0
   86:	02 c0       	rjmp	.+4      	; 0x8c <__do_copy_data+0x10>
   88:	05 90       	lpm	r0, Z+
   8a:	0d 92       	st	X+, r0
@@ -95,7 +95,7 @@ Disassembly of section .text:
   9e:	b2 07       	cpc	r27, r18
   a0:	e1 f7       	brne	.-8      	; 0x9a <.do_clear_bss_loop>
   a2:	0e 94 64 00 	call	0xc8	; 0xc8 <main>
-  a6:	0c 94 c8 00 	jmp	0x190	; 0x190 <_exit>
+  a6:	0c 94 75 00 	jmp	0xea	; 0xea <_exit>
 
 000000aa <__bad_interrupt>:
   aa:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
@@ -126,184 +126,58 @@ ISR(USART0_RXC_vect) {
   c6:	18 95       	reti
 
 000000c8 <main>:
-
-
-
-int main(void) {
-	// Initialiser eksternt minne
-	externalMemoryInit();
-  c8:	0e 94 af 00 	call	0x15e	; 0x15e <externalMemoryInit>
-
-	// Skrive data til SRAM
-	SRAM_write(0x1800, 0xAB);  // Skriv 0xAB til adresse 0x1800
-  cc:	6b ea       	ldi	r22, 0xAB	; 171
-  ce:	70 e0       	ldi	r23, 0x00	; 0
-  d0:	80 e0       	ldi	r24, 0x00	; 0
-  d2:	98 e1       	ldi	r25, 0x18	; 24
-  d4:	0e 94 ba 00 	call	0x174	; 0x174 <SRAM_write>
-	SRAM_write(0x1801, 0xCD);  // Skriv 0xCD til adresse 0x1801
-  d8:	6d ec       	ldi	r22, 0xCD	; 205
-  da:	70 e0       	ldi	r23, 0x00	; 0
-  dc:	81 e0       	ldi	r24, 0x01	; 1
-  de:	98 e1       	ldi	r25, 0x18	; 24
-  e0:	0e 94 ba 00 	call	0x174	; 0x174 <SRAM_write>
-	//uint8_t data1 = SRAM_read(0x1800);
-	//uint8_t data2 = SRAM_read(0x1801);
-
-	while (1) {
-		// Skriv 0x01 til adresse 0x1800, som vil sette PA0 høg og slå på LED kobla til PA0
-		SRAM_write(0x1800, 0x01);
-  e4:	61 e0       	ldi	r22, 0x01	; 1
-  e6:	70 e0       	ldi	r23, 0x00	; 0
-  e8:	80 e0       	ldi	r24, 0x00	; 0
-  ea:	98 e1       	ldi	r25, 0x18	; 24
-  ec:	0e 94 ba 00 	call	0x174	; 0x174 <SRAM_write>
+	//SRAM_write(0x1801, 0xCD);  // Skriv 0xCD til adresse 0x1801
+//
+	////// Lese data frå SRAM
+	////uint8_t data1 = SRAM_read(0x1800);
+	////uint8_t data2 = SRAM_read(0x1801);
+	DDRA = 0xFF; //Sett alle pins i port A til utgang
+  c8:	8f ef       	ldi	r24, 0xFF	; 255
+  ca:	8a bb       	out	0x1a, r24	; 26
+	//PORTA = 0xFF; //Skru på pull-up resistor i alle pins
+	
+	uint8_t addr = 0x01;
+	
+	setBit(DDRE, PE1);
+  cc:	31 9a       	sbi	0x06, 1	; 6
+	setBit(PORTE, PE1);
+  ce:	39 9a       	sbi	0x07, 1	; 7
+	////uint8_t data1 = SRAM_read(0x1800);
+	////uint8_t data2 = SRAM_read(0x1801);
+	DDRA = 0xFF; //Sett alle pins i port A til utgang
+	//PORTA = 0xFF; //Skru på pull-up resistor i alle pins
+	
+	uint8_t addr = 0x01;
+  d0:	81 e0       	ldi	r24, 0x01	; 1
+		
+		//PORTA = addr;
+		//_delay_ms(300);
+		//addr++;
+		
+		PORTA = addr;
+  d2:	8b bb       	out	0x1b, r24	; 27
 	#else
 		//round up by default
 		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
 	#endif
 
 	__builtin_avr_delay_cycles(__ticks_dc);
-  f0:	2f ef       	ldi	r18, 0xFF	; 255
-  f2:	8f e7       	ldi	r24, 0x7F	; 127
-  f4:	97 e0       	ldi	r25, 0x07	; 7
-  f6:	21 50       	subi	r18, 0x01	; 1
-  f8:	80 40       	sbci	r24, 0x00	; 0
-  fa:	90 40       	sbci	r25, 0x00	; 0
-  fc:	e1 f7       	brne	.-8      	; 0xf6 <main+0x2e>
-  fe:	00 c0       	rjmp	.+0      	; 0x100 <main+0x38>
- 100:	00 00       	nop
-		_delay_ms(500);  // Vent 500 ms
+  d4:	2f ef       	ldi	r18, 0xFF	; 255
+  d6:	3f e7       	ldi	r19, 0x7F	; 127
+  d8:	94 e0       	ldi	r25, 0x04	; 4
+  da:	21 50       	subi	r18, 0x01	; 1
+  dc:	30 40       	sbci	r19, 0x00	; 0
+  de:	90 40       	sbci	r25, 0x00	; 0
+  e0:	e1 f7       	brne	.-8      	; 0xda <main+0x12>
+  e2:	00 c0       	rjmp	.+0      	; 0xe4 <main+0x1c>
+  e4:	00 00       	nop
+		_delay_ms(300);
+		addr++;		
+  e6:	8f 5f       	subi	r24, 0xFF	; 255
+  e8:	f4 cf       	rjmp	.-24     	; 0xd2 <main+0xa>
 
-		// Skriv 0x02 til adresse 0x1800, som vil sette PA1 høg og slå på LED kobla til PA1
-		SRAM_write(0x1800, 0x02);
- 102:	62 e0       	ldi	r22, 0x02	; 2
- 104:	70 e0       	ldi	r23, 0x00	; 0
- 106:	80 e0       	ldi	r24, 0x00	; 0
- 108:	98 e1       	ldi	r25, 0x18	; 24
- 10a:	0e 94 ba 00 	call	0x174	; 0x174 <SRAM_write>
- 10e:	2f ef       	ldi	r18, 0xFF	; 255
- 110:	8f e7       	ldi	r24, 0x7F	; 127
- 112:	97 e0       	ldi	r25, 0x07	; 7
- 114:	21 50       	subi	r18, 0x01	; 1
- 116:	80 40       	sbci	r24, 0x00	; 0
- 118:	90 40       	sbci	r25, 0x00	; 0
- 11a:	e1 f7       	brne	.-8      	; 0x114 <main+0x4c>
- 11c:	00 c0       	rjmp	.+0      	; 0x11e <main+0x56>
- 11e:	00 00       	nop
-		_delay_ms(500);  // Vent 500 ms
+000000ea <_exit>:
+  ea:	f8 94       	cli
 
-		// Skriv 0x00 til adresse 0x1800, som vil slå av begge LED-ar
-		SRAM_write(0x1800, 0x00);
- 120:	60 e0       	ldi	r22, 0x00	; 0
- 122:	70 e0       	ldi	r23, 0x00	; 0
- 124:	80 e0       	ldi	r24, 0x00	; 0
- 126:	98 e1       	ldi	r25, 0x18	; 24
- 128:	0e 94 ba 00 	call	0x174	; 0x174 <SRAM_write>
- 12c:	2f ef       	ldi	r18, 0xFF	; 255
- 12e:	8f e7       	ldi	r24, 0x7F	; 127
- 130:	97 e0       	ldi	r25, 0x07	; 7
- 132:	21 50       	subi	r18, 0x01	; 1
- 134:	80 40       	sbci	r24, 0x00	; 0
- 136:	90 40       	sbci	r25, 0x00	; 0
- 138:	e1 f7       	brne	.-8      	; 0x132 <main+0x6a>
- 13a:	00 c0       	rjmp	.+0      	; 0x13c <main+0x74>
- 13c:	00 00       	nop
-		_delay_ms(500);  // Vent 500 ms
-
-		// Skriv 0x03 til adresse 0x1800, som vil sette både PA0 og PA1 høg og slå på begge LED-ar
-		SRAM_write(0x1800, 0x03);
- 13e:	63 e0       	ldi	r22, 0x03	; 3
- 140:	70 e0       	ldi	r23, 0x00	; 0
- 142:	80 e0       	ldi	r24, 0x00	; 0
- 144:	98 e1       	ldi	r25, 0x18	; 24
- 146:	0e 94 ba 00 	call	0x174	; 0x174 <SRAM_write>
- 14a:	2f ef       	ldi	r18, 0xFF	; 255
- 14c:	8f e7       	ldi	r24, 0x7F	; 127
- 14e:	97 e0       	ldi	r25, 0x07	; 7
- 150:	21 50       	subi	r18, 0x01	; 1
- 152:	80 40       	sbci	r24, 0x00	; 0
- 154:	90 40       	sbci	r25, 0x00	; 0
- 156:	e1 f7       	brne	.-8      	; 0x150 <main+0x88>
- 158:	00 c0       	rjmp	.+0      	; 0x15a <main+0x92>
- 15a:	00 00       	nop
- 15c:	c3 cf       	rjmp	.-122    	; 0xe4 <main+0x1c>
-
-0000015e <externalMemoryInit>:
-#include "SRAM.h"
-
-// Funksjon for å initialisere det eksterne minnet (SRAM + latch)
-void externalMemoryInit(void) {
-	// Set Port A (AD0-AD7) og Port C (A8-A15) som utgang for adresse- og databuss
-	DDRA = 0xFF;  // PA0-PA7 som utgang
- 15e:	8f ef       	ldi	r24, 0xFF	; 255
- 160:	8a bb       	out	0x1a, r24	; 26
-	DDRC = 0xFF;  // PC0-PC7 som utgang
- 162:	84 bb       	out	0x14, r24	; 20
-
-	// Set Port D (PD6 og PD7) som utgang for WR og RD signal
-	setBit(DDRD, PD6);  // WR
- 164:	8e 9a       	sbi	0x11, 6	; 17
-	setBit(DDRD, PD7);  // RD
- 166:	8f 9a       	sbi	0x11, 7	; 17
-
-	// Set Port E (PE1) som utgang for ALE
-	setBit(DDRE, PE1);  // ALE
- 168:	31 9a       	sbi	0x06, 1	; 6
-
-	// Aktivere ekstern minnegrensesnitt
-	setBit(MCUCR, SRE);   // Enable external SRAM interface
- 16a:	85 b7       	in	r24, 0x35	; 53
- 16c:	80 68       	ori	r24, 0x80	; 128
- 16e:	85 bf       	out	0x35, r24	; 53
-	SFIOR = 0x00;         // No wait state
- 170:	10 be       	out	0x30, r1	; 48
- 172:	08 95       	ret
-
-00000174 <SRAM_write>:
-}
-
-// Funksjon for å skrive data til SRAM
-void SRAM_write(uint16_t addr, uint8_t data) {
-	// Plassere adresse på AD0-AD7 (lavbyte) og A8-A15 (høgbyte)
-	PORTA = (uint8_t)(addr & 0xFF);  // AD0-AD7
- 174:	8b bb       	out	0x1b, r24	; 27
-	PORTC = (uint8_t)((addr >> 8) & 0xFF);  // A8-A15
- 176:	95 bb       	out	0x15, r25	; 21
-
-	// Aktivere adresse latch (ALE signal)
-	setBit(PORTE, PE1);  // ALE høg
- 178:	39 9a       	sbi	0x07, 1	; 7
-	#else
-		//round up by default
-		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
-	#endif
-
-	__builtin_avr_delay_cycles(__ticks_dc);
- 17a:	00 c0       	rjmp	.+0      	; 0x17c <SRAM_write+0x8>
- 17c:	00 c0       	rjmp	.+0      	; 0x17e <SRAM_write+0xa>
- 17e:	00 00       	nop
-	_delay_us(1);  // Kort forsinkelse for å sikre at adressa blir fanga opp
-	clearBit(PORTE, PE1);  // ALE låg
- 180:	39 98       	cbi	0x07, 1	; 7
-
-	// Plassere data på AD0-AD7
-	PORTA = data;
- 182:	6b bb       	out	0x1b, r22	; 27
-
-	// Skrive data til SRAM (/WR signal)
-	clearBit(PORTD, PD6);  // WR låg
- 184:	96 98       	cbi	0x12, 6	; 18
- 186:	00 c0       	rjmp	.+0      	; 0x188 <SRAM_write+0x14>
- 188:	00 c0       	rjmp	.+0      	; 0x18a <SRAM_write+0x16>
- 18a:	00 00       	nop
-	_delay_us(1);  // Kort forsinkelse for å sikre korrekt skriving
-	setBit(PORTD, PD6);   // WR høg
- 18c:	96 9a       	sbi	0x12, 6	; 18
- 18e:	08 95       	ret
-
-00000190 <_exit>:
- 190:	f8 94       	cli
-
-00000192 <__stop_program>:
- 192:	ff cf       	rjmp	.-2      	; 0x192 <__stop_program>
+000000ec <__stop_program>:
+  ec:	ff cf       	rjmp	.-2      	; 0xec <__stop_program>

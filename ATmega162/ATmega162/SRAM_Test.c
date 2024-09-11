@@ -28,7 +28,7 @@ void externalMemoryInit(void) {
 void SRAM_write(uint16_t addr, uint8_t data) {
 	// Plassere adresse på AD0-AD7 (lavbyte) og A8-A15 (høgbyte)
 	PORTA = (uint8_t)(addr & 0xFF);  // AD0-AD7
-	PORTC = (uint8_t)((addr >> 8) & 0xFF);  // A8-A15
+	//PORTC = (uint8_t)((addr >> 8) & 0xFF);  // A8-A15
 
 	// Aktivere adresse latch (ALE signal)
 	setBit(PORTE, PE1);  // ALE høg
