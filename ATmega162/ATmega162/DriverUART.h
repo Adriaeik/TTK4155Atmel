@@ -12,7 +12,7 @@
 #include "Utils.h"
 #include <stdio.h>
 
-#define FOSC 4915200  // Sett denne til riktig klokkehastighet
+#define FOSC 4915200UL  // Sett denne til riktig klokkehastighet
 #define BAUD 9600
 #define MYUBBR FOSC/16/BAUD-1
 
