@@ -10,8 +10,8 @@
 void externalMemoryInit(void) {
 	// Set Port A (AD0-AD7) og Port C (A8-A15) som utgang for adresse- og databuss
 	DDRA = 0xFF;  // PA0-PA7 som utgang
-	DDRC = 0xFF;  // PC0-PC7 som utgang
-
+	DDRC = 0x0F ;  // PC0-PC3 som utgang
+ 
 	// Set Port D (PD6 og PD7) som utgang for WR og RD signal
 	setBit(DDRD, PD6);  // WR
 	setBit(DDRD, PD7);  // RD
@@ -22,52 +22,31 @@ void externalMemoryInit(void) {
 	// Aktivere ekstern minnegrensesnitt
 	setBit(MCUCR, SRE);   // Enable external SRAM interface
 	SFIOR = 0x00;         // No wait state
+	
+	//Maskes pc4-pc7 (disables as output) (s32 ATmega datasheet)
+	setBit(SFIOR, XMM2);
 }
 
 // Funksjon for å skrive data til SRAM
-void SRAM_write(uint16_t addr, uint8_t data) {
-	// Plassere adresse på AD0-AD7 (lavbyte) og A8-A15 (høgbyte)
-	PORTA = (uint8_t)(addr & 0xFF);  // AD0-AD7
-	//PORTC = (uint8_t)((addr >> 8) & 0xFF);  // A8-A15
-
-	// Aktivere adresse latch (ALE signal)
-	setBit(PORTE, PE1);  // ALE høg
-	_delay_us(1);  // Kort forsinkelse for å sikre at adressa blir fanga opp
-	clearBit(PORTE, PE1);  // ALE låg
-
-	// Plassere data på AD0-AD7
-	PORTA = data;
-
-	// Skrive data til SRAM (/WR signal)
-	clearBit(PORTD, PD6);  // WR låg
-	_delay_us(1);  // Kort forsinkelse for å sikre korrekt skriving
-	setBit(PORTD, PD6);   // WR høg
+void SRAM_write(volatile uint16_t addr, uint8_t data) {
+	volatile char *ext_ram = (char *) SRAM_START; // Startadresse for SRAM
+	uint16_t ext_ram_size = SRAM_SIZE; // Størrelsen på SRAM (2 KB)	
+	ext_ram[addr] = data;
+	
+	
 }
 
 // Funksjon for å lese data frå SRAM
-uint8_t SRAM_read(uint16_t addr) {
-	uint8_t data;
-
-	// Plassere adresse på AD0-AD7 (lavbyte) og A8-A15 (høgbyte)
-	PORTA = (uint8_t)(addr & 0xFF);  // AD0-AD7
-	PORTC = (uint8_t)((addr >> 8) & 0xFF);  // A8-A15
-
-	// Aktivere adresse latch (ALE signal)
-	setBit(PORTE, PE1);  // ALE høg
-	_delay_us(1);  // Kort forsinkelse for å sikre at adressa blir fanga opp
-	clearBit(PORTE, PE1);  // ALE låg
-
-	// Aktivere lesing frå SRAM (/RD signal)
-	clearBit(PORTD, PD7);  // RD låg
-	_delay_us(1);  // Kort forsinkelse for å sikre korrekt lesing
-	data = PINA;  // Les data frå AD0-AD7
-	setBit(PORTD, PD7);   // RD høg
-
+uint8_t SRAM_read(volatile uint16_t addr) {
+	volatile char *ext_ram = (char *) SRAM_START; // Startadresse for SRAM
+	uint16_t ext_ram_size = SRAM_SIZE; // Størrelsen på SRAM (2 KB)
+	uint8_t data = ext_ram[addr];
+	
 	return data;
 }
 void SRAM_test(void) {
-	volatile char *ext_ram = (char *) 0x1800; // Startadresse for SRAM
-	uint16_t ext_ram_size = 0x800; // Størrelsen på SRAM (2 KB)
+	volatile char *ext_ram = (char *) SRAM_START; // Startadresse for SRAM
+	uint16_t ext_ram_size = SRAM_SIZE; // Størrelsen på SRAM (2 KB)
 	uint16_t write_errors = 0;
 	uint16_t retrieval_errors = 0;
 	
@@ -82,7 +61,7 @@ void SRAM_test(void) {
 		ext_ram[i] = some_value;
 		uint8_t retrieved_value = ext_ram[i];
 		if (retrieved_value != some_value) {
-			printf("Write phase error: ext_ram[%4d] = %02X (should be %02X)\n", i, retrieved_value, some_value);
+			printf("Write phase error: ext_ram[%4d] = %02X (should be %02X)\n\r", i, retrieved_value, some_value);
 			write_errors++;
 		}
 	}
@@ -93,10 +72,10 @@ void SRAM_test(void) {
 		uint8_t some_value = rand();
 		uint8_t retrieved_value = ext_ram[i];
 		if (retrieved_value != some_value) {
-			printf("Retrieval phase error: ext_ram[%4d] = %02X (should be %02X)\n", i, retrieved_value, some_value);
+			printf("Retrieval phase error: ext_ram[%4d] = %02X (should be %02X)\n\r", i, retrieved_value, some_value);
 			retrieval_errors++;
 		}
 	}
 	
-	printf("SRAM test completed with \n%4d errors in write phase and \n%4d errors in retrieval phase\n", write_errors, retrieval_errors);
+	printf("SRAM test completed with \n\r%4d errors in write phase and \n\r%4d errors in retrieval phase\n\r", write_errors, retrieval_errors);
 }
