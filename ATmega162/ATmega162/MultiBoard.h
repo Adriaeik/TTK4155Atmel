@@ -33,7 +33,7 @@ typedef struct {
 	uint8_t JoyYOrigo;  // Kalibrert origo for Joystick Y
 	int16_t JoyXposCal;	// Kalibrert joystik pos med +/- for å kunne btuke atan2
 	int16_t JoyYposCal;	// Kalibrert joystik pos med +/- for å kunne btuke atan2
-	float JoyAngel;
+	//float JoyAngel;
 } MultiBoard;
 
 

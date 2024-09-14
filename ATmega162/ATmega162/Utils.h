@@ -22,7 +22,7 @@
 #define loopUntilBitIsSet(reg, bit) while(!testBit(reg, bit))
 #define loopUntilBitIsClear(reg, bit) while(testBit(reg, bit))
 
-float claculateJoystickAngel(int16_t x, int16_t y);
+int claculateJoystickAngel(int16_t x, int16_t y);
 
 
 #endif /* UTILS_H_ */

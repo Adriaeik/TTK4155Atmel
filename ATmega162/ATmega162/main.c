@@ -37,13 +37,21 @@ int main(void) {
 	// Hovudløkka
 	while (1) {
 		MultiBoard_Update(&board);
-		//float angel = claculateJoystickAngel(MultiBoard->JoyXposCal, MultiBoard->JoyYposCal);
 		// Skrive ut alle verdier til UART (for debugging eller logging)
 		//printf("Left Slider: %u, Right Slider: %u\n\r", board.LSpos, board.RSpos);
 		//printf("Joystick X: %d, Y: %d, Button: %u\n\r", board.JoyXpos, board.JoyYpos, board.JoyBtn);
 		//printf("Left Button: %u, Right Button: %u\n\n\r", board.LBtn, board.RBtn);
-		printf("Left Button: %u, Right Button: %u, Button: %u\n\n\r", board.LBtn, board.RBtn, board.JoyBtn);
-		//printf("angel: %d %u\n\n\r", angel);
+		//printf("Left Button: %u, Right Button: %u, Button: %u\n\n\r", board.LBtn, board.RBtn, board.JoyBtn);
+		int16_t joyX = 100;   // Eksempelverdi for joystick X
+		int16_t joyY = 50;    // Eksempelverdi for joystick Y
+
+		// Beregn vinkel
+		int angle = calculateJoystickAngle(board.JoyXposCal, board.JoyYposCal);
+
+		// Skriv ut vinkelen
+		printf("Calculated angle: %d degrees\n\r", (int)angle);
+		printf("Joystick X: %d, Y: %d\n\r", board.JoyXposCal, board.JoyYposCal);
+
 	}
 	return 0;
 }
