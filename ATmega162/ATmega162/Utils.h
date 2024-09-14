@@ -15,6 +15,7 @@
 #include <stdlib.h>
 
 
+
 #define setBit(reg, bit) (reg |= (1 << bit))  // DDRB |= (1 << PB0); PORTB |= (1 << PB0);
 #define clearBit(reg, bit) (reg &= ~(1 << bit)) // PORTB &= ~(1 << PB0)
 #define testBit(reg, bit) (reg & (1 << bit))

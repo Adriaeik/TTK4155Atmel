@@ -7,7 +7,7 @@
 
 #include "DriverUART.h"
 #include "XMEM_Decode.h"
-
+#include "SRAM.h"
 
 
 int main(void) {
@@ -29,14 +29,22 @@ int main(void) {
 	externalMemoryInit();
 	
 	
-	//SRAM_test();
+	SRAM_test();
 	
-	uint16_t addr = 1 + OLED_SIZE;
-	uint8_t data = 69;
+	//uint16_t addr = 1 + ADC_START;
+	uint16_t addr = 1 + ADC_START;
+
+	uint8_t data = 0x80;
+	uint8_t rdata = 69;
+	
 	
 
 	while (1) {
+		
+		//Universal_write(addr, data);
 		Universal_write(addr, data);
+		rdata = Universal_read(addr);
+		printf("Reading from: ext_ram[%4d] = %2d \n\r", addr, rdata);
 		//while(addr++ < OLED_SIZE+ADC_SIZE+SRAM_SIZE){
 			//Universal_write(addr, data);
 //

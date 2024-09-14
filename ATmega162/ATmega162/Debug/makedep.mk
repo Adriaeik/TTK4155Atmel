@@ -6,6 +6,8 @@ DriverUART.c
 
 main.c
 
+MultiBoard.c
+
 SRAM_Test.c
 
 Utils.c
