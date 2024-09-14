@@ -5,7 +5,7 @@
  *  Author: ravneb
  */ 
 #include "XMEM_Decode.h"
-// Funksjon for å initialisere det eksterne minnet (SRAM + latch)
+// Funksjon for ï¿½ initialisere det eksterne minnet (SRAM + latch)
 void externalMemoryInit(void) {
 	// Set Port A (AD0-AD7) og Port C (A8-A15) som utgang for adresse- og databuss
 	DDRA = 0xFF;  // PA0-PA7 som utgang
@@ -26,35 +26,59 @@ void externalMemoryInit(void) {
 	setBit(SFIOR, XMM2);
 }
 
-// Funksjon for å skrive data til SRAM
+// Funksjon for ï¿½ skrive data til SRAM
 void SRAM_write(volatile uint16_t addr, uint8_t data) {
 	volatile char *ext_ram = (char *) SRAM_START; // Startadresse for SRAM
-	uint16_t ext_ram_size = SRAM_SIZE; // Størrelsen på SRAM (2 KB)
+	uint16_t ext_ram_size = SRAM_SIZE; // Stï¿½rrelsen pï¿½ SRAM (2 KB)
 	ext_ram[addr] = data;
 	
 	
 }
 
-// Funksjon for å lese data frå SRAM
+// Funksjon for ï¿½ lese data frï¿½ SRAM
 uint8_t SRAM_read(volatile uint16_t addr) {
 	volatile char *ext_ram = (char *) SRAM_START; // Startadresse for SRAM
-	uint16_t ext_ram_size = SRAM_SIZE; // Størrelsen på SRAM (2 KB)
+	uint16_t ext_ram_size = SRAM_SIZE; // Stï¿½rrelsen pï¿½ SRAM (2 KB)
 	uint8_t data = ext_ram[addr];
 	
 	return data;
 }
 
-// Funksjon for å skrive data til SRAM
+// Funksjon for ï¿½ skrive data til SRAM
 void Universal_write(volatile uint16_t addr, uint8_t data) {
 	volatile char *ext_ram = (char *) OLED_START; // Startadresse for SRAM
 	ext_ram[addr] = data;
 		
 }
 
-// Funksjon for å lese data frå SRAM
+// Funksjon for ï¿½ lese data frï¿½ SRAM
 uint8_t Universal_read(volatile uint16_t addr) {
 	volatile char *ext_ram = (char *) OLED_START; // Startadresse for SRAM
 	uint8_t data = ext_ram[addr];
 	
 	return data;
+}
+
+uint8_t ADC_read(int channel){
+	volatile char *ext_ram = (char *) ADC_START; // Startadresse for SRAM
+	uint8_t data = 0x00;
+	if(channel == 0){
+		data = ext_ram[ADC_START];
+		return data;
+	}
+	elif(channel == 1){
+		data = ext_ram[ADC_START + 1];
+		return data;
+	}
+	elif(channel == 2){
+		data = ext_ram[ADC_START + 2];
+		return data;		
+	}
+	elif(channel == 3){
+		data = ext_ram[ADC_START+3];
+		return data;		
+	}
+	else{
+		return data;
+	}
 }
