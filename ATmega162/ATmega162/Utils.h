@@ -13,7 +13,7 @@
 #include <util/delay.h>
 #include <avr/interrupt.h>
 #include <stdlib.h>
-
+#include <math.h>
 
 
 #define setBit(reg, bit) (reg |= (1 << bit))  // DDRB |= (1 << PB0); PORTB |= (1 << PB0);
@@ -22,9 +22,7 @@
 #define loopUntilBitIsSet(reg, bit) while(!testBit(reg, bit))
 #define loopUntilBitIsClear(reg, bit) while(testBit(reg, bit))
 
-
-
-
+float claculateJoystickAngel(int16_t x, int16_t y);
 
 
 #endif /* UTILS_H_ */
