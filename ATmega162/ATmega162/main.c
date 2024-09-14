@@ -32,19 +32,25 @@ int main(void) {
 	SRAM_test();
 	
 	//uint16_t addr = 1 + ADC_START;
-	uint16_t addr = 1 + ADC_START;
+	uint16_t addr = ADC_START+ 0x100;
 
-	uint8_t data = 0x80;
-	uint8_t rdata = 69;
+	uint8_t data = 0x0A;
+	uint8_t rdata = 0;
+	
+	clearBit(PORTB, PB1);
 	
 	
 
 	while (1) {
 		
 		//Universal_write(addr, data);
+		//loopUntilBitIsClear(PORTB, PB1);
 		Universal_write(addr, data);
 		rdata = Universal_read(addr);
 		printf("Reading from: ext_ram[%4d] = %2d \n\r", addr, rdata);
+		_delay_ms(32);
+		//data++;
+		//addr++;
 		//while(addr++ < OLED_SIZE+ADC_SIZE+SRAM_SIZE){
 			//Universal_write(addr, data);
 //

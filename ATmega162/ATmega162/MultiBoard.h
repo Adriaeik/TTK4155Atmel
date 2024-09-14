@@ -14,6 +14,7 @@
 #include <stdint.h>
 #include "Utils.h"
 
+
 void MultiBoard_Init(void);
 void MultiBoard_ReadSlider(void);
 uint16_t MultiBoard_getSliderPosition(void);
