@@ -19,15 +19,15 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY, DEBUGGING
   7 .debug_abbrev 000009fe  00000000  00000000  00001b8a  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_line   0000056f  00000000  00000000  00002588  2**0
+  8 .debug_line   00000694  00000000  00000000  00002588  2**0
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_frame  00000234  00000000  00000000  00002af8  2**2
+  9 .debug_frame  00000234  00000000  00000000  00002c1c  2**2
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_str    00000512  00000000  00000000  00002d2c  2**0
+ 10 .debug_str    0000051b  00000000  00000000  00002e50  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_loc    000004ec  00000000  00000000  0000323e  2**0
+ 11 .debug_loc    000004ec  00000000  00000000  0000336b  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_ranges 000000d0  00000000  00000000  0000372a  2**0
+ 12 .debug_ranges 000000d0  00000000  00000000  00003857  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -216,9 +216,9 @@ int main(void) {
 	
 	SRAM_test();
  134:	0e 94 b8 00 	call	0x170	; 0x170 <SRAM_test>
+	
+
 	while (1) {
-		
-		//Universal_write(addr, data);
 		Universal_write(addr, data);
 		rdata = Universal_read(addr);
 		printf("Reading from: ext_ram[%4d] = %2d \n\r", addr, rdata);
@@ -226,11 +226,11 @@ int main(void) {
  13a:	11 e0       	ldi	r17, 0x01	; 1
  13c:	c0 e2       	ldi	r28, 0x20	; 32
  13e:	d1 e0       	ldi	r29, 0x01	; 1
+	uint8_t rdata = 69;
+	
 	
 
 	while (1) {
-		
-		//Universal_write(addr, data);
 		Universal_write(addr, data);
  140:	60 e8       	ldi	r22, 0x80	; 128
  142:	81 e0       	ldi	r24, 0x01	; 1
@@ -402,7 +402,7 @@ void SRAM_test(void) {
  208:	20 81       	ld	r18, Z
 		if (retrieved_value != some_value) {
  20a:	28 17       	cp	r18, r24
- 20c:	b1 f0       	breq	.+44     	; 0x23a <__EEPROM_REGION_LENGTH__+0x3a>
+ 20c:	b1 f0       	breq	.+44     	; 0x23a <SRAM_test+0xca>
 			printf("Retrieval phase error: ext_ram[%4d] = %02X (should be %02X)\n\r", i, retrieved_value, some_value);
  20e:	99 27       	eor	r25, r25
  210:	9f 93       	push	r25
@@ -436,7 +436,7 @@ void SRAM_test(void) {
  23c:	c1 15       	cp	r28, r1
  23e:	98 e0       	ldi	r25, 0x08	; 8
  240:	d9 07       	cpc	r29, r25
- 242:	f1 f6       	brne	.-68     	; 0x200 <__EEPROM_REGION_LENGTH__>
+ 242:	f1 f6       	brne	.-68     	; 0x200 <SRAM_test+0x90>
 			printf("Retrieval phase error: ext_ram[%4d] = %02X (should be %02X)\n\r", i, retrieved_value, some_value);
 			retrieval_errors++;
 		}
@@ -627,10 +627,10 @@ uint8_t Universal_read(volatile uint16_t addr) {
 00000376 <srand>:
  376:	a0 e0       	ldi	r26, 0x00	; 0
  378:	b0 e0       	ldi	r27, 0x00	; 0
- 37a:	80 93 00 01 	sts	0x0100, r24	; 0x800100 <__DATA_REGION_ORIGIN__>
- 37e:	90 93 01 01 	sts	0x0101, r25	; 0x800101 <__DATA_REGION_ORIGIN__+0x1>
- 382:	a0 93 02 01 	sts	0x0102, r26	; 0x800102 <__DATA_REGION_ORIGIN__+0x2>
- 386:	b0 93 03 01 	sts	0x0103, r27	; 0x800103 <__DATA_REGION_ORIGIN__+0x3>
+ 37a:	80 93 00 01 	sts	0x0100, r24	; 0x800100 <__data_start>
+ 37e:	90 93 01 01 	sts	0x0101, r25	; 0x800101 <__data_start+0x1>
+ 382:	a0 93 02 01 	sts	0x0102, r26	; 0x800102 <__data_start+0x2>
+ 386:	b0 93 03 01 	sts	0x0103, r27	; 0x800103 <__data_start+0x3>
  38a:	08 95       	ret
 
 0000038c <printf>:
@@ -661,7 +661,7 @@ uint8_t Universal_read(volatile uint16_t addr) {
  3c4:	f0 91 31 02 	lds	r31, 0x0231	; 0x800231 <__data_end+0x3>
  3c8:	23 81       	ldd	r18, Z+3	; 0x03
  3ca:	21 ff       	sbrs	r18, 1
- 3cc:	1b c0       	rjmp	.+54     	; 0x404 <__DATA_REGION_LENGTH__+0x4>
+ 3cc:	1b c0       	rjmp	.+54     	; 0x404 <__LOCK_REGION_LENGTH__+0x4>
  3ce:	8c 01       	movw	r16, r24
  3d0:	d0 e0       	ldi	r29, 0x00	; 0
  3d2:	c0 e0       	ldi	r28, 0x00	; 0
@@ -686,10 +686,10 @@ uint8_t Universal_read(volatile uint16_t addr) {
  3fc:	8a e0       	ldi	r24, 0x0A	; 10
  3fe:	09 95       	icall
  400:	89 2b       	or	r24, r25
- 402:	19 f0       	breq	.+6      	; 0x40a <__DATA_REGION_LENGTH__+0xa>
+ 402:	19 f0       	breq	.+6      	; 0x40a <__LOCK_REGION_LENGTH__+0xa>
  404:	8f ef       	ldi	r24, 0xFF	; 255
  406:	9f ef       	ldi	r25, 0xFF	; 255
- 408:	02 c0       	rjmp	.+4      	; 0x40e <__DATA_REGION_LENGTH__+0xe>
+ 408:	02 c0       	rjmp	.+4      	; 0x40e <__LOCK_REGION_LENGTH__+0xe>
  40a:	8d 2f       	mov	r24, r29
  40c:	9c 2f       	mov	r25, r28
  40e:	df 91       	pop	r29
