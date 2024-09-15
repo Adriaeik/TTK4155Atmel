@@ -58,27 +58,3 @@ uint8_t Universal_read(volatile uint16_t addr) {
 	
 	return data;
 }
-
-//uint8_t ADC_read(int channel){
-	//volatile char *ext_ram = (char *) ADC_START; // Startadresse for SRAM
-	//uint8_t data = 0x00;
-	//if(channel == 0){
-		//data = ext_ram[ADC_START];
-		//return data;
-	//}
-	//elif(channel == 1){
-		//data = ext_ram[ADC_START + 1];
-		//return data;
-	//}
-	//elif(channel == 2){
-		//data = ext_ram[ADC_START + 2];
-		//return data;		
-	//}
-	//elif(channel == 3){
-		//data = ext_ram[ADC_START+3];
-		//return data;		
-	//}
-	//else{
-		//return data;
-	//}
-//}
