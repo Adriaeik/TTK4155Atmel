@@ -30,6 +30,7 @@ void MultiBoard_Init(MultiBoard* board) {
 	board->JoyYpos = 0;
 	board->JoyXposCal = 0;
 	board->JoyYposCal = 0;
+	board->JoyAngle = 0;
 	board->JoyBtn = 1;  // 1 betyr ikkje trykt (Active Low)
 }
 
@@ -37,15 +38,73 @@ void MultiBoard_Init(MultiBoard* board) {
 void MultiBoard_Update(MultiBoard* board) {
 	// Velg kanal for venstre skyvebryter (LSpos)
 	Universal_write(ADC_START, 0x00);
-	loopUntilBitIsClear(PINB, BUSY_PIN);    // Vent til BUSY går lav
-	board->JoyYpos = Universal_read(ADC_START); //første RD low gir channel 0
-	board->JoyXpos = Universal_read(ADC_START); //andre RD low gir channel 1
-	board->RSpos = Universal_read(ADC_START); // - CH2
-	board->LSpos = Universal_read(ADC_START); // - CH3
-	board->JoyYposCal = (int16_t)(board->JoyYpos) - (int16_t)(board->JoyYOrigo);
-	board->JoyXposCal = (int16_t)(board->JoyXpos) - (int16_t)(board->JoyXOrigo);
+	loopUntilBitIsClear(PINB, BUSY_PIN);		// Vent til BUSY går lav - klar for å sende på ny
+	board->JoyYpos = Universal_read(ADC_START); //  - CH0 første RD low gir channel 0
+	board->JoyXpos = Universal_read(ADC_START); //	- CH1 andre RD low gir channel 1
+	board->RSpos = Universal_read(ADC_START);	//	- CH2
+	board->LSpos = Universal_read(ADC_START);	//	- CH3
 	// Les knappestatus
 	board->LBtn = 0<testBit(PINB, LEFT_BUTTON_PIN);
 	board->RBtn = 0<testBit(PINB, RIGHT_BUTTON_PIN);
 	board->JoyBtn = !(0<testBit(PINB, JOY_BUTTON_PIN));
+	// Opretter ein int med pluss og minus slik at vi kan finne riktig vinkel med _UpdateJoystickAngel
+	board->JoyYposCal = (int16_t)(board->JoyYpos) - (int16_t)(board->JoyYOrigo);
+	board->JoyXposCal = (int16_t)(board->JoyXpos) - (int16_t)(board->JoyXOrigo);
+	///IKKJE TESTA
+	MultiBoard_UpdateJoystickAngle(board);
 }
+
+/// IKKJE TESTA 
+void MultiBoard_UpdateJoystickAngle(MultiBoard* board) {
+	int16_t x = board->JoyXposCal;
+	int16_t y = board->JoyYposCal;
+
+	// Unngå divisjon med 0 (nær senterpunkt) + hysterese
+	if (!(abs(x) > JOY_ANGLE_HYSTERESIS || abs(y) >  JOY_ANGLE_HYSTERESIS)) {
+		board->JoyAngle = 0;  // Midtpunkt, sett vinkelen til 0
+		} else {
+		// Bestem kvadrant basert på verdiane til x og y
+		switch ((x >= 0) << 1 | (y >= 0)) {
+			case 0b11:  // Første kvadrant (x >= 0, y >= 0)
+			board->JoyAngle = (y * 90) / (x + y);
+			break;
+			case 0b01:  // Andre kvadrant (x < 0, y >= 0)
+			board->JoyAngle = 90 + ((-x * 90) / (-x + y));
+			break;
+			case 0b00:  // Tredje kvadrant (x < 0, y < 0)
+			board->JoyAngle = 180 + ((-y * 90) / (-x - y));
+			break;
+			case 0b10:  // Fjerde kvadrant (x >= 0, y < 0)
+			board->JoyAngle = 270 + ((x * 90) / (x - y));
+			break;
+			default:
+			board->JoyAngle = 0;  // Feiltilfelle, skal ikkje skje
+			break;
+		}
+	}
+}
+
+//void MultiBoard_UpdateJoystickAngle(MultiBoard* board) {
+	//int16_t x = board->JoyXposCal;
+	//int16_t y = board->JoyYposCal;
+//
+	//// Unngå divisjon med 0 (nær senterpunkt)
+	//if (!(abs(x) > 10 || abs(y) > 10)) {
+		//board->JoyAngle = 0;  // Midtpunkt, sett vinkelen til 0
+		//} else {
+		//// Beregn vinkelen basert på kvadrantar
+		//if (x >= 0 && y >= 0) {
+			//// Første kvadrant
+			//board->JoyAngle = (y * 90) / (x + y);  // Enklare tilnærming
+			//} else if (x < 0 && y >= 0) {
+			//// Andre kvadrant
+			//board->JoyAngle = 90 + ((-x * 90) / (-x + y));
+			//} else if (x < 0 && y < 0) {
+			//// Tredje kvadrant
+			//board->JoyAngle = 180 + ((-y * 90) / (-x - y));
+			//} else if (x >= 0 && y < 0) {
+			//// Fjerde kvadrant
+			//board->JoyAngle = 270 + ((x * 90) / (x - y));
+		//}
+	//}
+//}

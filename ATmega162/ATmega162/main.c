@@ -42,16 +42,10 @@ int main(void) {
 		//printf("Joystick X: %d, Y: %d, Button: %u\n\r", board.JoyXpos, board.JoyYpos, board.JoyBtn);
 		//printf("Left Button: %u, Right Button: %u\n\n\r", board.LBtn, board.RBtn);
 		//printf("Left Button: %u, Right Button: %u, Button: %u\n\n\r", board.LBtn, board.RBtn, board.JoyBtn);
-		int16_t joyX = 100;   // Eksempelverdi for joystick X
-		int16_t joyY = 50;    // Eksempelverdi for joystick Y
-
-		// Beregn vinkel
-		int angle = calculateJoystickAngle(board.JoyXposCal, board.JoyYposCal);
 
 		// Skriv ut vinkelen
-		printf("Calculated angle: %d degrees\n\r", (int)angle);
 		printf("Joystick X: %d, Y: %d\n\r", board.JoyXposCal, board.JoyYposCal);
-
+		printf("Calculated angle: %d degrees\n\r", board.JoyAngle);
 	}
 	return 0;
 }
