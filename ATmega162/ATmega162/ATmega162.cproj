@@ -127,6 +127,12 @@
     <Compile Include="DriverUART.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="Font.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Font.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="main.c">
       <SubType>compile</SubType>
     </Compile>
@@ -134,6 +140,12 @@
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="MultiBoard.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="OLED.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="OLED.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="SRAM.h">

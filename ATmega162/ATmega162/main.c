@@ -9,7 +9,7 @@
 #include "XMEM_Decode.h"
 #include "SRAM.h"
 #include "MultiBoard.h"
-
+#include "OLED.h"
 
 int main(void) {
 	
@@ -33,7 +33,15 @@ int main(void) {
 	
 	SRAM_test();
 
-	
+//TEST OLED////////////////////////////////////////////
+	oled_init();  // Initialiser OLED-skjermen
+		
+	oled_goto_pos(0, 0);  // Gå til posisjon (side 0, kolonne 0)
+	oled_print_char('A'); // Skriv teiknet 'A'
+		
+	oled_goto_pos(1, 0);  // Gå til neste linje (side 1)
+	oled_print_char('B'); // Skriv teiknet 'B'
+///////////////////////////////////////////////////////////////
 	// Hovudløkka
 	while (1) {
 		MultiBoard_Update(&board);

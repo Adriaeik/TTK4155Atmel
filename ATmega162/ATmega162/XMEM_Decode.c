@@ -31,8 +31,6 @@ void SRAM_write(volatile uint16_t addr, uint8_t data) {
 	volatile char *ext_ram = (char *) SRAM_START; // Startadresse for SRAM
 	uint16_t ext_ram_size = SRAM_SIZE; // St�rrelsen p� SRAM (2 KB)
 	ext_ram[addr] = data;
-	
-	
 }
 
 // Funksjon for � lese data fr� SRAM
