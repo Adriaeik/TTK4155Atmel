@@ -11,14 +11,12 @@
 
 // Funksjon for å sende kommando til OLED-skjermen
 void oled_write_command(uint8_t command) {
-	// Sett D/!C pinnen til kommandomodus fikses av adresse
 	// Skriv kommandoen til OLED
 	Universal_write(OLED_START_IDX, command);
 	// ATmega162 håndterer resten (CS, WR) via adresse-dekoding og kontrollsignaler
 }
 // Funksjon for å sende data til OLED-skjermen
 void oled_write_data(uint8_t* data, uint16_t size) {
-
 	// Skriv data til OLED frå startadressa for OLED
 	for (uint16_t i = 0; i < size; i++) {
 		Universal_write(OLED_START_IDX + 0x200 + i, data[i]); 
@@ -39,6 +37,8 @@ void oled_set_column(uint8_t column) {
 
 // Funksjon for å tømme skjermen (sette alle pikslar til 0)
 void oled_clear(void) {
+	oled_goto_pos(1, 0);
+	current_page = 1;
 	for (uint8_t page = 0; page < 8; page++) {
 		oled_set_page(page);
 		oled_set_column(0);
@@ -114,7 +114,8 @@ void oled_print_char(char c) {
 int oled_putchar(char c, FILE *stream) {
 	if (c == '\n') {
 		// Flytt til neste side
-		current_page++;  
+		current_page++; 
+		current_col = 0; 
 		// Rull tilbake til første side om vi når siste
 		if (current_page > 8) {
 			current_page = 1;  // Start på nytt frå side 0
@@ -122,8 +123,22 @@ int oled_putchar(char c, FILE *stream) {
 		// Set posisjon til start på den nye sida
 		oled_goto_pos(current_page, 0);  // Sett ny side og første kolonne
 		} else {
+		 // Sjekk om vi har plass til fleire teikn på den noverande linja
+		 if (current_col >= MAX_CHARS_PER_LINE) {
+			 // Flytt til neste side og nullstill kolonna
+			 current_page++;
+			 current_col = 0;
+
+			 // Rull tilbake til første side om vi når siste
+			 if (current_page >= 8) {
+				 current_page = 0;  // Start på nytt frå side 0
+			 }
+
+			 oled_goto_pos(current_page, 0);  // Start på ny linje
+		 }
 		// Skriv teikn til OLED-skjermen
 		oled_print_char(c);
+		current_col++;
 	}
 
 	return 0;

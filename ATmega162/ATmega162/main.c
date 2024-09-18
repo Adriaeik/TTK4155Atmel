@@ -41,10 +41,6 @@ int main(void) {
 	
 	oled_init();
 	setup_printf_for_oled();
-	oled_goto_pos(0, 7);
-	printf("Hello, OLED! Page 0\n");
-	printf("This is page 1\n");
-	printf("This is page 2\n");
 
 	int tall = 0;
 
@@ -52,16 +48,19 @@ int main(void) {
 
 
 	while (1) {
-		oled_goto_pos(1, 0);
-		printf("Hei til OLED    ");
-		oled_goto_pos(2, 0);
-		printf("                ");
-		oled_goto_pos(3, 0);
-		printf("Dette burde vere");
-		oled_goto_pos(4, 0);
+		//oled_goto_pos(1, 0);
+		printf("Hei til OLED");
+		//oled_goto_pos(2, 0);
+		printf("\n");
+		//oled_goto_pos(3, 0);
+		printf("Dette burde vere eit reint helvete\n");
+		//oled_goto_pos(4, 0);
 		printf("3/4.linje       ");
-		oled_goto_pos(5, 0);
+		//oled_goto_pos(5, 0);
 		printf("%d               ", tall++);
+		printf("\n");
+		printf("\n");
+		printf("\n");
 		if(tall == 10){tall = 0;}
 		_delay_ms(200);
 		

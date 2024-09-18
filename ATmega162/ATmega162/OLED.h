@@ -18,7 +18,7 @@
 // Definer pin-funksjonar (tilpass til ditt system)
 #define OLED_CMD_MODE 0  // Command mode (D/!C = 0)
 #define OLED_DATA_MODE 1 // Data mode (D/!C = 1)
-
+#define MAX_CHARS_PER_LINE 16  // Maks antal teikn per linje
 
 // Eksempeldefinisjonar for kontrollpinnar (tilpass systemet)
 #define OLED_WR_PORT PORTB
@@ -28,7 +28,9 @@
 
 
 // Variabel for å halde styr på den noverande sida
-static uint8_t current_page = 0; 
+static uint8_t current_page = 1; 
+static uint8_t current_col  = 0;
+
 
 // Funksjonsdeklarasjonar for OLED-styring
 void oled_init(void);                          // Initialiserer OLED-skjermen
