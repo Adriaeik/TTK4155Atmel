@@ -46,29 +46,25 @@ int oled_putchar(char c, FILE *stream);        // Funksjon for å sende teikn via
 void setup_printf_for_oled(void);              // Set opp printf-støtte for OLED
 void oled_goto_pos(uint8_t page, uint8_t col); // Sett posisjon for teikn
 
+#endif /* OLED_H_ */
 
 ////MEny funksjoner
 ///*Meny*/
-//#define MAX_MENU_ITEMS 5  // For eksempel 5 menyelement
-//
-//// Definer menyval
-//const char* menu[MAX_MENU_ITEMS] = {
-	//"Start Game",
-	//"Settings",
-	//"High Scores",
-	//"Credits",
-	//"Exit"
-//};
-//
-//// For å halde styr på posisjon i menyen
-//uint8_t current_menu_position = 0;  // Start på første element
-//
-//void oled_display_menu(void);
-//void update_menu_position_from_joystick(MultiBoard* board);
-//uint8_t  is_joystick_button_pressed(MultiBoard* board);
-//void menu_navigate(MultiBoard* board);
+#ifndef MENU_H
+#define MENU_H
 
-#endif /* OLED_H_ */
+#define MAX_MENU_ITEMS 5  // For eksempel 5 menyelement
+
+// Deklarer meny og posisjon som eksterne variablar
+extern const char* menu[MAX_MENU_ITEMS];
+extern uint8_t current_menu_position;
+
+void oled_display_menu(void);
+void update_menu_position_from_joystick(MultiBoard* board);
+uint8_t is_joystick_button_pressed(MultiBoard* board);
+void menu_navigate(MultiBoard* board);
+
+#endif /* MENU_H */
 
 /* main eksempel*/
 //int main(void) {

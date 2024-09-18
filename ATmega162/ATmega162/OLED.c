@@ -158,61 +158,82 @@ void oled_goto_pos(uint8_t page, uint8_t col) {
 }
 
 ///*_____________MENY____________*/
-//void oled_display_menu(void) {
-	//oled_clear();  // Tøm skjermen
-//
-	//// Gå gjennom menyen og vis kvart element
-	//for (uint8_t i = 0; i < MAX_MENU_ITEMS; i++) {
-		//oled_goto_pos(i, 0);  // Gå til riktig side/posisjon på skjermen
-//
-		//// Skriv ut menyvalget, og marker det gjeldande valet
-		//if (i == current_menu_position) {
-			//printf("-> %s\n", menu[i]);  // Marker gjeldande posisjon med pil
-			//} else {
-			//printf("   %s\n", menu[i]);  // Ingen markering for andre valg
-		//}
-	//}
-//}
-//
-//void update_menu_position_from_joystick(MultiBoard* board) {
-	//int16_t joyY = board->JoyYposCal;  // Les Y-posisjonen frå joysticken
-//
-	//// Beveg oppover i menyen
-	//if (joyY > 50) {
-		//if (current_menu_position > 0) {
-			//current_menu_position--;
-			//_delay_ms(200);  // Liten forsinkelse for å unngå for rask navigering
-		//}
-	//}
-	//// Beveg nedover i menyen
-	//else if (joyY < -50) {
-		//if (current_menu_position < MAX_MENU_ITEMS - 1) {
-			//current_menu_position++;
-			//_delay_ms(200);  // Liten forsinkelse for å unngå for rask navigering
-		//}
-	//}
-//
-	//// Oppdater menyen på OLED-skjermen
+
+const char* menu[MAX_MENU_ITEMS] = {
+	"Start Game",
+	"Settings",
+	"High Scores",
+	"Credits",
+	"Exit"
+};
+uint8_t current_menu_position = 1; 
+
+void oled_display_menu(void) {
+	oled_clear();  // Tøm skjermen
+	
+	// Gå gjennom menyen og vis kvart element
+	for (uint8_t i = 0; i < MAX_MENU_ITEMS; i++) {
+		oled_goto_pos(i, 0);  // Gå til riktig side/posisjon på skjermen
+
+		// Skriv ut menyvalget, og marker det gjeldande valet
+		if (i == current_menu_position) {
+			printf("-> %s\n", menu[i]);  // Marker gjeldande posisjon med pil
+			} else {
+			printf("   %s\n", menu[i]);  // Ingen markering for andre valg
+		}
+	}
+}
+
+void update_menu_position_from_joystick(MultiBoard* board) {
+	int16_t joyY = (int16_t)(board->JoyYposCal);  // Les Y-posisjonen frå joysticken
+
+	// Beveg oppover i menyen
+	if (joyY > 50) {
+		if (current_menu_position > 0) {
+			current_menu_position--;
+			oled_display_menu();
+			_delay_ms(200);  // Liten forsinkelse for å unngå for rask navigering
+		}
+	}
+	// Beveg nedover i menyen
+	else if (joyY < -50) {
+		if (current_menu_position < MAX_MENU_ITEMS - 1) {
+			current_menu_position++;
+			oled_display_menu();
+			_delay_ms(200);  // Liten forsinkelse for å unngå for rask navigering
+		}
+	}
+
+
+	
+
+	// Oppdater menyen på OLED-skjermen
 	//oled_display_menu();
-//}
-//uint8_t  is_joystick_button_pressed(MultiBoard* board) {
-	//return (board->JoyBtn == 0);  // Anta at knappen er aktiv-lav (0 betyr trykt)
-//}
-//void menu_navigate(MultiBoard* board) {
-	//// Vis menyen første gong
-	//oled_display_menu();
-//
-	//// Løkke for å navigere gjennom menyen
-	//while (1) {
-		//// Oppdater menyposisjon basert på joystick-bevegelsar
-		//update_menu_position_from_joystick(board);
-//
-		//// Sjekk om knappen er trykt for å bekrefte valg
-		//if (is_joystick_button_pressed(board)) {
-			//printf("Valgt posisjon: %d (%s)\n", current_menu_position, menu[current_menu_position]);
-			//break;  // Avslutt løkka når menyvalget er bekrefta
-		//}
-//
-		//_delay_ms(100);  // Liten forsinkelse for å redusere prosessorbelastning
-	//}
-//}
+}
+uint8_t  is_joystick_button_pressed(MultiBoard* board) {
+	return (board->JoyBtn != 0) /*|| current_menu_position >3*/;  // Anta at knappen er aktiv-lav (0 betyr trykt)
+}
+void menu_navigate(MultiBoard* board) {
+	// Vis menyen første gong
+	oled_display_menu();
+	
+	
+
+	// Løkke for å navigere gjennom menyen
+	while (1) {
+		MultiBoard_Update(board);	
+		// Oppdater menyposisjon basert på joystick-bevegelsar
+		update_menu_position_from_joystick(board);
+
+		// Sjekk om knappen er trykt for å bekrefte valg
+		if (is_joystick_button_pressed(board)) {
+			_delay_ms(500);
+			oled_clear();  // Tøm skjermen
+			_delay_ms(500);
+			
+			printf("Valgt posisjon: %d (%s)\n", current_menu_position, menu[current_menu_position]);
+			break;  // Avslutt løkka når menyvalget er bekrefta
+		}
+		_delay_ms(100);  // Liten forsinkelse for å redusere prosessorbelastning
+	}
+}
