@@ -28,10 +28,10 @@ int main(void) {
 	MultiBoard_Init(&board);
 	
 	
-	SRAM_test();
+	//SRAM_test();
 
 //TEST OLED////////////////////////////////////////////
-	//oled_init();  // Initialiser OLED-skjermen
+	oled_init();  // Initialiser OLED-skjermen
 		//
 	//oled_goto_pos(0, 0);  // Gå til posisjon (side 0, kolonne 0)
 	//oled_print_char('A'); // Skriv teiknet 'A'
@@ -41,15 +41,23 @@ int main(void) {
 	
 	oled_init();
 	setup_printf_for_oled();
-	oled_goto_pos(0, 0);
+	oled_goto_pos(0, 7);
 	printf("Hello, OLED! Page 0\n");
 	printf("This is page 1\n");
 	printf("This is page 2\n");
 
 	int tall = 0;
 
+	oled_clear();
+
+
 	while (1) {
-		printf("%d                               ",tall++);
+		oled_goto_pos(0, 7);
+		printf("%d      2       3", tall++);
+		if(tall == 10){tall = 0;}
+		
+		_delay_ms(200);
+		
 
 		
 	}
