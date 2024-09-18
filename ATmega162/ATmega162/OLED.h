@@ -24,6 +24,8 @@
 #define OLED_WR_PORT PORTB
 #define OLED_WR_PIN  PB4  
 
+
+
 // Variabel for å halde styr på den noverande sida
 static uint8_t current_page = 0; 
 

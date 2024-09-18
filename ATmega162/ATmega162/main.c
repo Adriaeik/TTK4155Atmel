@@ -61,7 +61,7 @@ int main(void) {
 		oled_goto_pos(4, 0);
 		printf("3/4.linje       ");
 		oled_goto_pos(5, 0);
-		printf("%d               ", tall);
+		printf("%d               ", tall++);
 		if(tall == 10){tall = 0;}
 		_delay_ms(200);
 		
