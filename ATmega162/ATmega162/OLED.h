@@ -52,7 +52,7 @@ char oled_skjerm_fra_SRAM[SRAM_OLED_DATA];
 
 void oled_data_from_SRAM(void);
 void oled_update_display_non_blocking(void);
-void write_string_to_SRAM(const char solkors[128]); 
+void write_string_to_SRAM(const char solkorset[128]); 
 #endif /* OLED_H_ */
 
 /* main eksempel*/

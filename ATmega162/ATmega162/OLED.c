@@ -183,20 +183,20 @@ void oled_update_display_non_blocking(void) {
 	if (get_time_in_ms() >= 16) {
 		restart_timer();
 		oled_data_from_SRAM();
-		for (int i = 0; i < 128; i++) {
-			solkors[i] = solkors[(i + 8) % 128];
-		}
-		write_string_to_SRAM(solkors);
-		printf("%d",get_time_in_ms());
+	/*	for (int i = 0; i < 128; i++) {
+			smiley[i] = smiley[(i + 8) % 128];
+		}*/
+		write_string_to_SRAM(smiley);
+		//printf("%d",get_time_in_ms());
 	}
 }
-void write_string_to_SRAM(const char solkors[128]) {
+void write_string_to_SRAM(const char solkorset[128]) {
 	for (int j = 0; j < 128; j++) {
 		// Forsikre deg om at teiknet er innanfor gyldig ASCII-intervall for fonten din
-		if (solkors[j] >= 32 && solkors[j] <= 127) {
+		if (solkorset[j] >= 32 && solkorset[j] <= 127) {
 			// Skriv teiknet frå fonten til SRAM
 			for (uint8_t i = 0; i < 8; i++) {
-				SRAM_write(j * 8 + i, pgm_read_byte(&font8x8_basic[(solkors[j] - 32) * 8 + i]));
+				SRAM_write(j * 8 + i, pgm_read_byte(&font8x8_basic[(solkorset[j] - 32) * 8 + i]));
 			}
 			} else {
 			// Viss teiknet ikkje er gyldig, bruk mellomrom (' ') som standard

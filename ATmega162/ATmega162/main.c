@@ -43,7 +43,7 @@ int main(void) {
 	oled_home();
 	
 	
-	write_string_to_SRAM(solkors);
+	write_string_to_SRAM(smiley);
 
 	oled_data_from_SRAM();
 	 while (1) {
