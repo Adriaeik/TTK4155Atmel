@@ -16,11 +16,11 @@
 #define MENU_ITEMS_PER_PAGE 8  // 8 elementer får plass på skjermen samtidig
 
 typedef struct {
-	const char** items;        // Peker til ein array med meny-element
-	uint8_t current_position;  // Gjeldande posisjon i menyen
-	uint8_t prev_position;  // Gjeldande posisjon i menyen
-	uint8_t scroll_offset;     // Offset for å handtere scrolling
-	uint8_t num_items;         // Totalt antall element i menyen
+	const char (*items)[16];	// Peker til array lagret i PROGMEM
+	uint8_t current_position;	// Gjeldande posisjon i menyen
+	uint8_t prev_position;		// Gjeldande posisjon i menyen
+	uint8_t scroll_offset;		// Offset for å handtere scrolling
+	uint8_t num_items;			// Totalt antall element i menyen
 } Menu;
 
 typedef enum {

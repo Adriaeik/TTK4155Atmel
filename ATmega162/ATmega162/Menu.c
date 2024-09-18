@@ -8,26 +8,30 @@
 MenuState currentMenuState = MAIN_MENU;  // Start i hovudmenyen
 Menu* current_menu = NULL;
 
-// Funksjon for å vise menyen på OLED
 void oled_display_menu(Menu* menu) {
+	char buffer[16];  // Buffer for å holde linjene fra PROGMEM
+
 	// Buffer for hele skjermen (128 tegn)
 	char screen_buffer[128] = {0};  // Nullstiller hele bufferet
 
-	// Fyll bufferet med de synlige menyvalgene (fra scroll_offset)
+	// Fyll bufferet med menyvalgene (fra PROGMEM)
 	for (uint8_t i = 0; i < MENU_ITEMS_PER_PAGE; i++) {
 		uint8_t menu_index = i + menu->scroll_offset;
 		if (menu_index < menu->num_items) {
-			// Kopier menyteksten til bufferet
-			strncpy(&screen_buffer[i * 16], menu->items[menu_index], strlen(menu->items[menu_index]));
+			// Kopier menyteksten fra PROGMEM til bufferet
+			strncpy_P(buffer, menu->items[menu_index], 16);
+			// Kopier linjen til skjermbufferen
+			strncpy(&screen_buffer[i * 16], buffer, 16);
 		}
 	}
 
 	// Skriv bufferet til SRAM
 	oled_write_screen_to_SRAM(screen_buffer);
 
-	// Sett pila på gjeldende posisjon innanfor synleg meny
+	// Sett pila på gjeldende posisjon innenfor synlig meny
 	oled_write_char_to_SRAM(menu->current_position - menu->scroll_offset, 0, '>');
 }
+
 
 // Oppdaterer menyposisjonen frå joystick-input hugs å kalle på MultiBoard_Update(board);  // Oppdater joystick-posisjonen
 void update_menu_position_from_joystick(MultiBoard* board, Menu* menu) {

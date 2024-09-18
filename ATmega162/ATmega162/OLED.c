@@ -23,7 +23,6 @@ void oled_write_data(uint8_t* data, uint16_t size) {
 	}
 }
 
-
 // Funksjon for å velge aktiv side (page) på OLED-skjermen
 void oled_set_page(uint8_t page) {
 	oled_write_command(0xB0 | (page & 0x07));  // Velg side (page) sikrar at page-verdien er mellom 0 og 7, sidan OLED-skjermen har 8 sider (page) i vertikal retning (0 til 7). 
@@ -203,7 +202,6 @@ void write_string_to_SRAM(const char solkorset[128]) {
 	}
 }
 
-
 /*______________IKKJE_TESTA______________*/
 void oled_write_screen_to_SRAM(const char screen[128]){
 	for (int j = 0; j < 128; j++) {
@@ -267,7 +265,7 @@ void oled_write_char_to_SRAM(uint8_t row, uint8_t col, char c) {
 }
 void oled_clear_screen(void) {
 	// Lag en tom buffer fylt med nuller eller mellomrom (0 er nok, fordi funksjonen oversetter til ' ')
-	char empty_buffer[128] = {0};  // Hele skjermen, 128 tegn
+	char empty_buffer[128] = {0};  // Heile skjermen, 128 tegn
 
 	// Skriv den tomme bufferen til SRAM, som vil tømme skjermen
 	oled_write_screen_to_SRAM(empty_buffer);

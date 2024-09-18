@@ -15,28 +15,26 @@
 #include <stdio.h>  // Legg til denne for printf og FILE-støtte
 
 
-// Definer pin-funksjonar (tilpass til ditt system)
 #define MAX_CHARS_PER_LINE 16  // Maks antal teikn per linje
-
 
 // Variabel for å halde styr på den noverande sida
 static uint8_t current_page = 1; 
 static uint8_t current_col  = 0;
 
 
-// Funksjonsdeklarasjonar for OLED-styring
+// Funksjonsdeklarasjonar for OLED-styring MERKA MED ** er nok undvendig, med * kan godt vere men er ubrukt, då vi går vekk fra printf()
 void oled_init(void);                          // Initialiserer OLED-skjermen
 void oled_set_page(uint8_t page);              // Velg aktiv side (page)
 void oled_set_column(uint8_t column);          // Velg kolonne (0-127)
-void oled_clear(void);                         // Tøm skjermen
-void oled_clear_page(uint8_t page);                        // Tøm skjermen
-void oled_write_data(uint8_t* data, uint16_t size);  // Skriv data til skjermen
+void oled_clear(void);                         //** Tøm skjermen
+void oled_clear_page(uint8_t page);            //** Tøm skjermen
+void oled_write_data(uint8_t* data, uint16_t size);// Skriv data til skjermen
 void oled_write_command(uint8_t command);      // Skriv ein kommando til OLED
-void oled_update_full_screen(uint8_t *data);   // Oppdater heile skjermen med ei blokk med data
+void oled_update_full_screen(uint8_t *data);   //** Oppdater heile skjermen med ei blokk med data
 void oled_home(void);                          // Gå til første side og kolonne (heimeposisjon)
 void oled_print_char(char c);                  // Skriv eit teikn til OLED-skjermen
 int oled_putchar(char c, FILE *stream);        // Funksjon for å sende teikn via printf
-void setup_printf_for_oled(void);              // Set opp printf-støtte for OLED
+void setup_printf_for_oled(void);              //* Set opp printf-støtte for OLED
 void oled_goto_pos(uint8_t page, uint8_t col); // Sett posisjon for teikn
 
 // SRAM HELVET

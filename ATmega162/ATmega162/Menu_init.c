@@ -17,7 +17,7 @@ const char mainMenuItems[5][16] PROGMEM = {
 };
 
 const char scrollMenuItems[20][16] PROGMEM = {
-	" Item 1       ", " Item 2       ", " Item 3       ", " Item 4       ", " Item 5       ",
+	" Item 1  BACK ", " Item 2       ", " Item 3       ", " Item 4       ", " Item 5       ",
 	" Item 6       ", " Item 7       ", " Item 8       ", " Item 9       ", " Item 10      ",
 	" Item 11      ", " Item 12      ", " Item 13      ", " Item 14      ", " Item 15      ",
 	" Item 16      ", " Item 17      ", " Item 18      ", " Item 19      ", " Item 20      "
@@ -35,29 +35,26 @@ Menu mainMenu;
 Menu scrollMenu;
 Menu settingsMenu;
 
-// Funksjon for å lese tekststrenger frå PROGMEM og sette dei inn i menyen
-void menu_init_from_flash(Menu* menu, const char menuItems[][16], uint8_t num_items) {
-	// Alloker menyarray
-	menu->items = malloc(num_items * sizeof(char*));
-
-	// Les menystrenger frå PROGMEM
-	for (uint8_t i = 0; i < num_items; i++) {
-		menu->items[i] = malloc(16);  // Alloker plass til kvar menystreng
-		strncpy_P(menu->items[i], (PGM_P)&menuItems[i], 16);  // Kopier frå flash til RAM
-	}
-
-	menu->current_position = 0;
-	menu->prev_position = 0;
-	menu->scroll_offset = 0;
-	menu->num_items = num_items;
-}
-
-// Funksjon for å initialisere alle menyane
 void initialize_menus() {
-	menu_init_from_flash(&mainMenu, mainMenuItems, 5);
-	menu_init_from_flash(&scrollMenu, scrollMenuItems, 20);
-	menu_init_from_flash(&settingsMenu, settingsMenuItems, 4);
+	mainMenu.items = mainMenuItems;
+	mainMenu.num_items = 5;
+	mainMenu.current_position = 0;
+	mainMenu.prev_position = 0;
+	mainMenu.scroll_offset = 0;
+
+	scrollMenu.items = scrollMenuItems;
+	scrollMenu.num_items = 20;
+	scrollMenu.current_position = 0;
+	scrollMenu.prev_position = 0;
+	scrollMenu.scroll_offset = 0;
+
+	settingsMenu.items = settingsMenuItems;
+	settingsMenu.num_items = 4;
+	settingsMenu.current_position = 0;
+	settingsMenu.prev_position = 0;
+	settingsMenu.scroll_offset = 0;
 }
+
 void handleMenuSelection(MultiBoard* board, Menu* menu) {
 	switch (currentMenuState) {
 		case MAIN_MENU:
@@ -117,6 +114,8 @@ void handleMenuSelection(MultiBoard* board, Menu* menu) {
 		switch (menu->current_position) {
 			case 0:
 			oled_write_line_to_SRAM(0, "Item 1 valgt");
+			currentMenuState = MAIN_MENU;
+			current_menu = &mainMenu;
 			break;
 			case 1:
 			oled_write_line_to_SRAM(0, "Item 2 valgt");

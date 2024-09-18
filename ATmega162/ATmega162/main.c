@@ -42,12 +42,13 @@ int main(void) {
         menu_navigate(&board, &current_menu);  // Kallar `menu_navigate` med referanse til gjeldande meny
 		
 		/*Så lenge vi ikkje har noko delay gåandes og ditta står her tenker eg 
-		at den oppdateres automatisk med det minnet vi har skreve til sramen?*/
+		at den oppdateres automatisk med det minnet vi har skreve til sramen?
+		Det kunne vert fornuftig med eit flag her då
+		*/
 		if (get_time_in_ms() >= 16) {
 			restart_timer();
 			oled_data_from_SRAM();
 		}
-
 	 }
 	return 0;
 }
