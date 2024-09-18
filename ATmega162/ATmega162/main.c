@@ -12,7 +12,6 @@
 #include "OLED.h"
 
 int main(void) {
-	
 	// Initialiser UART med baudrate 9600
 	UART_Init(MYUBBR);
 	
@@ -52,8 +51,8 @@ int main(void) {
 		//printf("Left Button: %u, Right Button: %u, Button: %u\n\n\r", board.LBtn, board.RBtn, board.JoyBtn);
 
 		// Skriv ut vinkelen
-		printf("Joystick X: %d, Y: %d\n\r", board.JoyXposCal, board.JoyYposCal);
-		printf("Calculated angle: %d degrees\n\r", board.JoyAngle);
+		printf("Joystick X: %d, Y: %d.     Calculated angle: %d degrees\n\r", board.JoyXposCal, board.JoyYposCal,  board.JoyAngle);
+		//printf("Calculated angle: %d degrees\n\r", board.JoyAngle);
 	}
 	return 0;
 }
