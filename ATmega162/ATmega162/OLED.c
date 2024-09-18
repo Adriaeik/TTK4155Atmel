@@ -183,13 +183,9 @@ void oled_update_display_non_blocking(void) {
 	if (get_time_in_ms() >= 16) {
 		restart_timer();
 		oled_data_from_SRAM();
-	/*	for (int i = 0; i < 128; i++) {
-			smiley[i] = smiley[(i + 8) % 128];
-		}*/
-		write_string_to_SRAM(smiley);
-		//printf("%d",get_time_in_ms());
 	}
 }
+
 void write_string_to_SRAM(const char solkorset[128]) {
 	for (int j = 0; j < 128; j++) {
 		// Forsikre deg om at teiknet er innanfor gyldig ASCII-intervall for fonten din
@@ -206,3 +202,74 @@ void write_string_to_SRAM(const char solkorset[128]) {
 		}
 	}
 }
+
+
+/*______________IKKJE_TESTA______________*/
+void oled_write_screen_to_SRAM(const char screen[128]){
+	for (int j = 0; j < 128; j++) {
+		// Forsikre at char er i ASCII-intervall
+		if (screen[j] >= 32 && screen[j] <= 127) {
+			// Skriv teiknet frå fonten til SRAM
+			for (uint8_t i = 0; i < 8; i++) {
+				SRAM_write(j * 8 + i, pgm_read_byte(&font8x8_basic[(screen[j] - 32) * 8 + i]));
+			}
+			} else {
+			// bruk mellomrom (' ') som standard for ugyldige teikn
+			for (uint8_t i = 0; i < 8; i++) {
+				SRAM_write(j * 8 + i, pgm_read_byte(&font8x8_basic[(0x20 - 32) * 8 + i])); // ASCII 0x20 for space
+			}
+		}
+	}
+}
+
+void oled_write_FULLscreen_to_SRAM(const char screen_1024[1024]) {
+	// SRAM har plass til hele skjermen (128x64 piksler, som er 1024 bytes)
+	uint16_t sram_address = 0;  // Startadressen i SRAM
+
+	// Gå gjennom hele bufferet og skriv til SRAM
+	for (uint16_t i = 0; i < 1024; i++) {
+		// Skriv hver byte fra bufferet til SRAM
+		SRAM_write(sram_address + i, screen_1024[i]);
+	}
+}
+void oled_write_line_to_SRAM(uint8_t line, const char* data) {
+	if (line >= 8) {
+		return; 
+	}
+	uint8_t max_chars_per_line = 16;
+	uint16_t sram_address = line * 128;  // Hver linje er 128 bytes, 16 karakterer à 8 pixels
+	uint8_t i = 0; // så den ikkje døyr når vi går ut av forloopen (brukast igjen)
+	// Skriv karakterene til SRAM, men ikke mer enn 16
+	for (; i < max_chars_per_line; i++) {
+		if (data[i] == '\0') {
+			break;  // Avslutt hvis vi når slutten av data
+		}
+		for (uint8_t j = 0; j < 8; j++) {
+			SRAM_write(sram_address + (i * 8) + j, pgm_read_byte(&font8x8_basic[(data[i] - 32) * 8 + j]));
+		}
+	}
+	// Fyll resten av linjen med tomrom (mellomrom) etter slutten av data
+	for (; i < max_chars_per_line; i++) {
+		for (uint8_t j = 0; j < 8; j++) {
+			SRAM_write(sram_address + (i * 8) + j, pgm_read_byte(&font8x8_basic[(' ' - 32) * 8 + j]));
+		}
+	}
+}
+//Nyttig for menyen trur eg, lar deg spesifisere nøyaktig kor på skjermen du vil overskrive
+void oled_write_char_to_SRAM(uint8_t row, uint8_t col, char c) {
+	if (row >= 8 || col >= 16) {
+		return; 
+	}
+	uint16_t sram_address = row * 128 + (col * 8); 
+	for (uint8_t i = 0; i < 8; i++) {
+		SRAM_write(sram_address + i, pgm_read_byte(&font8x8_basic[(c - 32) * 8 + i]));
+	}
+}
+void oled_clear_screen(void) {
+	// Lag en tom buffer fylt med nuller eller mellomrom (0 er nok, fordi funksjonen oversetter til ' ')
+	char empty_buffer[128] = {0};  // Hele skjermen, 128 tegn
+
+	// Skriv den tomme bufferen til SRAM, som vil tømme skjermen
+	oled_write_screen_to_SRAM(empty_buffer);
+}
+

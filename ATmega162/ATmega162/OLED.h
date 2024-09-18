@@ -16,15 +16,7 @@
 
 
 // Definer pin-funksjonar (tilpass til ditt system)
-#define OLED_CMD_MODE 0  // Command mode (D/!C = 0)
-#define OLED_DATA_MODE 1 // Data mode (D/!C = 1)
 #define MAX_CHARS_PER_LINE 16  // Maks antal teikn per linje
-
-// Eksempeldefinisjonar for kontrollpinnar (tilpass systemet)
-#define OLED_WR_PORT PORTB
-#define OLED_WR_PIN  PB4  
-
-
 
 
 // Variabel for å halde styr på den noverande sida
@@ -53,44 +45,12 @@ char oled_skjerm_fra_SRAM[SRAM_OLED_DATA];
 void oled_data_from_SRAM(void);
 void oled_update_display_non_blocking(void);
 void write_string_to_SRAM(const char solkorset[128]); 
+
+/*______________IKKJE_TESTA______________*/
+void oled_write_screen_to_SRAM(const char screen[128]);
+void oled_write_FULLscreen_to_SRAM(const char screen_1024[1024]);
+void oled_write_line_to_SRAM(uint8_t line, const char* data);
+void oled_write_char_to_SRAM(uint8_t row, uint8_t col, char c);
+void oled_clear_screen(void);
+
 #endif /* OLED_H_ */
-
-/* main eksempel*/
-//int main(void) {
-	//oled_init();  // Initialiser OLED-skjermen
-	//
-	//oled_goto_pos(0, 0);  // Gå til posisjon (side 0, kolonne 0)
-	//oled_print_char('A'); // Skriv teiknet 'A'
-//
-	//oled_goto_pos(1, 0);  // Gå til neste linje (side 1)
-	//oled_print_char('B'); // Skriv teiknet 'B'
-//
-	//while (1) {
-		//// Hovudløkka
-	//}
-	//
-	//return 0;
-//}
-
-/*
-int main(void) {
-	oled_init();             
-	setup_printf_for_oled();  
-	oled_goto_pos(0, 0);      
-	printf("Hello, OLED! Page 0\n"); 
-	printf("This is page 1\n"); 
-	printf("This is page 2\n"); 
-	printf("This is page 3\n"); 
-	printf("This is page 4\n"); 
-	printf("This is page 5\n");
-	printf("This is page 6\n");
-	printf("This is page 7\n");
-  
-
-	while (1) {
-		
-	}
-
-	return 0;
-}
-*/
