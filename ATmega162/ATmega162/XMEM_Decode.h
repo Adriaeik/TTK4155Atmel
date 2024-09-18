@@ -25,6 +25,7 @@
 #define ADC_START_IDX 0x0400
 #define SRAM_START_IDX 0x0800
 
+
 void externalMemoryInit(void);
 void SRAM_write(uint16_t addr, uint8_t data);
 uint8_t SRAM_read(uint16_t addr);
