@@ -23,4 +23,5 @@
 #define loopUntilBitIsClear(reg, bit) while(testBit(reg, bit))
 
 
+
 #endif /* UTILS_H_ */

@@ -4,6 +4,7 @@
  * Created: 18.09.2024 00:51:09
  *  Author: eikel
  */ 
+
 #include "Font.h"
 // Lagrar fontdata i PROGMEM
 const uint8_t font8x8_basic[] PROGMEM = {
