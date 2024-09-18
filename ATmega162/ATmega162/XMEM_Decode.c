@@ -26,6 +26,7 @@ void externalMemoryInit(void) {
 	setBit(SFIOR, XMM2);
 }
 
+
 // Funksjon for � skrive data til SRAM
 void SRAM_write(volatile uint16_t addr, uint8_t data) {
 	volatile char *ext_ram = (char *) SRAM_START; // Startadresse for SRAM

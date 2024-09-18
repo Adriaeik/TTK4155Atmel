@@ -15,6 +15,7 @@ void MultiBoard_Init(MultiBoard* board) {
 	
 	// Aktiver pullup
 	setBit(PORTB, JOY_BUTTON_PIN);
+	
 
 	// Kalibrer joysticken (finn origo)
 	Universal_write(ADC_START, 0x80); // For Chip Enable til ADC, (data her er irrelevant)

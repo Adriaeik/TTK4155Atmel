@@ -109,6 +109,7 @@ void oled_print_char(char c) {
 	oled_write_data(glyph, 8);  // 8 bytes for kvart teikn
 }
 
+
 // Funksjon for å sende teikn til OLED-skjermen
 int oled_putchar(char c, FILE *stream) {
 	if (c == '\n') {

@@ -26,6 +26,7 @@
 
 
 
+
 // Variabel for å halde styr på den noverande sida
 static uint8_t current_page = 0; 
 
