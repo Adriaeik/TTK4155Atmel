@@ -20,6 +20,12 @@
 #define OLED_START 0x1000
 #define OLED_SIZE 0x0400
 
+//Start indexer
+#define OLED_START_IDX 0x0000
+#define ADC_START_IDX 0x0400
+#define SRAM_START_IDX 0x0800
+
+
 void externalMemoryInit(void);
 void SRAM_write(uint16_t addr, uint8_t data);
 uint8_t SRAM_read(uint16_t addr);
