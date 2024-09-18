@@ -6,9 +6,7 @@
  */ 
 
 #include "DriverUART.h"
-#include "XMEM_Decode.h"
 #include "SRAM.h"
-#include "MultiBoard.h"
 #include "OLED.h"
 
 int main(void) {
@@ -33,27 +31,29 @@ int main(void) {
 	SRAM_test();
 
 //TEST OLED////////////////////////////////////////////
-	oled_init();  // Initialiser OLED-skjermen
-		
-	oled_goto_pos(0, 0);  // Gå til posisjon (side 0, kolonne 0)
-	oled_print_char('A'); // Skriv teiknet 'A'
-		
-	oled_goto_pos(1, 0);  // Gå til neste linje (side 1)
-	oled_print_char('B'); // Skriv teiknet 'B'
-///////////////////////////////////////////////////////////////
-	// Hovudløkka
-	while (1) {
-		MultiBoard_Update(&board);
-		// Skrive ut alle verdier til UART (for debugging eller logging)
-		//printf("Left Slider: %u, Right Slider: %u\n\r", board.LSpos, board.RSpos);
-		//printf("Joystick X: %d, Y: %d, Button: %u\n\r", board.JoyXpos, board.JoyYpos, board.JoyBtn);
-		//printf("Left Button: %u, Right Button: %u\n\n\r", board.LBtn, board.RBtn);
-		//printf("Left Button: %u, Right Button: %u, Button: %u\n\n\r", board.LBtn, board.RBtn, board.JoyBtn);
+	//oled_init();  // Initialiser OLED-skjermen
+		//
+	//oled_goto_pos(0, 0);  // Gå til posisjon (side 0, kolonne 0)
+	//oled_print_char('A'); // Skriv teiknet 'A'
+		//
+	//oled_goto_pos(1, 0);  // Gå til neste linje (side 1)
+	//oled_print_char('B'); // Skriv teiknet 'B'
+	
+	oled_init();
+	setup_printf_for_oled();
+	oled_goto_pos(0, 0);
+	printf("Hello, OLED! Page 0\n");
+	printf("This is page 1\n");
+	printf("This is page 2\n");
 
-		// Skriv ut vinkelen
-		printf("Joystick X: %d, Y: %d.     Calculated angle: %d degrees\n\r", board.JoyXposCal, board.JoyYposCal,  board.JoyAngle);
-		//printf("Calculated angle: %d degrees\n\r", board.JoyAngle);
+	int tall = 0;
+
+	while (1) {
+		printf("%d                               ",tall++);
+
+		
 	}
+
 	return 0;
 }
 

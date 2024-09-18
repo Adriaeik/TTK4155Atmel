@@ -38,7 +38,7 @@ void MultiBoard_Init(MultiBoard* board) {
 
 void MultiBoard_Update(MultiBoard* board) {
 	// Velg kanal for venstre skyvebryter (LSpos)
-	Universal_write(ADC_START, 0x00);
+	Universal_write(ADC_START, 0x00);			// sender dummy data for å restarte
 	loopUntilBitIsClear(PINB, BUSY_PIN);		// Vent til BUSY g�r lav - klar for � sende p� ny
 	board->JoyYpos = Universal_read(ADC_START); //  - CH0 f�rste RD low gir channel 0
 	board->JoyXpos = Universal_read(ADC_START); //	- CH1 andre RD low gir channel 1
@@ -51,11 +51,9 @@ void MultiBoard_Update(MultiBoard* board) {
 	// Opretter ein int med pluss og minus slik at vi kan finne riktig vinkel med _UpdateJoystickAngel
 	board->JoyYposCal = (int16_t)(board->JoyYpos) - (int16_t)(board->JoyYOrigo);
 	board->JoyXposCal = (int16_t)(board->JoyXpos) - (int16_t)(board->JoyXOrigo);
-	///IKKJE TESTA
 	MultiBoard_UpdateJoystickAngle(board);
 }
 
-/// IKKJE TESTA 
 void MultiBoard_UpdateJoystickAngle(MultiBoard* board) {
 	int16_t x = board->JoyXposCal;
 	int16_t y = board->JoyYposCal;
@@ -85,27 +83,3 @@ void MultiBoard_UpdateJoystickAngle(MultiBoard* board) {
 	}
 }
 
-//void MultiBoard_UpdateJoystickAngle(MultiBoard* board) {
-	//int16_t x = board->JoyXposCal;
-	//int16_t y = board->JoyYposCal;
-//
-	//// Unng� divisjon med 0 (n�r senterpunkt)
-	//if (!(abs(x) > 10 || abs(y) > 10)) {
-		//board->JoyAngle = 0;  // Midtpunkt, sett vinkelen til 0
-		//} else {
-		//// Beregn vinkelen basert p� kvadrantar
-		//if (x >= 0 && y >= 0) {
-			//// F�rste kvadrant
-			//board->JoyAngle = (y * 90) / (x + y);  // Enklare tiln�rming
-			//} else if (x < 0 && y >= 0) {
-			//// Andre kvadrant
-			//board->JoyAngle = 90 + ((-x * 90) / (-x + y));
-			//} else if (x < 0 && y < 0) {
-			//// Tredje kvadrant
-			//board->JoyAngle = 180 + ((-y * 90) / (-x - y));
-			//} else if (x >= 0 && y < 0) {
-			//// Fjerde kvadrant
-			//board->JoyAngle = 270 + ((x * 90) / (x - y));
-		//}
-	//}
-//}
