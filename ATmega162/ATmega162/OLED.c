@@ -11,24 +11,50 @@
 
 // Funksjon for å sende kommando til OLED-skjermen
 void oled_write_command(uint8_t command) {
-	// Sett D/!C pinnen til kommandomodus fikses av adresse
-	// Skriv kommandoen til OLED
-	Universal_write(OLED_START_IDX, command);
-	// ATmega162 håndterer resten (CS, WR) via adresse-dekoding og kontrollsignaler
+	// Sett D/!C pinnen til kommandomodus (OLED_CMD_MODE)
+	clearBit(OLED_DC_PORT, OLED_DC_PIN);
+	// Aktivér Chip Select?
+	//clearBit(OLED_CS_PORT, OLED_CS_PIN);
+	
+	// Send kommandoen til databus
+	PORTA = command;  // PortC simulerer databussen her, tilpass til di databuss
+
+//Trur alt ditta fikse seg sjølv
+	//// Send skrivingssignal (!WR)
+	//clearBit(OLED_WR_PORT, OLED_WR_PIN);
+	//_delay_us(1); // Liten forsinkelse for timing
+	//clearBit(OLED_WR_PORT, OLED_WR_PIN);
+//
+//
+	//// Deaktiver Chip Select ?
+	////OLED_CS_PORT |= (1 << OLED_CS_PIN);
 }
+
 // Funksjon for å sende data til OLED-skjermen
 void oled_write_data(uint8_t* data, uint16_t size) {
+	// Sett D/!C pinnen til datamodus (OLED_DATA_MODE)
+	setBit(OLED_DC_PORT, OLED_DC_PIN);
 
-	// Skriv data til OLED frå startadressa for OLED
+	// Aktivér Chip Select
+	clearBit(OLED_CS_PORT, OLED_CS_PIN);
+
+	// Skriv data til skjermen
 	for (uint16_t i = 0; i < size; i++) {
-		Universal_write(OLED_START_IDX + 0x200 + i, data[i]); 
-	}
-}
+		PORTC = data[i];  // Bruk PortC som databuss
 
+		// Send skrivingssignal (!WR)
+		clearBit(OLED_WR_PORT, OLED_WR_PIN);
+		_delay_us(1); // Liten forsinkelse for timing
+		setBit(OLED_WR_PORT, OLED_WR_PIN);
+	}
+
+	// Deaktiver Chip Select
+	setBit(OLED_CS_PORT, OLED_CS_PIN);
+}
 
 // Funksjon for å velge aktiv side (page) på OLED-skjermen
 void oled_set_page(uint8_t page) {
-	oled_write_command(0xB0 | (page & 0x07));  // Velg side (page) sikrar at page-verdien er mellom 0 og 7, sidan OLED-skjermen har 8 sider (page) i vertikal retning (0 til 7). 
+	oled_write_command(0xB0 | (page & 0x07));  // Velg side (page)
 }
 
 // Funksjon for å velge kolonne (0-127) på OLED-skjermen
@@ -47,19 +73,12 @@ void oled_clear(void) {
 	}
 }
 
+// Funksjon for å oppdatere heile skjermen med data
 void oled_update_full_screen(uint8_t *data) {
-	// Skriv først til dei første 4 sidene (halvparten av skjermen)
-	for (uint8_t page = 0; page < 4; page++) {
-		oled_set_page(page);              // Velg side (page 0 til 3)
-		oled_set_column(0);               // Start frå kolonne 0
-		oled_write_data(&data[page * 128], 128);  // Skriv 128 bytes (full breidde) for kvar side
-	}
-
-	// Skriv til dei resterande 4 sidene (andre halvdel av skjermen)
-	for (uint8_t page = 4; page < 8; page++) {
-		oled_set_page(page);              // Velg side (page 4 til 7)
-		oled_set_column(0);               // Start frå kolonne 0
-		oled_write_data(&data[page * 128], 128);  // Skriv 128 bytes for kvar side
+	for (uint8_t page = 0; page < 8; page++) {
+		oled_set_page(page);
+		oled_set_column(0);
+		oled_write_data(&data[page * 128], 128);  // 128 bytes per side
 	}
 }
 
@@ -72,28 +91,26 @@ void oled_home(void) {
 // Funksjon for å initialisere OLED-skjermen
 void oled_init(void) {
 	// Send relevante kommandoar for å initialisere OLED-skjermen (eksempel)
-	oled_write_command(0xae);  // Skru av skjermen
-	oled_write_command(0xa1);  // Segment remap
-	oled_write_command(0xda);  // Common pads hardware: alternative
-	oled_write_command(0x12);  // Common pads alternative setting
-	oled_write_command(0xc8);  // Common output scan direction: com63~com0
-	oled_write_command(0xa8);  // Multiplex ratio mode
-	oled_write_command(0x3f);  // 1/64 duty
-	oled_write_command(0xd5);  // Display divide ratio/oscillator frequency mode
-	oled_write_command(0x80);  // Set divide ratio/oscillator frequency
-	oled_write_command(0x81);  // Contrast control
-	oled_write_command(0x50);  // Set contrast to 0x50
-	oled_write_command(0xd9);  // Set pre-charge period
-	oled_write_command(0x21);  // Set pre-charge period to 0x21
-	oled_write_command(0x20);  // Set memory addressing mode
-	oled_write_command(0x02);  // Page Addressing Mode
-	oled_write_command(0xdb);  // VCOM deselect level mode
-	oled_write_command(0x30);  // Set VCOM deselect level
-	oled_write_command(0xad);  // Master configuration
-	oled_write_command(0x00);  // Select external VCC
-	oled_write_command(0xa4);  // Display follows RAM content
-	oled_write_command(0xa6);  // Set normal display (not inverted)
-	oled_write_command(0xaf);  // Skru på skjermen
+	oled_write_command(0xAE);  // Skru av skjermen
+	oled_write_command(0xA1);  // Segment remap
+	oled_write_command(0xC8);  // COM output scan direction
+	oled_write_command(0xA6);  // Normal display (ikkje invertert)
+	oled_write_command(0xA4);  // Display follows RAM content
+	oled_write_command(0xA8);  // Multiplex ratio
+	oled_write_command(0x3F);  // Duty = 1/64
+	oled_write_command(0xD3);  // Set display offset
+	oled_write_command(0x00);  // No offset
+	oled_write_command(0xD5);  // Set display clock divide ratio/oscillator frequency
+	oled_write_command(0x80);  // Suggested value
+	oled_write_command(0xD9);  // Set pre-charge period
+	oled_write_command(0x22);  // Suggested value
+	oled_write_command(0xDA);  // Set com pins hardware configuration
+	oled_write_command(0x12);  // Suggested value
+	oled_write_command(0xDB);  // Set vcomh deselect level
+	oled_write_command(0x20);  // Suggested value
+	oled_write_command(0x8D);  // Enable charge pump regulator
+	oled_write_command(0x14);  // Enable
+	oled_write_command(0xAF);  // Skru på skjermen
 }
 
 
@@ -105,6 +122,7 @@ void oled_print_char(char c) {
 	for (uint8_t i = 0; i < 8; i++) {
 		glyph[i] = pgm_read_byte(&font8x8_basic[(c - 32) * 8 + i]);
 	}
+
 	// Skriv teikn-data til OLED-skjermen
 	oled_write_data(glyph, 8);  // 8 bytes for kvart teikn
 }
@@ -112,19 +130,11 @@ void oled_print_char(char c) {
 // Funksjon for å sende teikn til OLED-skjermen
 int oled_putchar(char c, FILE *stream) {
 	if (c == '\n') {
-		// Flytt til neste side
-		current_page++;  
-		// Rull tilbake til første side om vi når siste
-		if (current_page > 7) {
-			current_page = 0;  // Start på nytt frå side 0
-		}
-		// Set posisjon til start på den nye sida
-		oled_goto_pos(current_page, 0);  // Sett ny side og første kolonne
+		// Hopp til ny linje på OLED-skjermen (du må definere korleis OLED skal handtere dette)
+		oled_goto_pos(/* neste linje */0, 0);  // F.eks. sett ny side og første kolonne
 		} else {
-		// Skriv teikn til OLED-skjermen
-		oled_print_char(c);
+		oled_print_char(c);  // Skriv teikn til OLED
 	}
-
 	return 0;
 }
 
@@ -140,63 +150,3 @@ void oled_goto_pos(uint8_t page, uint8_t col) {
 	oled_set_page(page);   // Velg riktig side (page)
 	oled_set_column(col);  // Velg riktig kolonne
 }
-
-///*_____________MENY____________*/
-//void oled_display_menu(void) {
-	//oled_clear();  // Tøm skjermen
-//
-	//// Gå gjennom menyen og vis kvart element
-	//for (uint8_t i = 0; i < MAX_MENU_ITEMS; i++) {
-		//oled_goto_pos(i, 0);  // Gå til riktig side/posisjon på skjermen
-//
-		//// Skriv ut menyvalget, og marker det gjeldande valet
-		//if (i == current_menu_position) {
-			//printf("-> %s\n", menu[i]);  // Marker gjeldande posisjon med pil
-			//} else {
-			//printf("   %s\n", menu[i]);  // Ingen markering for andre valg
-		//}
-	//}
-//}
-//
-//void update_menu_position_from_joystick(MultiBoard* board) {
-	//int16_t joyY = board->JoyYposCal;  // Les Y-posisjonen frå joysticken
-//
-	//// Beveg oppover i menyen
-	//if (joyY > 50) {
-		//if (current_menu_position > 0) {
-			//current_menu_position--;
-			//_delay_ms(200);  // Liten forsinkelse for å unngå for rask navigering
-		//}
-	//}
-	//// Beveg nedover i menyen
-	//else if (joyY < -50) {
-		//if (current_menu_position < MAX_MENU_ITEMS - 1) {
-			//current_menu_position++;
-			//_delay_ms(200);  // Liten forsinkelse for å unngå for rask navigering
-		//}
-	//}
-//
-	//// Oppdater menyen på OLED-skjermen
-	//oled_display_menu();
-//}
-//uint8_t  is_joystick_button_pressed(MultiBoard* board) {
-	//return (board->JoyBtn == 0);  // Anta at knappen er aktiv-lav (0 betyr trykt)
-//}
-//void menu_navigate(MultiBoard* board) {
-	//// Vis menyen første gong
-	//oled_display_menu();
-//
-	//// Løkke for å navigere gjennom menyen
-	//while (1) {
-		//// Oppdater menyposisjon basert på joystick-bevegelsar
-		//update_menu_position_from_joystick(board);
-//
-		//// Sjekk om knappen er trykt for å bekrefte valg
-		//if (is_joystick_button_pressed(board)) {
-			//printf("Valgt posisjon: %d (%s)\n", current_menu_position, menu[current_menu_position]);
-			//break;  // Avslutt løkka når menyvalget er bekrefta
-		//}
-//
-		//_delay_ms(100);  // Liten forsinkelse for å redusere prosessorbelastning
-	//}
-//}

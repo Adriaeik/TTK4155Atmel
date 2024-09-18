@@ -10,8 +10,6 @@
 #define OLED_H_
 #include "Utils.h"
 #include "Font.h" // for PROGMEM og pgm_read_byte
-#include "XMEM_Decode.h"
-#include "MultiBoard.h"
 #include <stdio.h>  // Legg til denne for printf og FILE-støtte
 
 
@@ -21,11 +19,12 @@
 
 
 // Eksempeldefinisjonar for kontrollpinnar (tilpass systemet)
+#define OLED_CS_PORT PORTB
+#define OLED_CS_PIN  PC7   // Chip Select pin
+#define OLED_DC_PORT PORTB
+#define OLED_DC_PIN  PB3   // Data/Command pin
 #define OLED_WR_PORT PORTB
-#define OLED_WR_PIN  PB4  
-
-// Variabel for å halde styr på den noverande sida
-static uint8_t current_page = 0; 
+#define OLED_WR_PIN  PB4   // Write pin
 
 // Funksjonsdeklarasjonar for OLED-styring
 void oled_init(void);                          // Initialiserer OLED-skjermen
@@ -42,26 +41,6 @@ void setup_printf_for_oled(void);              // Set opp printf-støtte for OLED
 void oled_goto_pos(uint8_t page, uint8_t col); // Sett posisjon for teikn
 
 
-////MEny funksjoner
-///*Meny*/
-//#define MAX_MENU_ITEMS 5  // For eksempel 5 menyelement
-//
-//// Definer menyval
-//const char* menu[MAX_MENU_ITEMS] = {
-	//"Start Game",
-	//"Settings",
-	//"High Scores",
-	//"Credits",
-	//"Exit"
-//};
-//
-//// For å halde styr på posisjon i menyen
-//uint8_t current_menu_position = 0;  // Start på første element
-//
-//void oled_display_menu(void);
-//void update_menu_position_from_joystick(MultiBoard* board);
-//uint8_t  is_joystick_button_pressed(MultiBoard* board);
-//void menu_navigate(MultiBoard* board);
 
 #endif /* OLED_H_ */
 
@@ -81,26 +60,3 @@ void oled_goto_pos(uint8_t page, uint8_t col); // Sett posisjon for teikn
 	//
 	//return 0;
 //}
-
-/*
-int main(void) {
-	oled_init();             
-	setup_printf_for_oled();  
-	oled_goto_pos(0, 0);      
-	printf("Hello, OLED! Page 0\n"); 
-	printf("This is page 1\n"); 
-	printf("This is page 2\n"); 
-	printf("This is page 3\n"); 
-	printf("This is page 4\n"); 
-	printf("This is page 5\n");
-	printf("This is page 6\n");
-	printf("This is page 7\n");
-  
-
-	while (1) {
-		
-	}
-
-	return 0;
-}
-*/
