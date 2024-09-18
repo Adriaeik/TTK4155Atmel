@@ -52,10 +52,17 @@ int main(void) {
 
 
 	while (1) {
-		oled_goto_pos(0, 7);
-		printf("%d      2       3", tall++);
+		oled_goto_pos(1, 0);
+		printf("Hei til OLED    ");
+		oled_goto_pos(2, 0);
+		printf("                ");
+		oled_goto_pos(3, 0);
+		printf("Dette burde vere");
+		oled_goto_pos(4, 0);
+		printf("3/4.linje       ");
+		oled_goto_pos(5, 0);
+		printf("%d               ", tall);
 		if(tall == 10){tall = 0;}
-		
 		_delay_ms(200);
 		
 
