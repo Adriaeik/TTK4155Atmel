@@ -8,6 +8,8 @@ Font.c
 
 main.c
 
+Menu.c
+
 MultiBoard.c
 
 OLED.c

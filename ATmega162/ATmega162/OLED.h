@@ -37,6 +37,7 @@ void oled_init(void);                          // Initialiserer OLED-skjermen
 void oled_set_page(uint8_t page);              // Velg aktiv side (page)
 void oled_set_column(uint8_t column);          // Velg kolonne (0-127)
 void oled_clear(void);                         // Tøm skjermen
+void oled_clear_page(uint8_t page);                        // Tøm skjermen
 void oled_write_data(uint8_t* data, uint16_t size);  // Skriv data til skjermen
 void oled_write_command(uint8_t command);      // Skriv ein kommando til OLED
 void oled_update_full_screen(uint8_t *data);   // Oppdater heile skjermen med ei blokk med data
@@ -46,25 +47,15 @@ int oled_putchar(char c, FILE *stream);        // Funksjon for å sende teikn via
 void setup_printf_for_oled(void);              // Set opp printf-støtte for OLED
 void oled_goto_pos(uint8_t page, uint8_t col); // Sett posisjon for teikn
 
+// SRAM HELVET
+char oled_skjerm_fra_SRAM[SRAM_OLED_DATA];
+
+void oled_data_from_SRAM(void);
+void oled_data_to_SRAM(volatile char data[SRAM_OLED_DATA]);
+void oled_display_SRAM(void);
+void oled_update_display_non_blocking(uint32_t current_time, uint32_t *last_update_time);
+void write_string_to_SRAM(const char solkors[128]); 
 #endif /* OLED_H_ */
-
-////MEny funksjoner
-///*Meny*/
-#ifndef MENU_H
-#define MENU_H
-
-#define MAX_MENU_ITEMS 5  // For eksempel 5 menyelement
-
-// Deklarer meny og posisjon som eksterne variablar
-extern const char* menu[MAX_MENU_ITEMS];
-extern uint8_t current_menu_position;
-
-void oled_display_menu(void);
-void update_menu_position_from_joystick(MultiBoard* board);
-uint8_t is_joystick_button_pressed(MultiBoard* board);
-void menu_navigate(MultiBoard* board);
-
-#endif /* MENU_H */
 
 /* main eksempel*/
 //int main(void) {

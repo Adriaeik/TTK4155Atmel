@@ -46,6 +46,11 @@ void oled_clear(void) {
 		oled_write_data(empty, 128);
 	}
 }
+void oled_clear_page(uint8_t page){
+	oled_goto_pos(page, 0);
+	uint8_t empty[128] = {0};  // 128 kolonner med 0 for å tømme sida
+	oled_write_data(empty, 128);
+}
 
 void oled_update_full_screen(uint8_t *data) {
 	// Skriv først til dei første 4 sidene (halvparten av skjermen)
@@ -157,83 +162,64 @@ void oled_goto_pos(uint8_t page, uint8_t col) {
 	oled_set_column(col);  // Velg riktig kolonne
 }
 
-///*_____________MENY____________*/
+// SRAM HELVET
+void oled_data_from_SRAM(void) {
+	for (uint16_t page = 0; page < 8; page++) {
+		oled_set_page(page);               // Velg riktig side (page)
+		oled_set_column(0);                // Start frå kolonne 0
+		uint8_t buffer[128];               // Buffer for å lagre data frå SRAM
 
-const char* menu[MAX_MENU_ITEMS] = {
-	"Start Game",
-	"Settings",
-	"High Scores",
-	"Credits",
-	"Exit"
-};
-uint8_t current_menu_position = 1; 
+		// Les 128 byte frå SRAM for denne sida
+		for (uint8_t col = 0; col < 128; col++) {
+			buffer[col] = SRAM_read(page * 128 + col);
+		}
 
-void oled_display_menu(void) {
-	oled_clear();  // Tøm skjermen
-	
-	// Gå gjennom menyen og vis kvart element
-	for (uint8_t i = 0; i < MAX_MENU_ITEMS; i++) {
-		oled_goto_pos(i, 0);  // Gå til riktig side/posisjon på skjermen
+		// Skriv buffer til OLED-skjermen
+		oled_write_data(buffer, 128);
+	}
+}
 
-		// Skriv ut menyvalget, og marker det gjeldande valet
-		if (i == current_menu_position) {
-			printf("-> %s\n", menu[i]);  // Marker gjeldande posisjon med pil
+
+void oled_data_to_SRAM(volatile char data[SRAM_OLED_DATA]){ //FUNKER
+	for(int i = 0; i<SRAM_OLED_DATA; i++){
+		SRAM_write(i, data[i]);
+	}
+}
+void oled_display_SRAM(void) { //TJAAAAA
+	for (uint16_t page = 0; page < 8; page++) {  // OLED har 8 sider (pages)
+		oled_set_page((page+2)%8);              // Velg aktuell side
+		oled_set_column(0);               // Start frå kolonne 0
+		oled_write_data(&oled_skjerm_fra_SRAM[page * 128], 128);  // Skriv 128 byte frå SRAM per side
+	}
+}
+void oled_update_display_non_blocking(uint32_t current_time, uint32_t *last_update_time) {
+	if ((current_time - *last_update_time) >= 16) {
+		oled_display_SRAM();  // Oppdater skjermen frå SRAM
+		*last_update_time = current_time;  // Oppdater siste oppdateringstid
+	}
+}
+
+void write_string_to_SRAM(const char solkors[128]) {
+	for (int j = 0; j < 128; j++) {
+		// Skriv ut karakteren for å sjå kva vi jobbar med (feilsøking)
+		printf("%c", solkors[j]);
+
+		// Ny linje etter 16 karakterar for å formatere utskrift (feilsøking)
+		if (j % 16 == 0) {
+			printf("\n\r");
+		}
+
+		// Forsikre deg om at teiknet er innanfor gyldig ASCII-intervall for fonten din
+		if (solkors[j] >= 32 && solkors[j] <= 127) {
+			// Skriv teiknet frå fonten til SRAM
+			for (uint8_t i = 0; i < 8; i++) {
+				SRAM_write(j * 8 + i, pgm_read_byte(&font8x8_basic[(solkors[j] - 32) * 8 + i]));
+			}
 			} else {
-			printf("   %s\n", menu[i]);  // Ingen markering for andre valg
+			// Viss teiknet ikkje er gyldig, bruk mellomrom (' ') som standard
+			for (uint8_t i = 0; i < 8; i++) {
+				SRAM_write(j * 8 + i, pgm_read_byte(&font8x8_basic[(0x20 - 32) * 8 + i])); // ASCII 0x20 for space
+			}
 		}
-	}
-}
-
-void update_menu_position_from_joystick(MultiBoard* board) {
-	int16_t joyY = (int16_t)(board->JoyYposCal);  // Les Y-posisjonen frå joysticken
-
-	// Beveg oppover i menyen
-	if (joyY > 50) {
-		if (current_menu_position > 0) {
-			current_menu_position--;
-			oled_display_menu();
-			_delay_ms(200);  // Liten forsinkelse for å unngå for rask navigering
-		}
-	}
-	// Beveg nedover i menyen
-	else if (joyY < -50) {
-		if (current_menu_position < MAX_MENU_ITEMS - 1) {
-			current_menu_position++;
-			oled_display_menu();
-			_delay_ms(200);  // Liten forsinkelse for å unngå for rask navigering
-		}
-	}
-
-
-	
-
-	// Oppdater menyen på OLED-skjermen
-	//oled_display_menu();
-}
-uint8_t  is_joystick_button_pressed(MultiBoard* board) {
-	return (board->JoyBtn != 0) /*|| current_menu_position >3*/;  // Anta at knappen er aktiv-lav (0 betyr trykt)
-}
-void menu_navigate(MultiBoard* board) {
-	// Vis menyen første gong
-	oled_display_menu();
-	
-	
-
-	// Løkke for å navigere gjennom menyen
-	while (1) {
-		MultiBoard_Update(board);	
-		// Oppdater menyposisjon basert på joystick-bevegelsar
-		update_menu_position_from_joystick(board);
-
-		// Sjekk om knappen er trykt for å bekrefte valg
-		if (is_joystick_button_pressed(board)) {
-			_delay_ms(500);
-			oled_clear();  // Tøm skjermen
-			_delay_ms(500);
-			
-			printf("Valgt posisjon: %d (%s)\n", current_menu_position, menu[current_menu_position]);
-			break;  // Avslutt løkka når menyvalget er bekrefta
-		}
-		_delay_ms(100);  // Liten forsinkelse for å redusere prosessorbelastning
 	}
 }

@@ -7,7 +7,7 @@
 
 #include "DriverUART.h"
 #include "SRAM.h"
-#include "OLED.h"
+#include "Menu.h"
 
 int main(void) {
 	// Initialiser UART med baudrate 9600
@@ -17,7 +17,13 @@ int main(void) {
 	URAT_initStudio();
 	// Aktiver mottaksavbrot
 	UART_EnableReceiveInterrupt();
-	
+	/*_________________TIMER_START______________________*/
+	  setup_timer();  // Start millisekundteljinga
+
+	  // Variabel for å spore siste oppdatering
+	  uint32_t last_update_time = 0;
+
+	/*________________TIMER_SLUTT______________________*/
 	// Aktiver globale avbrot
 	sei();
 	// Initialiser eksternt minne
@@ -29,63 +35,86 @@ int main(void) {
 	
 	
 	//SRAM_test();
+	
 
 //TEST OLED////////////////////////////////////////////
 	oled_init();  // Initialiser OLED-skjermen
-
-	setup_printf_for_oled();
-
-	// Vis meny og start navigering
-	printf("Velkommen!\n");
-	_delay_ms(1000);  // Vent litt før du går inn i menyen
-	oled_clear();
+	//setup_printf_for_oled();
 	oled_home();
+	
+	char solkors[128] = "   yap@@@*         #@@@#   *#     #@@@*  *@@@@# *  +#@@@@@@  @@@@@   +@@@@*   @@@@@%%@@@@@@ +  * #@@@@*  *@@@#     ##   #@@@#   ";
 
-	// Kall meny-navigeringsfunksjonen
-	menu_navigate(&board);
+	write_string_to_SRAM(solkors);
 
-	    // Når brukaren har valgt eit menyelement, kan du ta handling basert på valget
-	    switch (current_menu_position) {
-		    case 0:
-			oled_clear();  // Tøm skjermen
-			oled_home();
-		    printf("Startar spelet...\n");
-		    // Funksjon for å starte spelet
-		    break;
-		    case 1:
-			oled_clear();  // Tøm skjermen
-			oled_home();
-		    printf("Opnar innstillingar...\n");
-		    // Funksjon for å opne innstillingar
-		    break;
-		    case 2:
-			oled_clear();  // Tøm skjermen
-			oled_home();
-		    printf("Viser høge poengsummer...\n");
-		    // Funksjon for å vise høgaste poengsummer
-		    break;
-		    case 3:
-			oled_home();
-		    printf("Viser kredittar...\n");
-		    // Funksjon for å vise kredittar
-		    break;
-		    case 4:
-			oled_clear();  // Tøm skjermen
-			oled_home();
-		    printf("Avsluttar...\n");
-		    // Funksjon for å avslutte eller gå ut av menyen
-		    break;
-		    default:
-		    printf("Ugyldig valg\n");
-		    break;
-	    }
+	oled_data_from_SRAM();
+	//oled_update_display_periodically();
 	 // Hovudløkke
+	 
+	/* printf("Velkommen!\n");
+	 _delay_ms(1000);  // Vent litt før du går inn i menyen
+	 oled_clear();
+	 oled_home();
+
+	 // Kall meny-navigeringsfunksjonen
+	 menu_navigate(&board);
+
+	 // Når brukaren har valgt eit menyelement, kan du ta handling basert på valget
+	 switch (current_menu_position) {
+		 case 0:
+		 oled_clear();  // Tøm skjermen
+		 oled_home();
+		 printf("Startar spelet...\n");
+		 // Funksjon for å starte spelet
+		 break;
+		 case 1:
+		 oled_clear();  // Tøm skjermen
+		 oled_home();
+		 printf("Opnar innstillingar...\n");
+		 _delay_ms(1000);
+		 oled_clear_page(1);
+		 oled_clear_page(0);
+		 
+		 
+		 // Funksjon for å opne innstillingar
+		 break;
+		 case 2:
+		 oled_clear();  // Tøm skjermen
+		 oled_home();
+		 printf("Viser høge poengsummer...\n");
+		 // Funksjon for å vise høgaste poengsummer
+		 break;
+		 case 3:
+		 oled_home();
+		 printf("Viser kredittar...\n");
+		 // Funksjon for å vise kredittar
+		 break;
+		 case 4:
+		 oled_clear();  // Tøm skjermen
+		 oled_home();
+		 printf("Avsluttar...\n");
+		 // Funksjon for å avslutte eller gå ut av menyen
+		 break;
+		 default:
+		 printf("Ugyldig valg\n");
+		 break;
+		 }*/
+	int n = 1;
 	 while (1) {
+/*
 		 // Hovudløkke for andre funksjonar i programmet
+		 uint32_t current_time = millis();
+		 oled_update_display_non_blocking(current_time, &last_update_time);*/
+		// Hent den gjeldande tida i millisekund
+		uint32_t current_time = millis();
+
+		// Oppdatering kvar 1000 ms (1 sekund)
+		if (current_time - last_update_time >= 1000) {
+			last_update_time = current_time;
+			// Gjer noko kvar sekund
+			printf("%d\n",n++%60);
+		}
+
 	 }
-
-
-
 	return 0;
 }
 
@@ -108,3 +137,53 @@ int main(void) {
 	//if(tall == 10){tall = 0;}
 	//_delay_ms(200);
 	//}
+// Vis meny og start navigering
+/*
+printf("Velkommen!\n");
+_delay_ms(1000);  // Vent litt før du går inn i menyen
+oled_clear();
+oled_home();
+
+// Kall meny-navigeringsfunksjonen
+menu_navigate(&board);
+
+// Når brukaren har valgt eit menyelement, kan du ta handling basert på valget
+switch (current_menu_position) {
+	case 0:
+	oled_clear();  // Tøm skjermen
+	oled_home();
+	printf("Startar spelet...\n");
+	// Funksjon for å starte spelet
+	break;
+	case 1:
+	oled_clear();  // Tøm skjermen
+	oled_home();
+	printf("Opnar innstillingar...\n");
+	_delay_ms(1000);
+	oled_clear_page(1);
+	oled_clear_page(0);
+	
+	
+	// Funksjon for å opne innstillingar
+	break;
+	case 2:
+	oled_clear();  // Tøm skjermen
+	oled_home();
+	printf("Viser høge poengsummer...\n");
+	// Funksjon for å vise høgaste poengsummer
+	break;
+	case 3:
+	oled_home();
+	printf("Viser kredittar...\n");
+	// Funksjon for å vise kredittar
+	break;
+	case 4:
+	oled_clear();  // Tøm skjermen
+	oled_home();
+	printf("Avsluttar...\n");
+	// Funksjon for å avslutte eller gå ut av menyen
+	break;
+	default:
+	printf("Ugyldig valg\n");
+	break;
+}*/

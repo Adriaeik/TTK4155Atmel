@@ -73,5 +73,4 @@ void UART_DisableReceiveInterrupt(void) {
 ISR(USART0_RXC_vect) {
 	// Handter mottatt data
 	char received = UDR0;
-	
 }
