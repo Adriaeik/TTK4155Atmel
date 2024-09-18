@@ -115,8 +115,8 @@ int oled_putchar(char c, FILE *stream) {
 		// Flytt til neste side
 		current_page++;  
 		// Rull tilbake til første side om vi når siste
-		if (current_page > 7) {
-			current_page = 0;  // Start på nytt frå side 0
+		if (current_page > 8) {
+			current_page = 1;  // Start på nytt frå side 0
 		}
 		// Set posisjon til start på den nye sida
 		oled_goto_pos(current_page, 0);  // Sett ny side og første kolonne
