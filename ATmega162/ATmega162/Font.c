@@ -296,3 +296,4 @@ const uint8_t font8x8_basic[] PROGMEM = {
 	/*Egendefinerte*/
 	
 };
+

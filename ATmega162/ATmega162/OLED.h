@@ -51,9 +51,7 @@ void oled_goto_pos(uint8_t page, uint8_t col); // Sett posisjon for teikn
 char oled_skjerm_fra_SRAM[SRAM_OLED_DATA];
 
 void oled_data_from_SRAM(void);
-void oled_data_to_SRAM(volatile char data[SRAM_OLED_DATA]);
-void oled_display_SRAM(void);
-void oled_update_display_non_blocking(uint32_t current_time, uint32_t *last_update_time);
+void oled_update_display_non_blocking(void);
 void write_string_to_SRAM(const char solkors[128]); 
 #endif /* OLED_H_ */
 

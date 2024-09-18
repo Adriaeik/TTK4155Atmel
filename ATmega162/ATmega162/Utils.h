@@ -22,9 +22,13 @@
 #define loopUntilBitIsSet(reg, bit) while(!testBit(reg, bit))
 #define loopUntilBitIsClear(reg, bit) while(testBit(reg, bit))
 
-extern volatile uint32_t millis_counter;  // Extern deklarasjon av millis_counter
+extern volatile uint32_t overflow_count;  // Extern deklarasjon av millis_counter
+extern volatile char solkors[128];
+extern volatile char smiley[128];
 
-uint32_t millis();  // Funksjon for å hente tida i millisekund
+uint32_t get_time_in_ms(void);  // Funksjon for å hente tida i millisekund
+uint32_t get_time_in_cycles(void);
 void setup_timer();  // Funksjon for å sette opp timer
+void restart_timer();
 
 #endif /* UTILS_H_ */

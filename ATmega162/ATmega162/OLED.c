@@ -179,36 +179,19 @@ void oled_data_from_SRAM(void) {
 	}
 }
 
-
-void oled_data_to_SRAM(volatile char data[SRAM_OLED_DATA]){ //FUNKER
-	for(int i = 0; i<SRAM_OLED_DATA; i++){
-		SRAM_write(i, data[i]);
+void oled_update_display_non_blocking(void) {
+	if (get_time_in_ms() >= 16) {
+		restart_timer();
+		oled_data_from_SRAM();
+		for (int i = 0; i < 128; i++) {
+			solkors[i] = solkors[(i + 8) % 128];
+		}
+		write_string_to_SRAM(solkors);
+		printf("%d",get_time_in_ms());
 	}
 }
-void oled_display_SRAM(void) { //TJAAAAA
-	for (uint16_t page = 0; page < 8; page++) {  // OLED har 8 sider (pages)
-		oled_set_page((page+2)%8);              // Velg aktuell side
-		oled_set_column(0);               // Start frå kolonne 0
-		oled_write_data(&oled_skjerm_fra_SRAM[page * 128], 128);  // Skriv 128 byte frå SRAM per side
-	}
-}
-void oled_update_display_non_blocking(uint32_t current_time, uint32_t *last_update_time) {
-	if ((current_time - *last_update_time) >= 16) {
-		oled_display_SRAM();  // Oppdater skjermen frå SRAM
-		*last_update_time = current_time;  // Oppdater siste oppdateringstid
-	}
-}
-
 void write_string_to_SRAM(const char solkors[128]) {
 	for (int j = 0; j < 128; j++) {
-		// Skriv ut karakteren for å sjå kva vi jobbar med (feilsøking)
-		printf("%c", solkors[j]);
-
-		// Ny linje etter 16 karakterar for å formatere utskrift (feilsøking)
-		if (j % 16 == 0) {
-			printf("\n\r");
-		}
-
 		// Forsikre deg om at teiknet er innanfor gyldig ASCII-intervall for fonten din
 		if (solkors[j] >= 32 && solkors[j] <= 127) {
 			// Skriv teiknet frå fonten til SRAM
