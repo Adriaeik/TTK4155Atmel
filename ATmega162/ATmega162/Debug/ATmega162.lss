@@ -678,9 +678,11 @@ uint8_t is_joystick_button_pressed(MultiBoard* board) {
      92a:	08 95       	ret
 
 0000092c <menu_navigate>:
-
-static uint8_t menu_changed = 1;  // Flag for å spore endringar i menyen
-// Funksjon for å navigere i menyen uten blokkering
+tillater oss å modifisere pekeren som peker til den aktive menyen 
+(f.eks. current_menu) inne i funksjonen. Dette er nyttig hvis vi trenger 
+å bytte meny underveis, f.eks. fra hovedmeny til innstillingsmeny.
+- Ganske fett
+*/
 void menu_navigate(MultiBoard* board, Menu** menu) {
      92c:	0f 93       	push	r16
      92e:	1f 93       	push	r17
