@@ -195,16 +195,16 @@ void oled_write_screen_to_SRAM(const char screen[128]){
 	}
 }
 
-void oled_write_FULLscreen_to_SRAM(const char screen_1024[1024]) {
-	// SRAM har plass til hele skjermen (128x64 piksler, som er 1024 bytes)
-	uint16_t sram_address = 0;  // Startadressen i SRAM
-
-	// Gå gjennom hele bufferet og skriv til SRAM
+void oled_write_FULLscreen_to_SRAM(const uint8_t screen_1024[1024]) {
+	// Gå gjennom hele bufferet og skriv til SRAM, men les frå PROGMEM
 	for (uint16_t i = 0; i < 1024; i++) {
-		// Skriv hver byte fra bufferet til SRAM
-		SRAM_write(sram_address + i, screen_1024[i]);
+		// Les byte direkte frå Flash og skriv til SRAM
+		uint8_t byte_from_flash = pgm_read_byte(&screen_1024[i]);
+		SRAM_write(i, byte_from_flash);
 	}
 }
+
+
 void oled_write_line_to_SRAM(uint8_t line, const char* data) {
 	if (line >= 8) {
 		return; 

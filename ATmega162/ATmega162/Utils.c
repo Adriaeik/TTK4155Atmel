@@ -8,15 +8,6 @@
 
 // Definer den globale variabelen for å telje millisekund
 volatile uint32_t overflow_count = 0;
-volatile char solkors[128] = "   yap@@@*         #@@@#   *#     #@@@*  *@@@@# *  +#@@@@@@  @@@@@   +@@@@*   @@@@@%%@@@@@@ +  * #@@@@*  *@@@#     ##   #@@@#   ";
-volatile char smiley[128] = "  _____%  %_____"  // linje 1 (tom linje)
-							"  *****   ***** "  // linje 2 (øyne)
-							" *     * *     *"  // linje 3 (kontur av hode)
-							" *  **  *  **  *"  // linje 4 (venstre og høyre øye)
-							" *      *      *"  // linje 5 (tom hodekontur)
-							"  *    * *    * "  // linje 7 (tom linje)
-							"   ****   ****  "  // linje 6 (bunnen av hodet)
-							" \_____________/";
 
 // Timer-overflyt interrupt service rutine
 ISR(TIMER1_OVF_vect) {

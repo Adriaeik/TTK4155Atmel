@@ -14,6 +14,7 @@
 #include <avr/interrupt.h>
 #include <stdlib.h>
 #include <math.h>
+#include "Font.h"
 
 
 #define setBit(reg, bit) (reg |= (1 << bit))  // DDRB |= (1 << PB0); PORTB |= (1 << PB0);
@@ -23,8 +24,6 @@
 #define loopUntilBitIsClear(reg, bit) while(testBit(reg, bit))
 
 extern volatile uint32_t overflow_count;  // Extern deklarasjon av millis_counter
-extern volatile char solkors[128];
-extern volatile char smiley[128];
 
 uint32_t get_time_in_ms(void);  // Funksjon for å hente tida i millisekund
 uint32_t get_time_in_cycles(void);
