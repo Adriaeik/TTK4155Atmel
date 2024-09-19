@@ -9,8 +9,8 @@
 
 #ifndef FONT_H_
 #define FONT_H_
-
 #include <avr/pgmspace.h>
+
 extern const uint8_t font8x8_basic[] PROGMEM;
 extern const char solkors[128] PROGMEM;
 extern const char smiley[128] PROGMEM;

@@ -296,21 +296,34 @@ const uint8_t font8x8_basic[] PROGMEM = {
 	/*Egendefinerte*/
 	
 };
+/*___________________ HARDKODA SKJERMBILDER MED CHAR ___________________*/
 
-// Lagrer solkors i Flash-minnet
-const char solkors[128] PROGMEM = "   yap@@@*         #@@@#   *#     #@@@*  *@@@@# *  +#@@@@@@  @@@@@   +@@@@*   @@@@@%%@@@@@@ +  * #@@@@*  *@@@#     ##   #@@@#   ";
+const char solkors[128] PROGMEM = 
+"   yap@@@*      "
+"   #@@@#   *#   "
+"  #@@@*  *@@@@# "
+"*  +#@@@@@@  @@@"
+"@@   +@@@@*   @@"
+"@@@%%@@@@@@ +  *"
+" #@@@@*  *@@@#  "
+"   ##   #@@@#   ";
 
-// Lagrer smiley i Flash-minnet
 const char smiley[128] PROGMEM =
-"  _____%  %_____"  // linje 1 (tom linje)
-"  *****   ***** "  // linje 2 (øyne)
-" *     * *     *"  // linje 3 (kontur av hode)
-" *  **  *  **  *"  // linje 4 (venstre og høyre øye)
-" *      *      *"  // linje 5 (tom hodekontur)
-"  *    * *    * "  // linje 6 (tom linje)
-"   ****   ****  "  // linje 7 (bunnen av hodet)
+"  _____\  /_____"  // linje 1 (tom linje)
+"  @@@@@   @@@@@ "  // linje 2 (øyne)
+" @     @ @     @"  // linje 3 (kontur av hode)
+" @  /\\  @  /\\  @"  // linje 4 (venstre og høyre øye) må bruke \\ for å få \ (trur eg)
+" @  \\/  @  \\/  @"  // linje 5 (tom hodekontur)
+"  @    @ @    @ "  // linje 6 (tom linje)
+"   @@@@   @@@@  "  // linje 7 (bunnen av hodet)
 " \\_____________/"; // linje 8 (smil)
 
+
+
+
+
+
+/*___________________ HARDKODA SKJERMBILDER MED BYTES ___________________*/
 const uint8_t emoji_sunglasses_1024[1024] PROGMEM = {
 	// Første del av hovudet (øverste radene)
 	0b00000000, 0b00000000, 0b00011110, 0b00011110, 0b00000000, 0b00000000, 0b00011110, 0b00011110,
@@ -339,7 +352,7 @@ const uint8_t emoji_sunglasses_1024[1024] PROGMEM = {
 
 
 
-// menyer::
+/*___________________ MENYA ___________________*/
 // Definer menyane og lagre dei i flash med PROGMEM
 const char mainMenuItems[8*16] PROGMEM = 
 " Start Game     "

@@ -23,7 +23,7 @@
 #define OLED_BUFFER_SIZE (SCREEN_WIDTH * SCREEN_HEIGHT / 8)  // 1024 bytes
 
 
-// Variabel for å halde styr på den noverande sida
+// Variabel for å halde styr på den noverande sida - dissa kan nok fjernast - ikkje i bruk
 static uint8_t current_page = 1; 
 static uint8_t current_col  = 0;
 

@@ -76,42 +76,32 @@ uint8_t is_joystick_button_pressed(MultiBoard* board) {
 	return (board->JoyBtn != 0);  // Anta at knappen er aktiv-høg (1 betyr trykt)
 }
 
-static uint8_t menu_changed = 1;  // Flag for å spore endringar i menyen
-// Funksjon for å navigere i menyen uten blokkering
-
-/*
-Grunnen til at vi bruker en dobbeltpeker (Menu**) i menu_navigate er at det 
-tillater oss å modifisere pekeren som peker til den aktive menyen 
-(f.eks. current_menu) inne i funksjonen. Dette er nyttig hvis vi trenger 
-å bytte meny underveis, f.eks. fra hovedmeny til innstillingsmeny.
-- Ganske fett
-*/
 void menu_navigate(MultiBoard* board, Menu* menu) {
 
 	// Oppdater joystick- og menyposisjon
 	MultiBoard_Update(board);
 	update_menu_position_from_joystick(board, menu);
-
-
-
 	// Sjekk om knappen er trykt for å bekrefte menyval
 	if (is_joystick_button_pressed(board)) {
-		
-		handleMenuSelection(board, menu);  // Behandlar menyvalet
-		//oled_display_menu(menu);
+		handleMenuSelection(board, menu);  // Behandlar menyvalet (trenger tilsyn)
+		/*____FEILSØKING________________________
+			sjekke att vi kom tilbake hit     */
+		oled_write_screen_to_SRAM(solkors);
+		oled_data_from_SRAM(); //bytte navn på dinna funksjonen? dårlig forklaring av dens funksjon
+		_delay_ms(1000); //smile litt
+		/*____________________________________*/
 		write_menu_oled_to_SRAM(menu);
 	}else {
 		update_menu_arrows(menu->current_position - menu->scroll_offset,menu->prev_position - menu->scroll_offset);
-	}
-	
-	
-	
+	}	
 }
 
 void write_menu_oled_to_SRAM(Menu* menu){
-	uint8_t menuSize = menu->num_items;
+	// vist målet er å sjekke om det er meir enn 8 så blir ditta feil.
+	//num_items helder antall "linjer"så i staden for å sjekke over 128 skulle det vert over 8
+	uint8_t menuSize = menu->num_items; 
 	
-	//Om det er 8 eller mindre linjer
+	//Om det er 8 eller mindre linjer (bytte til if(menuSize <= 8){
 	if(menuSize <= 128){
 		for(uint16_t j = 0; j < menuSize*16; j++) {
 			char c = pgm_read_byte(&menu->items[j]);
@@ -124,6 +114,7 @@ void write_menu_oled_to_SRAM(Menu* menu){
 				}	
 			}	
 		}
+		// då blir det vell feil her og ?
 		//om menyen er mindre enn 8 linjer fyll resten med ' ' 
 		for(uint8_t i = 0; i < 128-menuSize*16; i++){
 			for(uint8_t j = 0; j < 8; j++){
