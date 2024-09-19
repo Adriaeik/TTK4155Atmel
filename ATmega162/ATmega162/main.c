@@ -26,15 +26,15 @@ int main(void) {
 	//SRAM_test();
 	
 	/*______MENY______*/
-	//current_menu = &mainMenu;
+	current_menu = &mainMenu;
 	
 
 	/*_______TEST OLED______________________*/
 	
-	oled_home();
-	oled_write_screen_to_SRAM(smiley);
-	oled_data_from_SRAM();
-	_delay_ms(1000); //smile litt før start
+	//oled_home();
+	//oled_write_screen_to_SRAM(smiley);
+	//oled_data_from_SRAM();
+	//_delay_ms(1000); //smile litt før start
 	
 	//linje og slikt
 	oled_clear_screen();
@@ -43,22 +43,18 @@ int main(void) {
 	oled_draw_square(20, 20, 40, 30);
 	oled_data_from_SRAM();
 	_delay_ms(1000);
-	oled_write_FULLscreen_to_SRAM(emoji_sunglasses_1024);
-	oled_data_from_SRAM();
-	_delay_ms(1000);
-	oled_write_FULLscreen_to_SRAM(&mainMenu.items);
-	oled_data_from_SRAM();
-	_delay_ms(1000);
+	printf("Hello world\r\n");
 	
 	/*_______HOVUDLØKKE______*/
 	 while (1) {
 
-        menu_navigate(&board, &current_menu);  // Kallar `menu_navigate` med referanse til gjeldande meny
+        menu_navigate(&board, current_menu);  // Kallar `menu_navigate` med referanse til gjeldande meny
 		
 		/*Så lenge vi ikkje har noko delay gåandes og ditta står her tenker eg 
 		at den oppdateres automatisk med det minnet vi har skreve til sramen?
 		Det kunne vert fornuftig med eit flag her då
 		*/
+		
 		if (get_time_in_ms() >= 16) {
 			restart_timer();
 			oled_data_from_SRAM();

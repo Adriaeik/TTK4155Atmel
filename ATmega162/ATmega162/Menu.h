@@ -17,7 +17,7 @@
 
 /*____Parameter som ein meny trenger____*/
 typedef struct {
-	const char (*items)[16];	// Peker til array lagret i PROGMEM
+	char* items;	// Peker til array lagret i PROGMEM
 	uint8_t current_position;	// Gjeldande posisjon i menyen
 	uint8_t prev_position;		// Forrige posisjon i menyen
 	uint8_t scroll_offset;		// Offset for å handtere scrolling
@@ -39,8 +39,8 @@ void oled_display_menu(Menu* menu);
 void update_menu_arrows(uint8_t new_position, uint8_t old_position);
 void update_menu_position_from_joystick(MultiBoard* board, Menu* menu);
 uint8_t is_joystick_button_pressed(MultiBoard* board);
-void menu_navigate(MultiBoard* board, Menu** menu);
+void menu_navigate(MultiBoard* board, Menu* menu);
 void handleMenuSelection(MultiBoard* board, Menu* menu);		//implementert i menu_init.c
-
+void write_menu_oled_to_SRAM(Menu* menu);
 
 #endif /* MENU_H */

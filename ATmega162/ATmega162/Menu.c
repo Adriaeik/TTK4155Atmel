@@ -9,8 +9,8 @@ MenuState currentMenuState = MAIN_MENU;  // Start i hovudmenyen
 Menu* current_menu = NULL;
 
 void oled_display_menu(Menu* menu) {
-	// Buffer for å holde linjene fra PROGMEM og buffer for hele skjermen (128 tegn)
-	char buffer[16];
+	// Buffer for å holde linjene fra PROGMEM og Buffer for hele skjermen (128 tegn)
+	char buffer[16];  
 	char screen_buffer[128] = {0};  // Nullstiller hele bufferet
 
 	// Fyll bufferet med menyvalgene (fra PROGMEM)
@@ -18,20 +18,15 @@ void oled_display_menu(Menu* menu) {
 		uint8_t menu_index = i + menu->scroll_offset;
 		if (menu_index < menu->num_items) {
 			// Kopier menyteksten fra PROGMEM til bufferet
-			strncpy_P(buffer, menu->items[menu_index], 15);  // Les inntil 15 tegn
-			buffer[15] = '\0';  // Sørg for at strengen alltid er terminert
-
+			strncpy_P(buffer, menu->items[menu_index], 16);
 			// Kopier linjen til skjermbufferen
 			strncpy(&screen_buffer[i * 16], buffer, 16);
 		}
 	}
-	// Skriv bufferet til SRAM
+	// Skriv bufferet til SRAM og Sett pila på gjeldende posisjon innenfor synlig meny
 	oled_write_screen_to_SRAM(screen_buffer);
-
-	// Sett pila på gjeldende posisjon innenfor synlig meny
 	oled_write_char_to_SRAM(menu->current_position - menu->scroll_offset, 0, '>');
 }
-
 // Oppdater pilene i menyen når brukaren navigerer
 void update_menu_arrows(uint8_t new_position, uint8_t old_position) {
 	// Fjern pila frå den gamle posisjonen ved å skrive eit mellomrom
@@ -56,11 +51,12 @@ void update_menu_position_from_joystick(MultiBoard* board, Menu* menu) {
 			// då må vi og oppdatere heile menyen
 			if (menu->current_position < menu->scroll_offset) {
 				menu->scroll_offset--;
-				oled_display_menu(menu);
-			} else{
-				update_menu_arrows(menu->current_position - menu->scroll_offset, menu->prev_position - menu->scroll_offset);
-			}
-			_delay_ms(200);  // Forsinkelse for å unngå rask scrolling
+				//oled_display_menu(menu);
+			} 
+			//else{
+				//update_menu_arrows(menu->current_position - menu->scroll_offset, menu->prev_position - menu->scroll_offset);
+			//}
+			_delay_ms(100);  // Forsinkelse for å unngå rask scrolling
 		}
 	}
 	// Beveg nedover i menyen
@@ -73,10 +69,11 @@ void update_menu_position_from_joystick(MultiBoard* board, Menu* menu) {
 			// Hvis vi har nådd slutten av den synlege menyen, oppdater scroll_offset
 			if (menu->current_position >= menu->scroll_offset + MENU_ITEMS_PER_PAGE) {
 				menu->scroll_offset++;
-			} else{
-				update_menu_arrows(menu->current_position - menu->scroll_offset, menu->prev_position - menu->scroll_offset);
-			}
-			_delay_ms(200);  // Forsinkelse for å unngå rask scrolling
+			} 
+			//else{
+				//update_menu_arrows(menu->current_position - menu->scroll_offset, menu->prev_position - menu->scroll_offset);
+			//}
+			_delay_ms(100);  // Forsinkelse for å unngå rask scrolling
 		}
 	}
 }
@@ -96,30 +93,38 @@ tillater oss å modifisere pekeren som peker til den aktive menyen
 å bytte meny underveis, f.eks. fra hovedmeny til innstillingsmeny.
 - Ganske fett
 */
-void menu_navigate(MultiBoard* board, Menu** menu) {
+void menu_navigate(MultiBoard* board, Menu* menu) {
 
 	// Oppdater joystick- og menyposisjon
 	MultiBoard_Update(board);
-	update_menu_position_from_joystick(board, *menu);
+	update_menu_position_from_joystick(board, menu);
+
+
 
 	// Sjekk om knappen er trykt for å bekrefte menyval
 	if (is_joystick_button_pressed(board)) {
-		oled_write_screen_to_SRAM(smiley);
-		oled_data_from_SRAM();
-		_delay_ms(1000);
-		oled_clear_screen();
-		oled_data_from_SRAM();
-		_delay_ms(1000);
-		handleMenuSelection(board, *menu);  // Behandlar menyvalet
-		menu_changed = 1;  // Menyen vil endre seg etter valet
+		
+		handleMenuSelection(board, menu);  // Behandlar menyvalet
+		
 	}
-	// Sjekk om menyen har endra seg
-	if (menu_changed == 1) {
-		oled_display_menu(*menu);  // Oppdater OLED med den nye menyen
-		menu_changed = 0;  // Nullstill flagget etter oppdatering
-	}
-
+	write_menu_oled_to_SRAM(menu);
 	
+	
+}
+
+void write_menu_oled_to_SRAM(Menu* menu){
+	for (uint16_t j = 0; j < 128; j++) {
+		char c = pgm_read_byte(&menu->items[j]);
+		for(int i = 0; i < 8; i++){
+			if((j%16 == 0) & (j/16 == menu->current_position)){
+				SRAM_write(j*8 + i, pgm_read_byte(&font8x8_basic[('>'-32)*8 + i]));
+			}
+			else{
+				SRAM_write(j*8 + i, pgm_read_byte(&font8x8_basic[(c-32)*8 + i]));	
+			}
+			
+		}
+	}
 }
 
 
