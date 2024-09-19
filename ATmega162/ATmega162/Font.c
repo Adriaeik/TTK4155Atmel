@@ -341,18 +341,21 @@ const uint8_t emoji_sunglasses_1024[1024] PROGMEM = {
 
 // menyer::
 // Definer menyane og lagre dei i flash med PROGMEM
-const char mainMenuItems[8*16] PROGMEM = " Start Game      Settings        High Scores     Credits         Exit                                                           ";
+const char mainMenuItems[8*16] PROGMEM = 
+" Start Game     "
+" Settings       "
+" High Scores    "
+" Credits        "
+" Exit           ";
 
-const char scrollMenuItems[20][16] PROGMEM = {
-	" Item 1  BACK ", " Item 2       ", " Item 3       ", " Item 4       ", " Item 5       ",
-	" Item 6       ", " Item 7       ", " Item 8       ", " Item 9       ", " Item 10      ",
-	" Item 11      ", " Item 12      ", " Item 13      ", " Item 14      ", " Item 15      ",
-	" Item 16      ", " Item 17      ", " Item 18      ", " Item 19      ", " Item 20      "
-};
+const char scrollMenuItems[20*16] PROGMEM = 
+	" Item 1  BACK   " " Item 2         " " Item 3         " " Item 4         " " Item 5         "
+	" Item 6         " " Item 7         " " Item 8         " " Item 9         " " Item 10        "
+	" Item 11        " " Item 12        " " Item 13        " " Item 14        " " Item 15        "
+	" Item 16        " " Item 17        " " Item 18        " " Item 19        " " Item 20        ";
 
-const char settingsMenuItems[4][16] PROGMEM = {
-	" Sound        ",
-	" Brightness   ",
-	" Controls     ",
-	" Back         "
-};
+const char settingsMenuItems[4*16] PROGMEM = 
+	" Sound          "
+	" Brightness     "
+	" Controls       "
+	" Back           ";
