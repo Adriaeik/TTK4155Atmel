@@ -113,18 +113,45 @@ void menu_navigate(MultiBoard* board, Menu* menu) {
 }
 
 void write_menu_oled_to_SRAM(Menu* menu){
-	for (uint16_t j = 0; j < 128; j++) {
-		char c = pgm_read_byte(&menu->items[j]);
-		for(int i = 0; i < 8; i++){
-			if((j%16 == 0) & (j/16 == menu->current_position)){
-				SRAM_write(j*8 + i, pgm_read_byte(&font8x8_basic[('>'-32)*8 + i]));
+	uint8_t menuSize = menu->num_items;
+	
+	//Om det er 8 eller mindre linjer
+	if(menuSize <= 128){
+		for(uint16_t j = 0; j < menuSize*16; j++) {
+			char c = pgm_read_byte(&menu->items[j]);
+			for(int i = 0; i < 8; i++){
+				if((j%16 == 0) & (j/16 == menu->current_position)){
+					SRAM_write(j*8 + i, pgm_read_byte(&font8x8_basic[('>'-32)*8 + i]));
+				}
+				else{
+					SRAM_write(j*8 + i, pgm_read_byte(&font8x8_basic[(c-32)*8 + i]));	
+				}	
+			}	
+		}
+		//om menyen er mindre enn 8 linjer fyll resten med ' ' 
+		for(uint8_t i = 0; i < 128-menuSize*16; i++){
+			for(uint8_t j = 0; j < 8; j++){
+				SRAM_write(menuSize*16+i*16+j, 0);
 			}
-			else{
-				SRAM_write(j*8 + i, pgm_read_byte(&font8x8_basic[(c-32)*8 + i]));	
-			}
-			
 		}
 	}
+	
+	//Om det er mer enn 8 linjer
+	//litt usikker om scroll kan gå for høy her, men satser på nei
+	else{
+		for(uint16_t j = 0; j < menuSize*16; j++) {
+			char c = pgm_read_byte(&menu->items[menu->scroll_offset*16 + j]);
+			for(int i = 0; i < 8; i++){
+				if((j%16 == 0) & (j/16 == menu->current_position)){
+					SRAM_write(j*8 + i, pgm_read_byte(&font8x8_basic[('>'-32)*8 + i]));
+				}
+				else{
+					SRAM_write(j*8 + i, pgm_read_byte(&font8x8_basic[(c-32)*8 + i]));
+				}
+			}
+		}
+	}
+	
 }
 
 
