@@ -136,6 +136,7 @@ void write_menu_oled_to_SRAM(Menu* menu){
 		}
 	}
 	
+	
 	//Om det er mer enn 8 linjer
 	//litt usikker om scroll kan gå for høy her, men satser på nei
 	else{
