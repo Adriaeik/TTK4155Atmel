@@ -53,8 +53,8 @@ void oled_data_from_SRAM(void);
 void oled_update_display_non_blocking(void);				// ¤ bruker non blocking opdatering, men kanskje like greit å ha dinna if setninga på utsida
 
 /*______________IKKJE_TESTA______________*/
-void oled_write_screen_to_SRAM(const char screen[128]);					//sender inn ein array av char som dekker skjermen, skal fynne tomme rom med space (` `)
-void oled_write_FULLscreen_to_SRAM(const uint8_t screen_1024[1024]);		//sender inn ein bitstring
+void oled_write_screen_to_SRAM(const char *screen);					//sender inn ein array av char som dekker skjermen, skal fynne tomme rom med space (` `)
+void oled_write_FULLscreen_to_SRAM(const uint8_t *screen_1024);		//sender inn ein bitstring
 void oled_write_line_to_SRAM(uint8_t line, const char* data);			//lar deg skrive på kun ein linje, overskriver alt på linja
 void oled_write_char_to_SRAM(uint8_t row, uint8_t col, char c);			//lar deg overskrive ein spesifik char på displayet, og kun det. slik at man kan enkelt flytte menypila uten å skrive heile skjermen
 void oled_write_pixel_to_SRAM(uint8_t row, uint8_t col, uint8_t value);	//lar deg teikne ein pixel på spesifik plass, brukt av teikningfunksjonane

@@ -83,6 +83,14 @@ uint8_t is_joystick_button_pressed(MultiBoard* board) {
 
 static uint8_t menu_changed = 1;  // Flag for å spore endringar i menyen
 // Funksjon for å navigere i menyen uten blokkering
+
+/*
+Grunnen til at vi bruker en dobbeltpeker (Menu**) i menu_navigate er at det 
+tillater oss å modifisere pekeren som peker til den aktive menyen 
+(f.eks. current_menu) inne i funksjonen. Dette er nyttig hvis vi trenger 
+å bytte meny underveis, f.eks. fra hovedmeny til innstillingsmeny.
+- Ganske fett
+*/
 void menu_navigate(MultiBoard* board, Menu** menu) {
 
 	// Oppdater joystick- og menyposisjon
@@ -98,7 +106,7 @@ void menu_navigate(MultiBoard* board, Menu** menu) {
 	// Sjekk om knappen er trykt for å bekrefte menyval
 	if (is_joystick_button_pressed(board)) {
 		oled_clear_screen();
-		handleMenuSelection(board, menu);  // Behandlar menyvalet
+		handleMenuSelection(board, *menu);  // Behandlar menyvalet
 		menu_changed = 1;  // Menyen vil endre seg etter valet
 	}
 }

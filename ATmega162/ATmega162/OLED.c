@@ -178,16 +178,19 @@ void oled_update_display_non_blocking(void) {
 
 
 /*______________IKKJE_TESTA______________*/
-void oled_write_screen_to_SRAM(const char screen[128]){
+void oled_write_screen_to_SRAM(const char *screen) {
 	for (int j = 0; j < 128; j++) {
+		// Les byte direkte frå PROGMEM
+		char c = pgm_read_byte(&screen[j]);
+
 		// Forsikre at char er i ASCII-intervall
-		if (screen[j] >= 32 && screen[j] <= 127) {
+		if (c >= 32 && c <= 127) {
 			// Skriv teiknet frå fonten til SRAM
 			for (uint8_t i = 0; i < 8; i++) {
-				SRAM_write(j * 8 + i, pgm_read_byte(&font8x8_basic[(screen[j] - 32) * 8 + i]));
+				SRAM_write(j * 8 + i, pgm_read_byte(&font8x8_basic[(c - 32) * 8 + i]));
 			}
 			} else {
-			// bruk mellomrom (' ') som standard for ugyldige teikn
+			// Bruk mellomrom (' ') som standard for ugyldige teikn
 			for (uint8_t i = 0; i < 8; i++) {
 				SRAM_write(j * 8 + i, pgm_read_byte(&font8x8_basic[(0x20 - 32) * 8 + i])); // ASCII 0x20 for space
 			}
@@ -195,7 +198,8 @@ void oled_write_screen_to_SRAM(const char screen[128]){
 	}
 }
 
-void oled_write_FULLscreen_to_SRAM(const uint8_t screen_1024[1024]) {
+
+void oled_write_FULLscreen_to_SRAM(const uint8_t *screen_1024) {
 	// Gå gjennom hele bufferet og skriv til SRAM, men les frå PROGMEM
 	for (uint16_t i = 0; i < 1024; i++) {
 		// Les byte direkte frå Flash og skriv til SRAM
