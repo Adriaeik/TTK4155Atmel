@@ -9,9 +9,8 @@ MenuState currentMenuState = MAIN_MENU;  // Start i hovudmenyen
 Menu* current_menu = NULL;
 
 void oled_display_menu(Menu* menu) {
-	char buffer[16];  // Buffer for å holde linjene fra PROGMEM
-
-	// Buffer for hele skjermen (128 tegn)
+	// Buffer for å holde linjene fra PROGMEM og Buffer for hele skjermen (128 tegn)
+	char buffer[16];  
 	char screen_buffer[128] = {0};  // Nullstiller hele bufferet
 
 	// Fyll bufferet med menyvalgene (fra PROGMEM)
@@ -24,12 +23,17 @@ void oled_display_menu(Menu* menu) {
 			strncpy(&screen_buffer[i * 16], buffer, 16);
 		}
 	}
-
-	// Skriv bufferet til SRAM
+	// Skriv bufferet til SRAM og Sett pila på gjeldende posisjon innenfor synlig meny
 	oled_write_screen_to_SRAM(screen_buffer);
-
-	// Sett pila på gjeldende posisjon innenfor synlig meny
 	oled_write_char_to_SRAM(menu->current_position - menu->scroll_offset, 0, '>');
+}
+// Oppdater pilene i menyen når brukaren navigerer
+void update_menu_arrows(uint8_t new_position, uint8_t old_position) {
+	// Fjern pila frå den gamle posisjonen ved å skrive eit mellomrom
+	oled_write_char_to_SRAM(old_position, 0, ' ');
+
+	// Set pila på den nye posisjonen
+	oled_write_char_to_SRAM(new_position, 0, '>');
 }
 
 
@@ -44,10 +48,13 @@ void update_menu_position_from_joystick(MultiBoard* board, Menu* menu) {
 			menu->current_position--;
 
 			// Hvis vi har scrollet forbi synlege element, oppdater scroll_offset
+			// då må vi og oppdatere heile menyen
 			if (menu->current_position < menu->scroll_offset) {
 				menu->scroll_offset--;
+				oled_display_menu(menu);
+			} else{
+				update_menu_arrows(menu->current_position - menu->scroll_offset, menu->prev_position - menu->scroll_offset);
 			}
-			update_menu_arrows(menu->current_position - menu->scroll_offset, menu->prev_position - menu->scroll_offset);
 			_delay_ms(200);  // Forsinkelse for å unngå rask scrolling
 		}
 	}
@@ -61,8 +68,9 @@ void update_menu_position_from_joystick(MultiBoard* board, Menu* menu) {
 			// Hvis vi har nådd slutten av den synlege menyen, oppdater scroll_offset
 			if (menu->current_position >= menu->scroll_offset + MENU_ITEMS_PER_PAGE) {
 				menu->scroll_offset++;
+			} else{
+				update_menu_arrows(menu->current_position - menu->scroll_offset, menu->prev_position - menu->scroll_offset);
 			}
-			update_menu_arrows(menu->current_position - menu->scroll_offset, menu->prev_position - menu->scroll_offset);
 			_delay_ms(200);  // Forsinkelse for å unngå rask scrolling
 		}
 	}
@@ -95,14 +103,6 @@ void menu_navigate(MultiBoard* board, Menu** menu) {
 	}
 }
 
-// Oppdater pilene i menyen når brukaren navigerer
-void update_menu_arrows(uint8_t new_position, uint8_t old_position) {
-	// Fjern pila frå den gamle posisjonen ved å skrive eit mellomrom
-	oled_write_char_to_SRAM(old_position, 0, ' ');
-
-	// Set pila på den nye posisjonen
-	oled_write_char_to_SRAM(new_position, 0, '>');
-}
 
 
 

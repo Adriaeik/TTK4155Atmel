@@ -124,8 +124,6 @@ void handleMenuSelection(MultiBoard* board, Menu* menu) {
 			oled_write_line_to_SRAM(0, "Ugyldig valg");
 			break;
 		}
-		// Når du ønsker å gå tilbake til hovudmenyen, legg inn ein eigen tilbake-funksjon
-		// Bruk dette kun når "Back" blir eksplisitt valgt
 		break;
 	}
 }

@@ -32,9 +32,17 @@ int main(void) {
 	/*_______TEST OLED______________________*/
 	
 	oled_home();
-	write_string_to_SRAM(smiley);
+	oled_write_screen_to_SRAM(smiley);
 	oled_data_from_SRAM();
 	_delay_ms(1000); //smile litt før start
+	
+	//linje og slikt
+	oled_clear_screen();
+	oled_draw_line(10, 10, 100, 50);
+	oled_draw_circle(64, 32, 20);
+	oled_draw_square(20, 20, 40, 30);
+	oled_data_from_SRAM();
+	_delay_ms(10000);
 	
 	/*_______HOVUDLØKKE______*/
 	 while (1) {

@@ -6,7 +6,7 @@
  */ 
 
 #include "OLED.h"
-
+#include <stdlib.h>
 
 
 // Funksjon for å sende kommando til OLED-skjermen
@@ -51,20 +51,11 @@ void oled_clear_page(uint8_t page){
 	oled_write_data(empty, 128);
 }
 
-void oled_update_full_screen(uint8_t *data) {
-	// Skriv først til dei første 4 sidene (halvparten av skjermen)
-	for (uint8_t page = 0; page < 4; page++) {
-		oled_set_page(page);              // Velg side (page 0 til 3)
-		oled_set_column(0);               // Start frå kolonne 0
-		oled_write_data(&data[page * 128], 128);  // Skriv 128 bytes (full breidde) for kvar side
+void oled_update_full_screen(uint8_t* buffer) {
+	for (uint16_t i = 0; i < OLED_BUFFER_SIZE; i++) {
+		SRAM_write(i, buffer[i]);  // Skriv bufferet til SRAM
 	}
-
-	// Skriv til dei resterande 4 sidene (andre halvdel av skjermen)
-	for (uint8_t page = 4; page < 8; page++) {
-		oled_set_page(page);              // Velg side (page 4 til 7)
-		oled_set_column(0);               // Start frå kolonne 0
-		oled_write_data(&data[page * 128], 128);  // Skriv 128 bytes for kvar side
-	}
+	oled_data_from_SRAM();  // Oppdater skjermen fra SRAM
 }
 
 // Funksjon for å setje OLED-skjermen i heimeposisjon (første side og kolonne)
@@ -185,22 +176,6 @@ void oled_update_display_non_blocking(void) {
 	}
 }
 
-void write_string_to_SRAM(const char solkorset[128]) {
-	for (int j = 0; j < 128; j++) {
-		// Forsikre deg om at teiknet er innanfor gyldig ASCII-intervall for fonten din
-		if (solkorset[j] >= 32 && solkorset[j] <= 127) {
-			// Skriv teiknet frå fonten til SRAM
-			for (uint8_t i = 0; i < 8; i++) {
-				SRAM_write(j * 8 + i, pgm_read_byte(&font8x8_basic[(solkorset[j] - 32) * 8 + i]));
-			}
-			} else {
-			// Viss teiknet ikkje er gyldig, bruk mellomrom (' ') som standard
-			for (uint8_t i = 0; i < 8; i++) {
-				SRAM_write(j * 8 + i, pgm_read_byte(&font8x8_basic[(0x20 - 32) * 8 + i])); // ASCII 0x20 for space
-			}
-		}
-	}
-}
 
 /*______________IKKJE_TESTA______________*/
 void oled_write_screen_to_SRAM(const char screen[128]){
@@ -263,6 +238,27 @@ void oled_write_char_to_SRAM(uint8_t row, uint8_t col, char c) {
 		SRAM_write(sram_address + i, pgm_read_byte(&font8x8_basic[(c - 32) * 8 + i]));
 	}
 }
+
+void oled_write_pixel_to_SRAM(uint8_t row, uint8_t col, uint8_t value) {
+	if (row >= 64 || col >= 128) {
+		return;
+	}
+	
+	// Finn korrekt byte i SRAM for å justere pikslen
+	uint16_t sram_address = (row / 8) * 128 + col;
+	uint8_t current_byte = SRAM_read(sram_address);
+	uint8_t bit_position = row % 8;
+
+	// Sett eller nullstill den ønskede biten
+	if (value) {
+		current_byte |= (1 << bit_position);  // Sett bit til 1
+		} else {
+		current_byte &= ~(1 << bit_position);  // Nullstill bit til 0
+	}
+	
+	SRAM_write(sram_address, current_byte);
+}
+
 void oled_clear_screen(void) {
 	// Lag en tom buffer fylt med nuller eller mellomrom (0 er nok, fordi funksjonen oversetter til ' ')
 	char empty_buffer[128] = {0};  // Heile skjermen, 128 tegn
@@ -271,3 +267,58 @@ void oled_clear_screen(void) {
 	oled_write_screen_to_SRAM(empty_buffer);
 }
 
+void oled_draw_line(uint8_t x0, uint8_t y0, uint8_t x1, uint8_t y1) {
+	int dx = abs(x1 - x0);
+	int dy = abs(y1 - y0);
+	int sx = (x0 < x1) ? 1 : -1;
+	int sy = (y0 < y1) ? 1 : -1;
+	int err = dx - dy;
+
+	while (1) {
+		oled_write_pixel_to_SRAM(y0, x0, 1);  // Tegn piksel
+
+		if (x0 == x1 && y0 == y1) break;
+		int e2 = 2 * err;
+		if (e2 > -dy) {
+			err -= dy;
+			x0 += sx;
+		}
+		if (e2 < dx) {
+			err += dx;
+			y0 += sy;
+		}
+	}
+}
+
+void oled_draw_circle(uint8_t x0, uint8_t y0, uint8_t radius) {
+	int x = radius;
+	int y = 0;
+	int err = 0;
+
+	while (x >= y) {
+		oled_write_pixel_to_SRAM(y0 + y, x0 + x, 1);
+		oled_write_pixel_to_SRAM(y0 + y, x0 - x, 1);
+		oled_write_pixel_to_SRAM(y0 - y, x0 + x, 1);
+		oled_write_pixel_to_SRAM(y0 - y, x0 - x, 1);
+		oled_write_pixel_to_SRAM(y0 + x, x0 + y, 1);
+		oled_write_pixel_to_SRAM(y0 + x, x0 - y, 1);
+		oled_write_pixel_to_SRAM(y0 - x, x0 + y, 1);
+		oled_write_pixel_to_SRAM(y0 - x, x0 - y, 1);
+
+		if (err <= 0) {
+			y += 1;
+			err += 2 * y + 1;
+		}
+		if (err > 0) {
+			x -= 1;
+			err -= 2 * x + 1;
+		}
+	}
+}
+
+void oled_draw_square(uint8_t x0, uint8_t y0, uint8_t width, uint8_t height) {
+	oled_draw_line(x0, y0, x0 + width, y0);           // Øvre linje
+	oled_draw_line(x0, y0 + height, x0 + width, y0 + height);  // Nedre linje
+	oled_draw_line(x0, y0, x0, y0 + height);           // Venstre linje
+	oled_draw_line(x0 + width, y0, x0 + width, y0 + height);   // Høyre linje
+}

@@ -9,7 +9,7 @@ c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/..
 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr5\libgcc.a(_copy_data.o)
                               DriverUART.o (__do_copy_data)
 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr5\libgcc.a(_clear_bss.o)
-                              main.o (__do_clear_bss)
+                              Menu.o (__do_clear_bss)
 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr5\libgcc.a(_udivmodhi4.o)
                               c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr5\libgcc.a(_divmodhi4.o) (__udivmodhi4)
 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr5\libc.a(rand.o)
@@ -53,8 +53,6 @@ Allocating common symbols
 Common symbol       size              file
 
 settingsMenu        0x6               Menu_init.o
-oled_skjerm_fra_SRAM
-                    0x400             main.o
 mainMenu            0x6               Menu_init.o
 __iob               0x6               c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr5\libc.a(iob.o)
 scrollMenu          0x6               Menu_init.o
@@ -74,7 +72,6 @@ Discarded input sections
  .text          0x00000000        0x0 main.o
  .data          0x00000000        0x0 main.o
  .bss           0x00000000        0x0 main.o
- COMMON         0x00000000      0x400 main.o
  .text          0x00000000        0x0 Menu.o
  .data          0x00000000        0x0 Menu.o
  .bss           0x00000000        0x0 Menu.o
@@ -89,8 +86,6 @@ Discarded input sections
  .text          0x00000000        0x0 OLED.o
  .data          0x00000000        0x0 OLED.o
  .bss           0x00000000        0x0 OLED.o
- .text.oled_update_full_screen
-                0x00000000       0x60 OLED.o
  .text.oled_print_char
                 0x00000000       0x56 OLED.o
  .text.setup_printf_for_oled
@@ -103,6 +98,8 @@ Discarded input sections
                 0x00000000       0x46 OLED.o
  .text.oled_putchar
                 0x00000000       0x6c OLED.o
+ .text.oled_update_full_screen
+                0x00000000       0x32 OLED.o
  .text.oled_update_display_non_blocking
                 0x00000000       0x18 OLED.o
  .text.oled_write_FULLscreen_to_SRAM
@@ -528,7 +525,7 @@ END GROUP
 .rela.plt
  *(.rela.plt)
 
-.text           0x00000000     0x125a
+.text           0x00000000     0x1424
  *(.vectors)
  .vectors       0x00000000       0x70 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.3.300/gcc/dev/atmega162/avr5/crtatmega162.o
                 0x00000000                __vector_default
@@ -651,122 +648,131 @@ END GROUP
  .text.__vector_19
                 0x000005cc       0x1a DriverUART.o
                 0x000005cc                __vector_19
- .text.main     0x000005e6       0x90 main.o
+ .text.main     0x000005e6       0xd2 main.o
                 0x000005e6                main
  .text.oled_display_menu
-                0x00000676       0xb2 Menu.o
-                0x00000676                oled_display_menu
+                0x000006b8       0xb2 Menu.o
+                0x000006b8                oled_display_menu
  .text.update_menu_arrows
-                0x00000728       0x1c Menu.o
-                0x00000728                update_menu_arrows
+                0x0000076a       0x1c Menu.o
+                0x0000076a                update_menu_arrows
  .text.update_menu_position_from_joystick
-                0x00000744       0xae Menu.o
-                0x00000744                update_menu_position_from_joystick
+                0x00000786       0xa6 Menu.o
+                0x00000786                update_menu_position_from_joystick
  .text.menu_navigate
-                0x000007f2       0x54 Menu.o
-                0x000007f2                menu_navigate
+                0x0000082c       0x54 Menu.o
+                0x0000082c                menu_navigate
  .text.initialize_menus
-                0x00000846       0x44 Menu_init.o
-                0x00000846                initialize_menus
+                0x00000880       0x44 Menu_init.o
+                0x00000880                initialize_menus
  .text.handleMenuSelection
-                0x0000088a      0x12a Menu_init.o
-                0x0000088a                handleMenuSelection
+                0x000008c4      0x12a Menu_init.o
+                0x000008c4                handleMenuSelection
  .text.MultiBoard_Init
-                0x000009b4       0x52 MultiBoard.o
-                0x000009b4                MultiBoard_Init
+                0x000009ee       0x52 MultiBoard.o
+                0x000009ee                MultiBoard_Init
  .text.MultiBoard_UpdateJoystickAngle
-                0x00000a06       0xda MultiBoard.o
-                0x00000a06                MultiBoard_UpdateJoystickAngle
+                0x00000a40       0xda MultiBoard.o
+                0x00000a40                MultiBoard_UpdateJoystickAngle
  .text.MultiBoard_Update
-                0x00000ae0       0x7c MultiBoard.o
-                0x00000ae0                MultiBoard_Update
+                0x00000b1a       0x7c MultiBoard.o
+                0x00000b1a                MultiBoard_Update
  .text.oled_write_command
-                0x00000b5c        0xc OLED.o
-                0x00000b5c                oled_write_command
+                0x00000b96        0xc OLED.o
+                0x00000b96                oled_write_command
  .text.oled_write_data
-                0x00000b68       0x40 OLED.o
-                0x00000b68                oled_write_data
+                0x00000ba2       0x40 OLED.o
+                0x00000ba2                oled_write_data
  .text.oled_set_page
-                0x00000ba8        0xa OLED.o
-                0x00000ba8                oled_set_page
+                0x00000be2        0xa OLED.o
+                0x00000be2                oled_set_page
  .text.oled_set_column
-                0x00000bb2       0x1a OLED.o
-                0x00000bb2                oled_set_column
+                0x00000bec       0x1a OLED.o
+                0x00000bec                oled_set_column
  .text.oled_home
-                0x00000bcc        0xe OLED.o
-                0x00000bcc                oled_home
+                0x00000c06        0xe OLED.o
+                0x00000c06                oled_home
  .text.oled_init
-                0x00000bda       0x86 OLED.o
-                0x00000bda                oled_init
+                0x00000c14       0x86 OLED.o
+                0x00000c14                oled_init
  .text.oled_data_from_SRAM
-                0x00000c60       0xa4 OLED.o
-                0x00000c60                oled_data_from_SRAM
- .text.write_string_to_SRAM
-                0x00000d04       0xc8 OLED.o
-                0x00000d04                write_string_to_SRAM
+                0x00000c9a       0xa4 OLED.o
+                0x00000c9a                oled_data_from_SRAM
  .text.oled_write_screen_to_SRAM
-                0x00000dcc       0xc8 OLED.o
-                0x00000dcc                oled_write_screen_to_SRAM
+                0x00000d3e       0xc8 OLED.o
+                0x00000d3e                oled_write_screen_to_SRAM
  .text.oled_write_line_to_SRAM
-                0x00000e94       0xf0 OLED.o
-                0x00000e94                oled_write_line_to_SRAM
+                0x00000e06       0xf0 OLED.o
+                0x00000e06                oled_write_line_to_SRAM
  .text.oled_write_char_to_SRAM
-                0x00000f84       0x7a OLED.o
-                0x00000f84                oled_write_char_to_SRAM
+                0x00000ef6       0x7a OLED.o
+                0x00000ef6                oled_write_char_to_SRAM
+ .text.oled_write_pixel_to_SRAM
+                0x00000f70       0x68 OLED.o
+                0x00000f70                oled_write_pixel_to_SRAM
  .text.oled_clear_screen
-                0x00000ffe       0x3c OLED.o
-                0x00000ffe                oled_clear_screen
+                0x00000fd8       0x3c OLED.o
+                0x00000fd8                oled_clear_screen
+ .text.oled_draw_line
+                0x00001014       0xc6 OLED.o
+                0x00001014                oled_draw_line
+ .text.oled_draw_circle
+                0x000010da       0xe0 OLED.o
+                0x000010da                oled_draw_circle
+ .text.oled_draw_square
+                0x000011ba       0x4a OLED.o
+                0x000011ba                oled_draw_square
  .text.__vector_15
-                0x0000103a       0x4a Utils.o
-                0x0000103a                __vector_15
+                0x00001204       0x4a Utils.o
+                0x00001204                __vector_15
  .text.get_time_in_cycles
-                0x00001084       0x28 Utils.o
-                0x00001084                get_time_in_cycles
+                0x0000124e       0x28 Utils.o
+                0x0000124e                get_time_in_cycles
  .text.get_time_in_ms
-                0x000010ac       0x16 Utils.o
-                0x000010ac                get_time_in_ms
+                0x00001276       0x16 Utils.o
+                0x00001276                get_time_in_ms
  .text.setup_timer
-                0x000010c2       0x10 Utils.o
-                0x000010c2                setup_timer
+                0x0000128c       0x10 Utils.o
+                0x0000128c                setup_timer
  .text.restart_timer
-                0x000010d2       0x16 Utils.o
-                0x000010d2                restart_timer
+                0x0000129c       0x16 Utils.o
+                0x0000129c                restart_timer
  .text.externalMemoryInit
-                0x000010e8       0x1e XMEM_Decode.o
-                0x000010e8                externalMemoryInit
+                0x000012b2       0x1e XMEM_Decode.o
+                0x000012b2                externalMemoryInit
  .text.SRAM_write
-                0x00001106       0x20 XMEM_Decode.o
-                0x00001106                SRAM_write
+                0x000012d0       0x20 XMEM_Decode.o
+                0x000012d0                SRAM_write
  .text.SRAM_read
-                0x00001126       0x20 XMEM_Decode.o
-                0x00001126                SRAM_read
+                0x000012f0       0x20 XMEM_Decode.o
+                0x000012f0                SRAM_read
  .text.Universal_write
-                0x00001146       0x20 XMEM_Decode.o
-                0x00001146                Universal_write
+                0x00001310       0x20 XMEM_Decode.o
+                0x00001310                Universal_write
  .text.Universal_read
-                0x00001166       0x20 XMEM_Decode.o
-                0x00001166                Universal_read
+                0x00001330       0x20 XMEM_Decode.o
+                0x00001330                Universal_read
  .text.libgcc.div
-                0x00001186       0x28 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr5\libgcc.a(_divmodhi4.o)
-                0x00001186                _div
-                0x00001186                __divmodhi4
+                0x00001350       0x28 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr5\libgcc.a(_divmodhi4.o)
+                0x00001350                _div
+                0x00001350                __divmodhi4
  .text.libgcc.div
-                0x000011ae       0x44 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr5\libgcc.a(_udivmodsi4.o)
-                0x000011ae                __udivmodsi4
+                0x00001378       0x44 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr5\libgcc.a(_udivmodsi4.o)
+                0x00001378                __udivmodsi4
  .text.libgcc.div
-                0x000011f2       0x28 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr5\libgcc.a(_udivmodhi4.o)
-                0x000011f2                __udivmodhi4
+                0x000013bc       0x28 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr5\libgcc.a(_udivmodhi4.o)
+                0x000013bc                __udivmodhi4
  .text.avr-libc
-                0x0000121a       0x1e c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr5\libc.a(strncpy_P.o)
-                0x0000121a                strncpy_P
+                0x000013e4       0x1e c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr5\libc.a(strncpy_P.o)
+                0x000013e4                strncpy_P
  .text.avr-libc
-                0x00001238       0x1e c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr5\libc.a(strncpy.o)
-                0x00001238                strncpy
-                0x00001256                . = ALIGN (0x2)
+                0x00001402       0x1e c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr5\libc.a(strncpy.o)
+                0x00001402                strncpy
+                0x00001420                . = ALIGN (0x2)
  *(.fini9)
- .fini9         0x00001256        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr5\libgcc.a(_exit.o)
-                0x00001256                _exit
-                0x00001256                exit
+ .fini9         0x00001420        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr5\libgcc.a(_exit.o)
+                0x00001420                _exit
+                0x00001420                exit
  *(.fini9)
  *(.fini8)
  *(.fini8)
@@ -785,11 +791,11 @@ END GROUP
  *(.fini1)
  *(.fini1)
  *(.fini0)
- .fini0         0x00001256        0x4 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr5\libgcc.a(_exit.o)
+ .fini0         0x00001420        0x4 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr5\libgcc.a(_exit.o)
  *(.fini0)
-                0x0000125a                _etext = .
+                0x00001424                _etext = .
 
-.data           0x00800100      0x1ba load address 0x0000125a
+.data           0x00800100      0x1ba load address 0x00001424
                 0x00800100                PROVIDE (__data_start, .)
  *(.data)
  *(.data*)
@@ -834,8 +840,8 @@ END GROUP
  COMMON         0x008002d3        0x6 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr5\libc.a(iob.o)
                 0x008002d3                __iob
                 0x008002d9                PROVIDE (__bss_end, .)
-                0x0000125a                __data_load_start = LOADADDR (.data)
-                0x00001414                __data_load_end = (__data_load_start + SIZEOF (.data))
+                0x00001424                __data_load_start = LOADADDR (.data)
+                0x000015de                __data_load_end = (__data_load_start + SIZEOF (.data))
 
 .noinit         0x008002d9        0x0
                 [!provide]                PROVIDE (__noinit_start, .)
@@ -915,7 +921,7 @@ END GROUP
 .debug_sfnames
  *(.debug_sfnames)
 
-.debug_aranges  0x00000000      0x270
+.debug_aranges  0x00000000      0x288
  *(.debug_aranges)
  .debug_aranges
                 0x00000000       0x60 DriverUART.o
@@ -930,97 +936,97 @@ END GROUP
  .debug_aranges
                 0x00000100       0x30 MultiBoard.o
  .debug_aranges
-                0x00000130       0xc0 OLED.o
+                0x00000130       0xd8 OLED.o
  .debug_aranges
-                0x000001f0       0x40 Utils.o
+                0x00000208       0x40 Utils.o
  .debug_aranges
-                0x00000230       0x40 XMEM_Decode.o
+                0x00000248       0x40 XMEM_Decode.o
 
 .debug_pubnames
  *(.debug_pubnames)
 
-.debug_info     0x00000000     0x2df1
+.debug_info     0x00000000     0x3093
  *(.debug_info .gnu.linkonce.wi.*)
  .debug_info    0x00000000      0x5d0 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.3.300/gcc/dev/atmega162/avr5/crtatmega162.o
  .debug_info    0x000005d0      0x2fc DriverUART.o
  .debug_info    0x000008cc       0x95 Font.o
- .debug_info    0x00000961      0x459 main.o
- .debug_info    0x00000dba      0x67c Menu.o
- .debug_info    0x00001436      0x4fe Menu_init.o
- .debug_info    0x00001934      0x2db MultiBoard.o
- .debug_info    0x00001c0f      0xe9c OLED.o
- .debug_info    0x00002aab      0x16d Utils.o
- .debug_info    0x00002c18      0x1d9 XMEM_Decode.o
+ .debug_info    0x00000961      0x53d main.o
+ .debug_info    0x00000e9e      0x635 Menu.o
+ .debug_info    0x000014d3      0x4db Menu_init.o
+ .debug_info    0x000019ae      0x2db MultiBoard.o
+ .debug_info    0x00001c89     0x10c4 OLED.o
+ .debug_info    0x00002d4d      0x16d Utils.o
+ .debug_info    0x00002eba      0x1d9 XMEM_Decode.o
 
-.debug_abbrev   0x00000000     0x1238
+.debug_abbrev   0x00000000     0x1204
  *(.debug_abbrev)
  .debug_abbrev  0x00000000      0x580 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.3.300/gcc/dev/atmega162/avr5/crtatmega162.o
  .debug_abbrev  0x00000580      0x1f5 DriverUART.o
  .debug_abbrev  0x00000775       0x5d Font.o
- .debug_abbrev  0x000007d2      0x18d main.o
- .debug_abbrev  0x0000095f      0x22d Menu.o
- .debug_abbrev  0x00000b8c      0x150 Menu_init.o
- .debug_abbrev  0x00000cdc       0xf5 MultiBoard.o
- .debug_abbrev  0x00000dd1      0x2a8 OLED.o
- .debug_abbrev  0x00001079       0xd2 Utils.o
- .debug_abbrev  0x0000114b       0xed XMEM_Decode.o
+ .debug_abbrev  0x000007d2      0x19d main.o
+ .debug_abbrev  0x0000096f      0x20c Menu.o
+ .debug_abbrev  0x00000b7b      0x147 Menu_init.o
+ .debug_abbrev  0x00000cc2       0xf5 MultiBoard.o
+ .debug_abbrev  0x00000db7      0x28e OLED.o
+ .debug_abbrev  0x00001045       0xd2 Utils.o
+ .debug_abbrev  0x00001117       0xed XMEM_Decode.o
 
-.debug_line     0x00000000     0x14ea
+.debug_line     0x00000000     0x1601
  *(.debug_line .debug_line.* .debug_line_end)
  .debug_line    0x00000000      0x13f C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.3.300/gcc/dev/atmega162/avr5/crtatmega162.o
  .debug_line    0x0000013f      0x1b2 DriverUART.o
  .debug_line    0x000002f1       0x8b Font.o
- .debug_line    0x0000037c      0x1d2 main.o
- .debug_line    0x0000054e      0x2e5 Menu.o
- .debug_line    0x00000833      0x217 Menu_init.o
- .debug_line    0x00000a4a      0x21a MultiBoard.o
- .debug_line    0x00000c64      0x622 OLED.o
- .debug_line    0x00001286      0x124 Utils.o
- .debug_line    0x000013aa      0x140 XMEM_Decode.o
+ .debug_line    0x0000037c      0x1fc main.o
+ .debug_line    0x00000578      0x2ea Menu.o
+ .debug_line    0x00000862      0x217 Menu_init.o
+ .debug_line    0x00000a79      0x21a MultiBoard.o
+ .debug_line    0x00000c93      0x70a OLED.o
+ .debug_line    0x0000139d      0x124 Utils.o
+ .debug_line    0x000014c1      0x140 XMEM_Decode.o
 
-.debug_frame    0x00000000      0x690
+.debug_frame    0x00000000      0x724
  *(.debug_frame)
  .debug_frame   0x00000000       0xbc DriverUART.o
  .debug_frame   0x000000bc       0x34 main.o
  .debug_frame   0x000000f0       0xac Menu.o
  .debug_frame   0x0000019c       0x34 Menu_init.o
  .debug_frame   0x000001d0       0x5c MultiBoard.o
- .debug_frame   0x0000022c      0x33c OLED.o
- .debug_frame   0x00000568       0x84 Utils.o
- .debug_frame   0x000005ec       0xa4 XMEM_Decode.o
+ .debug_frame   0x0000022c      0x3d0 OLED.o
+ .debug_frame   0x000005fc       0x84 Utils.o
+ .debug_frame   0x00000680       0xa4 XMEM_Decode.o
 
-.debug_str      0x00000000      0xaaa
+.debug_str      0x00000000      0xaac
  *(.debug_str)
  .debug_str     0x00000000      0x1f6 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.3.300/gcc/dev/atmega162/avr5/crtatmega162.o
- .debug_str     0x000001f6      0x228 DriverUART.o
-                                0x26b (size before relaxing)
- .debug_str     0x0000041e       0x23 Font.o
-                                0x185 (size before relaxing)
- .debug_str     0x00000441      0x248 main.o
-                                0x3b9 (size before relaxing)
- .debug_str     0x00000689      0x165 Menu.o
-                                0x443 (size before relaxing)
- .debug_str     0x000007ee       0x79 Menu_init.o
-                                0x374 (size before relaxing)
- .debug_str     0x00000867       0x50 MultiBoard.o
-                                0x24d (size before relaxing)
- .debug_str     0x000008b7      0x18b OLED.o
-                                0x462 (size before relaxing)
- .debug_str     0x00000a42       0x3b Utils.o
-                                0x1f5 (size before relaxing)
- .debug_str     0x00000a7d       0x2d XMEM_Decode.o
-                                0x1e9 (size before relaxing)
+ .debug_str     0x000001f6      0x231 DriverUART.o
+                                0x274 (size before relaxing)
+ .debug_str     0x00000427       0x23 Font.o
+                                0x18e (size before relaxing)
+ .debug_str     0x0000044a      0x22a main.o
+                                0x3ec (size before relaxing)
+ .debug_str     0x00000674      0x139 Menu.o
+                                0x42e (size before relaxing)
+ .debug_str     0x000007ad       0x79 Menu_init.o
+                                0x35f (size before relaxing)
+ .debug_str     0x00000826       0x50 MultiBoard.o
+                                0x256 (size before relaxing)
+ .debug_str     0x00000876      0x1ce OLED.o
+                                0x4ac (size before relaxing)
+ .debug_str     0x00000a44       0x3b Utils.o
+                                0x1fe (size before relaxing)
+ .debug_str     0x00000a7f       0x2d XMEM_Decode.o
+                                0x1f2 (size before relaxing)
 
-.debug_loc      0x00000000     0x1898
+.debug_loc      0x00000000     0x1c83
  *(.debug_loc)
  .debug_loc     0x00000000      0x11a DriverUART.o
- .debug_loc     0x0000011a       0x47 main.o
- .debug_loc     0x00000161      0x3d9 Menu.o
- .debug_loc     0x0000053a      0x228 Menu_init.o
- .debug_loc     0x00000762      0x17a MultiBoard.o
- .debug_loc     0x000008dc      0xdd9 OLED.o
- .debug_loc     0x000016b5       0x63 Utils.o
- .debug_loc     0x00001718      0x180 XMEM_Decode.o
+ .debug_loc     0x0000011a       0x8e main.o
+ .debug_loc     0x000001a8      0x415 Menu.o
+ .debug_loc     0x000005bd      0x228 Menu_init.o
+ .debug_loc     0x000007e5      0x17a MultiBoard.o
+ .debug_loc     0x0000095f     0x1141 OLED.o
+ .debug_loc     0x00001aa0       0x63 Utils.o
+ .debug_loc     0x00001b03      0x180 XMEM_Decode.o
 
 .debug_macinfo
  *(.debug_macinfo)
@@ -1040,16 +1046,16 @@ END GROUP
 .debug_pubtypes
  *(.debug_pubtypes)
 
-.debug_ranges   0x00000000      0x1f0
+.debug_ranges   0x00000000      0x208
  *(.debug_ranges)
  .debug_ranges  0x00000000       0x50 DriverUART.o
  .debug_ranges  0x00000050       0x10 main.o
  .debug_ranges  0x00000060       0x30 Menu.o
  .debug_ranges  0x00000090       0x18 Menu_init.o
  .debug_ranges  0x000000a8       0x20 MultiBoard.o
- .debug_ranges  0x000000c8       0xc8 OLED.o
- .debug_ranges  0x00000190       0x30 Utils.o
- .debug_ranges  0x000001c0       0x30 XMEM_Decode.o
+ .debug_ranges  0x000000c8       0xe0 OLED.o
+ .debug_ranges  0x000001a8       0x30 Utils.o
+ .debug_ranges  0x000001d8       0x30 XMEM_Decode.o
 
 .debug_macro
  *(.debug_macro)
