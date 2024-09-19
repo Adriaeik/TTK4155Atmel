@@ -31,28 +31,31 @@ const char settingsMenuItems[4][16] PROGMEM = {
 };
 
 // Menyobjekt
+Menu* current_menu;
 Menu mainMenu;
 Menu scrollMenu;
 Menu settingsMenu;
 
 void initialize_menus() {
-	mainMenu.items = mainMenuItems;
+	mainMenu.items = *mainMenuItems;
 	mainMenu.num_items = 5;
 	mainMenu.current_position = 0;
 	mainMenu.prev_position = 0;
 	mainMenu.scroll_offset = 0;
 
-	scrollMenu.items = scrollMenuItems;
+	scrollMenu.items = *scrollMenuItems;
 	scrollMenu.num_items = 20;
 	scrollMenu.current_position = 0;
 	scrollMenu.prev_position = 0;
 	scrollMenu.scroll_offset = 0;
 
-	settingsMenu.items = settingsMenuItems;
+	settingsMenu.items = *settingsMenuItems;
 	settingsMenu.num_items = 4;
 	settingsMenu.current_position = 0;
 	settingsMenu.prev_position = 0;
 	settingsMenu.scroll_offset = 0;
+	
+	current_menu = &mainMenu;
 }
 
 void handleMenuSelection(MultiBoard* board, Menu* menu) {
@@ -60,27 +63,38 @@ void handleMenuSelection(MultiBoard* board, Menu* menu) {
 		case MAIN_MENU:
 		switch (menu->current_position) {
 			case 0:
-			oled_write_line_to_SRAM(0, "Startar spelet...");
+			oled_write_line_to_SRAM(1, "Caes 0 main");
+			_delay_ms(1000);
 			break;
 			case 1:
 			// Gå til innstillingar
+			oled_write_line_to_SRAM(1, "Caes 1 main");
+			_delay_ms(1000);
 			currentMenuState = SETTINGS_MENU;
 			current_menu = &settingsMenu;  // Oppdater til innstillingsmeny
 			break;
 			case 2:
 			// Gå til scrollemeny
+			oled_write_line_to_SRAM(1, "Caes 2 main");
+			_delay_ms(1000);
 			currentMenuState = SCROLL_MENU;
 			current_menu = &scrollMenu;  // Oppdater til scrollemeny
 			break;
 			case 3:
+			oled_write_line_to_SRAM(0, "Caes 3 main");
+			_delay_ms(1000);
 			oled_write_line_to_SRAM(0, "Viser kredittar...");
 			oled_write_screen_to_SRAM(solkors);  // Vis kredittar på skjermen
 			break;
 			case 4:
+			oled_write_line_to_SRAM(0, "Caes 4 main");
+			_delay_ms(1000);
 			oled_write_line_to_SRAM(0, "Avsluttar...");
 			// Legg eventuelt til funksjonalitet for å avslutte
 			break;
 			default:
+			oled_write_line_to_SRAM(0, "Caes ugyldig main");
+			_delay_ms(1000);
 			oled_write_line_to_SRAM(0, "Ugyldig valg");
 			break;
 		}

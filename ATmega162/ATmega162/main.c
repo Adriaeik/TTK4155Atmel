@@ -26,7 +26,7 @@ int main(void) {
 	//SRAM_test();
 	
 	/*______MENY______*/
-	current_menu = &mainMenu;
+	//current_menu = &mainMenu;
 	
 
 	/*_______TEST OLED______________________*/
@@ -42,7 +42,13 @@ int main(void) {
 	oled_draw_circle(64, 32, 20);
 	oled_draw_square(20, 20, 40, 30);
 	oled_data_from_SRAM();
-	_delay_ms(10000);
+	_delay_ms(1000);
+	oled_write_FULLscreen_to_SRAM(emoji_sunglasses_1024);
+	oled_data_from_SRAM();
+	_delay_ms(1000);
+	oled_write_FULLscreen_to_SRAM(&mainMenu.items);
+	oled_data_from_SRAM();
+	_delay_ms(1000);
 	
 	/*_______HOVUDLØKKE______*/
 	 while (1) {

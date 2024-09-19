@@ -264,11 +264,15 @@ void oled_write_pixel_to_SRAM(uint8_t row, uint8_t col, uint8_t value) {
 }
 
 void oled_clear_screen(void) {
+/*
 	// Lag en tom buffer fylt med nuller eller mellomrom (0 er nok, fordi funksjonen oversetter til ' ')
 	char empty_buffer[128] = {0};  // Heile skjermen, 128 tegn
 
 	// Skriv den tomme bufferen til SRAM, som vil tømme skjermen
-	oled_write_screen_to_SRAM(empty_buffer);
+	oled_write_screen_to_SRAM(empty_buffer);*/
+	for(int i = 0; i < 1024; i++){
+		SRAM_write(i, 0);
+	}
 }
 
 void oled_draw_line(uint8_t x0, uint8_t y0, uint8_t x1, uint8_t y1) {
