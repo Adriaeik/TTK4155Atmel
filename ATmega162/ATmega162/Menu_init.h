@@ -10,7 +10,6 @@
 #define MENU_INIT_H
 
 #include "Menu.h"
-#include <avr/pgmspace.h>
 
 // Funksjon for å initialisere alle menyane
 void initialize_menus();
