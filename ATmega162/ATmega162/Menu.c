@@ -9,23 +9,16 @@ MenuState currentMenuState = MAIN_MENU;  // Start i hovudmenyen
 Menu* current_menu = NULL;
 
 void oled_display_menu(Menu* menu) {
-	// Buffer for å holde linjene fra PROGMEM og Buffer for hele skjermen (128 tegn)
-	char buffer[16];  
-	char screen_buffer[128] = {0};  // Nullstiller hele bufferet
-
-	// Fyll bufferet med menyvalgene (fra PROGMEM)
-	for (uint8_t i = 0; i < MENU_ITEMS_PER_PAGE; i++) {
-		uint8_t menu_index = i + menu->scroll_offset;
-		if (menu_index < menu->num_items) {
-			// Kopier menyteksten fra PROGMEM til bufferet
-			strncpy_P(buffer, menu->items[menu_index], 16);
-			// Kopier linjen til skjermbufferen
-			strncpy(&screen_buffer[i * 16], buffer, 16);
+	for (uint16_t j = 0; j < 128; j++) {
+		char c = pgm_read_byte(&menu->items[j]);
+		uint8_t menu_index = j + menu->scroll_offset;
+		if (menu_index < menu->num_items){
+			for(int i = 0; i < 8; i++){
+				SRAM_write(j*8 + i, pgm_read_byte(&font8x8_basic[(c-32)*8 + i]));
+			}
 		}
 	}
-	// Skriv bufferet til SRAM og Sett pila på gjeldende posisjon innenfor synlig meny
-	oled_write_screen_to_SRAM(screen_buffer);
-	oled_write_char_to_SRAM(menu->current_position - menu->scroll_offset, 0, '>');
+	update_menu_arrows(menu->current_position - menu->scroll_offset, menu->prev_position-menu->scroll_offset);
 }
 // Oppdater pilene i menyen når brukaren navigerer
 void update_menu_arrows(uint8_t new_position, uint8_t old_position) {
@@ -105,9 +98,12 @@ void menu_navigate(MultiBoard* board, Menu* menu) {
 	if (is_joystick_button_pressed(board)) {
 		
 		handleMenuSelection(board, menu);  // Behandlar menyvalet
-		
+		//oled_display_menu(menu);
+		write_menu_oled_to_SRAM(menu);
+	}else {
+		update_menu_arrows(menu->current_position - menu->scroll_offset,menu->prev_position - menu->scroll_offset);
 	}
-	write_menu_oled_to_SRAM(menu);
+	
 	
 	
 }
@@ -131,7 +127,7 @@ void write_menu_oled_to_SRAM(Menu* menu){
 		//om menyen er mindre enn 8 linjer fyll resten med ' ' 
 		for(uint8_t i = 0; i < 128-menuSize*16; i++){
 			for(uint8_t j = 0; j < 8; j++){
-				SRAM_write(menuSize*16+i*16+j, 0);
+				SRAM_write(menuSize*16*8+i*8+j, 0);
 			}
 		}
 	}

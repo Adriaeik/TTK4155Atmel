@@ -11,7 +11,6 @@
 
 #include "OLED.h"
 #include "MultiBoard.h"  
-#include <string.h>  // For å bruke `strlen` og `strncpy`
 
 #define MENU_ITEMS_PER_PAGE 8  // 8 elementer får plass på skjermen samtidig
 

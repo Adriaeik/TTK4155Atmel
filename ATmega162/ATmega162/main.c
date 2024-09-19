@@ -24,26 +24,23 @@ int main(void) {
 	oled_init();						// Initialiser OLED-skjermen
 	//setup_printf_for_oled();			// Optional
 	//SRAM_test();
-	
+		/*_______TEST OLED + LOGO______________________*/
+		
+		//oled_home();
+		//oled_write_screen_to_SRAM(smiley);
+		//oled_data_from_SRAM();
+		//_delay_ms(1000); //smile litt før start
+		
+		//linje og slikt
+		oled_clear_screen();
+		oled_draw_line(10, 10, 100, 50);
+		oled_draw_circle(64, 32, 20);
+		oled_draw_square(20, 20, 40, 30);
+		oled_data_from_SRAM();
+		_delay_ms(500);
 	/*______MENY______*/
 	current_menu = &mainMenu;
-	
-
-	/*_______TEST OLED______________________*/
-	
-	//oled_home();
-	//oled_write_screen_to_SRAM(smiley);
-	//oled_data_from_SRAM();
-	//_delay_ms(1000); //smile litt før start
-	
-	//linje og slikt
-	oled_clear_screen();
-	oled_draw_line(10, 10, 100, 50);
-	oled_draw_circle(64, 32, 20);
-	oled_draw_square(20, 20, 40, 30);
-	oled_data_from_SRAM();
-	_delay_ms(1000);
-	printf("Hello world\r\n");
+	write_menu_oled_to_SRAM(current_menu);
 	
 	/*_______HOVUDLØKKE______*/
 	 while (1) {
