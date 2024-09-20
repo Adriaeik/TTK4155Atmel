@@ -20,19 +20,19 @@ void oled_display_menu(Menu* menu) {
 	}
 	update_menu_arrows(menu->current_position - menu->scroll_offset, menu->prev_position-menu->scroll_offset);
 }
-// Oppdater pilene i menyen når brukaren navigerer
+// Oppdater pilene i menyen nÃ¥r brukaren navigerer
 void update_menu_arrows(uint8_t new_position, uint8_t old_position) {
-	// Fjern pila frå den gamle posisjonen ved å skrive eit mellomrom
+	// Fjern pila frÃ¥ den gamle posisjonen ved Ã¥ skrive eit mellomrom
 	oled_write_char_to_SRAM(old_position, 0, ' ');
 
-	// Set pila på den nye posisjonen
+	// Set pila pÃ¥ den nye posisjonen
 	oled_write_char_to_SRAM(new_position, 0, '>');
 }
 
 
-// Oppdaterer menyposisjonen frå joystick-input hugs å kalle på MultiBoard_Update(board);  // Oppdater joystick-posisjonen
+// Oppdaterer menyposisjonen frÃ¥ joystick-input hugs Ã¥ kalle pÃ¥ MultiBoard_Update(board);  // Oppdater joystick-posisjonen
 void update_menu_position_from_joystick(MultiBoard* board, Menu* menu) {
-	int16_t joyY = (int16_t)(board->JoyYposCal);  // Les Y-posisjonen frå joysticken
+	int16_t joyY = (int16_t)(board->JoyYposCal);  // Les Y-posisjonen frÃ¥ joysticken
 
 	// Beveg oppover i menyen
 	if (joyY > 50) {
@@ -41,7 +41,7 @@ void update_menu_position_from_joystick(MultiBoard* board, Menu* menu) {
 			menu->current_position--;
 
 			// Hvis vi har scrollet forbi synlege element, oppdater scroll_offset
-			// då må vi og oppdatere heile menyen
+			// dÃ¥ mÃ¥ vi og oppdatere heile menyen
 			if (menu->current_position < menu->scroll_offset) {
 				menu->scroll_offset--;
 				//oled_display_menu(menu);
@@ -49,7 +49,7 @@ void update_menu_position_from_joystick(MultiBoard* board, Menu* menu) {
 			//else{
 				//update_menu_arrows(menu->current_position - menu->scroll_offset, menu->prev_position - menu->scroll_offset);
 			//}
-			_delay_ms(100);  // Forsinkelse for å unngå rask scrolling
+			_delay_ms(100);  // Forsinkelse for Ã¥ unngÃ¥ rask scrolling
 		}
 	}
 	// Beveg nedover i menyen
@@ -59,21 +59,21 @@ void update_menu_position_from_joystick(MultiBoard* board, Menu* menu) {
 			
 			menu->current_position++;
 
-			// Hvis vi har nådd slutten av den synlege menyen, oppdater scroll_offset
+			// Hvis vi har nÃ¥dd slutten av den synlege menyen, oppdater scroll_offset
 			if (menu->current_position >= menu->scroll_offset + MENU_ITEMS_PER_PAGE) {
 				menu->scroll_offset++;
 			} 
 			//else{
 				//update_menu_arrows(menu->current_position - menu->scroll_offset, menu->prev_position - menu->scroll_offset);
 			//}
-			_delay_ms(100);  // Forsinkelse for å unngå rask scrolling
+			_delay_ms(100);  // Forsinkelse for Ã¥ unngÃ¥ rask scrolling
 		}
 	}
 }
 
 // Sjekker om joystick-knappen er trykt
 uint8_t is_joystick_button_pressed(MultiBoard* board) {
-	return (board->JoyBtn != 0);  // Anta at knappen er aktiv-høg (1 betyr trykt)
+	return (board->JoyBtn != 0);  // Anta at knappen er aktiv-hÃ¸g (1 betyr trykt)
 }
 
 void menu_navigate(MultiBoard* board, Menu* menu) {
@@ -81,13 +81,13 @@ void menu_navigate(MultiBoard* board, Menu* menu) {
 	// Oppdater joystick- og menyposisjon
 	MultiBoard_Update(board);
 	update_menu_position_from_joystick(board, menu);
-	// Sjekk om knappen er trykt for å bekrefte menyval
+	// Sjekk om knappen er trykt for Ã¥ bekrefte menyval
 	if (is_joystick_button_pressed(board)) {
 		handleMenuSelection(board, menu);  // Behandlar menyvalet (trenger tilsyn)
-		/*____FEILSØKING________________________
+		/*____FEILSÃ˜KING________________________
 			sjekke att vi kom tilbake hit     */
 		oled_write_screen_to_SRAM(solkors);
-		oled_data_from_SRAM(); //bytte navn på dinna funksjonen? dårlig forklaring av dens funksjon
+		oled_data_from_SRAM(); //bytte navn pÃ¥ dinna funksjonen? dÃ¥rlig forklaring av dens funksjon
 		_delay_ms(1000); //smile litt
 		/*____________________________________*/
 		write_menu_oled_to_SRAM(menu);
@@ -97,12 +97,12 @@ void menu_navigate(MultiBoard* board, Menu* menu) {
 }
 
 void write_menu_oled_to_SRAM(Menu* menu){
-	// vist målet er å sjekke om det er meir enn 8 så blir ditta feil.
-	//num_items helder antall "linjer"så i staden for å sjekke over 128 skulle det vert over 8
+	// vist mÃ¥let er Ã¥ sjekke om det er meir enn 8 sÃ¥ blir ditta feil.
+	//num_items helder antall "linjer"sÃ¥ i staden for Ã¥ sjekke over 128 skulle det vert over 8
 	uint8_t menuSize = menu->num_items; 
 	
 	//Om det er 8 eller mindre linjer (bytte til if(menuSize <= 8){
-	if(menuSize <= 128){
+	if(menuSize <= 8){
 		for(uint16_t j = 0; j < menuSize*16; j++) {
 			char c = pgm_read_byte(&menu->items[j]);
 			for(int i = 0; i < 8; i++){
@@ -114,7 +114,7 @@ void write_menu_oled_to_SRAM(Menu* menu){
 				}	
 			}	
 		}
-		// då blir det vell feil her og ?
+		// dÃ¥ blir det vell feil her og ?
 		//om menyen er mindre enn 8 linjer fyll resten med ' ' 
 		for(uint8_t i = 0; i < 128-menuSize*16; i++){
 			for(uint8_t j = 0; j < 8; j++){
@@ -125,10 +125,10 @@ void write_menu_oled_to_SRAM(Menu* menu){
 	
 	
 	//Om det er mer enn 8 linjer
-	//litt usikker om scroll kan gå for høy her, men satser på nei
+	//litt usikker om scroll kan gÃ¥ for hÃ¸y her, men satser pÃ¥ nei
 	else{
 		for(uint16_t j = 0; j < menuSize*16; j++) {
-			char c = pgm_read_byte(&menu->items[menu->scroll_offset*16 + j]);
+			char c = pgm_read_byte(&menu->items[menu->scroll_offset*16*8 + j]);
 			for(int i = 0; i < 8; i++){
 				if((j%16 == 0) & (j/16 == menu->current_position)){
 					SRAM_write(j*8 + i, pgm_read_byte(&font8x8_basic[('>'-32)*8 + i]));
