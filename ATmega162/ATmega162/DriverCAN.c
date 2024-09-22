@@ -8,35 +8,37 @@
 #include "DriverCAN.h"
 
 void CAN_Init(void) {
-	// Tilbakestill MCP2515 og sett i loopback-modus
-	MCP2515_Reset();
-	
-	// Sett MCP2515 i konfigurasjonsmodus
-	MCP2515_Write(0x0F, 0x80);  // CANCTRL register - Set config mode
-	
-	
-	
-	uint8_t value = MCP2515_Read(0x0E);
-	if((value & 0xE0) != 0x80){
-		printf("ERROR: MCP2515 er ikke i config mode etter reset\r\n");
-	}
-	else{printf("MCP2515 er i config mode etter reset\r\n");}
-
-	MCP2515_BitModify(0x0F, 0xE0, 0x40);  // Loopback mode
+	MCP2515_init();
+	//// Tilbakestill MCP2515 og sett i loopback-modus
+	//MCP2515_Reset();
+	//
+	//// Sett MCP2515 i konfigurasjonsmodus
+	//MCP2515_Write(0x0F, 0x80);  // CANCTRL register - Set config mode
+	//
+	//
+	//
+	//uint8_t value = MCP2515_Read(0x0E);
+	//if((value & 0xE0) != 0x80){
+		//printf("ERROR: MCP2515 er ikke i config mode etter reset\r\n");
+	//}
+	//else{printf("MCP2515 er i config mode etter reset\r\n");}
+//
+	//MCP2515_BitModify(0x0F, 0xE0, 0x40);  // Loopback mode
 	
 }
 
+//KOKEN har litt anerledes på dissa to funksjonane - vhat sa dei var funksjonelt like
 void CAN_SendMessage(CANMessage* msg) {
 	while (MCP2515_ReadStatus() & 0x04);  // Vent til TX buffer er ledig
 	// Send CAN-melding til TX-buffer
-	MCP2515_Write(0x31, msg->id >> 3);  // SIDH - Standard ID high
-	MCP2515_Write(0x32, (msg->id << 5) & 0xE0);  // SIDL - Standard ID low
+	MCP2515_Write(0x31, msg->id >> 3);  // SIDH - Standard ID high - KOK: mcp_write(MCP_TXB0SIDH, message->id / 8); // De åtte høyeste bitene i iden.
+	MCP2515_Write(0x32, (msg->id << 5) & 0xE0);  // SIDL - Standard ID low  - KOK: mcp_write(MCP_TXB0SIDL, (message->id % 8) << 5); // De tre laveste bitene i iden.
 	MCP2515_Write(0x35, msg->length);  // DLC - Data length code
 	for (uint8_t i = 0; i < msg->length; i++) {
 		MCP2515_Write(0x36 + i, msg->data[i]);  // Send data byte-by-byte
 	}
 
-	// Be MCP2515 om � sende meldingen
+	// Be MCP2515 om � sende meldingen
 	MCP2515_RequestToSend(0x01);  // RTS TX buffer 0
 }
 

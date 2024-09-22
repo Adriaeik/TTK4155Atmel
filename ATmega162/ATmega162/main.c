@@ -30,7 +30,7 @@ int main(void) {
 			
 	/*_________________SPI_________________*/
 	// Initialiser SPI og MCP2515 i loopback-modus
-	SPI_Init();
+	//SPI_MasterInit(); // ligger i CAN_Init()
 	CAN_Init();
 	
     //MCP2515_SetMode(MCP2515_MODE_CONFIG);  // Sett MCP2515 i Configuration Mode

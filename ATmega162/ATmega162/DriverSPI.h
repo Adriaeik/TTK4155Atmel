@@ -12,7 +12,7 @@
 #include "DriverUART.h"
 
 // SPI-funksjoner
-void SPI_Init(void);          // Initialiserer SPI-grensesnittet
+void SPI_MasterInit(void);          // Initialiserer SPI-grensesnittet
 void SPI_Transmit(char data);  // Sender byte over SPI
 uint8_t SPI_Receive(void);     // Mottar byte over SPI
 
