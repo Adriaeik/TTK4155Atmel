@@ -23,6 +23,10 @@ typedef struct {
 	uint8_t num_items;			// Totalt antall element i menyen
 } Menu;
 
+extern Menu mainMenu;
+extern Menu scrollMenu;
+extern Menu settingsMenu;
+
 /*____Halde kontroll på kva menya vi har____*/
 typedef enum {
 	MAIN_MENU,
@@ -38,7 +42,6 @@ void oled_display_menu(Menu* menu); // boss - kan fjernast
 void write_menu_oled_to_SRAM(Menu* menu);
 void update_menu_arrows(uint8_t new_position, uint8_t old_position);
 void update_menu_position_from_joystick(MultiBoard* board, Menu* menu);
-uint8_t is_joystick_button_pressed(MultiBoard* board);
 void menu_navigate(MultiBoard* board, Menu* menu);
 /* dinna må fremmover deklareres då den er definert i Menu_init.c
 KAnskje det lager noko problem for menyvalg*/

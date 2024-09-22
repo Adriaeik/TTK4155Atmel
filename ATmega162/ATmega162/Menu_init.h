@@ -15,8 +15,6 @@
 void initialize_menus();
 
 // Menyobjekt-eksportar
-extern Menu mainMenu;
-extern Menu scrollMenu;
-extern Menu settingsMenu;
+
 
 #endif /* MENU_INIT_H */

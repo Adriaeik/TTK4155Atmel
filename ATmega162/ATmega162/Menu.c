@@ -8,6 +8,12 @@
 MenuState currentMenuState = MAIN_MENU;  // Start i hovudmenyen
 Menu* current_menu = NULL;
 
+// Menyobjekt
+Menu mainMenu;
+Menu scrollMenu;
+Menu settingsMenu;
+
+
 void oled_display_menu(Menu* menu) {
 	for (uint16_t j = 0; j < 128; j++) {
 		char c = pgm_read_byte(&menu->items[j]);
@@ -33,7 +39,7 @@ void update_menu_arrows(uint8_t new_position, uint8_t old_position) {
 // Oppdaterer menyposisjonen frå joystick-input hugs å kalle på MultiBoard_Update(board);  // Oppdater joystick-posisjonen
 void update_menu_position_from_joystick(MultiBoard* board, Menu* menu) {
 	int16_t joyY = (int16_t)(board->JoyYposCal);  // Les Y-posisjonen frå joysticken
-
+	
 	// Beveg oppover i menyen
 	if (joyY > 50) {
 		if (menu->current_position > 0) {
@@ -71,30 +77,8 @@ void update_menu_position_from_joystick(MultiBoard* board, Menu* menu) {
 	}
 }
 
-// Sjekker om joystick-knappen er trykt
-uint8_t is_joystick_button_pressed(MultiBoard* board) {
-	return (board->JoyBtn != 0);  // Anta at knappen er aktiv-høg (1 betyr trykt)
-}
 
-void menu_navigate(MultiBoard* board, Menu* menu) {
 
-	// Oppdater joystick- og menyposisjon
-	MultiBoard_Update(board);
-	update_menu_position_from_joystick(board, menu);
-	// Sjekk om knappen er trykt for å bekrefte menyval
-	if (is_joystick_button_pressed(board)) {
-		handleMenuSelection(board, menu);  // Behandlar menyvalet (trenger tilsyn)
-		/*____FEILSØKING________________________
-			sjekke att vi kom tilbake hit     */
-		oled_write_screen_to_SRAM(solkors);
-		oled_data_from_SRAM(); //bytte navn på dinna funksjonen? dårlig forklaring av dens funksjon
-		_delay_ms(1000); //smile litt
-		/*____________________________________*/
-		write_menu_oled_to_SRAM(menu);
-	}else {
-		update_menu_arrows(menu->current_position - menu->scroll_offset,menu->prev_position - menu->scroll_offset);
-	}	
-}
 
 void write_menu_oled_to_SRAM(Menu* menu){
 	// vist målet er å sjekke om det er meir enn 8 så blir ditta feil.
@@ -127,10 +111,10 @@ void write_menu_oled_to_SRAM(Menu* menu){
 	//Om det er mer enn 8 linjer
 	//litt usikker om scroll kan gå for høy her, men satser på nei
 	else{
-		for(uint16_t j = 0; j < menuSize*16; j++) {
-			char c = pgm_read_byte(&menu->items[menu->scroll_offset*16*8 + j]);
+		for(uint16_t j = 0; j < 8*16; j++) {
+			char c = pgm_read_byte(&menu->items[menu->scroll_offset*16 + j]);
 			for(int i = 0; i < 8; i++){
-				if((j%16 == 0) & (j/16 == menu->current_position)){
+				if((j%16 == 0) & (j/16 == menu->current_position-menu->scroll_offset)){
 					SRAM_write(j*8 + i, pgm_read_byte(&font8x8_basic[('>'-32)*8 + i]));
 				}
 				else{
@@ -143,5 +127,92 @@ void write_menu_oled_to_SRAM(Menu* menu){
 }
 
 
+void menu_navigate(MultiBoard* board, Menu* menu) {
+	// Oppdater joystick- og menyposisjon
+	MultiBoard_Update(board);
+	update_menu_position_from_joystick(board, menu);
+	// Sjekk om knappen er trykt for å bekrefte menyval
+	if (board->JoyBtn & !board->prevJoyBtn) {
+		handleMenuSelection(board, menu);  // Behandlar menyvalet (trenger tilsyn)
+	}
+	write_menu_oled_to_SRAM(menu); // 15 ms ikke bra, pontus har ansvar for å finne en løsning
+	board->prevJoyBtn = board->JoyBtn;
+}
 
 
+
+void handleMenuSelection(MultiBoard* board, Menu* menu) {
+	oled_clear_screen();
+	switch (currentMenuState) {
+		case MAIN_MENU:
+		switch (menu->current_position) {
+			case 0:
+			oled_write_line_to_SRAM(0, "Startar spelet...");
+			oled_data_from_SRAM();
+			_delay_ms(1000);
+			break;
+			case 1:
+			// Gå til innstillingar
+			currentMenuState = SETTINGS_MENU;
+			current_menu = &settingsMenu;  // Oppdater til innstillingsmeny
+			break;
+			case 2:
+			// Gå til scrollemeny
+			currentMenuState = SCROLL_MENU;
+			current_menu = &scrollMenu;  // Oppdater til scrollemeny
+			break;
+			case 3:
+			oled_write_line_to_SRAM(0, "Viser kredittar...");
+			oled_write_screen_to_SRAM(solkors);  // Vis kredittar på skjermen
+			break;
+			case 4:
+			oled_write_line_to_SRAM(0, "Avsluttar...");
+			// Legg eventuelt til funksjonalitet for å avslutte
+			break;
+			default:
+			oled_write_line_to_SRAM(0, "Ugyldig valg");
+			break;
+		}
+		break;
+
+		case SETTINGS_MENU:
+		// Håndter valg i innstillingsmenyen
+		switch (menu->current_position) {
+			case 0:
+			oled_write_line_to_SRAM(0, "Endrer lydinnstillingar...");
+			break;
+			case 1:
+			oled_write_line_to_SRAM(0, "Endrer lysstyrke...");
+			break;
+			case 2:
+			oled_write_line_to_SRAM(0, "Endrer kontrollar...");
+			break;
+			case 3:
+			// Gå tilbake til hovudmenyen
+			currentMenuState = MAIN_MENU;
+			current_menu = &mainMenu;
+			break;
+			default:
+			oled_write_line_to_SRAM(0, "Ugyldig valg");
+			break;
+		}
+		break;
+
+		case SCROLL_MENU:
+		// Håndter valg i scrollemenyen
+		switch (menu->current_position) {
+			case 0:
+			oled_write_line_to_SRAM(0, "Item 1 valgt");
+			currentMenuState = MAIN_MENU;
+			current_menu = &mainMenu;
+			break;
+			case 1:
+			oled_write_line_to_SRAM(0, "Item 2 valgt");
+			break;
+			default:
+			oled_write_line_to_SRAM(0, "Ugyldig valg");
+			break;
+		}
+		break;	
+	}
+}

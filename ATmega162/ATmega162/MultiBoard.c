@@ -34,6 +34,7 @@ void MultiBoard_Init(MultiBoard* board) {
 	board->JoyYposCal = 0;
 	board->JoyAngle = 0;
 	board->JoyBtn = 0;  // Endra fra en, vi bruker fortsatt 0 for av basert på logikk i MB_Update()
+	board->prevJoyBtn = 0;
 }
 
 

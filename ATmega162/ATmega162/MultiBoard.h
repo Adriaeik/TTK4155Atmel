@@ -30,6 +30,7 @@ typedef struct {
 	uint8_t LBtn;       // Left button state
 	uint8_t RBtn;       // Right button state
 	uint8_t JoyBtn;		// Joystick button state
+	uint8_t prevJoyBtn;
 	uint8_t JoyXOrigo;  // Kalibrert origo for Joystick X
 	uint8_t JoyYOrigo;  // Kalibrert origo for Joystick Y
 	int16_t JoyXposCal;	// Kalibrert joystik pos med +/- for å kunne bruke atan2

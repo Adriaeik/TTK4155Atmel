@@ -3,31 +3,31 @@ ATmega162.elf:     file format elf32-avr
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .data         000000ba  00800100  00001688  0000171c  2**0
+  0 .data         000000ba  00800100  000015f4  00001688  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  1 .text         00001688  00000000  00000000  00000094  2**1
+  1 .text         000015f4  00000000  00000000  00000094  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  2 .bss          0000001f  008001ba  008001ba  000017d6  2**0
+  2 .bss          0000001f  008001ba  008001ba  00001742  2**0
                   ALLOC
-  3 .comment      00000030  00000000  00000000  000017d6  2**0
+  3 .comment      00000030  00000000  00000000  00001742  2**0
                   CONTENTS, READONLY
-  4 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  00001808  2**2
+  4 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  00001774  2**2
                   CONTENTS, READONLY
-  5 .debug_aranges 00000290  00000000  00000000  00001844  2**0
+  5 .debug_aranges 00000288  00000000  00000000  000017b0  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_info   00003349  00000000  00000000  00001ad4  2**0
+  6 .debug_info   0000321d  00000000  00000000  00001a38  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_abbrev 000011d1  00000000  00000000  00004e1d  2**0
+  7 .debug_abbrev 00001117  00000000  00000000  00004c55  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_line   000016b4  00000000  00000000  00005fee  2**0
+  8 .debug_line   0000154b  00000000  00000000  00005d6c  2**0
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_frame  000007a8  00000000  00000000  000076a4  2**2
+  9 .debug_frame  000007a4  00000000  00000000  000072b8  2**2
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_str    00000ac0  00000000  00000000  00007e4c  2**0
+ 10 .debug_str    00000ab5  00000000  00000000  00007a5c  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_loc    000020ff  00000000  00000000  0000890c  2**0
+ 11 .debug_loc    00001f2d  00000000  00000000  00008511  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_ranges 00000298  00000000  00000000  0000aa0b  2**0
+ 12 .debug_ranges 00000270  00000000  00000000  0000a43e  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -48,7 +48,7 @@ Disassembly of section .text:
       30:	0c 94 11 03 	jmp	0x622	; 0x622 <__bad_interrupt>
       34:	0c 94 11 03 	jmp	0x622	; 0x622 <__bad_interrupt>
       38:	0c 94 11 03 	jmp	0x622	; 0x622 <__bad_interrupt>
-      3c:	0c 94 52 0a 	jmp	0x14a4	; 0x14a4 <__vector_15>
+      3c:	0c 94 08 0a 	jmp	0x1410	; 0x1410 <__vector_15>
       40:	0c 94 11 03 	jmp	0x622	; 0x622 <__bad_interrupt>
       44:	0c 94 11 03 	jmp	0x622	; 0x622 <__bad_interrupt>
       48:	0c 94 11 03 	jmp	0x622	; 0x622 <__bad_interrupt>
@@ -198,8 +198,8 @@ Disassembly of section .text:
      5f4:	11 e0       	ldi	r17, 0x01	; 1
      5f6:	a0 e0       	ldi	r26, 0x00	; 0
      5f8:	b1 e0       	ldi	r27, 0x01	; 1
-     5fa:	e8 e8       	ldi	r30, 0x88	; 136
-     5fc:	f6 e1       	ldi	r31, 0x16	; 22
+     5fa:	e4 ef       	ldi	r30, 0xF4	; 244
+     5fc:	f5 e1       	ldi	r31, 0x15	; 21
      5fe:	02 c0       	rjmp	.+4      	; 0x604 <__do_copy_data+0x10>
      600:	05 90       	lpm	r0, Z+
      602:	0d 92       	st	X+, r0
@@ -221,7 +221,7 @@ Disassembly of section .text:
      616:	b2 07       	cpc	r27, r18
      618:	e1 f7       	brne	.-8      	; 0x612 <.do_clear_bss_loop>
      61a:	0e 94 4b 03 	call	0x696	; 0x696 <main>
-     61e:	0c 94 42 0b 	jmp	0x1684	; 0x1684 <_exit>
+     61e:	0c 94 f8 0a 	jmp	0x15f0	; 0x15f0 <_exit>
 
 00000622 <__bad_interrupt>:
      622:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
@@ -319,7 +319,7 @@ int main(void) {
      698:	df 93       	push	r29
      69a:	cd b7       	in	r28, 0x3d	; 61
      69c:	de b7       	in	r29, 0x3e	; 62
-     69e:	2f 97       	sbiw	r28, 0x0f	; 15
+     69e:	60 97       	sbiw	r28, 0x10	; 16
      6a0:	0f b6       	in	r0, 0x3f	; 63
      6a2:	f8 94       	cli
      6a4:	de bf       	out	0x3e, r29	; 62
@@ -336,35 +336,35 @@ int main(void) {
 	UART_EnableReceiveInterrupt();
      6b6:	0e 94 3c 03 	call	0x678	; 0x678 <UART_EnableReceiveInterrupt>
     setup_timer();						// Start millisekundteljinga
-     6ba:	0e 94 96 0a 	call	0x152c	; 0x152c <setup_timer>
+     6ba:	0e 94 4c 0a 	call	0x1498	; 0x1498 <setup_timer>
 	sei();								// Aktiver globale avbrot
      6be:	78 94       	sei
 	/*--- Ditta må (noko av det ihvertfall) vere etter sei() ---*/
 	externalMemoryInit();				// Initialiser eksternt minne må vere etter sei
-     6c0:	0e 94 a9 0a 	call	0x1552	; 0x1552 <externalMemoryInit>
+     6c0:	0e 94 5f 0a 	call	0x14be	; 0x14be <externalMemoryInit>
 	initialize_menus();
-     6c4:	0e 94 9e 05 	call	0xb3c	; 0xb3c <initialize_menus>
+     6c4:	0e 94 25 06 	call	0xc4a	; 0xc4a <initialize_menus>
 	MultiBoard board;
 	MultiBoard_Init(&board);			// Initialiser MultiBoard og kalibrer joystickens origo
      6c8:	ce 01       	movw	r24, r28
      6ca:	01 96       	adiw	r24, 0x01	; 1
-     6cc:	0e 94 55 06 	call	0xcaa	; 0xcaa <MultiBoard_Init>
+     6cc:	0e 94 47 06 	call	0xc8e	; 0xc8e <MultiBoard_Init>
 	oled_init();						// Initialiser OLED-skjermen
-     6d0:	0e 94 61 07 	call	0xec2	; 0xec2 <oled_init>
+     6d0:	0e 94 54 07 	call	0xea8	; 0xea8 <oled_init>
 		/*--- Optional setup ---*/
 			//setup_printf_for_oled();		
 			//SRAM_test();
 		
 	/*_______OLED + LOGO_______*/
 	oled_clear_screen();
-     6d4:	0e 94 4a 09 	call	0x1294	; 0x1294 <oled_clear_screen>
+     6d4:	0e 94 00 09 	call	0x1200	; 0x1200 <oled_clear_screen>
 	/*- Den komboen her var heilt nydelig -*/
 		oled_draw_line(10, 10, 100, 50);
      6d8:	22 e3       	ldi	r18, 0x32	; 50
      6da:	44 e6       	ldi	r20, 0x64	; 100
      6dc:	6a e0       	ldi	r22, 0x0A	; 10
      6de:	8a e0       	ldi	r24, 0x0A	; 10
-     6e0:	0e 94 5a 09 	call	0x12b4	; 0x12b4 <oled_draw_line>
+     6e0:	0e 94 10 09 	call	0x1220	; 0x1220 <oled_draw_line>
 		oled_draw_circle(64, 32, 20);
      6e4:	44 e1       	ldi	r20, 0x14	; 20
      6e6:	50 e0       	ldi	r21, 0x00	; 0
@@ -372,15 +372,15 @@ int main(void) {
      6ea:	70 e0       	ldi	r23, 0x00	; 0
      6ec:	80 e4       	ldi	r24, 0x40	; 64
      6ee:	90 e0       	ldi	r25, 0x00	; 0
-     6f0:	0e 94 bd 09 	call	0x137a	; 0x137a <oled_draw_circle>
+     6f0:	0e 94 73 09 	call	0x12e6	; 0x12e6 <oled_draw_circle>
 		oled_draw_square(20, 20, 40, 30);
      6f4:	2e e1       	ldi	r18, 0x1E	; 30
      6f6:	48 e2       	ldi	r20, 0x28	; 40
      6f8:	64 e1       	ldi	r22, 0x14	; 20
      6fa:	84 e1       	ldi	r24, 0x14	; 20
-     6fc:	0e 94 2d 0a 	call	0x145a	; 0x145a <oled_draw_square>
+     6fc:	0e 94 e3 09 	call	0x13c6	; 0x13c6 <oled_draw_square>
 	oled_data_from_SRAM();
-     700:	0e 94 a4 07 	call	0xf48	; 0xf48 <oled_data_from_SRAM>
+     700:	0e 94 97 07 	call	0xf2e	; 0xf2e <oled_data_from_SRAM>
 	#else
 		//round up by default
 		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
@@ -405,7 +405,7 @@ int main(void) {
      71a:	90 93 bb 01 	sts	0x01BB, r25	; 0x8001bb <__data_end+0x1>
      71e:	80 93 ba 01 	sts	0x01BA, r24	; 0x8001ba <__data_end>
 	write_menu_oled_to_SRAM(current_menu);
-     722:	0e 94 f8 03 	call	0x7f0	; 0x7f0 <write_menu_oled_to_SRAM>
+     722:	0e 94 ea 03 	call	0x7d4	; 0x7d4 <write_menu_oled_to_SRAM>
 	
 	/*_______HOVUDLØKKE______*/
 	 while (1) {
@@ -415,2583 +415,2440 @@ int main(void) {
      72a:	70 91 bb 01 	lds	r23, 0x01BB	; 0x8001bb <__data_end+0x1>
      72e:	ce 01       	movw	r24, r28
      730:	01 96       	adiw	r24, 0x01	; 1
-     732:	0e 94 6b 05 	call	0xad6	; 0xad6 <menu_navigate>
+     732:	0e 94 fd 05 	call	0xbfa	; 0xbfa <menu_navigate>
 		Det kunne vert fornuftig med eit flag her då
 		
 		16ms skal gi ich 60hz, gitt at resten av programmet kjører raskt nok...
 		*/
 		
-		if (get_time_in_ms() >= 16) {
-     736:	0e 94 8b 0a 	call	0x1516	; 0x1516 <get_time_in_ms>
+		if (get_screen_time_in_ms() >= 16) {
+     736:	0e 94 41 0a 	call	0x1482	; 0x1482 <get_screen_time_in_ms>
      73a:	60 31       	cpi	r22, 0x10	; 16
      73c:	71 05       	cpc	r23, r1
      73e:	81 05       	cpc	r24, r1
      740:	91 05       	cpc	r25, r1
      742:	88 f3       	brcs	.-30     	; 0x726 <main+0x90>
-			restart_timer();
-     744:	0e 94 9e 0a 	call	0x153c	; 0x153c <restart_timer>
+			restart_screen_timer();
+     744:	0e 94 54 0a 	call	0x14a8	; 0x14a8 <restart_screen_timer>
 			oled_data_from_SRAM();
-     748:	0e 94 a4 07 	call	0xf48	; 0xf48 <oled_data_from_SRAM>
+     748:	0e 94 97 07 	call	0xf2e	; 0xf2e <oled_data_from_SRAM>
      74c:	ec cf       	rjmp	.-40     	; 0x726 <main+0x90>
 
-0000074e <update_menu_arrows>:
+0000074e <update_menu_position_from_joystick>:
+	oled_write_char_to_SRAM(new_position, 0, '>');
 }
 
-// Sjekker om joystick-knappen er trykt
-uint8_t is_joystick_button_pressed(MultiBoard* board) {
-	return (board->JoyBtn != 0);  // Anta at knappen er aktiv-høg (1 betyr trykt)
-}
-     74e:	cf 93       	push	r28
-     750:	c8 2f       	mov	r28, r24
-     752:	86 2f       	mov	r24, r22
-     754:	40 e2       	ldi	r20, 0x20	; 32
-     756:	60 e0       	ldi	r22, 0x00	; 0
-     758:	0e 94 d9 08 	call	0x11b2	; 0x11b2 <oled_write_char_to_SRAM>
-     75c:	4e e3       	ldi	r20, 0x3E	; 62
-     75e:	60 e0       	ldi	r22, 0x00	; 0
-     760:	8c 2f       	mov	r24, r28
-     762:	0e 94 d9 08 	call	0x11b2	; 0x11b2 <oled_write_char_to_SRAM>
-     766:	cf 91       	pop	r28
-     768:	08 95       	ret
 
-0000076a <update_menu_position_from_joystick>:
-     76a:	fb 01       	movw	r30, r22
-     76c:	dc 01       	movw	r26, r24
-     76e:	1b 96       	adiw	r26, 0x0b	; 11
-     770:	8d 91       	ld	r24, X+
-     772:	9c 91       	ld	r25, X
-     774:	1c 97       	sbiw	r26, 0x0c	; 12
-     776:	83 33       	cpi	r24, 0x33	; 51
-     778:	91 05       	cpc	r25, r1
-     77a:	ac f0       	brlt	.+42     	; 0x7a6 <update_menu_position_from_joystick+0x3c>
-     77c:	82 81       	ldd	r24, Z+2	; 0x02
-     77e:	88 23       	and	r24, r24
-     780:	b1 f1       	breq	.+108    	; 0x7ee <update_menu_position_from_joystick+0x84>
-     782:	83 83       	std	Z+3, r24	; 0x03
-     784:	81 50       	subi	r24, 0x01	; 1
-     786:	82 83       	std	Z+2, r24	; 0x02
-     788:	94 81       	ldd	r25, Z+4	; 0x04
-     78a:	89 17       	cp	r24, r25
-     78c:	10 f4       	brcc	.+4      	; 0x792 <update_menu_position_from_joystick+0x28>
-     78e:	91 50       	subi	r25, 0x01	; 1
-     790:	94 83       	std	Z+4, r25	; 0x04
-     792:	bf ef       	ldi	r27, 0xFF	; 255
-     794:	2f e7       	ldi	r18, 0x7F	; 127
-     796:	81 e0       	ldi	r24, 0x01	; 1
-     798:	b1 50       	subi	r27, 0x01	; 1
-     79a:	20 40       	sbci	r18, 0x00	; 0
-     79c:	80 40       	sbci	r24, 0x00	; 0
-     79e:	e1 f7       	brne	.-8      	; 0x798 <update_menu_position_from_joystick+0x2e>
-     7a0:	00 c0       	rjmp	.+0      	; 0x7a2 <update_menu_position_from_joystick+0x38>
-     7a2:	00 c0       	rjmp	.+0      	; 0x7a4 <update_menu_position_from_joystick+0x3a>
-     7a4:	08 95       	ret
-     7a6:	8e 3c       	cpi	r24, 0xCE	; 206
-     7a8:	9f 4f       	sbci	r25, 0xFF	; 255
-     7aa:	0c f5       	brge	.+66     	; 0x7ee <update_menu_position_from_joystick+0x84>
-     7ac:	82 81       	ldd	r24, Z+2	; 0x02
-     7ae:	48 2f       	mov	r20, r24
-     7b0:	50 e0       	ldi	r21, 0x00	; 0
-     7b2:	25 81       	ldd	r18, Z+5	; 0x05
-     7b4:	30 e0       	ldi	r19, 0x00	; 0
-     7b6:	21 50       	subi	r18, 0x01	; 1
-     7b8:	31 09       	sbc	r19, r1
-     7ba:	42 17       	cp	r20, r18
-     7bc:	53 07       	cpc	r21, r19
-     7be:	bc f4       	brge	.+46     	; 0x7ee <update_menu_position_from_joystick+0x84>
-     7c0:	83 83       	std	Z+3, r24	; 0x03
-     7c2:	8f 5f       	subi	r24, 0xFF	; 255
-     7c4:	82 83       	std	Z+2, r24	; 0x02
-     7c6:	44 81       	ldd	r20, Z+4	; 0x04
-     7c8:	90 e0       	ldi	r25, 0x00	; 0
-     7ca:	24 2f       	mov	r18, r20
-     7cc:	30 e0       	ldi	r19, 0x00	; 0
-     7ce:	28 5f       	subi	r18, 0xF8	; 248
-     7d0:	3f 4f       	sbci	r19, 0xFF	; 255
-     7d2:	82 17       	cp	r24, r18
-     7d4:	93 07       	cpc	r25, r19
-     7d6:	14 f0       	brlt	.+4      	; 0x7dc <update_menu_position_from_joystick+0x72>
-     7d8:	4f 5f       	subi	r20, 0xFF	; 255
-     7da:	44 83       	std	Z+4, r20	; 0x04
-     7dc:	bf ef       	ldi	r27, 0xFF	; 255
-     7de:	2f e7       	ldi	r18, 0x7F	; 127
-     7e0:	81 e0       	ldi	r24, 0x01	; 1
-     7e2:	b1 50       	subi	r27, 0x01	; 1
-     7e4:	20 40       	sbci	r18, 0x00	; 0
-     7e6:	80 40       	sbci	r24, 0x00	; 0
-     7e8:	e1 f7       	brne	.-8      	; 0x7e2 <update_menu_position_from_joystick+0x78>
-     7ea:	00 c0       	rjmp	.+0      	; 0x7ec <update_menu_position_from_joystick+0x82>
-     7ec:	00 c0       	rjmp	.+0      	; 0x7ee <update_menu_position_from_joystick+0x84>
-     7ee:	08 95       	ret
+// Oppdaterer menyposisjonen frÃ¥ joystick-input hugs Ã¥ kalle pÃ¥ MultiBoard_Update(board);  // Oppdater joystick-posisjonen
+void update_menu_position_from_joystick(MultiBoard* board, Menu* menu) {
+     74e:	fb 01       	movw	r30, r22
+	int16_t joyY = (int16_t)(board->JoyYposCal);  // Les Y-posisjonen frÃ¥ joysticken
+     750:	dc 01       	movw	r26, r24
+     752:	1c 96       	adiw	r26, 0x0c	; 12
+     754:	8d 91       	ld	r24, X+
+     756:	9c 91       	ld	r25, X
+     758:	1d 97       	sbiw	r26, 0x0d	; 13
+	
+	// Beveg oppover i menyen
+	if (joyY > 50) {
+     75a:	83 33       	cpi	r24, 0x33	; 51
+     75c:	91 05       	cpc	r25, r1
+     75e:	ac f0       	brlt	.+42     	; 0x78a <update_menu_position_from_joystick+0x3c>
+		if (menu->current_position > 0) {
+     760:	82 81       	ldd	r24, Z+2	; 0x02
+     762:	88 23       	and	r24, r24
+     764:	b1 f1       	breq	.+108    	; 0x7d2 <update_menu_position_from_joystick+0x84>
+			menu->prev_position = menu->current_position;
+     766:	83 83       	std	Z+3, r24	; 0x03
+			menu->current_position--;
+     768:	81 50       	subi	r24, 0x01	; 1
+     76a:	82 83       	std	Z+2, r24	; 0x02
 
-000007f0 <write_menu_oled_to_SRAM>:
-	}else {
-		update_menu_arrows(menu->current_position - menu->scroll_offset,menu->prev_position - menu->scroll_offset);
-	}	
+			// Hvis vi har scrollet forbi synlege element, oppdater scroll_offset
+			// dÃ¥ mÃ¥ vi og oppdatere heile menyen
+			if (menu->current_position < menu->scroll_offset) {
+     76c:	94 81       	ldd	r25, Z+4	; 0x04
+     76e:	89 17       	cp	r24, r25
+     770:	10 f4       	brcc	.+4      	; 0x776 <update_menu_position_from_joystick+0x28>
+				menu->scroll_offset--;
+     772:	91 50       	subi	r25, 0x01	; 1
+     774:	94 83       	std	Z+4, r25	; 0x04
+     776:	bf ef       	ldi	r27, 0xFF	; 255
+     778:	2f e7       	ldi	r18, 0x7F	; 127
+     77a:	81 e0       	ldi	r24, 0x01	; 1
+     77c:	b1 50       	subi	r27, 0x01	; 1
+     77e:	20 40       	sbci	r18, 0x00	; 0
+     780:	80 40       	sbci	r24, 0x00	; 0
+     782:	e1 f7       	brne	.-8      	; 0x77c <update_menu_position_from_joystick+0x2e>
+     784:	00 c0       	rjmp	.+0      	; 0x786 <update_menu_position_from_joystick+0x38>
+     786:	00 c0       	rjmp	.+0      	; 0x788 <update_menu_position_from_joystick+0x3a>
+     788:	08 95       	ret
+			//}
+			_delay_ms(100);  // Forsinkelse for Ã¥ unngÃ¥ rask scrolling
+		}
+	}
+	// Beveg nedover i menyen
+	else if (joyY < -50) {
+     78a:	8e 3c       	cpi	r24, 0xCE	; 206
+     78c:	9f 4f       	sbci	r25, 0xFF	; 255
+     78e:	0c f5       	brge	.+66     	; 0x7d2 <update_menu_position_from_joystick+0x84>
+		if (menu->current_position < menu->num_items - 1) {
+     790:	82 81       	ldd	r24, Z+2	; 0x02
+     792:	48 2f       	mov	r20, r24
+     794:	50 e0       	ldi	r21, 0x00	; 0
+     796:	25 81       	ldd	r18, Z+5	; 0x05
+     798:	30 e0       	ldi	r19, 0x00	; 0
+     79a:	21 50       	subi	r18, 0x01	; 1
+     79c:	31 09       	sbc	r19, r1
+     79e:	42 17       	cp	r20, r18
+     7a0:	53 07       	cpc	r21, r19
+     7a2:	bc f4       	brge	.+46     	; 0x7d2 <update_menu_position_from_joystick+0x84>
+			menu->prev_position = menu->current_position;
+     7a4:	83 83       	std	Z+3, r24	; 0x03
+			
+			menu->current_position++;
+     7a6:	8f 5f       	subi	r24, 0xFF	; 255
+     7a8:	82 83       	std	Z+2, r24	; 0x02
+
+			// Hvis vi har nÃ¥dd slutten av den synlege menyen, oppdater scroll_offset
+			if (menu->current_position >= menu->scroll_offset + MENU_ITEMS_PER_PAGE) {
+     7aa:	44 81       	ldd	r20, Z+4	; 0x04
+     7ac:	90 e0       	ldi	r25, 0x00	; 0
+     7ae:	24 2f       	mov	r18, r20
+     7b0:	30 e0       	ldi	r19, 0x00	; 0
+     7b2:	28 5f       	subi	r18, 0xF8	; 248
+     7b4:	3f 4f       	sbci	r19, 0xFF	; 255
+     7b6:	82 17       	cp	r24, r18
+     7b8:	93 07       	cpc	r25, r19
+     7ba:	14 f0       	brlt	.+4      	; 0x7c0 <update_menu_position_from_joystick+0x72>
+				menu->scroll_offset++;
+     7bc:	4f 5f       	subi	r20, 0xFF	; 255
+     7be:	44 83       	std	Z+4, r20	; 0x04
+     7c0:	bf ef       	ldi	r27, 0xFF	; 255
+     7c2:	2f e7       	ldi	r18, 0x7F	; 127
+     7c4:	81 e0       	ldi	r24, 0x01	; 1
+     7c6:	b1 50       	subi	r27, 0x01	; 1
+     7c8:	20 40       	sbci	r18, 0x00	; 0
+     7ca:	80 40       	sbci	r24, 0x00	; 0
+     7cc:	e1 f7       	brne	.-8      	; 0x7c6 <update_menu_position_from_joystick+0x78>
+     7ce:	00 c0       	rjmp	.+0      	; 0x7d0 <update_menu_position_from_joystick+0x82>
+     7d0:	00 c0       	rjmp	.+0      	; 0x7d2 <update_menu_position_from_joystick+0x84>
+     7d2:	08 95       	ret
+
+000007d4 <write_menu_oled_to_SRAM>:
 }
+
+
+
 
 void write_menu_oled_to_SRAM(Menu* menu){
-     7f0:	2f 92       	push	r2
-     7f2:	3f 92       	push	r3
-     7f4:	4f 92       	push	r4
-     7f6:	5f 92       	push	r5
-     7f8:	6f 92       	push	r6
-     7fa:	7f 92       	push	r7
-     7fc:	8f 92       	push	r8
-     7fe:	9f 92       	push	r9
-     800:	af 92       	push	r10
-     802:	bf 92       	push	r11
-     804:	cf 92       	push	r12
-     806:	df 92       	push	r13
-     808:	ef 92       	push	r14
-     80a:	ff 92       	push	r15
-     80c:	0f 93       	push	r16
-     80e:	1f 93       	push	r17
-     810:	cf 93       	push	r28
-     812:	df 93       	push	r29
-     814:	cd b7       	in	r28, 0x3d	; 61
-     816:	de b7       	in	r29, 0x3e	; 62
-     818:	2a 97       	sbiw	r28, 0x0a	; 10
-     81a:	0f b6       	in	r0, 0x3f	; 63
-     81c:	f8 94       	cli
-     81e:	de bf       	out	0x3e, r29	; 62
-     820:	0f be       	out	0x3f, r0	; 63
-     822:	cd bf       	out	0x3d, r28	; 61
-     824:	7c 01       	movw	r14, r24
-	// vist målet er å sjekke om det er meir enn 8 så blir ditta feil.
-	//num_items helder antall "linjer"så i staden for å sjekke over 128 skulle det vert over 8
+     7d4:	2f 92       	push	r2
+     7d6:	3f 92       	push	r3
+     7d8:	4f 92       	push	r4
+     7da:	5f 92       	push	r5
+     7dc:	6f 92       	push	r6
+     7de:	7f 92       	push	r7
+     7e0:	8f 92       	push	r8
+     7e2:	9f 92       	push	r9
+     7e4:	af 92       	push	r10
+     7e6:	bf 92       	push	r11
+     7e8:	cf 92       	push	r12
+     7ea:	df 92       	push	r13
+     7ec:	ef 92       	push	r14
+     7ee:	ff 92       	push	r15
+     7f0:	0f 93       	push	r16
+     7f2:	1f 93       	push	r17
+     7f4:	cf 93       	push	r28
+     7f6:	df 93       	push	r29
+     7f8:	cd b7       	in	r28, 0x3d	; 61
+     7fa:	de b7       	in	r29, 0x3e	; 62
+     7fc:	2a 97       	sbiw	r28, 0x0a	; 10
+     7fe:	0f b6       	in	r0, 0x3f	; 63
+     800:	f8 94       	cli
+     802:	de bf       	out	0x3e, r29	; 62
+     804:	0f be       	out	0x3f, r0	; 63
+     806:	cd bf       	out	0x3d, r28	; 61
+     808:	7c 01       	movw	r14, r24
+	// vist mÃ¥let er Ã¥ sjekke om det er meir enn 8 sÃ¥ blir ditta feil.
+	//num_items helder antall "linjer"sÃ¥ i staden for Ã¥ sjekke over 128 skulle det vert over 8
 	uint8_t menuSize = menu->num_items; 
-     826:	dc 01       	movw	r26, r24
-     828:	15 96       	adiw	r26, 0x05	; 5
-     82a:	8c 91       	ld	r24, X
+     80a:	dc 01       	movw	r26, r24
+     80c:	15 96       	adiw	r26, 0x05	; 5
+     80e:	8c 91       	ld	r24, X
 	
 	//Om det er 8 eller mindre linjer (bytte til if(menuSize <= 8){
-	if(menuSize <= 128){
-     82c:	81 38       	cpi	r24, 0x81	; 129
-     82e:	50 f0       	brcs	.+20     	; 0x844 <write_menu_oled_to_SRAM+0x54>
-	
-	
-	//Om det er mer enn 8 linjer
-	//litt usikker om scroll kan gå for høy her, men satser på nei
-	else{
+	if(menuSize <= 8){
+     810:	89 30       	cpi	r24, 0x09	; 9
+     812:	08 f0       	brcs	.+2      	; 0x816 <write_menu_oled_to_SRAM+0x42>
+     814:	bb c0       	rjmp	.+374    	; 0x98c <write_menu_oled_to_SRAM+0x1b8>
 		for(uint16_t j = 0; j < menuSize*16; j++) {
-     830:	20 e1       	ldi	r18, 0x10	; 16
-     832:	82 9f       	mul	r24, r18
-     834:	f0 01       	movw	r30, r0
-     836:	11 24       	eor	r1, r1
-     838:	fc 83       	std	Y+4, r31	; 0x04
-     83a:	eb 83       	std	Y+3, r30	; 0x03
-     83c:	ef 2b       	or	r30, r31
-     83e:	09 f0       	breq	.+2      	; 0x842 <write_menu_oled_to_SRAM+0x52>
-     840:	bb c0       	rjmp	.+374    	; 0x9b8 <write_menu_oled_to_SRAM+0x1c8>
-     842:	30 c1       	rjmp	.+608    	; 0xaa4 <write_menu_oled_to_SRAM+0x2b4>
-	//num_items helder antall "linjer"så i staden for å sjekke over 128 skulle det vert over 8
-	uint8_t menuSize = menu->num_items; 
-	
-	//Om det er 8 eller mindre linjer (bytte til if(menuSize <= 8){
-	if(menuSize <= 128){
-		for(uint16_t j = 0; j < menuSize*16; j++) {
-     844:	a8 2f       	mov	r26, r24
-     846:	b0 e0       	ldi	r27, 0x00	; 0
-     848:	b8 87       	std	Y+8, r27	; 0x08
-     84a:	af 83       	std	Y+7, r26	; 0x07
-     84c:	a2 95       	swap	r26
-     84e:	b2 95       	swap	r27
-     850:	b0 7f       	andi	r27, 0xF0	; 240
-     852:	ba 27       	eor	r27, r26
-     854:	a0 7f       	andi	r26, 0xF0	; 240
-     856:	ba 27       	eor	r27, r26
-     858:	bc 83       	std	Y+4, r27	; 0x04
-     85a:	ab 83       	std	Y+3, r26	; 0x03
-     85c:	be 83       	std	Y+6, r27	; 0x06
-     85e:	ad 83       	std	Y+5, r26	; 0x05
-     860:	ab 2b       	or	r26, r27
-     862:	09 f4       	brne	.+2      	; 0x866 <write_menu_oled_to_SRAM+0x76>
-     864:	6c c0       	rjmp	.+216    	; 0x93e <write_menu_oled_to_SRAM+0x14e>
-     866:	1a 82       	std	Y+2, r1	; 0x02
-     868:	19 82       	std	Y+1, r1	; 0x01
-     86a:	41 2c       	mov	r4, r1
-     86c:	51 2c       	mov	r5, r1
-     86e:	0f 2e       	mov	r0, r31
-     870:	f8 ee       	ldi	r31, 0xE8	; 232
-     872:	8f 2e       	mov	r8, r31
-     874:	f3 e0       	ldi	r31, 0x03	; 3
-     876:	9f 2e       	mov	r9, r31
-     878:	f0 2d       	mov	r31, r0
+     816:	e8 2f       	mov	r30, r24
+     818:	f0 e0       	ldi	r31, 0x00	; 0
+     81a:	f8 87       	std	Y+8, r31	; 0x08
+     81c:	ef 83       	std	Y+7, r30	; 0x07
+     81e:	e2 95       	swap	r30
+     820:	f2 95       	swap	r31
+     822:	f0 7f       	andi	r31, 0xF0	; 240
+     824:	fe 27       	eor	r31, r30
+     826:	e0 7f       	andi	r30, 0xF0	; 240
+     828:	fe 27       	eor	r31, r30
+     82a:	fc 83       	std	Y+4, r31	; 0x04
+     82c:	eb 83       	std	Y+3, r30	; 0x03
+     82e:	fe 83       	std	Y+6, r31	; 0x06
+     830:	ed 83       	std	Y+5, r30	; 0x05
+     832:	ef 2b       	or	r30, r31
+     834:	09 f4       	brne	.+2      	; 0x838 <write_menu_oled_to_SRAM+0x64>
+     836:	6d c0       	rjmp	.+218    	; 0x912 <write_menu_oled_to_SRAM+0x13e>
+     838:	1a 82       	std	Y+2, r1	; 0x02
+     83a:	19 82       	std	Y+1, r1	; 0x01
+     83c:	41 2c       	mov	r4, r1
+     83e:	51 2c       	mov	r5, r1
+     840:	0f 2e       	mov	r0, r31
+     842:	f8 ee       	ldi	r31, 0xE8	; 232
+     844:	8f 2e       	mov	r8, r31
+     846:	f3 e0       	ldi	r31, 0x03	; 3
+     848:	9f 2e       	mov	r9, r31
+     84a:	f0 2d       	mov	r31, r0
 			char c = pgm_read_byte(&menu->items[j]);
 			for(int i = 0; i < 8; i++){
 				if((j%16 == 0) & (j/16 == menu->current_position)){
-     87a:	33 24       	eor	r3, r3
-     87c:	33 94       	inc	r3
-     87e:	21 2c       	mov	r2, r1
+     84c:	33 24       	eor	r3, r3
+     84e:	33 94       	inc	r3
+     850:	21 2c       	mov	r2, r1
 	uint8_t menuSize = menu->num_items; 
 	
 	//Om det er 8 eller mindre linjer (bytte til if(menuSize <= 8){
-	if(menuSize <= 128){
+	if(menuSize <= 8){
 		for(uint16_t j = 0; j < menuSize*16; j++) {
 			char c = pgm_read_byte(&menu->items[j]);
-     880:	d7 01       	movw	r26, r14
-     882:	ed 91       	ld	r30, X+
-     884:	fc 91       	ld	r31, X
-     886:	e4 0d       	add	r30, r4
-     888:	f5 1d       	adc	r31, r5
-     88a:	c4 90       	lpm	r12, Z
+     852:	d7 01       	movw	r26, r14
+     854:	ed 91       	ld	r30, X+
+     856:	fc 91       	ld	r31, X
+     858:	e4 0d       	add	r30, r4
+     85a:	f5 1d       	adc	r31, r5
+     85c:	84 91       	lpm	r24, Z
 			for(int i = 0; i < 8; i++){
 				if((j%16 == 0) & (j/16 == menu->current_position)){
-     88c:	32 01       	movw	r6, r4
-     88e:	76 94       	lsr	r7
-     890:	67 94       	ror	r6
-     892:	76 94       	lsr	r7
-     894:	67 94       	ror	r6
-     896:	76 94       	lsr	r7
-     898:	67 94       	ror	r6
-     89a:	76 94       	lsr	r7
-     89c:	67 94       	ror	r6
+     85e:	32 01       	movw	r6, r4
+     860:	76 94       	lsr	r7
+     862:	67 94       	ror	r6
+     864:	76 94       	lsr	r7
+     866:	67 94       	ror	r6
+     868:	76 94       	lsr	r7
+     86a:	67 94       	ror	r6
+     86c:	76 94       	lsr	r7
+     86e:	67 94       	ror	r6
 					SRAM_write(j*8 + i, pgm_read_byte(&font8x8_basic[('>'-32)*8 + i]));
 				}
 				else{
 					SRAM_write(j*8 + i, pgm_read_byte(&font8x8_basic[(c-32)*8 + i]));	
-     89e:	d1 2c       	mov	r13, r1
-     8a0:	c6 01       	movw	r24, r12
-     8a2:	88 0f       	add	r24, r24
-     8a4:	99 1f       	adc	r25, r25
-     8a6:	88 0f       	add	r24, r24
-     8a8:	99 1f       	adc	r25, r25
-     8aa:	88 0f       	add	r24, r24
-     8ac:	99 1f       	adc	r25, r25
-     8ae:	e0 ee       	ldi	r30, 0xE0	; 224
-     8b0:	f3 e0       	ldi	r31, 0x03	; 3
-     8b2:	fa 87       	std	Y+10, r31	; 0x0a
-     8b4:	e9 87       	std	Y+9, r30	; 0x09
-     8b6:	09 81       	ldd	r16, Y+1	; 0x01
-     8b8:	1a 81       	ldd	r17, Y+2	; 0x02
+     870:	c8 2e       	mov	r12, r24
+     872:	d1 2c       	mov	r13, r1
+     874:	c6 01       	movw	r24, r12
+     876:	88 0f       	add	r24, r24
+     878:	99 1f       	adc	r25, r25
+     87a:	88 0f       	add	r24, r24
+     87c:	99 1f       	adc	r25, r25
+     87e:	88 0f       	add	r24, r24
+     880:	99 1f       	adc	r25, r25
+     882:	e0 ee       	ldi	r30, 0xE0	; 224
+     884:	f3 e0       	ldi	r31, 0x03	; 3
+     886:	fa 87       	std	Y+10, r31	; 0x0a
+     888:	e9 87       	std	Y+9, r30	; 0x09
+     88a:	09 81       	ldd	r16, Y+1	; 0x01
+     88c:	1a 81       	ldd	r17, Y+2	; 0x02
 	//Om det er 8 eller mindre linjer (bytte til if(menuSize <= 8){
-	if(menuSize <= 128){
+	if(menuSize <= 8){
 		for(uint16_t j = 0; j < menuSize*16; j++) {
 			char c = pgm_read_byte(&menu->items[j]);
 			for(int i = 0; i < 8; i++){
 				if((j%16 == 0) & (j/16 == menu->current_position)){
-     8ba:	52 01       	movw	r10, r4
-     8bc:	ff e0       	ldi	r31, 0x0F	; 15
-     8be:	af 22       	and	r10, r31
-     8c0:	bb 24       	eor	r11, r11
+     88e:	52 01       	movw	r10, r4
+     890:	ff e0       	ldi	r31, 0x0F	; 15
+     892:	af 22       	and	r10, r31
+     894:	bb 24       	eor	r11, r11
 					SRAM_write(j*8 + i, pgm_read_byte(&font8x8_basic[('>'-32)*8 + i]));
 				}
 				else{
 					SRAM_write(j*8 + i, pgm_read_byte(&font8x8_basic[(c-32)*8 + i]));	
-     8c2:	9c 01       	movw	r18, r24
-     8c4:	20 5f       	subi	r18, 0xF0	; 240
-     8c6:	31 40       	sbci	r19, 0x01	; 1
-     8c8:	69 01       	movw	r12, r18
+     896:	9c 01       	movw	r18, r24
+     898:	20 5f       	subi	r18, 0xF0	; 240
+     89a:	31 40       	sbci	r19, 0x01	; 1
+     89c:	69 01       	movw	r12, r18
 	//Om det er 8 eller mindre linjer (bytte til if(menuSize <= 8){
-	if(menuSize <= 128){
+	if(menuSize <= 8){
 		for(uint16_t j = 0; j < menuSize*16; j++) {
 			char c = pgm_read_byte(&menu->items[j]);
 			for(int i = 0; i < 8; i++){
 				if((j%16 == 0) & (j/16 == menu->current_position)){
-     8ca:	83 2d       	mov	r24, r3
-     8cc:	a1 14       	cp	r10, r1
-     8ce:	b1 04       	cpc	r11, r1
-     8d0:	09 f0       	breq	.+2      	; 0x8d4 <write_menu_oled_to_SRAM+0xe4>
-     8d2:	82 2d       	mov	r24, r2
-     8d4:	88 23       	and	r24, r24
-     8d6:	91 f0       	breq	.+36     	; 0x8fc <write_menu_oled_to_SRAM+0x10c>
-     8d8:	d7 01       	movw	r26, r14
-     8da:	12 96       	adiw	r26, 0x02	; 2
-     8dc:	8c 91       	ld	r24, X
-     8de:	90 e0       	ldi	r25, 0x00	; 0
-     8e0:	23 2d       	mov	r18, r3
-     8e2:	86 15       	cp	r24, r6
-     8e4:	97 05       	cpc	r25, r7
-     8e6:	09 f0       	breq	.+2      	; 0x8ea <write_menu_oled_to_SRAM+0xfa>
-     8e8:	22 2d       	mov	r18, r2
-     8ea:	22 23       	and	r18, r18
-     8ec:	39 f0       	breq	.+14     	; 0x8fc <write_menu_oled_to_SRAM+0x10c>
+     89e:	83 2d       	mov	r24, r3
+     8a0:	a1 14       	cp	r10, r1
+     8a2:	b1 04       	cpc	r11, r1
+     8a4:	09 f0       	breq	.+2      	; 0x8a8 <write_menu_oled_to_SRAM+0xd4>
+     8a6:	82 2d       	mov	r24, r2
+     8a8:	88 23       	and	r24, r24
+     8aa:	91 f0       	breq	.+36     	; 0x8d0 <write_menu_oled_to_SRAM+0xfc>
+     8ac:	d7 01       	movw	r26, r14
+     8ae:	12 96       	adiw	r26, 0x02	; 2
+     8b0:	8c 91       	ld	r24, X
+     8b2:	90 e0       	ldi	r25, 0x00	; 0
+     8b4:	23 2d       	mov	r18, r3
+     8b6:	86 15       	cp	r24, r6
+     8b8:	97 05       	cpc	r25, r7
+     8ba:	09 f0       	breq	.+2      	; 0x8be <write_menu_oled_to_SRAM+0xea>
+     8bc:	22 2d       	mov	r18, r2
+     8be:	22 23       	and	r18, r18
+     8c0:	39 f0       	breq	.+14     	; 0x8d0 <write_menu_oled_to_SRAM+0xfc>
 					SRAM_write(j*8 + i, pgm_read_byte(&font8x8_basic[('>'-32)*8 + i]));
-     8ee:	e9 85       	ldd	r30, Y+9	; 0x09
-     8f0:	fa 85       	ldd	r31, Y+10	; 0x0a
-     8f2:	64 91       	lpm	r22, Z
-     8f4:	c8 01       	movw	r24, r16
-     8f6:	0e 94 b8 0a 	call	0x1570	; 0x1570 <SRAM_write>
-     8fa:	08 c0       	rjmp	.+16     	; 0x90c <write_menu_oled_to_SRAM+0x11c>
+     8c2:	e9 85       	ldd	r30, Y+9	; 0x09
+     8c4:	fa 85       	ldd	r31, Y+10	; 0x0a
+     8c6:	64 91       	lpm	r22, Z
+     8c8:	c8 01       	movw	r24, r16
+     8ca:	0e 94 6e 0a 	call	0x14dc	; 0x14dc <SRAM_write>
+     8ce:	08 c0       	rjmp	.+16     	; 0x8e0 <write_menu_oled_to_SRAM+0x10c>
 				}
 				else{
 					SRAM_write(j*8 + i, pgm_read_byte(&font8x8_basic[(c-32)*8 + i]));	
-     8fc:	e9 85       	ldd	r30, Y+9	; 0x09
-     8fe:	fa 85       	ldd	r31, Y+10	; 0x0a
-     900:	ec 0d       	add	r30, r12
-     902:	fd 1d       	adc	r31, r13
-     904:	64 91       	lpm	r22, Z
-     906:	c8 01       	movw	r24, r16
-     908:	0e 94 b8 0a 	call	0x1570	; 0x1570 <SRAM_write>
-     90c:	29 85       	ldd	r18, Y+9	; 0x09
-     90e:	3a 85       	ldd	r19, Y+10	; 0x0a
-     910:	2f 5f       	subi	r18, 0xFF	; 255
-     912:	3f 4f       	sbci	r19, 0xFF	; 255
-     914:	3a 87       	std	Y+10, r19	; 0x0a
-     916:	29 87       	std	Y+9, r18	; 0x09
-     918:	0f 5f       	subi	r16, 0xFF	; 255
-     91a:	1f 4f       	sbci	r17, 0xFF	; 255
+     8d0:	e9 85       	ldd	r30, Y+9	; 0x09
+     8d2:	fa 85       	ldd	r31, Y+10	; 0x0a
+     8d4:	ec 0d       	add	r30, r12
+     8d6:	fd 1d       	adc	r31, r13
+     8d8:	64 91       	lpm	r22, Z
+     8da:	c8 01       	movw	r24, r16
+     8dc:	0e 94 6e 0a 	call	0x14dc	; 0x14dc <SRAM_write>
+     8e0:	29 85       	ldd	r18, Y+9	; 0x09
+     8e2:	3a 85       	ldd	r19, Y+10	; 0x0a
+     8e4:	2f 5f       	subi	r18, 0xFF	; 255
+     8e6:	3f 4f       	sbci	r19, 0xFF	; 255
+     8e8:	3a 87       	std	Y+10, r19	; 0x0a
+     8ea:	29 87       	std	Y+9, r18	; 0x09
+     8ec:	0f 5f       	subi	r16, 0xFF	; 255
+     8ee:	1f 4f       	sbci	r17, 0xFF	; 255
 	
 	//Om det er 8 eller mindre linjer (bytte til if(menuSize <= 8){
-	if(menuSize <= 128){
+	if(menuSize <= 8){
 		for(uint16_t j = 0; j < menuSize*16; j++) {
 			char c = pgm_read_byte(&menu->items[j]);
 			for(int i = 0; i < 8; i++){
-     91c:	82 16       	cp	r8, r18
-     91e:	93 06       	cpc	r9, r19
-     920:	a1 f6       	brne	.-88     	; 0x8ca <write_menu_oled_to_SRAM+0xda>
-	//num_items helder antall "linjer"så i staden for å sjekke over 128 skulle det vert over 8
+     8f0:	82 16       	cp	r8, r18
+     8f2:	93 06       	cpc	r9, r19
+     8f4:	a1 f6       	brne	.-88     	; 0x89e <write_menu_oled_to_SRAM+0xca>
+	//num_items helder antall "linjer"sÃ¥ i staden for Ã¥ sjekke over 128 skulle det vert over 8
 	uint8_t menuSize = menu->num_items; 
 	
 	//Om det er 8 eller mindre linjer (bytte til if(menuSize <= 8){
-	if(menuSize <= 128){
+	if(menuSize <= 8){
 		for(uint16_t j = 0; j < menuSize*16; j++) {
-     922:	3f ef       	ldi	r19, 0xFF	; 255
-     924:	43 1a       	sub	r4, r19
-     926:	53 0a       	sbc	r5, r19
-     928:	89 81       	ldd	r24, Y+1	; 0x01
-     92a:	9a 81       	ldd	r25, Y+2	; 0x02
-     92c:	08 96       	adiw	r24, 0x08	; 8
-     92e:	9a 83       	std	Y+2, r25	; 0x02
-     930:	89 83       	std	Y+1, r24	; 0x01
-     932:	ad 81       	ldd	r26, Y+5	; 0x05
-     934:	be 81       	ldd	r27, Y+6	; 0x06
-     936:	4a 16       	cp	r4, r26
-     938:	5b 06       	cpc	r5, r27
-     93a:	09 f0       	breq	.+2      	; 0x93e <write_menu_oled_to_SRAM+0x14e>
-     93c:	a1 cf       	rjmp	.-190    	; 0x880 <write_menu_oled_to_SRAM+0x90>
+     8f6:	3f ef       	ldi	r19, 0xFF	; 255
+     8f8:	43 1a       	sub	r4, r19
+     8fa:	53 0a       	sbc	r5, r19
+     8fc:	89 81       	ldd	r24, Y+1	; 0x01
+     8fe:	9a 81       	ldd	r25, Y+2	; 0x02
+     900:	08 96       	adiw	r24, 0x08	; 8
+     902:	9a 83       	std	Y+2, r25	; 0x02
+     904:	89 83       	std	Y+1, r24	; 0x01
+     906:	ad 81       	ldd	r26, Y+5	; 0x05
+     908:	be 81       	ldd	r27, Y+6	; 0x06
+     90a:	4a 16       	cp	r4, r26
+     90c:	5b 06       	cpc	r5, r27
+     90e:	09 f0       	breq	.+2      	; 0x912 <write_menu_oled_to_SRAM+0x13e>
+     910:	a0 cf       	rjmp	.-192    	; 0x852 <write_menu_oled_to_SRAM+0x7e>
 				}	
 			}	
 		}
-		// då blir det vell feil her og ?
+		// dÃ¥ blir det vell feil her og ?
 		//om menyen er mindre enn 8 linjer fyll resten med ' ' 
 		for(uint8_t i = 0; i < 128-menuSize*16; i++){
-     93e:	08 e0       	ldi	r16, 0x08	; 8
-     940:	10 e0       	ldi	r17, 0x00	; 0
-     942:	ef 81       	ldd	r30, Y+7	; 0x07
-     944:	f8 85       	ldd	r31, Y+8	; 0x08
-     946:	0e 1b       	sub	r16, r30
-     948:	1f 0b       	sbc	r17, r31
-     94a:	02 95       	swap	r16
-     94c:	12 95       	swap	r17
-     94e:	10 7f       	andi	r17, 0xF0	; 240
-     950:	10 27       	eor	r17, r16
-     952:	00 7f       	andi	r16, 0xF0	; 240
-     954:	10 27       	eor	r17, r16
-     956:	10 16       	cp	r1, r16
-     958:	11 06       	cpc	r1, r17
-     95a:	c4 f0       	brlt	.+48     	; 0x98c <write_menu_oled_to_SRAM+0x19c>
-     95c:	a3 c0       	rjmp	.+326    	; 0xaa4 <write_menu_oled_to_SRAM+0x2b4>
+     912:	08 e0       	ldi	r16, 0x08	; 8
+     914:	10 e0       	ldi	r17, 0x00	; 0
+     916:	ef 81       	ldd	r30, Y+7	; 0x07
+     918:	f8 85       	ldd	r31, Y+8	; 0x08
+     91a:	0e 1b       	sub	r16, r30
+     91c:	1f 0b       	sbc	r17, r31
+     91e:	02 95       	swap	r16
+     920:	12 95       	swap	r17
+     922:	10 7f       	andi	r17, 0xF0	; 240
+     924:	10 27       	eor	r17, r16
+     926:	00 7f       	andi	r16, 0xF0	; 240
+     928:	10 27       	eor	r17, r16
+     92a:	10 16       	cp	r1, r16
+     92c:	11 06       	cpc	r1, r17
+     92e:	c4 f0       	brlt	.+48     	; 0x960 <write_menu_oled_to_SRAM+0x18c>
+     930:	a7 c0       	rjmp	.+334    	; 0xa80 <write_menu_oled_to_SRAM+0x2ac>
 			for(uint8_t j = 0; j < 8; j++){
 				SRAM_write(menuSize*16*8+i*8+j, 0);
-     95e:	60 e0       	ldi	r22, 0x00	; 0
-     960:	89 81       	ldd	r24, Y+1	; 0x01
-     962:	9a 81       	ldd	r25, Y+2	; 0x02
-     964:	0e 94 b8 0a 	call	0x1570	; 0x1570 <SRAM_write>
-     968:	29 81       	ldd	r18, Y+1	; 0x01
-     96a:	3a 81       	ldd	r19, Y+2	; 0x02
-     96c:	2f 5f       	subi	r18, 0xFF	; 255
-     96e:	3f 4f       	sbci	r19, 0xFF	; 255
-     970:	3a 83       	std	Y+2, r19	; 0x02
-     972:	29 83       	std	Y+1, r18	; 0x01
+     932:	60 e0       	ldi	r22, 0x00	; 0
+     934:	89 81       	ldd	r24, Y+1	; 0x01
+     936:	9a 81       	ldd	r25, Y+2	; 0x02
+     938:	0e 94 6e 0a 	call	0x14dc	; 0x14dc <SRAM_write>
+     93c:	29 81       	ldd	r18, Y+1	; 0x01
+     93e:	3a 81       	ldd	r19, Y+2	; 0x02
+     940:	2f 5f       	subi	r18, 0xFF	; 255
+     942:	3f 4f       	sbci	r19, 0xFF	; 255
+     944:	3a 83       	std	Y+2, r19	; 0x02
+     946:	29 83       	std	Y+1, r18	; 0x01
 			}	
 		}
-		// då blir det vell feil her og ?
+		// dÃ¥ blir det vell feil her og ?
 		//om menyen er mindre enn 8 linjer fyll resten med ' ' 
 		for(uint8_t i = 0; i < 128-menuSize*16; i++){
 			for(uint8_t j = 0; j < 8; j++){
-     974:	2e 15       	cp	r18, r14
-     976:	3f 05       	cpc	r19, r15
-     978:	91 f7       	brne	.-28     	; 0x95e <write_menu_oled_to_SRAM+0x16e>
+     948:	2e 15       	cp	r18, r14
+     94a:	3f 05       	cpc	r19, r15
+     94c:	91 f7       	brne	.-28     	; 0x932 <write_menu_oled_to_SRAM+0x15e>
 				}	
 			}	
 		}
-		// då blir det vell feil her og ?
+		// dÃ¥ blir det vell feil her og ?
 		//om menyen er mindre enn 8 linjer fyll resten med ' ' 
 		for(uint8_t i = 0; i < 128-menuSize*16; i++){
-     97a:	d3 94       	inc	r13
-     97c:	8d 2d       	mov	r24, r13
-     97e:	90 e0       	ldi	r25, 0x00	; 0
-     980:	9a 83       	std	Y+2, r25	; 0x02
-     982:	89 83       	std	Y+1, r24	; 0x01
-     984:	80 17       	cp	r24, r16
-     986:	91 07       	cpc	r25, r17
-     988:	24 f0       	brlt	.+8      	; 0x992 <write_menu_oled_to_SRAM+0x1a2>
-     98a:	8c c0       	rjmp	.+280    	; 0xaa4 <write_menu_oled_to_SRAM+0x2b4>
+     94e:	d3 94       	inc	r13
+     950:	8d 2d       	mov	r24, r13
+     952:	90 e0       	ldi	r25, 0x00	; 0
+     954:	9a 83       	std	Y+2, r25	; 0x02
+     956:	89 83       	std	Y+1, r24	; 0x01
+     958:	80 17       	cp	r24, r16
+     95a:	91 07       	cpc	r25, r17
+     95c:	24 f0       	brlt	.+8      	; 0x966 <write_menu_oled_to_SRAM+0x192>
+     95e:	90 c0       	rjmp	.+288    	; 0xa80 <write_menu_oled_to_SRAM+0x2ac>
+     960:	1a 82       	std	Y+2, r1	; 0x02
+     962:	19 82       	std	Y+1, r1	; 0x01
+     964:	d1 2c       	mov	r13, r1
+     966:	a9 81       	ldd	r26, Y+1	; 0x01
+     968:	ba 81       	ldd	r27, Y+2	; 0x02
+     96a:	eb 81       	ldd	r30, Y+3	; 0x03
+     96c:	fc 81       	ldd	r31, Y+4	; 0x04
+     96e:	ae 0f       	add	r26, r30
+     970:	bf 1f       	adc	r27, r31
+     972:	aa 0f       	add	r26, r26
+     974:	bb 1f       	adc	r27, r27
+     976:	aa 0f       	add	r26, r26
+     978:	bb 1f       	adc	r27, r27
+     97a:	aa 0f       	add	r26, r26
+     97c:	bb 1f       	adc	r27, r27
+     97e:	ba 83       	std	Y+2, r27	; 0x02
+     980:	a9 83       	std	Y+1, r26	; 0x01
+     982:	7d 01       	movw	r14, r26
+     984:	f8 e0       	ldi	r31, 0x08	; 8
+     986:	ef 0e       	add	r14, r31
+     988:	f1 1c       	adc	r15, r1
+     98a:	d3 cf       	rjmp	.-90     	; 0x932 <write_menu_oled_to_SRAM+0x15e>
      98c:	1a 82       	std	Y+2, r1	; 0x02
      98e:	19 82       	std	Y+1, r1	; 0x01
-     990:	d1 2c       	mov	r13, r1
-     992:	a9 81       	ldd	r26, Y+1	; 0x01
-     994:	ba 81       	ldd	r27, Y+2	; 0x02
-     996:	eb 81       	ldd	r30, Y+3	; 0x03
-     998:	fc 81       	ldd	r31, Y+4	; 0x04
-     99a:	ae 0f       	add	r26, r30
-     99c:	bf 1f       	adc	r27, r31
-     99e:	aa 0f       	add	r26, r26
-     9a0:	bb 1f       	adc	r27, r27
-     9a2:	aa 0f       	add	r26, r26
-     9a4:	bb 1f       	adc	r27, r27
-     9a6:	aa 0f       	add	r26, r26
-     9a8:	bb 1f       	adc	r27, r27
-     9aa:	ba 83       	std	Y+2, r27	; 0x02
-     9ac:	a9 83       	std	Y+1, r26	; 0x01
-     9ae:	7d 01       	movw	r14, r26
-     9b0:	f8 e0       	ldi	r31, 0x08	; 8
-     9b2:	ef 0e       	add	r14, r31
-     9b4:	f1 1c       	adc	r15, r1
-     9b6:	d3 cf       	rjmp	.-90     	; 0x95e <write_menu_oled_to_SRAM+0x16e>
-	
-	
-	//Om det er mer enn 8 linjer
-	//litt usikker om scroll kan gå for høy her, men satser på nei
+     990:	41 2c       	mov	r4, r1
+     992:	51 2c       	mov	r5, r1
+     994:	0f 2e       	mov	r0, r31
+     996:	f8 ee       	ldi	r31, 0xE8	; 232
+     998:	8f 2e       	mov	r8, r31
+     99a:	f3 e0       	ldi	r31, 0x03	; 3
+     99c:	9f 2e       	mov	r9, r31
+     99e:	f0 2d       	mov	r31, r0
+	//litt usikker om scroll kan gÃ¥ for hÃ¸y her, men satser pÃ¥ nei
 	else{
-		for(uint16_t j = 0; j < menuSize*16; j++) {
-     9b8:	1a 82       	std	Y+2, r1	; 0x02
-     9ba:	19 82       	std	Y+1, r1	; 0x01
-     9bc:	41 2c       	mov	r4, r1
-     9be:	51 2c       	mov	r5, r1
-     9c0:	0f 2e       	mov	r0, r31
-     9c2:	f8 ee       	ldi	r31, 0xE8	; 232
-     9c4:	8f 2e       	mov	r8, r31
-     9c6:	f3 e0       	ldi	r31, 0x03	; 3
-     9c8:	9f 2e       	mov	r9, r31
-     9ca:	f0 2d       	mov	r31, r0
+		for(uint16_t j = 0; j < 8*16; j++) {
 			char c = pgm_read_byte(&menu->items[menu->scroll_offset*16 + j]);
 			for(int i = 0; i < 8; i++){
-				if((j%16 == 0) & (j/16 == menu->current_position)){
-     9cc:	33 24       	eor	r3, r3
-     9ce:	33 94       	inc	r3
-     9d0:	21 2c       	mov	r2, r1
+				if((j%16 == 0) & (j/16 == menu->current_position-menu->scroll_offset)){
+     9a0:	33 24       	eor	r3, r3
+     9a2:	33 94       	inc	r3
+     9a4:	21 2c       	mov	r2, r1
 	
 	//Om det er mer enn 8 linjer
-	//litt usikker om scroll kan gå for høy her, men satser på nei
+	//litt usikker om scroll kan gÃ¥ for hÃ¸y her, men satser pÃ¥ nei
 	else{
-		for(uint16_t j = 0; j < menuSize*16; j++) {
+		for(uint16_t j = 0; j < 8*16; j++) {
 			char c = pgm_read_byte(&menu->items[menu->scroll_offset*16 + j]);
-     9d2:	d7 01       	movw	r26, r14
-     9d4:	14 96       	adiw	r26, 0x04	; 4
-     9d6:	8c 91       	ld	r24, X
-     9d8:	14 97       	sbiw	r26, 0x04	; 4
-     9da:	f2 01       	movw	r30, r4
-     9dc:	20 e1       	ldi	r18, 0x10	; 16
-     9de:	82 9f       	mul	r24, r18
-     9e0:	e0 0d       	add	r30, r0
-     9e2:	f1 1d       	adc	r31, r1
-     9e4:	11 24       	eor	r1, r1
-     9e6:	cf 01       	movw	r24, r30
-     9e8:	ed 91       	ld	r30, X+
-     9ea:	fc 91       	ld	r31, X
-     9ec:	e8 0f       	add	r30, r24
-     9ee:	f9 1f       	adc	r31, r25
-     9f0:	c4 90       	lpm	r12, Z
+     9a6:	d7 01       	movw	r26, r14
+     9a8:	14 96       	adiw	r26, 0x04	; 4
+     9aa:	8c 91       	ld	r24, X
+     9ac:	14 97       	sbiw	r26, 0x04	; 4
+     9ae:	f2 01       	movw	r30, r4
+     9b0:	20 e1       	ldi	r18, 0x10	; 16
+     9b2:	82 9f       	mul	r24, r18
+     9b4:	e0 0d       	add	r30, r0
+     9b6:	f1 1d       	adc	r31, r1
+     9b8:	11 24       	eor	r1, r1
+     9ba:	cf 01       	movw	r24, r30
+     9bc:	ed 91       	ld	r30, X+
+     9be:	fc 91       	ld	r31, X
+     9c0:	e8 0f       	add	r30, r24
+     9c2:	f9 1f       	adc	r31, r25
+     9c4:	c4 90       	lpm	r12, Z
 			for(int i = 0; i < 8; i++){
-				if((j%16 == 0) & (j/16 == menu->current_position)){
-     9f2:	32 01       	movw	r6, r4
-     9f4:	76 94       	lsr	r7
-     9f6:	67 94       	ror	r6
-     9f8:	76 94       	lsr	r7
-     9fa:	67 94       	ror	r6
-     9fc:	76 94       	lsr	r7
-     9fe:	67 94       	ror	r6
-     a00:	76 94       	lsr	r7
-     a02:	67 94       	ror	r6
+				if((j%16 == 0) & (j/16 == menu->current_position-menu->scroll_offset)){
+     9c6:	52 01       	movw	r10, r4
+     9c8:	b6 94       	lsr	r11
+     9ca:	a7 94       	ror	r10
+     9cc:	b6 94       	lsr	r11
+     9ce:	a7 94       	ror	r10
+     9d0:	b6 94       	lsr	r11
+     9d2:	a7 94       	ror	r10
+     9d4:	b6 94       	lsr	r11
+     9d6:	a7 94       	ror	r10
 					SRAM_write(j*8 + i, pgm_read_byte(&font8x8_basic[('>'-32)*8 + i]));
 				}
 				else{
 					SRAM_write(j*8 + i, pgm_read_byte(&font8x8_basic[(c-32)*8 + i]));
-     a04:	d1 2c       	mov	r13, r1
-     a06:	c6 01       	movw	r24, r12
-     a08:	88 0f       	add	r24, r24
-     a0a:	99 1f       	adc	r25, r25
-     a0c:	88 0f       	add	r24, r24
-     a0e:	99 1f       	adc	r25, r25
-     a10:	88 0f       	add	r24, r24
-     a12:	99 1f       	adc	r25, r25
-     a14:	a0 ee       	ldi	r26, 0xE0	; 224
-     a16:	b3 e0       	ldi	r27, 0x03	; 3
-     a18:	be 83       	std	Y+6, r27	; 0x06
-     a1a:	ad 83       	std	Y+5, r26	; 0x05
-     a1c:	09 81       	ldd	r16, Y+1	; 0x01
-     a1e:	1a 81       	ldd	r17, Y+2	; 0x02
-	//litt usikker om scroll kan gå for høy her, men satser på nei
+     9d8:	d1 2c       	mov	r13, r1
+     9da:	c6 01       	movw	r24, r12
+     9dc:	88 0f       	add	r24, r24
+     9de:	99 1f       	adc	r25, r25
+     9e0:	88 0f       	add	r24, r24
+     9e2:	99 1f       	adc	r25, r25
+     9e4:	88 0f       	add	r24, r24
+     9e6:	99 1f       	adc	r25, r25
+     9e8:	a0 ee       	ldi	r26, 0xE0	; 224
+     9ea:	b3 e0       	ldi	r27, 0x03	; 3
+     9ec:	bc 83       	std	Y+4, r27	; 0x04
+     9ee:	ab 83       	std	Y+3, r26	; 0x03
+     9f0:	09 81       	ldd	r16, Y+1	; 0x01
+     9f2:	1a 81       	ldd	r17, Y+2	; 0x02
+     9f4:	fc 01       	movw	r30, r24
+     9f6:	e0 5f       	subi	r30, 0xF0	; 240
+     9f8:	f1 40       	sbci	r31, 0x01	; 1
+     9fa:	6f 01       	movw	r12, r30
+	//litt usikker om scroll kan gÃ¥ for hÃ¸y her, men satser pÃ¥ nei
 	else{
-		for(uint16_t j = 0; j < menuSize*16; j++) {
+		for(uint16_t j = 0; j < 8*16; j++) {
 			char c = pgm_read_byte(&menu->items[menu->scroll_offset*16 + j]);
 			for(int i = 0; i < 8; i++){
-				if((j%16 == 0) & (j/16 == menu->current_position)){
-     a20:	52 01       	movw	r10, r4
-     a22:	bf e0       	ldi	r27, 0x0F	; 15
-     a24:	ab 22       	and	r10, r27
-     a26:	bb 24       	eor	r11, r11
+				if((j%16 == 0) & (j/16 == menu->current_position-menu->scroll_offset)){
+     9fc:	32 01       	movw	r6, r4
+     9fe:	ff e0       	ldi	r31, 0x0F	; 15
+     a00:	6f 22       	and	r6, r31
+     a02:	77 24       	eor	r7, r7
+     a04:	d7 01       	movw	r26, r14
+     a06:	12 96       	adiw	r26, 0x02	; 2
+     a08:	8c 91       	ld	r24, X
+     a0a:	12 97       	sbiw	r26, 0x02	; 2
+     a0c:	90 e0       	ldi	r25, 0x00	; 0
+     a0e:	14 96       	adiw	r26, 0x04	; 4
+     a10:	2c 91       	ld	r18, X
+     a12:	82 1b       	sub	r24, r18
+     a14:	91 09       	sbc	r25, r1
+     a16:	23 2d       	mov	r18, r3
+     a18:	8a 15       	cp	r24, r10
+     a1a:	9b 05       	cpc	r25, r11
+     a1c:	09 f0       	breq	.+2      	; 0xa20 <write_menu_oled_to_SRAM+0x24c>
+     a1e:	22 2d       	mov	r18, r2
+     a20:	22 23       	and	r18, r18
+     a22:	71 f0       	breq	.+28     	; 0xa40 <write_menu_oled_to_SRAM+0x26c>
+     a24:	83 2d       	mov	r24, r3
+     a26:	61 14       	cp	r6, r1
+     a28:	71 04       	cpc	r7, r1
+     a2a:	09 f0       	breq	.+2      	; 0xa2e <write_menu_oled_to_SRAM+0x25a>
+     a2c:	82 2d       	mov	r24, r2
+     a2e:	88 23       	and	r24, r24
+     a30:	39 f0       	breq	.+14     	; 0xa40 <write_menu_oled_to_SRAM+0x26c>
 					SRAM_write(j*8 + i, pgm_read_byte(&font8x8_basic[('>'-32)*8 + i]));
+     a32:	eb 81       	ldd	r30, Y+3	; 0x03
+     a34:	fc 81       	ldd	r31, Y+4	; 0x04
+     a36:	64 91       	lpm	r22, Z
+     a38:	c8 01       	movw	r24, r16
+     a3a:	0e 94 6e 0a 	call	0x14dc	; 0x14dc <SRAM_write>
+     a3e:	08 c0       	rjmp	.+16     	; 0xa50 <write_menu_oled_to_SRAM+0x27c>
 				}
 				else{
 					SRAM_write(j*8 + i, pgm_read_byte(&font8x8_basic[(c-32)*8 + i]));
-     a28:	fc 01       	movw	r30, r24
-     a2a:	e0 5f       	subi	r30, 0xF0	; 240
-     a2c:	f1 40       	sbci	r31, 0x01	; 1
-     a2e:	6f 01       	movw	r12, r30
-	//litt usikker om scroll kan gå for høy her, men satser på nei
-	else{
-		for(uint16_t j = 0; j < menuSize*16; j++) {
-			char c = pgm_read_byte(&menu->items[menu->scroll_offset*16 + j]);
-			for(int i = 0; i < 8; i++){
-				if((j%16 == 0) & (j/16 == menu->current_position)){
-     a30:	83 2d       	mov	r24, r3
-     a32:	a1 14       	cp	r10, r1
-     a34:	b1 04       	cpc	r11, r1
-     a36:	09 f0       	breq	.+2      	; 0xa3a <write_menu_oled_to_SRAM+0x24a>
-     a38:	82 2d       	mov	r24, r2
-     a3a:	88 23       	and	r24, r24
-     a3c:	91 f0       	breq	.+36     	; 0xa62 <write_menu_oled_to_SRAM+0x272>
-     a3e:	d7 01       	movw	r26, r14
-     a40:	12 96       	adiw	r26, 0x02	; 2
-     a42:	8c 91       	ld	r24, X
-     a44:	90 e0       	ldi	r25, 0x00	; 0
-     a46:	23 2d       	mov	r18, r3
-     a48:	86 15       	cp	r24, r6
-     a4a:	97 05       	cpc	r25, r7
-     a4c:	09 f0       	breq	.+2      	; 0xa50 <write_menu_oled_to_SRAM+0x260>
-     a4e:	22 2d       	mov	r18, r2
-     a50:	22 23       	and	r18, r18
-     a52:	39 f0       	breq	.+14     	; 0xa62 <write_menu_oled_to_SRAM+0x272>
-					SRAM_write(j*8 + i, pgm_read_byte(&font8x8_basic[('>'-32)*8 + i]));
-     a54:	ed 81       	ldd	r30, Y+5	; 0x05
-     a56:	fe 81       	ldd	r31, Y+6	; 0x06
-     a58:	64 91       	lpm	r22, Z
-     a5a:	c8 01       	movw	r24, r16
-     a5c:	0e 94 b8 0a 	call	0x1570	; 0x1570 <SRAM_write>
-     a60:	08 c0       	rjmp	.+16     	; 0xa72 <write_menu_oled_to_SRAM+0x282>
-				}
-				else{
-					SRAM_write(j*8 + i, pgm_read_byte(&font8x8_basic[(c-32)*8 + i]));
-     a62:	ed 81       	ldd	r30, Y+5	; 0x05
-     a64:	fe 81       	ldd	r31, Y+6	; 0x06
-     a66:	ec 0d       	add	r30, r12
-     a68:	fd 1d       	adc	r31, r13
-     a6a:	64 91       	lpm	r22, Z
-     a6c:	c8 01       	movw	r24, r16
-     a6e:	0e 94 b8 0a 	call	0x1570	; 0x1570 <SRAM_write>
-     a72:	2d 81       	ldd	r18, Y+5	; 0x05
-     a74:	3e 81       	ldd	r19, Y+6	; 0x06
-     a76:	2f 5f       	subi	r18, 0xFF	; 255
-     a78:	3f 4f       	sbci	r19, 0xFF	; 255
-     a7a:	3e 83       	std	Y+6, r19	; 0x06
-     a7c:	2d 83       	std	Y+5, r18	; 0x05
-     a7e:	0f 5f       	subi	r16, 0xFF	; 255
-     a80:	1f 4f       	sbci	r17, 0xFF	; 255
+     a40:	eb 81       	ldd	r30, Y+3	; 0x03
+     a42:	fc 81       	ldd	r31, Y+4	; 0x04
+     a44:	ec 0d       	add	r30, r12
+     a46:	fd 1d       	adc	r31, r13
+     a48:	64 91       	lpm	r22, Z
+     a4a:	c8 01       	movw	r24, r16
+     a4c:	0e 94 6e 0a 	call	0x14dc	; 0x14dc <SRAM_write>
+     a50:	2b 81       	ldd	r18, Y+3	; 0x03
+     a52:	3c 81       	ldd	r19, Y+4	; 0x04
+     a54:	2f 5f       	subi	r18, 0xFF	; 255
+     a56:	3f 4f       	sbci	r19, 0xFF	; 255
+     a58:	3c 83       	std	Y+4, r19	; 0x04
+     a5a:	2b 83       	std	Y+3, r18	; 0x03
+     a5c:	0f 5f       	subi	r16, 0xFF	; 255
+     a5e:	1f 4f       	sbci	r17, 0xFF	; 255
 	//Om det er mer enn 8 linjer
-	//litt usikker om scroll kan gå for høy her, men satser på nei
+	//litt usikker om scroll kan gÃ¥ for hÃ¸y her, men satser pÃ¥ nei
 	else{
-		for(uint16_t j = 0; j < menuSize*16; j++) {
+		for(uint16_t j = 0; j < 8*16; j++) {
 			char c = pgm_read_byte(&menu->items[menu->scroll_offset*16 + j]);
 			for(int i = 0; i < 8; i++){
-     a82:	82 16       	cp	r8, r18
-     a84:	93 06       	cpc	r9, r19
-     a86:	a1 f6       	brne	.-88     	; 0xa30 <write_menu_oled_to_SRAM+0x240>
+     a60:	28 15       	cp	r18, r8
+     a62:	39 05       	cpc	r19, r9
+     a64:	79 f6       	brne	.-98     	; 0xa04 <write_menu_oled_to_SRAM+0x230>
 	
 	
 	//Om det er mer enn 8 linjer
-	//litt usikker om scroll kan gå for høy her, men satser på nei
+	//litt usikker om scroll kan gÃ¥ for hÃ¸y her, men satser pÃ¥ nei
 	else{
-		for(uint16_t j = 0; j < menuSize*16; j++) {
-     a88:	3f ef       	ldi	r19, 0xFF	; 255
-     a8a:	43 1a       	sub	r4, r19
-     a8c:	53 0a       	sbc	r5, r19
-     a8e:	89 81       	ldd	r24, Y+1	; 0x01
-     a90:	9a 81       	ldd	r25, Y+2	; 0x02
-     a92:	08 96       	adiw	r24, 0x08	; 8
-     a94:	9a 83       	std	Y+2, r25	; 0x02
-     a96:	89 83       	std	Y+1, r24	; 0x01
-     a98:	ab 81       	ldd	r26, Y+3	; 0x03
-     a9a:	bc 81       	ldd	r27, Y+4	; 0x04
-     a9c:	4a 16       	cp	r4, r26
-     a9e:	5b 06       	cpc	r5, r27
-     aa0:	09 f0       	breq	.+2      	; 0xaa4 <write_menu_oled_to_SRAM+0x2b4>
-     aa2:	97 cf       	rjmp	.-210    	; 0x9d2 <write_menu_oled_to_SRAM+0x1e2>
+		for(uint16_t j = 0; j < 8*16; j++) {
+     a66:	3f ef       	ldi	r19, 0xFF	; 255
+     a68:	43 1a       	sub	r4, r19
+     a6a:	53 0a       	sbc	r5, r19
+     a6c:	89 81       	ldd	r24, Y+1	; 0x01
+     a6e:	9a 81       	ldd	r25, Y+2	; 0x02
+     a70:	08 96       	adiw	r24, 0x08	; 8
+     a72:	9a 83       	std	Y+2, r25	; 0x02
+     a74:	89 83       	std	Y+1, r24	; 0x01
+     a76:	90 e8       	ldi	r25, 0x80	; 128
+     a78:	49 16       	cp	r4, r25
+     a7a:	51 04       	cpc	r5, r1
+     a7c:	09 f0       	breq	.+2      	; 0xa80 <write_menu_oled_to_SRAM+0x2ac>
+     a7e:	93 cf       	rjmp	.-218    	; 0x9a6 <write_menu_oled_to_SRAM+0x1d2>
 				}
 			}
 		}
 	}
 	
 }
-     aa4:	2a 96       	adiw	r28, 0x0a	; 10
-     aa6:	0f b6       	in	r0, 0x3f	; 63
-     aa8:	f8 94       	cli
-     aaa:	de bf       	out	0x3e, r29	; 62
-     aac:	0f be       	out	0x3f, r0	; 63
-     aae:	cd bf       	out	0x3d, r28	; 61
-     ab0:	df 91       	pop	r29
-     ab2:	cf 91       	pop	r28
-     ab4:	1f 91       	pop	r17
-     ab6:	0f 91       	pop	r16
-     ab8:	ff 90       	pop	r15
-     aba:	ef 90       	pop	r14
-     abc:	df 90       	pop	r13
-     abe:	cf 90       	pop	r12
-     ac0:	bf 90       	pop	r11
-     ac2:	af 90       	pop	r10
-     ac4:	9f 90       	pop	r9
-     ac6:	8f 90       	pop	r8
-     ac8:	7f 90       	pop	r7
-     aca:	6f 90       	pop	r6
-     acc:	5f 90       	pop	r5
-     ace:	4f 90       	pop	r4
-     ad0:	3f 90       	pop	r3
-     ad2:	2f 90       	pop	r2
-     ad4:	08 95       	ret
+     a80:	2a 96       	adiw	r28, 0x0a	; 10
+     a82:	0f b6       	in	r0, 0x3f	; 63
+     a84:	f8 94       	cli
+     a86:	de bf       	out	0x3e, r29	; 62
+     a88:	0f be       	out	0x3f, r0	; 63
+     a8a:	cd bf       	out	0x3d, r28	; 61
+     a8c:	df 91       	pop	r29
+     a8e:	cf 91       	pop	r28
+     a90:	1f 91       	pop	r17
+     a92:	0f 91       	pop	r16
+     a94:	ff 90       	pop	r15
+     a96:	ef 90       	pop	r14
+     a98:	df 90       	pop	r13
+     a9a:	cf 90       	pop	r12
+     a9c:	bf 90       	pop	r11
+     a9e:	af 90       	pop	r10
+     aa0:	9f 90       	pop	r9
+     aa2:	8f 90       	pop	r8
+     aa4:	7f 90       	pop	r7
+     aa6:	6f 90       	pop	r6
+     aa8:	5f 90       	pop	r5
+     aaa:	4f 90       	pop	r4
+     aac:	3f 90       	pop	r3
+     aae:	2f 90       	pop	r2
+     ab0:	08 95       	ret
 
-00000ad6 <menu_navigate>:
-// Sjekker om joystick-knappen er trykt
-uint8_t is_joystick_button_pressed(MultiBoard* board) {
-	return (board->JoyBtn != 0);  // Anta at knappen er aktiv-høg (1 betyr trykt)
+00000ab2 <handleMenuSelection>:
+	board->prevJoyBtn = board->JoyBtn;
 }
+
+
+
+void handleMenuSelection(MultiBoard* board, Menu* menu) {
+     ab2:	cf 93       	push	r28
+     ab4:	df 93       	push	r29
+     ab6:	eb 01       	movw	r28, r22
+	oled_clear_screen();
+     ab8:	0e 94 00 09 	call	0x1200	; 0x1200 <oled_clear_screen>
+	switch (currentMenuState) {
+     abc:	80 91 bc 01 	lds	r24, 0x01BC	; 0x8001bc <currentMenuState>
+     ac0:	81 30       	cpi	r24, 0x01	; 1
+     ac2:	09 f4       	brne	.+2      	; 0xac6 <handleMenuSelection+0x14>
+     ac4:	78 c0       	rjmp	.+240    	; 0xbb6 <handleMenuSelection+0x104>
+     ac6:	20 f0       	brcs	.+8      	; 0xad0 <handleMenuSelection+0x1e>
+     ac8:	82 30       	cpi	r24, 0x02	; 2
+     aca:	09 f4       	brne	.+2      	; 0xace <handleMenuSelection+0x1c>
+     acc:	4a c0       	rjmp	.+148    	; 0xb62 <handleMenuSelection+0xb0>
+     ace:	92 c0       	rjmp	.+292    	; 0xbf4 <handleMenuSelection+0x142>
+		case MAIN_MENU:
+		switch (menu->current_position) {
+     ad0:	8a 81       	ldd	r24, Y+2	; 0x02
+     ad2:	82 30       	cpi	r24, 0x02	; 2
+     ad4:	31 f1       	breq	.+76     	; 0xb22 <handleMenuSelection+0x70>
+     ad6:	28 f4       	brcc	.+10     	; 0xae2 <handleMenuSelection+0x30>
+     ad8:	88 23       	and	r24, r24
+     ada:	41 f0       	breq	.+16     	; 0xaec <handleMenuSelection+0x3a>
+     adc:	81 30       	cpi	r24, 0x01	; 1
+     ade:	b9 f0       	breq	.+46     	; 0xb0e <handleMenuSelection+0x5c>
+     ae0:	3a c0       	rjmp	.+116    	; 0xb56 <handleMenuSelection+0xa4>
+     ae2:	83 30       	cpi	r24, 0x03	; 3
+     ae4:	41 f1       	breq	.+80     	; 0xb36 <handleMenuSelection+0x84>
+     ae6:	84 30       	cpi	r24, 0x04	; 4
+     ae8:	81 f1       	breq	.+96     	; 0xb4a <handleMenuSelection+0x98>
+     aea:	35 c0       	rjmp	.+106    	; 0xb56 <handleMenuSelection+0xa4>
+			case 0:
+			oled_write_line_to_SRAM(0, "Startar spelet...");
+     aec:	6c e1       	ldi	r22, 0x1C	; 28
+     aee:	71 e0       	ldi	r23, 0x01	; 1
+     af0:	80 e0       	ldi	r24, 0x00	; 0
+     af2:	0e 94 54 08 	call	0x10a8	; 0x10a8 <oled_write_line_to_SRAM>
+			oled_data_from_SRAM();
+     af6:	0e 94 97 07 	call	0xf2e	; 0xf2e <oled_data_from_SRAM>
+     afa:	2f ef       	ldi	r18, 0xFF	; 255
+     afc:	8f ef       	ldi	r24, 0xFF	; 255
+     afe:	9e e0       	ldi	r25, 0x0E	; 14
+     b00:	21 50       	subi	r18, 0x01	; 1
+     b02:	80 40       	sbci	r24, 0x00	; 0
+     b04:	90 40       	sbci	r25, 0x00	; 0
+     b06:	e1 f7       	brne	.-8      	; 0xb00 <handleMenuSelection+0x4e>
+     b08:	00 c0       	rjmp	.+0      	; 0xb0a <handleMenuSelection+0x58>
+     b0a:	00 00       	nop
+     b0c:	73 c0       	rjmp	.+230    	; 0xbf4 <handleMenuSelection+0x142>
+			_delay_ms(1000);
+			break;
+			case 1:
+			// GÃ¥ til innstillingar
+			currentMenuState = SETTINGS_MENU;
+     b0e:	82 e0       	ldi	r24, 0x02	; 2
+     b10:	80 93 bc 01 	sts	0x01BC, r24	; 0x8001bc <currentMenuState>
+			current_menu = &settingsMenu;  // Oppdater til innstillingsmeny
+     b14:	81 ec       	ldi	r24, 0xC1	; 193
+     b16:	91 e0       	ldi	r25, 0x01	; 1
+     b18:	90 93 bb 01 	sts	0x01BB, r25	; 0x8001bb <__data_end+0x1>
+     b1c:	80 93 ba 01 	sts	0x01BA, r24	; 0x8001ba <__data_end>
+			break;
+     b20:	69 c0       	rjmp	.+210    	; 0xbf4 <handleMenuSelection+0x142>
+			case 2:
+			// GÃ¥ til scrollemeny
+			currentMenuState = SCROLL_MENU;
+     b22:	81 e0       	ldi	r24, 0x01	; 1
+     b24:	80 93 bc 01 	sts	0x01BC, r24	; 0x8001bc <currentMenuState>
+			current_menu = &scrollMenu;  // Oppdater til scrollemeny
+     b28:	8d ec       	ldi	r24, 0xCD	; 205
+     b2a:	91 e0       	ldi	r25, 0x01	; 1
+     b2c:	90 93 bb 01 	sts	0x01BB, r25	; 0x8001bb <__data_end+0x1>
+     b30:	80 93 ba 01 	sts	0x01BA, r24	; 0x8001ba <__data_end>
+			break;
+     b34:	5f c0       	rjmp	.+190    	; 0xbf4 <handleMenuSelection+0x142>
+			case 3:
+			oled_write_line_to_SRAM(0, "Viser kredittar...");
+     b36:	6e e2       	ldi	r22, 0x2E	; 46
+     b38:	71 e0       	ldi	r23, 0x01	; 1
+     b3a:	80 e0       	ldi	r24, 0x00	; 0
+     b3c:	0e 94 54 08 	call	0x10a8	; 0x10a8 <oled_write_line_to_SRAM>
+			oled_write_screen_to_SRAM(solkors);  // Vis kredittar pÃ¥ skjermen
+     b40:	80 e7       	ldi	r24, 0x70	; 112
+     b42:	92 e0       	ldi	r25, 0x02	; 2
+     b44:	0e 94 e9 07 	call	0xfd2	; 0xfd2 <oled_write_screen_to_SRAM>
+			break;
+     b48:	55 c0       	rjmp	.+170    	; 0xbf4 <handleMenuSelection+0x142>
+			case 4:
+			oled_write_line_to_SRAM(0, "Avsluttar...");
+     b4a:	61 e4       	ldi	r22, 0x41	; 65
+     b4c:	71 e0       	ldi	r23, 0x01	; 1
+     b4e:	80 e0       	ldi	r24, 0x00	; 0
+     b50:	0e 94 54 08 	call	0x10a8	; 0x10a8 <oled_write_line_to_SRAM>
+			// Legg eventuelt til funksjonalitet for Ã¥ avslutte
+			break;
+     b54:	4f c0       	rjmp	.+158    	; 0xbf4 <handleMenuSelection+0x142>
+			default:
+			oled_write_line_to_SRAM(0, "Ugyldig valg");
+     b56:	6e e4       	ldi	r22, 0x4E	; 78
+     b58:	71 e0       	ldi	r23, 0x01	; 1
+     b5a:	80 e0       	ldi	r24, 0x00	; 0
+     b5c:	0e 94 54 08 	call	0x10a8	; 0x10a8 <oled_write_line_to_SRAM>
+			break;
+     b60:	49 c0       	rjmp	.+146    	; 0xbf4 <handleMenuSelection+0x142>
+		}
+		break;
+
+		case SETTINGS_MENU:
+		// HÃ¥ndter valg i innstillingsmenyen
+		switch (menu->current_position) {
+     b62:	8a 81       	ldd	r24, Y+2	; 0x02
+     b64:	81 30       	cpi	r24, 0x01	; 1
+     b66:	61 f0       	breq	.+24     	; 0xb80 <handleMenuSelection+0xce>
+     b68:	28 f0       	brcs	.+10     	; 0xb74 <handleMenuSelection+0xc2>
+     b6a:	82 30       	cpi	r24, 0x02	; 2
+     b6c:	79 f0       	breq	.+30     	; 0xb8c <handleMenuSelection+0xda>
+     b6e:	83 30       	cpi	r24, 0x03	; 3
+     b70:	99 f0       	breq	.+38     	; 0xb98 <handleMenuSelection+0xe6>
+     b72:	1b c0       	rjmp	.+54     	; 0xbaa <handleMenuSelection+0xf8>
+			case 0:
+			oled_write_line_to_SRAM(0, "Endrer lydinnstillingar...");
+     b74:	6b e5       	ldi	r22, 0x5B	; 91
+     b76:	71 e0       	ldi	r23, 0x01	; 1
+     b78:	80 e0       	ldi	r24, 0x00	; 0
+     b7a:	0e 94 54 08 	call	0x10a8	; 0x10a8 <oled_write_line_to_SRAM>
+			break;
+     b7e:	3a c0       	rjmp	.+116    	; 0xbf4 <handleMenuSelection+0x142>
+			case 1:
+			oled_write_line_to_SRAM(0, "Endrer lysstyrke...");
+     b80:	66 e7       	ldi	r22, 0x76	; 118
+     b82:	71 e0       	ldi	r23, 0x01	; 1
+     b84:	80 e0       	ldi	r24, 0x00	; 0
+     b86:	0e 94 54 08 	call	0x10a8	; 0x10a8 <oled_write_line_to_SRAM>
+			break;
+     b8a:	34 c0       	rjmp	.+104    	; 0xbf4 <handleMenuSelection+0x142>
+			case 2:
+			oled_write_line_to_SRAM(0, "Endrer kontrollar...");
+     b8c:	6a e8       	ldi	r22, 0x8A	; 138
+     b8e:	71 e0       	ldi	r23, 0x01	; 1
+     b90:	80 e0       	ldi	r24, 0x00	; 0
+     b92:	0e 94 54 08 	call	0x10a8	; 0x10a8 <oled_write_line_to_SRAM>
+			break;
+     b96:	2e c0       	rjmp	.+92     	; 0xbf4 <handleMenuSelection+0x142>
+			case 3:
+			// GÃ¥ tilbake til hovudmenyen
+			currentMenuState = MAIN_MENU;
+     b98:	10 92 bc 01 	sts	0x01BC, r1	; 0x8001bc <currentMenuState>
+			current_menu = &mainMenu;
+     b9c:	87 ec       	ldi	r24, 0xC7	; 199
+     b9e:	91 e0       	ldi	r25, 0x01	; 1
+     ba0:	90 93 bb 01 	sts	0x01BB, r25	; 0x8001bb <__data_end+0x1>
+     ba4:	80 93 ba 01 	sts	0x01BA, r24	; 0x8001ba <__data_end>
+			break;
+     ba8:	25 c0       	rjmp	.+74     	; 0xbf4 <handleMenuSelection+0x142>
+			default:
+			oled_write_line_to_SRAM(0, "Ugyldig valg");
+     baa:	6e e4       	ldi	r22, 0x4E	; 78
+     bac:	71 e0       	ldi	r23, 0x01	; 1
+     bae:	80 e0       	ldi	r24, 0x00	; 0
+     bb0:	0e 94 54 08 	call	0x10a8	; 0x10a8 <oled_write_line_to_SRAM>
+			break;
+     bb4:	1f c0       	rjmp	.+62     	; 0xbf4 <handleMenuSelection+0x142>
+		}
+		break;
+
+		case SCROLL_MENU:
+		// HÃ¥ndter valg i scrollemenyen
+		switch (menu->current_position) {
+     bb6:	8a 81       	ldd	r24, Y+2	; 0x02
+     bb8:	88 23       	and	r24, r24
+     bba:	19 f0       	breq	.+6      	; 0xbc2 <handleMenuSelection+0x110>
+     bbc:	81 30       	cpi	r24, 0x01	; 1
+     bbe:	79 f0       	breq	.+30     	; 0xbde <handleMenuSelection+0x12c>
+     bc0:	14 c0       	rjmp	.+40     	; 0xbea <handleMenuSelection+0x138>
+			case 0:
+			oled_write_line_to_SRAM(0, "Item 1 valgt");
+     bc2:	6f e9       	ldi	r22, 0x9F	; 159
+     bc4:	71 e0       	ldi	r23, 0x01	; 1
+     bc6:	80 e0       	ldi	r24, 0x00	; 0
+     bc8:	0e 94 54 08 	call	0x10a8	; 0x10a8 <oled_write_line_to_SRAM>
+			currentMenuState = MAIN_MENU;
+     bcc:	10 92 bc 01 	sts	0x01BC, r1	; 0x8001bc <currentMenuState>
+			current_menu = &mainMenu;
+     bd0:	87 ec       	ldi	r24, 0xC7	; 199
+     bd2:	91 e0       	ldi	r25, 0x01	; 1
+     bd4:	90 93 bb 01 	sts	0x01BB, r25	; 0x8001bb <__data_end+0x1>
+     bd8:	80 93 ba 01 	sts	0x01BA, r24	; 0x8001ba <__data_end>
+			break;
+     bdc:	0b c0       	rjmp	.+22     	; 0xbf4 <handleMenuSelection+0x142>
+			case 1:
+			oled_write_line_to_SRAM(0, "Item 2 valgt");
+     bde:	6c ea       	ldi	r22, 0xAC	; 172
+     be0:	71 e0       	ldi	r23, 0x01	; 1
+     be2:	80 e0       	ldi	r24, 0x00	; 0
+     be4:	0e 94 54 08 	call	0x10a8	; 0x10a8 <oled_write_line_to_SRAM>
+			break;
+     be8:	05 c0       	rjmp	.+10     	; 0xbf4 <handleMenuSelection+0x142>
+			default:
+			oled_write_line_to_SRAM(0, "Ugyldig valg");
+     bea:	6e e4       	ldi	r22, 0x4E	; 78
+     bec:	71 e0       	ldi	r23, 0x01	; 1
+     bee:	80 e0       	ldi	r24, 0x00	; 0
+     bf0:	0e 94 54 08 	call	0x10a8	; 0x10a8 <oled_write_line_to_SRAM>
+			break;
+		}
+		break;	
+	}
+}
+     bf4:	df 91       	pop	r29
+     bf6:	cf 91       	pop	r28
+     bf8:	08 95       	ret
+
+00000bfa <menu_navigate>:
+	}
+	
+}
+
 
 void menu_navigate(MultiBoard* board, Menu* menu) {
-     ad6:	0f 93       	push	r16
-     ad8:	1f 93       	push	r17
-     ada:	cf 93       	push	r28
-     adc:	df 93       	push	r29
-     ade:	8c 01       	movw	r16, r24
-     ae0:	eb 01       	movw	r28, r22
-
+     bfa:	0f 93       	push	r16
+     bfc:	1f 93       	push	r17
+     bfe:	cf 93       	push	r28
+     c00:	df 93       	push	r29
+     c02:	ec 01       	movw	r28, r24
+     c04:	8b 01       	movw	r16, r22
 	// Oppdater joystick- og menyposisjon
 	MultiBoard_Update(board);
-     ae2:	0e 94 eb 06 	call	0xdd6	; 0xdd6 <MultiBoard_Update>
+     c06:	0e 94 de 06 	call	0xdbc	; 0xdbc <MultiBoard_Update>
 	update_menu_position_from_joystick(board, menu);
-     ae6:	be 01       	movw	r22, r28
-     ae8:	c8 01       	movw	r24, r16
-     aea:	0e 94 b5 03 	call	0x76a	; 0x76a <update_menu_position_from_joystick>
-	// Sjekk om knappen er trykt for å bekrefte menyval
-	if (is_joystick_button_pressed(board)) {
-     aee:	f8 01       	movw	r30, r16
-     af0:	86 81       	ldd	r24, Z+6	; 0x06
-     af2:	88 23       	and	r24, r24
-     af4:	b9 f0       	breq	.+46     	; 0xb24 <menu_navigate+0x4e>
+     c0a:	b8 01       	movw	r22, r16
+     c0c:	ce 01       	movw	r24, r28
+     c0e:	0e 94 a7 03 	call	0x74e	; 0x74e <update_menu_position_from_joystick>
+	// Sjekk om knappen er trykt for Ã¥ bekrefte menyval
+	if (board->JoyBtn & !board->prevJoyBtn) {
+     c12:	21 e0       	ldi	r18, 0x01	; 1
+     c14:	30 e0       	ldi	r19, 0x00	; 0
+     c16:	8f 81       	ldd	r24, Y+7	; 0x07
+     c18:	88 23       	and	r24, r24
+     c1a:	11 f0       	breq	.+4      	; 0xc20 <menu_navigate+0x26>
+     c1c:	20 e0       	ldi	r18, 0x00	; 0
+     c1e:	30 e0       	ldi	r19, 0x00	; 0
+     c20:	9e 81       	ldd	r25, Y+6	; 0x06
+     c22:	89 2f       	mov	r24, r25
+     c24:	90 e0       	ldi	r25, 0x00	; 0
+     c26:	82 23       	and	r24, r18
+     c28:	93 23       	and	r25, r19
+     c2a:	89 2b       	or	r24, r25
+     c2c:	21 f0       	breq	.+8      	; 0xc36 <menu_navigate+0x3c>
 		handleMenuSelection(board, menu);  // Behandlar menyvalet (trenger tilsyn)
-     af6:	be 01       	movw	r22, r28
-     af8:	c8 01       	movw	r24, r16
-     afa:	0e 94 c0 05 	call	0xb80	; 0xb80 <handleMenuSelection>
-		/*____FEILSØKING________________________
-			sjekke att vi kom tilbake hit     */
-		oled_write_screen_to_SRAM(solkors);
-     afe:	80 e7       	ldi	r24, 0x70	; 112
-     b00:	92 e0       	ldi	r25, 0x02	; 2
-     b02:	0e 94 f6 07 	call	0xfec	; 0xfec <oled_write_screen_to_SRAM>
-		oled_data_from_SRAM(); //bytte navn på dinna funksjonen? dårlig forklaring av dens funksjon
-     b06:	0e 94 a4 07 	call	0xf48	; 0xf48 <oled_data_from_SRAM>
-     b0a:	ff ef       	ldi	r31, 0xFF	; 255
-     b0c:	2f ef       	ldi	r18, 0xFF	; 255
-     b0e:	8e e0       	ldi	r24, 0x0E	; 14
-     b10:	f1 50       	subi	r31, 0x01	; 1
-     b12:	20 40       	sbci	r18, 0x00	; 0
-     b14:	80 40       	sbci	r24, 0x00	; 0
-     b16:	e1 f7       	brne	.-8      	; 0xb10 <menu_navigate+0x3a>
-     b18:	00 c0       	rjmp	.+0      	; 0xb1a <menu_navigate+0x44>
-     b1a:	00 00       	nop
-		_delay_ms(1000); //smile litt
-		/*____________________________________*/
-		write_menu_oled_to_SRAM(menu);
-     b1c:	ce 01       	movw	r24, r28
-     b1e:	0e 94 f8 03 	call	0x7f0	; 0x7f0 <write_menu_oled_to_SRAM>
-     b22:	07 c0       	rjmp	.+14     	; 0xb32 <menu_navigate+0x5c>
-	}else {
-		update_menu_arrows(menu->current_position - menu->scroll_offset,menu->prev_position - menu->scroll_offset);
-     b24:	9c 81       	ldd	r25, Y+4	; 0x04
-     b26:	6b 81       	ldd	r22, Y+3	; 0x03
-     b28:	69 1b       	sub	r22, r25
-     b2a:	8a 81       	ldd	r24, Y+2	; 0x02
-     b2c:	89 1b       	sub	r24, r25
-     b2e:	0e 94 a7 03 	call	0x74e	; 0x74e <update_menu_arrows>
-	}	
+     c2e:	b8 01       	movw	r22, r16
+     c30:	ce 01       	movw	r24, r28
+     c32:	0e 94 59 05 	call	0xab2	; 0xab2 <handleMenuSelection>
+	}
+	write_menu_oled_to_SRAM(menu); // 15 ms ikke bra, pontus har ansvar for Ã¥ finne en lÃ¸sning
+     c36:	c8 01       	movw	r24, r16
+     c38:	0e 94 ea 03 	call	0x7d4	; 0x7d4 <write_menu_oled_to_SRAM>
+	board->prevJoyBtn = board->JoyBtn;
+     c3c:	8e 81       	ldd	r24, Y+6	; 0x06
+     c3e:	8f 83       	std	Y+7, r24	; 0x07
 }
-     b32:	df 91       	pop	r29
-     b34:	cf 91       	pop	r28
-     b36:	1f 91       	pop	r17
-     b38:	0f 91       	pop	r16
-     b3a:	08 95       	ret
+     c40:	df 91       	pop	r29
+     c42:	cf 91       	pop	r28
+     c44:	1f 91       	pop	r17
+     c46:	0f 91       	pop	r16
+     c48:	08 95       	ret
 
-00000b3c <initialize_menus>:
+00000c4a <initialize_menus>:
 	/*
 	Hadde det vert penare å initialisere main menue her i staden for i main?
 	*/
 	
 	
 	mainMenu.items = &mainMenuItems;
-     b3c:	e7 ec       	ldi	r30, 0xC7	; 199
-     b3e:	f1 e0       	ldi	r31, 0x01	; 1
-     b40:	80 ef       	ldi	r24, 0xF0	; 240
-     b42:	91 e0       	ldi	r25, 0x01	; 1
-     b44:	91 83       	std	Z+1, r25	; 0x01
-     b46:	80 83       	st	Z, r24
+     c4a:	e7 ec       	ldi	r30, 0xC7	; 199
+     c4c:	f1 e0       	ldi	r31, 0x01	; 1
+     c4e:	80 ef       	ldi	r24, 0xF0	; 240
+     c50:	91 e0       	ldi	r25, 0x01	; 1
+     c52:	91 83       	std	Z+1, r25	; 0x01
+     c54:	80 83       	st	Z, r24
 	mainMenu.num_items = 5;
-     b48:	85 e0       	ldi	r24, 0x05	; 5
-     b4a:	85 83       	std	Z+5, r24	; 0x05
+     c56:	85 e0       	ldi	r24, 0x05	; 5
+     c58:	85 83       	std	Z+5, r24	; 0x05
 	mainMenu.current_position = 0;
-     b4c:	12 82       	std	Z+2, r1	; 0x02
+     c5a:	12 82       	std	Z+2, r1	; 0x02
 	mainMenu.prev_position = 0;
-     b4e:	13 82       	std	Z+3, r1	; 0x03
+     c5c:	13 82       	std	Z+3, r1	; 0x03
 	mainMenu.scroll_offset = 0;
-     b50:	14 82       	std	Z+4, r1	; 0x04
+     c5e:	14 82       	std	Z+4, r1	; 0x04
 
 	scrollMenu.items = &scrollMenuItems;
-     b52:	ed ec       	ldi	r30, 0xCD	; 205
-     b54:	f1 e0       	ldi	r31, 0x01	; 1
-     b56:	80 eb       	ldi	r24, 0xB0	; 176
-     b58:	90 e0       	ldi	r25, 0x00	; 0
-     b5a:	91 83       	std	Z+1, r25	; 0x01
-     b5c:	80 83       	st	Z, r24
+     c60:	ed ec       	ldi	r30, 0xCD	; 205
+     c62:	f1 e0       	ldi	r31, 0x01	; 1
+     c64:	80 eb       	ldi	r24, 0xB0	; 176
+     c66:	90 e0       	ldi	r25, 0x00	; 0
+     c68:	91 83       	std	Z+1, r25	; 0x01
+     c6a:	80 83       	st	Z, r24
 	scrollMenu.num_items = 20;
-     b5e:	84 e1       	ldi	r24, 0x14	; 20
-     b60:	85 83       	std	Z+5, r24	; 0x05
+     c6c:	84 e1       	ldi	r24, 0x14	; 20
+     c6e:	85 83       	std	Z+5, r24	; 0x05
 	scrollMenu.current_position = 0;
-     b62:	12 82       	std	Z+2, r1	; 0x02
+     c70:	12 82       	std	Z+2, r1	; 0x02
 	scrollMenu.prev_position = 0;
-     b64:	13 82       	std	Z+3, r1	; 0x03
+     c72:	13 82       	std	Z+3, r1	; 0x03
 	scrollMenu.scroll_offset = 0;
-     b66:	14 82       	std	Z+4, r1	; 0x04
+     c74:	14 82       	std	Z+4, r1	; 0x04
 
 	settingsMenu.items = &settingsMenuItems;
-     b68:	e1 ec       	ldi	r30, 0xC1	; 193
-     b6a:	f1 e0       	ldi	r31, 0x01	; 1
-     b6c:	80 e7       	ldi	r24, 0x70	; 112
-     b6e:	90 e0       	ldi	r25, 0x00	; 0
-     b70:	91 83       	std	Z+1, r25	; 0x01
-     b72:	80 83       	st	Z, r24
+     c76:	e1 ec       	ldi	r30, 0xC1	; 193
+     c78:	f1 e0       	ldi	r31, 0x01	; 1
+     c7a:	80 e7       	ldi	r24, 0x70	; 112
+     c7c:	90 e0       	ldi	r25, 0x00	; 0
+     c7e:	91 83       	std	Z+1, r25	; 0x01
+     c80:	80 83       	st	Z, r24
 	settingsMenu.num_items = 4;
-     b74:	84 e0       	ldi	r24, 0x04	; 4
-     b76:	85 83       	std	Z+5, r24	; 0x05
+     c82:	84 e0       	ldi	r24, 0x04	; 4
+     c84:	85 83       	std	Z+5, r24	; 0x05
 	settingsMenu.current_position = 0;
-     b78:	12 82       	std	Z+2, r1	; 0x02
+     c86:	12 82       	std	Z+2, r1	; 0x02
 	settingsMenu.prev_position = 0;
-     b7a:	13 82       	std	Z+3, r1	; 0x03
+     c88:	13 82       	std	Z+3, r1	; 0x03
 	settingsMenu.scroll_offset = 0;
-     b7c:	14 82       	std	Z+4, r1	; 0x04
-     b7e:	08 95       	ret
+     c8a:	14 82       	std	Z+4, r1	; 0x04
+     c8c:	08 95       	ret
 
-00000b80 <handleMenuSelection>:
-}
-
-void handleMenuSelection(MultiBoard* board, Menu* menu) {
-	switch (currentMenuState) {
-     b80:	80 91 bc 01 	lds	r24, 0x01BC	; 0x8001bc <currentMenuState>
-     b84:	81 30       	cpi	r24, 0x01	; 1
-     b86:	09 f4       	brne	.+2      	; 0xb8a <handleMenuSelection+0xa>
-     b88:	6f c0       	rjmp	.+222    	; 0xc68 <handleMenuSelection+0xe8>
-     b8a:	20 f0       	brcs	.+8      	; 0xb94 <handleMenuSelection+0x14>
-     b8c:	82 30       	cpi	r24, 0x02	; 2
-     b8e:	09 f4       	brne	.+2      	; 0xb92 <handleMenuSelection+0x12>
-     b90:	40 c0       	rjmp	.+128    	; 0xc12 <handleMenuSelection+0x92>
-     b92:	08 95       	ret
-		case MAIN_MENU:
-		switch (menu->current_position) {
-     b94:	fb 01       	movw	r30, r22
-     b96:	82 81       	ldd	r24, Z+2	; 0x02
-     b98:	82 30       	cpi	r24, 0x02	; 2
-     b9a:	d9 f0       	breq	.+54     	; 0xbd2 <handleMenuSelection+0x52>
-     b9c:	28 f4       	brcc	.+10     	; 0xba8 <handleMenuSelection+0x28>
-     b9e:	88 23       	and	r24, r24
-     ba0:	41 f0       	breq	.+16     	; 0xbb2 <handleMenuSelection+0x32>
-     ba2:	81 30       	cpi	r24, 0x01	; 1
-     ba4:	61 f0       	breq	.+24     	; 0xbbe <handleMenuSelection+0x3e>
-     ba6:	2f c0       	rjmp	.+94     	; 0xc06 <handleMenuSelection+0x86>
-     ba8:	83 30       	cpi	r24, 0x03	; 3
-     baa:	e9 f0       	breq	.+58     	; 0xbe6 <handleMenuSelection+0x66>
-     bac:	84 30       	cpi	r24, 0x04	; 4
-     bae:	29 f1       	breq	.+74     	; 0xbfa <handleMenuSelection+0x7a>
-     bb0:	2a c0       	rjmp	.+84     	; 0xc06 <handleMenuSelection+0x86>
-			case 0:
-			oled_write_line_to_SRAM(0, "Startar spelet...");
-     bb2:	6c e1       	ldi	r22, 0x1C	; 28
-     bb4:	71 e0       	ldi	r23, 0x01	; 1
-     bb6:	80 e0       	ldi	r24, 0x00	; 0
-     bb8:	0e 94 61 08 	call	0x10c2	; 0x10c2 <oled_write_line_to_SRAM>
-			break;
-     bbc:	08 95       	ret
-			case 1:
-			// Gå til innstillingar
-			currentMenuState = SETTINGS_MENU;
-     bbe:	82 e0       	ldi	r24, 0x02	; 2
-     bc0:	80 93 bc 01 	sts	0x01BC, r24	; 0x8001bc <currentMenuState>
-			current_menu = &settingsMenu;  // Oppdater til innstillingsmeny
-     bc4:	81 ec       	ldi	r24, 0xC1	; 193
-     bc6:	91 e0       	ldi	r25, 0x01	; 1
-     bc8:	90 93 bb 01 	sts	0x01BB, r25	; 0x8001bb <__data_end+0x1>
-     bcc:	80 93 ba 01 	sts	0x01BA, r24	; 0x8001ba <__data_end>
-			break;
-     bd0:	08 95       	ret
-			case 2:
-			// Gå til scrollemeny
-			currentMenuState = SCROLL_MENU;
-     bd2:	81 e0       	ldi	r24, 0x01	; 1
-     bd4:	80 93 bc 01 	sts	0x01BC, r24	; 0x8001bc <currentMenuState>
-			current_menu = &scrollMenu;  // Oppdater til scrollemeny
-     bd8:	8d ec       	ldi	r24, 0xCD	; 205
-     bda:	91 e0       	ldi	r25, 0x01	; 1
-     bdc:	90 93 bb 01 	sts	0x01BB, r25	; 0x8001bb <__data_end+0x1>
-     be0:	80 93 ba 01 	sts	0x01BA, r24	; 0x8001ba <__data_end>
-			break;
-     be4:	08 95       	ret
-			case 3:
-			oled_write_line_to_SRAM(0, "Viser kredittar...");
-     be6:	6e e2       	ldi	r22, 0x2E	; 46
-     be8:	71 e0       	ldi	r23, 0x01	; 1
-     bea:	80 e0       	ldi	r24, 0x00	; 0
-     bec:	0e 94 61 08 	call	0x10c2	; 0x10c2 <oled_write_line_to_SRAM>
-			oled_write_screen_to_SRAM(solkors);  // Vis kredittar på skjermen
-     bf0:	80 e7       	ldi	r24, 0x70	; 112
-     bf2:	92 e0       	ldi	r25, 0x02	; 2
-     bf4:	0e 94 f6 07 	call	0xfec	; 0xfec <oled_write_screen_to_SRAM>
-			break;
-     bf8:	08 95       	ret
-			case 4:
-			oled_write_line_to_SRAM(0, "Avsluttar...");
-     bfa:	61 e4       	ldi	r22, 0x41	; 65
-     bfc:	71 e0       	ldi	r23, 0x01	; 1
-     bfe:	80 e0       	ldi	r24, 0x00	; 0
-     c00:	0e 94 61 08 	call	0x10c2	; 0x10c2 <oled_write_line_to_SRAM>
-			// Legg eventuelt til funksjonalitet for å avslutte
-			break;
-     c04:	08 95       	ret
-			default:
-			oled_write_line_to_SRAM(0, "Ugyldig valg");
-     c06:	6e e4       	ldi	r22, 0x4E	; 78
-     c08:	71 e0       	ldi	r23, 0x01	; 1
-     c0a:	80 e0       	ldi	r24, 0x00	; 0
-     c0c:	0e 94 61 08 	call	0x10c2	; 0x10c2 <oled_write_line_to_SRAM>
-			break;
-     c10:	08 95       	ret
-		}
-		break;
-
-		case SETTINGS_MENU:
-		// Håndter valg i innstillingsmenyen
-		switch (menu->current_position) {
-     c12:	fb 01       	movw	r30, r22
-     c14:	82 81       	ldd	r24, Z+2	; 0x02
-     c16:	81 30       	cpi	r24, 0x01	; 1
-     c18:	61 f0       	breq	.+24     	; 0xc32 <handleMenuSelection+0xb2>
-     c1a:	28 f0       	brcs	.+10     	; 0xc26 <handleMenuSelection+0xa6>
-     c1c:	82 30       	cpi	r24, 0x02	; 2
-     c1e:	79 f0       	breq	.+30     	; 0xc3e <handleMenuSelection+0xbe>
-     c20:	83 30       	cpi	r24, 0x03	; 3
-     c22:	99 f0       	breq	.+38     	; 0xc4a <handleMenuSelection+0xca>
-     c24:	1b c0       	rjmp	.+54     	; 0xc5c <handleMenuSelection+0xdc>
-			case 0:
-			oled_write_line_to_SRAM(0, "Endrer lydinnstillingar...");
-     c26:	6b e5       	ldi	r22, 0x5B	; 91
-     c28:	71 e0       	ldi	r23, 0x01	; 1
-     c2a:	80 e0       	ldi	r24, 0x00	; 0
-     c2c:	0e 94 61 08 	call	0x10c2	; 0x10c2 <oled_write_line_to_SRAM>
-			break;
-     c30:	08 95       	ret
-			case 1:
-			oled_write_line_to_SRAM(0, "Endrer lysstyrke...");
-     c32:	66 e7       	ldi	r22, 0x76	; 118
-     c34:	71 e0       	ldi	r23, 0x01	; 1
-     c36:	80 e0       	ldi	r24, 0x00	; 0
-     c38:	0e 94 61 08 	call	0x10c2	; 0x10c2 <oled_write_line_to_SRAM>
-			break;
-     c3c:	08 95       	ret
-			case 2:
-			oled_write_line_to_SRAM(0, "Endrer kontrollar...");
-     c3e:	6a e8       	ldi	r22, 0x8A	; 138
-     c40:	71 e0       	ldi	r23, 0x01	; 1
-     c42:	80 e0       	ldi	r24, 0x00	; 0
-     c44:	0e 94 61 08 	call	0x10c2	; 0x10c2 <oled_write_line_to_SRAM>
-			break;
-     c48:	08 95       	ret
-			case 3:
-			// Gå tilbake til hovudmenyen
-			currentMenuState = MAIN_MENU;
-     c4a:	10 92 bc 01 	sts	0x01BC, r1	; 0x8001bc <currentMenuState>
-			current_menu = &mainMenu;
-     c4e:	87 ec       	ldi	r24, 0xC7	; 199
-     c50:	91 e0       	ldi	r25, 0x01	; 1
-     c52:	90 93 bb 01 	sts	0x01BB, r25	; 0x8001bb <__data_end+0x1>
-     c56:	80 93 ba 01 	sts	0x01BA, r24	; 0x8001ba <__data_end>
-			break;
-     c5a:	08 95       	ret
-			default:
-			oled_write_line_to_SRAM(0, "Ugyldig valg");
-     c5c:	6e e4       	ldi	r22, 0x4E	; 78
-     c5e:	71 e0       	ldi	r23, 0x01	; 1
-     c60:	80 e0       	ldi	r24, 0x00	; 0
-     c62:	0e 94 61 08 	call	0x10c2	; 0x10c2 <oled_write_line_to_SRAM>
-			break;
-     c66:	08 95       	ret
-		}
-		break;
-
-		case SCROLL_MENU:
-		// Håndter valg i scrollemenyen
-		switch (menu->current_position) {
-     c68:	fb 01       	movw	r30, r22
-     c6a:	82 81       	ldd	r24, Z+2	; 0x02
-     c6c:	88 23       	and	r24, r24
-     c6e:	19 f0       	breq	.+6      	; 0xc76 <handleMenuSelection+0xf6>
-     c70:	81 30       	cpi	r24, 0x01	; 1
-     c72:	79 f0       	breq	.+30     	; 0xc92 <handleMenuSelection+0x112>
-     c74:	14 c0       	rjmp	.+40     	; 0xc9e <handleMenuSelection+0x11e>
-			case 0:
-			oled_write_line_to_SRAM(0, "Item 1 valgt");
-     c76:	6f e9       	ldi	r22, 0x9F	; 159
-     c78:	71 e0       	ldi	r23, 0x01	; 1
-     c7a:	80 e0       	ldi	r24, 0x00	; 0
-     c7c:	0e 94 61 08 	call	0x10c2	; 0x10c2 <oled_write_line_to_SRAM>
-			currentMenuState = MAIN_MENU;
-     c80:	10 92 bc 01 	sts	0x01BC, r1	; 0x8001bc <currentMenuState>
-			current_menu = &mainMenu;
-     c84:	87 ec       	ldi	r24, 0xC7	; 199
-     c86:	91 e0       	ldi	r25, 0x01	; 1
-     c88:	90 93 bb 01 	sts	0x01BB, r25	; 0x8001bb <__data_end+0x1>
-     c8c:	80 93 ba 01 	sts	0x01BA, r24	; 0x8001ba <__data_end>
-			break;
-     c90:	08 95       	ret
-			case 1:
-			oled_write_line_to_SRAM(0, "Item 2 valgt");
-     c92:	6c ea       	ldi	r22, 0xAC	; 172
-     c94:	71 e0       	ldi	r23, 0x01	; 1
-     c96:	80 e0       	ldi	r24, 0x00	; 0
-     c98:	0e 94 61 08 	call	0x10c2	; 0x10c2 <oled_write_line_to_SRAM>
-			break;
-     c9c:	08 95       	ret
-			default:
-			oled_write_line_to_SRAM(0, "Ugyldig valg");
-     c9e:	6e e4       	ldi	r22, 0x4E	; 78
-     ca0:	71 e0       	ldi	r23, 0x01	; 1
-     ca2:	80 e0       	ldi	r24, 0x00	; 0
-     ca4:	0e 94 61 08 	call	0x10c2	; 0x10c2 <oled_write_line_to_SRAM>
-     ca8:	08 95       	ret
-
-00000caa <MultiBoard_Init>:
+00000c8e <MultiBoard_Init>:
  * Created: 14.09.2024 11:00:59
  *  Author: ravneb
  */ 
 #include "MultiBoard.h"
 
 void MultiBoard_Init(MultiBoard* board) {
-     caa:	cf 93       	push	r28
-     cac:	df 93       	push	r29
-     cae:	ec 01       	movw	r28, r24
+     c8e:	cf 93       	push	r28
+     c90:	df 93       	push	r29
+     c92:	ec 01       	movw	r28, r24
 	// Set pinner for knapper som input
 	clearBit(DDRB, LEFT_BUTTON_PIN);  // Set Left button pin as input
-     cb0:	bc 98       	cbi	0x17, 4	; 23
+     c94:	bc 98       	cbi	0x17, 4	; 23
 	clearBit(DDRB, RIGHT_BUTTON_PIN); // Set Right button pin as input
-     cb2:	bb 98       	cbi	0x17, 3	; 23
+     c96:	bb 98       	cbi	0x17, 3	; 23
 	clearBit(DDRB, JOY_BUTTON_PIN);   // Set Joystick button pin as input
-     cb4:	ba 98       	cbi	0x17, 2	; 23
+     c98:	ba 98       	cbi	0x17, 2	; 23
 	clearBit(DDRB, BUSY_PIN);         // Set BUSY pin as input
-     cb6:	b9 98       	cbi	0x17, 1	; 23
+     c9a:	b9 98       	cbi	0x17, 1	; 23
 	
 	// Aktiver pullup
 	setBit(PORTB, JOY_BUTTON_PIN);
-     cb8:	c2 9a       	sbi	0x18, 2	; 24
+     c9c:	c2 9a       	sbi	0x18, 2	; 24
 	
 
 	// Kalibrer joysticken (finn origo)
 	Universal_write(ADC_START, 0x80); // For Chip Enable til ADC, (data her er irrelevant)
-     cba:	60 e8       	ldi	r22, 0x80	; 128
-     cbc:	80 e0       	ldi	r24, 0x00	; 0
-     cbe:	94 e1       	ldi	r25, 0x14	; 20
-     cc0:	0e 94 d8 0a 	call	0x15b0	; 0x15b0 <Universal_write>
+     c9e:	60 e8       	ldi	r22, 0x80	; 128
+     ca0:	80 e0       	ldi	r24, 0x00	; 0
+     ca2:	94 e1       	ldi	r25, 0x14	; 20
+     ca4:	0e 94 8e 0a 	call	0x151c	; 0x151c <Universal_write>
 	loopUntilBitIsClear(PINB, BUSY_PIN);    // Vent til BUSY gï¿½r lav
-     cc4:	b1 99       	sbic	0x16, 1	; 22
-     cc6:	fe cf       	rjmp	.-4      	; 0xcc4 <MultiBoard_Init+0x1a>
+     ca8:	b1 99       	sbic	0x16, 1	; 22
+     caa:	fe cf       	rjmp	.-4      	; 0xca8 <MultiBoard_Init+0x1a>
 	board->JoyYOrigo = Universal_read(ADC_START); //CH0
-     cc8:	80 e0       	ldi	r24, 0x00	; 0
-     cca:	94 e1       	ldi	r25, 0x14	; 20
-     ccc:	0e 94 e8 0a 	call	0x15d0	; 0x15d0 <Universal_read>
-     cd0:	88 87       	std	Y+8, r24	; 0x08
+     cac:	80 e0       	ldi	r24, 0x00	; 0
+     cae:	94 e1       	ldi	r25, 0x14	; 20
+     cb0:	0e 94 9e 0a 	call	0x153c	; 0x153c <Universal_read>
+     cb4:	89 87       	std	Y+9, r24	; 0x09
 	board->JoyXOrigo = Universal_read(ADC_START); //CH1
-     cd2:	80 e0       	ldi	r24, 0x00	; 0
-     cd4:	94 e1       	ldi	r25, 0x14	; 20
-     cd6:	0e 94 e8 0a 	call	0x15d0	; 0x15d0 <Universal_read>
-     cda:	8f 83       	std	Y+7, r24	; 0x07
+     cb6:	80 e0       	ldi	r24, 0x00	; 0
+     cb8:	94 e1       	ldi	r25, 0x14	; 20
+     cba:	0e 94 9e 0a 	call	0x153c	; 0x153c <Universal_read>
+     cbe:	88 87       	std	Y+8, r24	; 0x08
 	
 	// Initialiser alle andre verdier
 	board->LSpos = 0;
-     cdc:	1a 82       	std	Y+2, r1	; 0x02
+     cc0:	1a 82       	std	Y+2, r1	; 0x02
 	board->RSpos = 0;
-     cde:	1b 82       	std	Y+3, r1	; 0x03
+     cc2:	1b 82       	std	Y+3, r1	; 0x03
 	board->LBtn = 0;
-     ce0:	1c 82       	std	Y+4, r1	; 0x04
+     cc4:	1c 82       	std	Y+4, r1	; 0x04
 	board->RBtn = 0;
-     ce2:	1d 82       	std	Y+5, r1	; 0x05
+     cc6:	1d 82       	std	Y+5, r1	; 0x05
 	board->JoyXpos = 0;
-     ce4:	19 82       	std	Y+1, r1	; 0x01
+     cc8:	19 82       	std	Y+1, r1	; 0x01
 	board->JoyYpos = 0;
-     ce6:	18 82       	st	Y, r1
+     cca:	18 82       	st	Y, r1
 	board->JoyXposCal = 0;
-     ce8:	1a 86       	std	Y+10, r1	; 0x0a
-     cea:	19 86       	std	Y+9, r1	; 0x09
+     ccc:	1b 86       	std	Y+11, r1	; 0x0b
+     cce:	1a 86       	std	Y+10, r1	; 0x0a
 	board->JoyYposCal = 0;
-     cec:	1c 86       	std	Y+12, r1	; 0x0c
-     cee:	1b 86       	std	Y+11, r1	; 0x0b
+     cd0:	1d 86       	std	Y+13, r1	; 0x0d
+     cd2:	1c 86       	std	Y+12, r1	; 0x0c
 	board->JoyAngle = 0;
-     cf0:	1e 86       	std	Y+14, r1	; 0x0e
-     cf2:	1d 86       	std	Y+13, r1	; 0x0d
+     cd4:	1f 86       	std	Y+15, r1	; 0x0f
+     cd6:	1e 86       	std	Y+14, r1	; 0x0e
 	board->JoyBtn = 0;  // Endra fra en, vi bruker fortsatt 0 for av basert pÃ¥ logikk i MB_Update()
-     cf4:	1e 82       	std	Y+6, r1	; 0x06
+     cd8:	1e 82       	std	Y+6, r1	; 0x06
+	board->prevJoyBtn = 0;
+     cda:	1f 82       	std	Y+7, r1	; 0x07
 }
-     cf6:	df 91       	pop	r29
-     cf8:	cf 91       	pop	r28
-     cfa:	08 95       	ret
+     cdc:	df 91       	pop	r29
+     cde:	cf 91       	pop	r28
+     ce0:	08 95       	ret
 
-00000cfc <MultiBoard_UpdateJoystickAngle>:
+00000ce2 <MultiBoard_UpdateJoystickAngle>:
 	///IKKJE TESTA
 	MultiBoard_UpdateJoystickAngle(board);
 }
 
 /// IKKJE TESTA 
 void MultiBoard_UpdateJoystickAngle(MultiBoard* board) {
-     cfc:	fc 01       	movw	r30, r24
+     ce2:	fc 01       	movw	r30, r24
 	int16_t x = board->JoyXposCal;
-     cfe:	61 85       	ldd	r22, Z+9	; 0x09
-     d00:	72 85       	ldd	r23, Z+10	; 0x0a
+     ce4:	62 85       	ldd	r22, Z+10	; 0x0a
+     ce6:	73 85       	ldd	r23, Z+11	; 0x0b
 	int16_t y = board->JoyYposCal;
-     d02:	43 85       	ldd	r20, Z+11	; 0x0b
-     d04:	54 85       	ldd	r21, Z+12	; 0x0c
+     ce8:	44 85       	ldd	r20, Z+12	; 0x0c
+     cea:	55 85       	ldd	r21, Z+13	; 0x0d
 
 	// Unngï¿½ divisjon med 0 (nï¿½r senterpunkt) + hysterese
 	if (!(abs(x) > JOY_ANGLE_HYSTERESIS || abs(y) >  JOY_ANGLE_HYSTERESIS)) {
-     d06:	cb 01       	movw	r24, r22
-     d08:	05 96       	adiw	r24, 0x05	; 5
-     d0a:	0b 97       	sbiw	r24, 0x0b	; 11
-     d0c:	38 f4       	brcc	.+14     	; 0xd1c <MultiBoard_UpdateJoystickAngle+0x20>
-     d0e:	ca 01       	movw	r24, r20
-     d10:	05 96       	adiw	r24, 0x05	; 5
-     d12:	0b 97       	sbiw	r24, 0x0b	; 11
-     d14:	18 f4       	brcc	.+6      	; 0xd1c <MultiBoard_UpdateJoystickAngle+0x20>
+     cec:	cb 01       	movw	r24, r22
+     cee:	05 96       	adiw	r24, 0x05	; 5
+     cf0:	0b 97       	sbiw	r24, 0x0b	; 11
+     cf2:	38 f4       	brcc	.+14     	; 0xd02 <MultiBoard_UpdateJoystickAngle+0x20>
+     cf4:	ca 01       	movw	r24, r20
+     cf6:	05 96       	adiw	r24, 0x05	; 5
+     cf8:	0b 97       	sbiw	r24, 0x0b	; 11
+     cfa:	18 f4       	brcc	.+6      	; 0xd02 <MultiBoard_UpdateJoystickAngle+0x20>
 		board->JoyAngle = 0;  // Midtpunkt, sett vinkelen til 0
-     d16:	16 86       	std	Z+14, r1	; 0x0e
-     d18:	15 86       	std	Z+13, r1	; 0x0d
-     d1a:	08 95       	ret
+     cfc:	17 86       	std	Z+15, r1	; 0x0f
+     cfe:	16 86       	std	Z+14, r1	; 0x0e
+     d00:	08 95       	ret
 		} else {
 		// Bestem kvadrant basert pï¿½ verdiane til x og y
 		switch ((x >= 0) << 1 | (y >= 0)) {
-     d1c:	87 2f       	mov	r24, r23
-     d1e:	80 95       	com	r24
-     d20:	88 1f       	adc	r24, r24
-     d22:	88 27       	eor	r24, r24
-     d24:	88 1f       	adc	r24, r24
-     d26:	90 e0       	ldi	r25, 0x00	; 0
-     d28:	88 0f       	add	r24, r24
-     d2a:	99 1f       	adc	r25, r25
-     d2c:	25 2f       	mov	r18, r21
-     d2e:	20 95       	com	r18
-     d30:	22 1f       	adc	r18, r18
-     d32:	22 27       	eor	r18, r18
-     d34:	22 1f       	adc	r18, r18
-     d36:	82 2b       	or	r24, r18
-     d38:	81 30       	cpi	r24, 0x01	; 1
-     d3a:	91 05       	cpc	r25, r1
-     d3c:	b9 f0       	breq	.+46     	; 0xd6c <MultiBoard_UpdateJoystickAngle+0x70>
-     d3e:	1c f4       	brge	.+6      	; 0xd46 <MultiBoard_UpdateJoystickAngle+0x4a>
-     d40:	89 2b       	or	r24, r25
-     d42:	29 f1       	breq	.+74     	; 0xd8e <MultiBoard_UpdateJoystickAngle+0x92>
-     d44:	45 c0       	rjmp	.+138    	; 0xdd0 <MultiBoard_UpdateJoystickAngle+0xd4>
-     d46:	82 30       	cpi	r24, 0x02	; 2
-     d48:	91 05       	cpc	r25, r1
-     d4a:	99 f1       	breq	.+102    	; 0xdb2 <MultiBoard_UpdateJoystickAngle+0xb6>
-     d4c:	03 97       	sbiw	r24, 0x03	; 3
-     d4e:	09 f0       	breq	.+2      	; 0xd52 <MultiBoard_UpdateJoystickAngle+0x56>
-     d50:	3f c0       	rjmp	.+126    	; 0xdd0 <MultiBoard_UpdateJoystickAngle+0xd4>
+     d02:	87 2f       	mov	r24, r23
+     d04:	80 95       	com	r24
+     d06:	88 1f       	adc	r24, r24
+     d08:	88 27       	eor	r24, r24
+     d0a:	88 1f       	adc	r24, r24
+     d0c:	90 e0       	ldi	r25, 0x00	; 0
+     d0e:	88 0f       	add	r24, r24
+     d10:	99 1f       	adc	r25, r25
+     d12:	25 2f       	mov	r18, r21
+     d14:	20 95       	com	r18
+     d16:	22 1f       	adc	r18, r18
+     d18:	22 27       	eor	r18, r18
+     d1a:	22 1f       	adc	r18, r18
+     d1c:	82 2b       	or	r24, r18
+     d1e:	81 30       	cpi	r24, 0x01	; 1
+     d20:	91 05       	cpc	r25, r1
+     d22:	b9 f0       	breq	.+46     	; 0xd52 <MultiBoard_UpdateJoystickAngle+0x70>
+     d24:	1c f4       	brge	.+6      	; 0xd2c <MultiBoard_UpdateJoystickAngle+0x4a>
+     d26:	89 2b       	or	r24, r25
+     d28:	29 f1       	breq	.+74     	; 0xd74 <MultiBoard_UpdateJoystickAngle+0x92>
+     d2a:	45 c0       	rjmp	.+138    	; 0xdb6 <MultiBoard_UpdateJoystickAngle+0xd4>
+     d2c:	82 30       	cpi	r24, 0x02	; 2
+     d2e:	91 05       	cpc	r25, r1
+     d30:	99 f1       	breq	.+102    	; 0xd98 <MultiBoard_UpdateJoystickAngle+0xb6>
+     d32:	03 97       	sbiw	r24, 0x03	; 3
+     d34:	09 f0       	breq	.+2      	; 0xd38 <MultiBoard_UpdateJoystickAngle+0x56>
+     d36:	3f c0       	rjmp	.+126    	; 0xdb6 <MultiBoard_UpdateJoystickAngle+0xd4>
 			case 0b11:  // Fï¿½rste kvadrant (x >= 0, y >= 0)
 			board->JoyAngle = (y * 90) / (x + y);
-     d52:	2a e5       	ldi	r18, 0x5A	; 90
-     d54:	24 9f       	mul	r18, r20
-     d56:	c0 01       	movw	r24, r0
-     d58:	25 9f       	mul	r18, r21
-     d5a:	90 0d       	add	r25, r0
-     d5c:	11 24       	eor	r1, r1
-     d5e:	64 0f       	add	r22, r20
-     d60:	75 1f       	adc	r23, r21
-     d62:	0e 94 f8 0a 	call	0x15f0	; 0x15f0 <__divmodhi4>
-     d66:	76 87       	std	Z+14, r23	; 0x0e
-     d68:	65 87       	std	Z+13, r22	; 0x0d
+     d38:	2a e5       	ldi	r18, 0x5A	; 90
+     d3a:	24 9f       	mul	r18, r20
+     d3c:	c0 01       	movw	r24, r0
+     d3e:	25 9f       	mul	r18, r21
+     d40:	90 0d       	add	r25, r0
+     d42:	11 24       	eor	r1, r1
+     d44:	64 0f       	add	r22, r20
+     d46:	75 1f       	adc	r23, r21
+     d48:	0e 94 ae 0a 	call	0x155c	; 0x155c <__divmodhi4>
+     d4c:	77 87       	std	Z+15, r23	; 0x0f
+     d4e:	66 87       	std	Z+14, r22	; 0x0e
 			break;
-     d6a:	08 95       	ret
+     d50:	08 95       	ret
 			case 0b01:  // Andre kvadrant (x < 0, y >= 0)
 			board->JoyAngle = 90 + ((-x * 90) / (-x + y));
-     d6c:	26 ea       	ldi	r18, 0xA6	; 166
-     d6e:	26 03       	mulsu	r18, r22
-     d70:	c0 01       	movw	r24, r0
-     d72:	27 9f       	mul	r18, r23
-     d74:	90 0d       	add	r25, r0
-     d76:	11 24       	eor	r1, r1
-     d78:	9a 01       	movw	r18, r20
-     d7a:	26 1b       	sub	r18, r22
-     d7c:	37 0b       	sbc	r19, r23
-     d7e:	b9 01       	movw	r22, r18
-     d80:	0e 94 f8 0a 	call	0x15f0	; 0x15f0 <__divmodhi4>
-     d84:	66 5a       	subi	r22, 0xA6	; 166
-     d86:	7f 4f       	sbci	r23, 0xFF	; 255
-     d88:	76 87       	std	Z+14, r23	; 0x0e
-     d8a:	65 87       	std	Z+13, r22	; 0x0d
+     d52:	26 ea       	ldi	r18, 0xA6	; 166
+     d54:	26 03       	mulsu	r18, r22
+     d56:	c0 01       	movw	r24, r0
+     d58:	27 9f       	mul	r18, r23
+     d5a:	90 0d       	add	r25, r0
+     d5c:	11 24       	eor	r1, r1
+     d5e:	9a 01       	movw	r18, r20
+     d60:	26 1b       	sub	r18, r22
+     d62:	37 0b       	sbc	r19, r23
+     d64:	b9 01       	movw	r22, r18
+     d66:	0e 94 ae 0a 	call	0x155c	; 0x155c <__divmodhi4>
+     d6a:	66 5a       	subi	r22, 0xA6	; 166
+     d6c:	7f 4f       	sbci	r23, 0xFF	; 255
+     d6e:	77 87       	std	Z+15, r23	; 0x0f
+     d70:	66 87       	std	Z+14, r22	; 0x0e
 			break;
-     d8c:	08 95       	ret
+     d72:	08 95       	ret
 			case 0b00:  // Tredje kvadrant (x < 0, y < 0)
 			board->JoyAngle = 180 + ((-y * 90) / (-x - y));
-     d8e:	26 ea       	ldi	r18, 0xA6	; 166
-     d90:	24 03       	mulsu	r18, r20
-     d92:	c0 01       	movw	r24, r0
-     d94:	25 9f       	mul	r18, r21
-     d96:	90 0d       	add	r25, r0
-     d98:	11 24       	eor	r1, r1
-     d9a:	71 95       	neg	r23
-     d9c:	61 95       	neg	r22
-     d9e:	71 09       	sbc	r23, r1
-     da0:	64 1b       	sub	r22, r20
-     da2:	75 0b       	sbc	r23, r21
-     da4:	0e 94 f8 0a 	call	0x15f0	; 0x15f0 <__divmodhi4>
-     da8:	6c 54       	subi	r22, 0x4C	; 76
-     daa:	7f 4f       	sbci	r23, 0xFF	; 255
-     dac:	76 87       	std	Z+14, r23	; 0x0e
-     dae:	65 87       	std	Z+13, r22	; 0x0d
+     d74:	26 ea       	ldi	r18, 0xA6	; 166
+     d76:	24 03       	mulsu	r18, r20
+     d78:	c0 01       	movw	r24, r0
+     d7a:	25 9f       	mul	r18, r21
+     d7c:	90 0d       	add	r25, r0
+     d7e:	11 24       	eor	r1, r1
+     d80:	71 95       	neg	r23
+     d82:	61 95       	neg	r22
+     d84:	71 09       	sbc	r23, r1
+     d86:	64 1b       	sub	r22, r20
+     d88:	75 0b       	sbc	r23, r21
+     d8a:	0e 94 ae 0a 	call	0x155c	; 0x155c <__divmodhi4>
+     d8e:	6c 54       	subi	r22, 0x4C	; 76
+     d90:	7f 4f       	sbci	r23, 0xFF	; 255
+     d92:	77 87       	std	Z+15, r23	; 0x0f
+     d94:	66 87       	std	Z+14, r22	; 0x0e
 			break;
-     db0:	08 95       	ret
+     d96:	08 95       	ret
 			case 0b10:  // Fjerde kvadrant (x >= 0, y < 0)
 			board->JoyAngle = 270 + ((x * 90) / (x - y));
-     db2:	2a e5       	ldi	r18, 0x5A	; 90
-     db4:	26 9f       	mul	r18, r22
-     db6:	c0 01       	movw	r24, r0
-     db8:	27 9f       	mul	r18, r23
-     dba:	90 0d       	add	r25, r0
-     dbc:	11 24       	eor	r1, r1
-     dbe:	64 1b       	sub	r22, r20
-     dc0:	75 0b       	sbc	r23, r21
-     dc2:	0e 94 f8 0a 	call	0x15f0	; 0x15f0 <__divmodhi4>
-     dc6:	62 5f       	subi	r22, 0xF2	; 242
-     dc8:	7e 4f       	sbci	r23, 0xFE	; 254
-     dca:	76 87       	std	Z+14, r23	; 0x0e
-     dcc:	65 87       	std	Z+13, r22	; 0x0d
+     d98:	2a e5       	ldi	r18, 0x5A	; 90
+     d9a:	26 9f       	mul	r18, r22
+     d9c:	c0 01       	movw	r24, r0
+     d9e:	27 9f       	mul	r18, r23
+     da0:	90 0d       	add	r25, r0
+     da2:	11 24       	eor	r1, r1
+     da4:	64 1b       	sub	r22, r20
+     da6:	75 0b       	sbc	r23, r21
+     da8:	0e 94 ae 0a 	call	0x155c	; 0x155c <__divmodhi4>
+     dac:	62 5f       	subi	r22, 0xF2	; 242
+     dae:	7e 4f       	sbci	r23, 0xFE	; 254
+     db0:	77 87       	std	Z+15, r23	; 0x0f
+     db2:	66 87       	std	Z+14, r22	; 0x0e
 			break;
-     dce:	08 95       	ret
+     db4:	08 95       	ret
 			default:
 			board->JoyAngle = 0;  // Feiltilfelle, skal ikkje skje
-     dd0:	16 86       	std	Z+14, r1	; 0x0e
-     dd2:	15 86       	std	Z+13, r1	; 0x0d
-     dd4:	08 95       	ret
+     db6:	17 86       	std	Z+15, r1	; 0x0f
+     db8:	16 86       	std	Z+14, r1	; 0x0e
+     dba:	08 95       	ret
 
-00000dd6 <MultiBoard_Update>:
-	board->JoyAngle = 0;
+00000dbc <MultiBoard_Update>:
 	board->JoyBtn = 0;  // Endra fra en, vi bruker fortsatt 0 for av basert pÃ¥ logikk i MB_Update()
+	board->prevJoyBtn = 0;
 }
 
 
 void MultiBoard_Update(MultiBoard* board) {
-     dd6:	cf 93       	push	r28
-     dd8:	df 93       	push	r29
-     dda:	ec 01       	movw	r28, r24
+     dbc:	cf 93       	push	r28
+     dbe:	df 93       	push	r29
+     dc0:	ec 01       	movw	r28, r24
 	// Velg kanal for venstre skyvebryter (LSpos)
 	Universal_write(ADC_START, 0x00);
-     ddc:	60 e0       	ldi	r22, 0x00	; 0
-     dde:	80 e0       	ldi	r24, 0x00	; 0
-     de0:	94 e1       	ldi	r25, 0x14	; 20
-     de2:	0e 94 d8 0a 	call	0x15b0	; 0x15b0 <Universal_write>
+     dc2:	60 e0       	ldi	r22, 0x00	; 0
+     dc4:	80 e0       	ldi	r24, 0x00	; 0
+     dc6:	94 e1       	ldi	r25, 0x14	; 20
+     dc8:	0e 94 8e 0a 	call	0x151c	; 0x151c <Universal_write>
 	loopUntilBitIsClear(PINB, BUSY_PIN);		// Vent til BUSY gï¿½r lav - klar for ï¿½ sende pï¿½ ny
-     de6:	b1 99       	sbic	0x16, 1	; 22
-     de8:	fe cf       	rjmp	.-4      	; 0xde6 <MultiBoard_Update+0x10>
+     dcc:	b1 99       	sbic	0x16, 1	; 22
+     dce:	fe cf       	rjmp	.-4      	; 0xdcc <MultiBoard_Update+0x10>
 	board->JoyYpos = Universal_read(ADC_START); //  - CH0 fï¿½rste RD low gir channel 0
-     dea:	80 e0       	ldi	r24, 0x00	; 0
-     dec:	94 e1       	ldi	r25, 0x14	; 20
-     dee:	0e 94 e8 0a 	call	0x15d0	; 0x15d0 <Universal_read>
-     df2:	88 83       	st	Y, r24
+     dd0:	80 e0       	ldi	r24, 0x00	; 0
+     dd2:	94 e1       	ldi	r25, 0x14	; 20
+     dd4:	0e 94 9e 0a 	call	0x153c	; 0x153c <Universal_read>
+     dd8:	88 83       	st	Y, r24
 	board->JoyXpos = Universal_read(ADC_START); //	- CH1 andre RD low gir channel 1
-     df4:	80 e0       	ldi	r24, 0x00	; 0
-     df6:	94 e1       	ldi	r25, 0x14	; 20
-     df8:	0e 94 e8 0a 	call	0x15d0	; 0x15d0 <Universal_read>
-     dfc:	89 83       	std	Y+1, r24	; 0x01
+     dda:	80 e0       	ldi	r24, 0x00	; 0
+     ddc:	94 e1       	ldi	r25, 0x14	; 20
+     dde:	0e 94 9e 0a 	call	0x153c	; 0x153c <Universal_read>
+     de2:	89 83       	std	Y+1, r24	; 0x01
 	board->RSpos = Universal_read(ADC_START);	//	- CH2
-     dfe:	80 e0       	ldi	r24, 0x00	; 0
-     e00:	94 e1       	ldi	r25, 0x14	; 20
-     e02:	0e 94 e8 0a 	call	0x15d0	; 0x15d0 <Universal_read>
-     e06:	8b 83       	std	Y+3, r24	; 0x03
+     de4:	80 e0       	ldi	r24, 0x00	; 0
+     de6:	94 e1       	ldi	r25, 0x14	; 20
+     de8:	0e 94 9e 0a 	call	0x153c	; 0x153c <Universal_read>
+     dec:	8b 83       	std	Y+3, r24	; 0x03
 	board->LSpos = Universal_read(ADC_START);	//	- CH3
-     e08:	80 e0       	ldi	r24, 0x00	; 0
-     e0a:	94 e1       	ldi	r25, 0x14	; 20
-     e0c:	0e 94 e8 0a 	call	0x15d0	; 0x15d0 <Universal_read>
-     e10:	8a 83       	std	Y+2, r24	; 0x02
+     dee:	80 e0       	ldi	r24, 0x00	; 0
+     df0:	94 e1       	ldi	r25, 0x14	; 20
+     df2:	0e 94 9e 0a 	call	0x153c	; 0x153c <Universal_read>
+     df6:	8a 83       	std	Y+2, r24	; 0x02
 	// Les knappestatus
 	board->LBtn = 0<testBit(PINB, LEFT_BUTTON_PIN);
-     e12:	81 e0       	ldi	r24, 0x01	; 1
-     e14:	b4 9b       	sbis	0x16, 4	; 22
-     e16:	80 e0       	ldi	r24, 0x00	; 0
-     e18:	8c 83       	std	Y+4, r24	; 0x04
+     df8:	81 e0       	ldi	r24, 0x01	; 1
+     dfa:	b4 9b       	sbis	0x16, 4	; 22
+     dfc:	80 e0       	ldi	r24, 0x00	; 0
+     dfe:	8c 83       	std	Y+4, r24	; 0x04
 	board->RBtn = 0<testBit(PINB, RIGHT_BUTTON_PIN);
-     e1a:	81 e0       	ldi	r24, 0x01	; 1
-     e1c:	b3 9b       	sbis	0x16, 3	; 22
-     e1e:	80 e0       	ldi	r24, 0x00	; 0
-     e20:	8d 83       	std	Y+5, r24	; 0x05
+     e00:	81 e0       	ldi	r24, 0x01	; 1
+     e02:	b3 9b       	sbis	0x16, 3	; 22
+     e04:	80 e0       	ldi	r24, 0x00	; 0
+     e06:	8d 83       	std	Y+5, r24	; 0x05
 	board->JoyBtn = !(0<testBit(PINB, JOY_BUTTON_PIN));
-     e22:	81 e0       	ldi	r24, 0x01	; 1
-     e24:	b2 99       	sbic	0x16, 2	; 22
-     e26:	80 e0       	ldi	r24, 0x00	; 0
-     e28:	8e 83       	std	Y+6, r24	; 0x06
+     e08:	81 e0       	ldi	r24, 0x01	; 1
+     e0a:	b2 99       	sbic	0x16, 2	; 22
+     e0c:	80 e0       	ldi	r24, 0x00	; 0
+     e0e:	8e 83       	std	Y+6, r24	; 0x06
 	// Opretter ein int med pluss og minus slik at vi kan finne riktig vinkel med _UpdateJoystickAngel
 	board->JoyYposCal = (int16_t)(board->JoyYpos) - (int16_t)(board->JoyYOrigo);
-     e2a:	88 81       	ld	r24, Y
-     e2c:	90 e0       	ldi	r25, 0x00	; 0
-     e2e:	28 85       	ldd	r18, Y+8	; 0x08
-     e30:	82 1b       	sub	r24, r18
-     e32:	91 09       	sbc	r25, r1
-     e34:	9c 87       	std	Y+12, r25	; 0x0c
-     e36:	8b 87       	std	Y+11, r24	; 0x0b
+     e10:	88 81       	ld	r24, Y
+     e12:	90 e0       	ldi	r25, 0x00	; 0
+     e14:	29 85       	ldd	r18, Y+9	; 0x09
+     e16:	82 1b       	sub	r24, r18
+     e18:	91 09       	sbc	r25, r1
+     e1a:	9d 87       	std	Y+13, r25	; 0x0d
+     e1c:	8c 87       	std	Y+12, r24	; 0x0c
 	board->JoyXposCal = (int16_t)(board->JoyXpos) - (int16_t)(board->JoyXOrigo);
-     e38:	89 81       	ldd	r24, Y+1	; 0x01
-     e3a:	90 e0       	ldi	r25, 0x00	; 0
-     e3c:	2f 81       	ldd	r18, Y+7	; 0x07
-     e3e:	82 1b       	sub	r24, r18
-     e40:	91 09       	sbc	r25, r1
-     e42:	9a 87       	std	Y+10, r25	; 0x0a
-     e44:	89 87       	std	Y+9, r24	; 0x09
+     e1e:	89 81       	ldd	r24, Y+1	; 0x01
+     e20:	90 e0       	ldi	r25, 0x00	; 0
+     e22:	28 85       	ldd	r18, Y+8	; 0x08
+     e24:	82 1b       	sub	r24, r18
+     e26:	91 09       	sbc	r25, r1
+     e28:	9b 87       	std	Y+11, r25	; 0x0b
+     e2a:	8a 87       	std	Y+10, r24	; 0x0a
 	///IKKJE TESTA
 	MultiBoard_UpdateJoystickAngle(board);
-     e46:	ce 01       	movw	r24, r28
-     e48:	0e 94 7e 06 	call	0xcfc	; 0xcfc <MultiBoard_UpdateJoystickAngle>
+     e2c:	ce 01       	movw	r24, r28
+     e2e:	0e 94 71 06 	call	0xce2	; 0xce2 <MultiBoard_UpdateJoystickAngle>
 }
-     e4c:	df 91       	pop	r29
-     e4e:	cf 91       	pop	r28
-     e50:	08 95       	ret
+     e32:	df 91       	pop	r29
+     e34:	cf 91       	pop	r28
+     e36:	08 95       	ret
 
-00000e52 <oled_write_command>:
-	for (uint16_t i = 0; i < 1024; i++) {
-		// Les byte direkte frå Flash og skriv til SRAM
-		uint8_t byte_from_flash = pgm_read_byte(&screen_1024[i]);
-		SRAM_write(i, byte_from_flash);
+00000e38 <oled_write_command>:
+	}
+	uint16_t sram_address = row * 128 + (col * 8); 
+	for (uint8_t i = 0; i < 8; i++) {
+		SRAM_write(sram_address + i, pgm_read_byte(&font8x8_basic[(c - 32) * 8 + i]));
 	}
 }
-     e52:	68 2f       	mov	r22, r24
-     e54:	80 e0       	ldi	r24, 0x00	; 0
-     e56:	90 e0       	ldi	r25, 0x00	; 0
-     e58:	0e 94 d8 0a 	call	0x15b0	; 0x15b0 <Universal_write>
-     e5c:	08 95       	ret
+     e38:	68 2f       	mov	r22, r24
+     e3a:	80 e0       	ldi	r24, 0x00	; 0
+     e3c:	90 e0       	ldi	r25, 0x00	; 0
+     e3e:	0e 94 8e 0a 	call	0x151c	; 0x151c <Universal_write>
+     e42:	08 95       	ret
 
-00000e5e <oled_write_data>:
-     e5e:	ef 92       	push	r14
-     e60:	ff 92       	push	r15
-     e62:	0f 93       	push	r16
-     e64:	1f 93       	push	r17
-     e66:	cf 93       	push	r28
-     e68:	df 93       	push	r29
-     e6a:	61 15       	cp	r22, r1
-     e6c:	71 05       	cpc	r23, r1
-     e6e:	81 f0       	breq	.+32     	; 0xe90 <oled_write_data+0x32>
-     e70:	7c 01       	movw	r14, r24
-     e72:	8c 01       	movw	r16, r24
-     e74:	e6 0e       	add	r14, r22
-     e76:	f7 1e       	adc	r15, r23
-     e78:	c0 e0       	ldi	r28, 0x00	; 0
-     e7a:	d2 e0       	ldi	r29, 0x02	; 2
-     e7c:	f8 01       	movw	r30, r16
-     e7e:	61 91       	ld	r22, Z+
-     e80:	8f 01       	movw	r16, r30
-     e82:	ce 01       	movw	r24, r28
-     e84:	0e 94 d8 0a 	call	0x15b0	; 0x15b0 <Universal_write>
-     e88:	21 96       	adiw	r28, 0x01	; 1
-     e8a:	0e 15       	cp	r16, r14
-     e8c:	1f 05       	cpc	r17, r15
-     e8e:	b1 f7       	brne	.-20     	; 0xe7c <oled_write_data+0x1e>
-     e90:	df 91       	pop	r29
-     e92:	cf 91       	pop	r28
-     e94:	1f 91       	pop	r17
-     e96:	0f 91       	pop	r16
-     e98:	ff 90       	pop	r15
-     e9a:	ef 90       	pop	r14
-     e9c:	08 95       	ret
+00000e44 <oled_write_data>:
+     e44:	ef 92       	push	r14
+     e46:	ff 92       	push	r15
+     e48:	0f 93       	push	r16
+     e4a:	1f 93       	push	r17
+     e4c:	cf 93       	push	r28
+     e4e:	df 93       	push	r29
+     e50:	61 15       	cp	r22, r1
+     e52:	71 05       	cpc	r23, r1
+     e54:	81 f0       	breq	.+32     	; 0xe76 <oled_write_data+0x32>
+     e56:	7c 01       	movw	r14, r24
+     e58:	8c 01       	movw	r16, r24
+     e5a:	e6 0e       	add	r14, r22
+     e5c:	f7 1e       	adc	r15, r23
+     e5e:	c0 e0       	ldi	r28, 0x00	; 0
+     e60:	d2 e0       	ldi	r29, 0x02	; 2
+     e62:	f8 01       	movw	r30, r16
+     e64:	61 91       	ld	r22, Z+
+     e66:	8f 01       	movw	r16, r30
+     e68:	ce 01       	movw	r24, r28
+     e6a:	0e 94 8e 0a 	call	0x151c	; 0x151c <Universal_write>
+     e6e:	21 96       	adiw	r28, 0x01	; 1
+     e70:	0e 15       	cp	r16, r14
+     e72:	1f 05       	cpc	r17, r15
+     e74:	b1 f7       	brne	.-20     	; 0xe62 <oled_write_data+0x1e>
+     e76:	df 91       	pop	r29
+     e78:	cf 91       	pop	r28
+     e7a:	1f 91       	pop	r17
+     e7c:	0f 91       	pop	r16
+     e7e:	ff 90       	pop	r15
+     e80:	ef 90       	pop	r14
+     e82:	08 95       	ret
 
-00000e9e <oled_set_page>:
-     e9e:	87 70       	andi	r24, 0x07	; 7
-     ea0:	80 6b       	ori	r24, 0xB0	; 176
-     ea2:	0e 94 29 07 	call	0xe52	; 0xe52 <oled_write_command>
+00000e84 <oled_set_page>:
+     e84:	87 70       	andi	r24, 0x07	; 7
+     e86:	80 6b       	ori	r24, 0xB0	; 176
+     e88:	0e 94 1c 07 	call	0xe38	; 0xe38 <oled_write_command>
+     e8c:	08 95       	ret
+
+00000e8e <oled_set_column>:
+     e8e:	cf 93       	push	r28
+     e90:	c8 2f       	mov	r28, r24
+     e92:	82 95       	swap	r24
+     e94:	8f 70       	andi	r24, 0x0F	; 15
+     e96:	80 61       	ori	r24, 0x10	; 16
+     e98:	0e 94 1c 07 	call	0xe38	; 0xe38 <oled_write_command>
+     e9c:	8c 2f       	mov	r24, r28
+     e9e:	8f 70       	andi	r24, 0x0F	; 15
+     ea0:	0e 94 1c 07 	call	0xe38	; 0xe38 <oled_write_command>
+     ea4:	cf 91       	pop	r28
      ea6:	08 95       	ret
 
-00000ea8 <oled_set_column>:
-     ea8:	cf 93       	push	r28
-     eaa:	c8 2f       	mov	r28, r24
-     eac:	82 95       	swap	r24
-     eae:	8f 70       	andi	r24, 0x0F	; 15
-     eb0:	80 61       	ori	r24, 0x10	; 16
-     eb2:	0e 94 29 07 	call	0xe52	; 0xe52 <oled_write_command>
-     eb6:	8c 2f       	mov	r24, r28
-     eb8:	8f 70       	andi	r24, 0x0F	; 15
-     eba:	0e 94 29 07 	call	0xe52	; 0xe52 <oled_write_command>
-     ebe:	cf 91       	pop	r28
-     ec0:	08 95       	ret
+00000ea8 <oled_init>:
+     ea8:	8e ea       	ldi	r24, 0xAE	; 174
+     eaa:	0e 94 1c 07 	call	0xe38	; 0xe38 <oled_write_command>
+     eae:	81 ea       	ldi	r24, 0xA1	; 161
+     eb0:	0e 94 1c 07 	call	0xe38	; 0xe38 <oled_write_command>
+     eb4:	8a ed       	ldi	r24, 0xDA	; 218
+     eb6:	0e 94 1c 07 	call	0xe38	; 0xe38 <oled_write_command>
+     eba:	82 e1       	ldi	r24, 0x12	; 18
+     ebc:	0e 94 1c 07 	call	0xe38	; 0xe38 <oled_write_command>
+     ec0:	88 ec       	ldi	r24, 0xC8	; 200
+     ec2:	0e 94 1c 07 	call	0xe38	; 0xe38 <oled_write_command>
+     ec6:	88 ea       	ldi	r24, 0xA8	; 168
+     ec8:	0e 94 1c 07 	call	0xe38	; 0xe38 <oled_write_command>
+     ecc:	8f e3       	ldi	r24, 0x3F	; 63
+     ece:	0e 94 1c 07 	call	0xe38	; 0xe38 <oled_write_command>
+     ed2:	85 ed       	ldi	r24, 0xD5	; 213
+     ed4:	0e 94 1c 07 	call	0xe38	; 0xe38 <oled_write_command>
+     ed8:	80 e8       	ldi	r24, 0x80	; 128
+     eda:	0e 94 1c 07 	call	0xe38	; 0xe38 <oled_write_command>
+     ede:	81 e8       	ldi	r24, 0x81	; 129
+     ee0:	0e 94 1c 07 	call	0xe38	; 0xe38 <oled_write_command>
+     ee4:	80 e5       	ldi	r24, 0x50	; 80
+     ee6:	0e 94 1c 07 	call	0xe38	; 0xe38 <oled_write_command>
+     eea:	89 ed       	ldi	r24, 0xD9	; 217
+     eec:	0e 94 1c 07 	call	0xe38	; 0xe38 <oled_write_command>
+     ef0:	81 e2       	ldi	r24, 0x21	; 33
+     ef2:	0e 94 1c 07 	call	0xe38	; 0xe38 <oled_write_command>
+     ef6:	80 e2       	ldi	r24, 0x20	; 32
+     ef8:	0e 94 1c 07 	call	0xe38	; 0xe38 <oled_write_command>
+     efc:	82 e0       	ldi	r24, 0x02	; 2
+     efe:	0e 94 1c 07 	call	0xe38	; 0xe38 <oled_write_command>
+     f02:	8b ed       	ldi	r24, 0xDB	; 219
+     f04:	0e 94 1c 07 	call	0xe38	; 0xe38 <oled_write_command>
+     f08:	80 e3       	ldi	r24, 0x30	; 48
+     f0a:	0e 94 1c 07 	call	0xe38	; 0xe38 <oled_write_command>
+     f0e:	8d ea       	ldi	r24, 0xAD	; 173
+     f10:	0e 94 1c 07 	call	0xe38	; 0xe38 <oled_write_command>
+     f14:	80 e0       	ldi	r24, 0x00	; 0
+     f16:	0e 94 1c 07 	call	0xe38	; 0xe38 <oled_write_command>
+     f1a:	84 ea       	ldi	r24, 0xA4	; 164
+     f1c:	0e 94 1c 07 	call	0xe38	; 0xe38 <oled_write_command>
+     f20:	86 ea       	ldi	r24, 0xA6	; 166
+     f22:	0e 94 1c 07 	call	0xe38	; 0xe38 <oled_write_command>
+     f26:	8f ea       	ldi	r24, 0xAF	; 175
+     f28:	0e 94 1c 07 	call	0xe38	; 0xe38 <oled_write_command>
+     f2c:	08 95       	ret
 
-00000ec2 <oled_init>:
-     ec2:	8e ea       	ldi	r24, 0xAE	; 174
-     ec4:	0e 94 29 07 	call	0xe52	; 0xe52 <oled_write_command>
-     ec8:	81 ea       	ldi	r24, 0xA1	; 161
-     eca:	0e 94 29 07 	call	0xe52	; 0xe52 <oled_write_command>
-     ece:	8a ed       	ldi	r24, 0xDA	; 218
-     ed0:	0e 94 29 07 	call	0xe52	; 0xe52 <oled_write_command>
-     ed4:	82 e1       	ldi	r24, 0x12	; 18
-     ed6:	0e 94 29 07 	call	0xe52	; 0xe52 <oled_write_command>
-     eda:	88 ec       	ldi	r24, 0xC8	; 200
-     edc:	0e 94 29 07 	call	0xe52	; 0xe52 <oled_write_command>
-     ee0:	88 ea       	ldi	r24, 0xA8	; 168
-     ee2:	0e 94 29 07 	call	0xe52	; 0xe52 <oled_write_command>
-     ee6:	8f e3       	ldi	r24, 0x3F	; 63
-     ee8:	0e 94 29 07 	call	0xe52	; 0xe52 <oled_write_command>
-     eec:	85 ed       	ldi	r24, 0xD5	; 213
-     eee:	0e 94 29 07 	call	0xe52	; 0xe52 <oled_write_command>
-     ef2:	80 e8       	ldi	r24, 0x80	; 128
-     ef4:	0e 94 29 07 	call	0xe52	; 0xe52 <oled_write_command>
-     ef8:	81 e8       	ldi	r24, 0x81	; 129
-     efa:	0e 94 29 07 	call	0xe52	; 0xe52 <oled_write_command>
-     efe:	80 e5       	ldi	r24, 0x50	; 80
-     f00:	0e 94 29 07 	call	0xe52	; 0xe52 <oled_write_command>
-     f04:	89 ed       	ldi	r24, 0xD9	; 217
-     f06:	0e 94 29 07 	call	0xe52	; 0xe52 <oled_write_command>
-     f0a:	81 e2       	ldi	r24, 0x21	; 33
-     f0c:	0e 94 29 07 	call	0xe52	; 0xe52 <oled_write_command>
-     f10:	80 e2       	ldi	r24, 0x20	; 32
-     f12:	0e 94 29 07 	call	0xe52	; 0xe52 <oled_write_command>
-     f16:	82 e0       	ldi	r24, 0x02	; 2
-     f18:	0e 94 29 07 	call	0xe52	; 0xe52 <oled_write_command>
-     f1c:	8b ed       	ldi	r24, 0xDB	; 219
-     f1e:	0e 94 29 07 	call	0xe52	; 0xe52 <oled_write_command>
-     f22:	80 e3       	ldi	r24, 0x30	; 48
-     f24:	0e 94 29 07 	call	0xe52	; 0xe52 <oled_write_command>
-     f28:	8d ea       	ldi	r24, 0xAD	; 173
-     f2a:	0e 94 29 07 	call	0xe52	; 0xe52 <oled_write_command>
-     f2e:	80 e0       	ldi	r24, 0x00	; 0
-     f30:	0e 94 29 07 	call	0xe52	; 0xe52 <oled_write_command>
-     f34:	84 ea       	ldi	r24, 0xA4	; 164
-     f36:	0e 94 29 07 	call	0xe52	; 0xe52 <oled_write_command>
-     f3a:	86 ea       	ldi	r24, 0xA6	; 166
-     f3c:	0e 94 29 07 	call	0xe52	; 0xe52 <oled_write_command>
-     f40:	8f ea       	ldi	r24, 0xAF	; 175
-     f42:	0e 94 29 07 	call	0xe52	; 0xe52 <oled_write_command>
-     f46:	08 95       	ret
+00000f2e <oled_data_from_SRAM>:
+     f2e:	8f 92       	push	r8
+     f30:	9f 92       	push	r9
+     f32:	bf 92       	push	r11
+     f34:	cf 92       	push	r12
+     f36:	df 92       	push	r13
+     f38:	ef 92       	push	r14
+     f3a:	ff 92       	push	r15
+     f3c:	0f 93       	push	r16
+     f3e:	1f 93       	push	r17
+     f40:	cf 93       	push	r28
+     f42:	df 93       	push	r29
+     f44:	cd b7       	in	r28, 0x3d	; 61
+     f46:	de b7       	in	r29, 0x3e	; 62
+     f48:	c0 58       	subi	r28, 0x80	; 128
+     f4a:	d1 09       	sbc	r29, r1
+     f4c:	0f b6       	in	r0, 0x3f	; 63
+     f4e:	f8 94       	cli
+     f50:	de bf       	out	0x3e, r29	; 62
+     f52:	0f be       	out	0x3f, r0	; 63
+     f54:	cd bf       	out	0x3d, r28	; 61
+     f56:	ce 01       	movw	r24, r28
+     f58:	01 96       	adiw	r24, 0x01	; 1
+     f5a:	4c 01       	movw	r8, r24
+     f5c:	ee 24       	eor	r14, r14
+     f5e:	ff 24       	eor	r15, r15
+     f60:	e8 1a       	sub	r14, r24
+     f62:	f9 0a       	sbc	r15, r25
+     f64:	b1 2c       	mov	r11, r1
+     f66:	6e 01       	movw	r12, r28
+     f68:	91 e8       	ldi	r25, 0x81	; 129
+     f6a:	c9 0e       	add	r12, r25
+     f6c:	d1 1c       	adc	r13, r1
+     f6e:	8b 2d       	mov	r24, r11
+     f70:	0e 94 42 07 	call	0xe84	; 0xe84 <oled_set_page>
+     f74:	80 e0       	ldi	r24, 0x00	; 0
+     f76:	0e 94 47 07 	call	0xe8e	; 0xe8e <oled_set_column>
+     f7a:	84 01       	movw	r16, r8
+     f7c:	c8 01       	movw	r24, r16
+     f7e:	8e 0d       	add	r24, r14
+     f80:	9f 1d       	adc	r25, r15
+     f82:	0e 94 7e 0a 	call	0x14fc	; 0x14fc <SRAM_read>
+     f86:	f8 01       	movw	r30, r16
+     f88:	81 93       	st	Z+, r24
+     f8a:	8f 01       	movw	r16, r30
+     f8c:	ec 15       	cp	r30, r12
+     f8e:	fd 05       	cpc	r31, r13
+     f90:	a9 f7       	brne	.-22     	; 0xf7c <oled_data_from_SRAM+0x4e>
+     f92:	60 e8       	ldi	r22, 0x80	; 128
+     f94:	70 e0       	ldi	r23, 0x00	; 0
+     f96:	ce 01       	movw	r24, r28
+     f98:	01 96       	adiw	r24, 0x01	; 1
+     f9a:	0e 94 22 07 	call	0xe44	; 0xe44 <oled_write_data>
+     f9e:	b3 94       	inc	r11
+     fa0:	f0 e8       	ldi	r31, 0x80	; 128
+     fa2:	ef 0e       	add	r14, r31
+     fa4:	f1 1c       	adc	r15, r1
+     fa6:	88 e0       	ldi	r24, 0x08	; 8
+     fa8:	b8 12       	cpse	r11, r24
+     faa:	e1 cf       	rjmp	.-62     	; 0xf6e <oled_data_from_SRAM+0x40>
+     fac:	c0 58       	subi	r28, 0x80	; 128
+     fae:	df 4f       	sbci	r29, 0xFF	; 255
+     fb0:	0f b6       	in	r0, 0x3f	; 63
+     fb2:	f8 94       	cli
+     fb4:	de bf       	out	0x3e, r29	; 62
+     fb6:	0f be       	out	0x3f, r0	; 63
+     fb8:	cd bf       	out	0x3d, r28	; 61
+     fba:	df 91       	pop	r29
+     fbc:	cf 91       	pop	r28
+     fbe:	1f 91       	pop	r17
+     fc0:	0f 91       	pop	r16
+     fc2:	ff 90       	pop	r15
+     fc4:	ef 90       	pop	r14
+     fc6:	df 90       	pop	r13
+     fc8:	cf 90       	pop	r12
+     fca:	bf 90       	pop	r11
+     fcc:	9f 90       	pop	r9
+     fce:	8f 90       	pop	r8
+     fd0:	08 95       	ret
 
-00000f48 <oled_data_from_SRAM>:
-     f48:	8f 92       	push	r8
-     f4a:	9f 92       	push	r9
-     f4c:	bf 92       	push	r11
-     f4e:	cf 92       	push	r12
-     f50:	df 92       	push	r13
-     f52:	ef 92       	push	r14
-     f54:	ff 92       	push	r15
-     f56:	0f 93       	push	r16
-     f58:	1f 93       	push	r17
-     f5a:	cf 93       	push	r28
-     f5c:	df 93       	push	r29
-     f5e:	cd b7       	in	r28, 0x3d	; 61
-     f60:	de b7       	in	r29, 0x3e	; 62
-     f62:	c0 58       	subi	r28, 0x80	; 128
-     f64:	d1 09       	sbc	r29, r1
-     f66:	0f b6       	in	r0, 0x3f	; 63
-     f68:	f8 94       	cli
-     f6a:	de bf       	out	0x3e, r29	; 62
-     f6c:	0f be       	out	0x3f, r0	; 63
-     f6e:	cd bf       	out	0x3d, r28	; 61
-     f70:	ce 01       	movw	r24, r28
-     f72:	01 96       	adiw	r24, 0x01	; 1
-     f74:	4c 01       	movw	r8, r24
-     f76:	ee 24       	eor	r14, r14
-     f78:	ff 24       	eor	r15, r15
-     f7a:	e8 1a       	sub	r14, r24
-     f7c:	f9 0a       	sbc	r15, r25
-     f7e:	b1 2c       	mov	r11, r1
-     f80:	6e 01       	movw	r12, r28
-     f82:	91 e8       	ldi	r25, 0x81	; 129
-     f84:	c9 0e       	add	r12, r25
-     f86:	d1 1c       	adc	r13, r1
-     f88:	8b 2d       	mov	r24, r11
-     f8a:	0e 94 4f 07 	call	0xe9e	; 0xe9e <oled_set_page>
-     f8e:	80 e0       	ldi	r24, 0x00	; 0
-     f90:	0e 94 54 07 	call	0xea8	; 0xea8 <oled_set_column>
-     f94:	84 01       	movw	r16, r8
-     f96:	c8 01       	movw	r24, r16
-     f98:	8e 0d       	add	r24, r14
-     f9a:	9f 1d       	adc	r25, r15
-     f9c:	0e 94 c8 0a 	call	0x1590	; 0x1590 <SRAM_read>
-     fa0:	f8 01       	movw	r30, r16
-     fa2:	81 93       	st	Z+, r24
-     fa4:	8f 01       	movw	r16, r30
-     fa6:	ec 15       	cp	r30, r12
-     fa8:	fd 05       	cpc	r31, r13
-     faa:	a9 f7       	brne	.-22     	; 0xf96 <oled_data_from_SRAM+0x4e>
-     fac:	60 e8       	ldi	r22, 0x80	; 128
-     fae:	70 e0       	ldi	r23, 0x00	; 0
-     fb0:	ce 01       	movw	r24, r28
-     fb2:	01 96       	adiw	r24, 0x01	; 1
-     fb4:	0e 94 2f 07 	call	0xe5e	; 0xe5e <oled_write_data>
-     fb8:	b3 94       	inc	r11
-     fba:	f0 e8       	ldi	r31, 0x80	; 128
-     fbc:	ef 0e       	add	r14, r31
-     fbe:	f1 1c       	adc	r15, r1
-     fc0:	88 e0       	ldi	r24, 0x08	; 8
-     fc2:	b8 12       	cpse	r11, r24
-     fc4:	e1 cf       	rjmp	.-62     	; 0xf88 <oled_data_from_SRAM+0x40>
-     fc6:	c0 58       	subi	r28, 0x80	; 128
-     fc8:	df 4f       	sbci	r29, 0xFF	; 255
-     fca:	0f b6       	in	r0, 0x3f	; 63
-     fcc:	f8 94       	cli
-     fce:	de bf       	out	0x3e, r29	; 62
-     fd0:	0f be       	out	0x3f, r0	; 63
-     fd2:	cd bf       	out	0x3d, r28	; 61
-     fd4:	df 91       	pop	r29
-     fd6:	cf 91       	pop	r28
-     fd8:	1f 91       	pop	r17
-     fda:	0f 91       	pop	r16
-     fdc:	ff 90       	pop	r15
-     fde:	ef 90       	pop	r14
-     fe0:	df 90       	pop	r13
-     fe2:	cf 90       	pop	r12
-     fe4:	bf 90       	pop	r11
-     fe6:	9f 90       	pop	r9
-     fe8:	8f 90       	pop	r8
-     fea:	08 95       	ret
+00000fd2 <oled_write_screen_to_SRAM>:
+     fd2:	6f 92       	push	r6
+     fd4:	7f 92       	push	r7
+     fd6:	8f 92       	push	r8
+     fd8:	9f 92       	push	r9
+     fda:	af 92       	push	r10
+     fdc:	bf 92       	push	r11
+     fde:	cf 92       	push	r12
+     fe0:	df 92       	push	r13
+     fe2:	ef 92       	push	r14
+     fe4:	ff 92       	push	r15
+     fe6:	0f 93       	push	r16
+     fe8:	1f 93       	push	r17
+     fea:	cf 93       	push	r28
+     fec:	df 93       	push	r29
+     fee:	4c 01       	movw	r8, r24
+     ff0:	e1 2c       	mov	r14, r1
+     ff2:	f1 2c       	mov	r15, r1
+     ff4:	0f 2e       	mov	r0, r31
+     ff6:	f0 ef       	ldi	r31, 0xF0	; 240
+     ff8:	6f 2e       	mov	r6, r31
+     ffa:	f2 e0       	ldi	r31, 0x02	; 2
+     ffc:	7f 2e       	mov	r7, r31
+     ffe:	f0 2d       	mov	r31, r0
+    1000:	0f 2e       	mov	r0, r31
+    1002:	f8 ef       	ldi	r31, 0xF8	; 248
+    1004:	af 2e       	mov	r10, r31
+    1006:	f2 e0       	ldi	r31, 0x02	; 2
+    1008:	bf 2e       	mov	r11, r31
+    100a:	f0 2d       	mov	r31, r0
+    100c:	f4 01       	movw	r30, r8
+    100e:	04 91       	lpm	r16, Z
+    1010:	80 ee       	ldi	r24, 0xE0	; 224
+    1012:	80 0f       	add	r24, r16
+    1014:	80 36       	cpi	r24, 0x60	; 96
+    1016:	f0 f4       	brcc	.+60     	; 0x1054 <oled_write_screen_to_SRAM+0x82>
+    1018:	10 e0       	ldi	r17, 0x00	; 0
+    101a:	00 52       	subi	r16, 0x20	; 32
+    101c:	11 09       	sbc	r17, r1
+    101e:	00 0f       	add	r16, r16
+    1020:	11 1f       	adc	r17, r17
+    1022:	00 0f       	add	r16, r16
+    1024:	11 1f       	adc	r17, r17
+    1026:	00 0f       	add	r16, r16
+    1028:	11 1f       	adc	r17, r17
+    102a:	67 01       	movw	r12, r14
+    102c:	f8 e0       	ldi	r31, 0x08	; 8
+    102e:	cf 0e       	add	r12, r31
+    1030:	d1 1c       	adc	r13, r1
+    1032:	e7 01       	movw	r28, r14
+    1034:	0e 19       	sub	r16, r14
+    1036:	1f 09       	sbc	r17, r15
+    1038:	f8 01       	movw	r30, r16
+    103a:	ec 0f       	add	r30, r28
+    103c:	fd 1f       	adc	r31, r29
+    103e:	e0 51       	subi	r30, 0x10	; 16
+    1040:	fd 4f       	sbci	r31, 0xFD	; 253
+    1042:	64 91       	lpm	r22, Z
+    1044:	ce 01       	movw	r24, r28
+    1046:	0e 94 6e 0a 	call	0x14dc	; 0x14dc <SRAM_write>
+    104a:	21 96       	adiw	r28, 0x01	; 1
+    104c:	cc 16       	cp	r12, r28
+    104e:	dd 06       	cpc	r13, r29
+    1050:	99 f7       	brne	.-26     	; 0x1038 <oled_write_screen_to_SRAM+0x66>
+    1052:	10 c0       	rjmp	.+32     	; 0x1074 <oled_write_screen_to_SRAM+0xa2>
+    1054:	c0 ef       	ldi	r28, 0xF0	; 240
+    1056:	d2 e0       	ldi	r29, 0x02	; 2
+    1058:	87 01       	movw	r16, r14
+    105a:	06 19       	sub	r16, r6
+    105c:	17 09       	sbc	r17, r7
+    105e:	fe 01       	movw	r30, r28
+    1060:	64 91       	lpm	r22, Z
+    1062:	c8 01       	movw	r24, r16
+    1064:	8c 0f       	add	r24, r28
+    1066:	9d 1f       	adc	r25, r29
+    1068:	0e 94 6e 0a 	call	0x14dc	; 0x14dc <SRAM_write>
+    106c:	21 96       	adiw	r28, 0x01	; 1
+    106e:	ca 15       	cp	r28, r10
+    1070:	db 05       	cpc	r29, r11
+    1072:	a9 f7       	brne	.-22     	; 0x105e <oled_write_screen_to_SRAM+0x8c>
+    1074:	ff ef       	ldi	r31, 0xFF	; 255
+    1076:	8f 1a       	sub	r8, r31
+    1078:	9f 0a       	sbc	r9, r31
+    107a:	88 e0       	ldi	r24, 0x08	; 8
+    107c:	e8 0e       	add	r14, r24
+    107e:	f1 1c       	adc	r15, r1
+    1080:	e1 14       	cp	r14, r1
+    1082:	e4 e0       	ldi	r30, 0x04	; 4
+    1084:	fe 06       	cpc	r15, r30
+    1086:	09 f0       	breq	.+2      	; 0x108a <oled_write_screen_to_SRAM+0xb8>
+    1088:	c1 cf       	rjmp	.-126    	; 0x100c <oled_write_screen_to_SRAM+0x3a>
+    108a:	df 91       	pop	r29
+    108c:	cf 91       	pop	r28
+    108e:	1f 91       	pop	r17
+    1090:	0f 91       	pop	r16
+    1092:	ff 90       	pop	r15
+    1094:	ef 90       	pop	r14
+    1096:	df 90       	pop	r13
+    1098:	cf 90       	pop	r12
+    109a:	bf 90       	pop	r11
+    109c:	af 90       	pop	r10
+    109e:	9f 90       	pop	r9
+    10a0:	8f 90       	pop	r8
+    10a2:	7f 90       	pop	r7
+    10a4:	6f 90       	pop	r6
+    10a6:	08 95       	ret
 
-00000fec <oled_write_screen_to_SRAM>:
-     fec:	6f 92       	push	r6
-     fee:	7f 92       	push	r7
-     ff0:	8f 92       	push	r8
-     ff2:	9f 92       	push	r9
-     ff4:	af 92       	push	r10
-     ff6:	bf 92       	push	r11
-     ff8:	cf 92       	push	r12
-     ffa:	df 92       	push	r13
-     ffc:	ef 92       	push	r14
-     ffe:	ff 92       	push	r15
-    1000:	0f 93       	push	r16
-    1002:	1f 93       	push	r17
-    1004:	cf 93       	push	r28
-    1006:	df 93       	push	r29
-    1008:	4c 01       	movw	r8, r24
-    100a:	e1 2c       	mov	r14, r1
-    100c:	f1 2c       	mov	r15, r1
-    100e:	0f 2e       	mov	r0, r31
-    1010:	f0 ef       	ldi	r31, 0xF0	; 240
-    1012:	6f 2e       	mov	r6, r31
-    1014:	f2 e0       	ldi	r31, 0x02	; 2
-    1016:	7f 2e       	mov	r7, r31
-    1018:	f0 2d       	mov	r31, r0
-    101a:	0f 2e       	mov	r0, r31
-    101c:	f8 ef       	ldi	r31, 0xF8	; 248
-    101e:	af 2e       	mov	r10, r31
-    1020:	f2 e0       	ldi	r31, 0x02	; 2
-    1022:	bf 2e       	mov	r11, r31
-    1024:	f0 2d       	mov	r31, r0
-    1026:	f4 01       	movw	r30, r8
-    1028:	04 91       	lpm	r16, Z
-    102a:	80 ee       	ldi	r24, 0xE0	; 224
-    102c:	80 0f       	add	r24, r16
-    102e:	80 36       	cpi	r24, 0x60	; 96
-    1030:	f0 f4       	brcc	.+60     	; 0x106e <oled_write_screen_to_SRAM+0x82>
-    1032:	10 e0       	ldi	r17, 0x00	; 0
-    1034:	00 52       	subi	r16, 0x20	; 32
-    1036:	11 09       	sbc	r17, r1
-    1038:	00 0f       	add	r16, r16
-    103a:	11 1f       	adc	r17, r17
-    103c:	00 0f       	add	r16, r16
-    103e:	11 1f       	adc	r17, r17
-    1040:	00 0f       	add	r16, r16
-    1042:	11 1f       	adc	r17, r17
-    1044:	67 01       	movw	r12, r14
-    1046:	f8 e0       	ldi	r31, 0x08	; 8
-    1048:	cf 0e       	add	r12, r31
-    104a:	d1 1c       	adc	r13, r1
-    104c:	e7 01       	movw	r28, r14
-    104e:	0e 19       	sub	r16, r14
-    1050:	1f 09       	sbc	r17, r15
-    1052:	f8 01       	movw	r30, r16
-    1054:	ec 0f       	add	r30, r28
-    1056:	fd 1f       	adc	r31, r29
-    1058:	e0 51       	subi	r30, 0x10	; 16
-    105a:	fd 4f       	sbci	r31, 0xFD	; 253
-    105c:	64 91       	lpm	r22, Z
-    105e:	ce 01       	movw	r24, r28
-    1060:	0e 94 b8 0a 	call	0x1570	; 0x1570 <SRAM_write>
-    1064:	21 96       	adiw	r28, 0x01	; 1
-    1066:	cc 16       	cp	r12, r28
-    1068:	dd 06       	cpc	r13, r29
-    106a:	99 f7       	brne	.-26     	; 0x1052 <oled_write_screen_to_SRAM+0x66>
-    106c:	10 c0       	rjmp	.+32     	; 0x108e <oled_write_screen_to_SRAM+0xa2>
-    106e:	c0 ef       	ldi	r28, 0xF0	; 240
-    1070:	d2 e0       	ldi	r29, 0x02	; 2
-    1072:	87 01       	movw	r16, r14
-    1074:	06 19       	sub	r16, r6
-    1076:	17 09       	sbc	r17, r7
-    1078:	fe 01       	movw	r30, r28
-    107a:	64 91       	lpm	r22, Z
-    107c:	c8 01       	movw	r24, r16
-    107e:	8c 0f       	add	r24, r28
-    1080:	9d 1f       	adc	r25, r29
-    1082:	0e 94 b8 0a 	call	0x1570	; 0x1570 <SRAM_write>
-    1086:	21 96       	adiw	r28, 0x01	; 1
-    1088:	ca 15       	cp	r28, r10
-    108a:	db 05       	cpc	r29, r11
-    108c:	a9 f7       	brne	.-22     	; 0x1078 <oled_write_screen_to_SRAM+0x8c>
-    108e:	ff ef       	ldi	r31, 0xFF	; 255
-    1090:	8f 1a       	sub	r8, r31
-    1092:	9f 0a       	sbc	r9, r31
-    1094:	88 e0       	ldi	r24, 0x08	; 8
-    1096:	e8 0e       	add	r14, r24
-    1098:	f1 1c       	adc	r15, r1
-    109a:	e1 14       	cp	r14, r1
-    109c:	e4 e0       	ldi	r30, 0x04	; 4
-    109e:	fe 06       	cpc	r15, r30
-    10a0:	09 f0       	breq	.+2      	; 0x10a4 <oled_write_screen_to_SRAM+0xb8>
-    10a2:	c1 cf       	rjmp	.-126    	; 0x1026 <oled_write_screen_to_SRAM+0x3a>
-    10a4:	df 91       	pop	r29
-    10a6:	cf 91       	pop	r28
-    10a8:	1f 91       	pop	r17
-    10aa:	0f 91       	pop	r16
-    10ac:	ff 90       	pop	r15
-    10ae:	ef 90       	pop	r14
-    10b0:	df 90       	pop	r13
-    10b2:	cf 90       	pop	r12
-    10b4:	bf 90       	pop	r11
-    10b6:	af 90       	pop	r10
-    10b8:	9f 90       	pop	r9
-    10ba:	8f 90       	pop	r8
-    10bc:	7f 90       	pop	r7
-    10be:	6f 90       	pop	r6
-    10c0:	08 95       	ret
+000010a8 <oled_write_line_to_SRAM>:
+    10a8:	8f 92       	push	r8
+    10aa:	9f 92       	push	r9
+    10ac:	bf 92       	push	r11
+    10ae:	cf 92       	push	r12
+    10b0:	df 92       	push	r13
+    10b2:	ef 92       	push	r14
+    10b4:	ff 92       	push	r15
+    10b6:	0f 93       	push	r16
+    10b8:	1f 93       	push	r17
+    10ba:	cf 93       	push	r28
+    10bc:	df 93       	push	r29
+    10be:	88 30       	cpi	r24, 0x08	; 8
+    10c0:	08 f0       	brcs	.+2      	; 0x10c4 <oled_write_line_to_SRAM+0x1c>
+    10c2:	5e c0       	rjmp	.+188    	; 0x1180 <oled_write_line_to_SRAM+0xd8>
+    10c4:	fb 01       	movw	r30, r22
+    10c6:	90 e8       	ldi	r25, 0x80	; 128
+    10c8:	89 9f       	mul	r24, r25
+    10ca:	60 01       	movw	r12, r0
+    10cc:	11 24       	eor	r1, r1
+    10ce:	80 81       	ld	r24, Z
+    10d0:	88 23       	and	r24, r24
+    10d2:	09 f4       	brne	.+2      	; 0x10d6 <oled_write_line_to_SRAM+0x2e>
+    10d4:	47 c0       	rjmp	.+142    	; 0x1164 <oled_write_line_to_SRAM+0xbc>
+    10d6:	76 01       	movw	r14, r12
+    10d8:	8b 01       	movw	r16, r22
+    10da:	b1 2c       	mov	r11, r1
+    10dc:	0a c0       	rjmp	.+20     	; 0x10f2 <oled_write_line_to_SRAM+0x4a>
+    10de:	0f 5f       	subi	r16, 0xFF	; 255
+    10e0:	1f 4f       	sbci	r17, 0xFF	; 255
+    10e2:	a8 e0       	ldi	r26, 0x08	; 8
+    10e4:	ea 0e       	add	r14, r26
+    10e6:	f1 1c       	adc	r15, r1
+    10e8:	f8 01       	movw	r30, r16
+    10ea:	80 81       	ld	r24, Z
+    10ec:	88 23       	and	r24, r24
+    10ee:	09 f4       	brne	.+2      	; 0x10f2 <oled_write_line_to_SRAM+0x4a>
+    10f0:	3a c0       	rjmp	.+116    	; 0x1166 <oled_write_line_to_SRAM+0xbe>
+    10f2:	c0 e0       	ldi	r28, 0x00	; 0
+    10f4:	d0 e0       	ldi	r29, 0x00	; 0
+    10f6:	d8 01       	movw	r26, r16
+    10f8:	ec 91       	ld	r30, X
+    10fa:	f0 e0       	ldi	r31, 0x00	; 0
+    10fc:	b0 97       	sbiw	r30, 0x20	; 32
+    10fe:	ee 0f       	add	r30, r30
+    1100:	ff 1f       	adc	r31, r31
+    1102:	ee 0f       	add	r30, r30
+    1104:	ff 1f       	adc	r31, r31
+    1106:	ee 0f       	add	r30, r30
+    1108:	ff 1f       	adc	r31, r31
+    110a:	ec 0f       	add	r30, r28
+    110c:	fd 1f       	adc	r31, r29
+    110e:	e0 51       	subi	r30, 0x10	; 16
+    1110:	fd 4f       	sbci	r31, 0xFD	; 253
+    1112:	64 91       	lpm	r22, Z
+    1114:	c7 01       	movw	r24, r14
+    1116:	8c 0f       	add	r24, r28
+    1118:	9d 1f       	adc	r25, r29
+    111a:	0e 94 6e 0a 	call	0x14dc	; 0x14dc <SRAM_write>
+    111e:	21 96       	adiw	r28, 0x01	; 1
+    1120:	c8 30       	cpi	r28, 0x08	; 8
+    1122:	d1 05       	cpc	r29, r1
+    1124:	41 f7       	brne	.-48     	; 0x10f6 <oled_write_line_to_SRAM+0x4e>
+    1126:	b3 94       	inc	r11
+    1128:	b0 e1       	ldi	r27, 0x10	; 16
+    112a:	bb 12       	cpse	r11, r27
+    112c:	d8 cf       	rjmp	.-80     	; 0x10de <oled_write_line_to_SRAM+0x36>
+    112e:	28 c0       	rjmp	.+80     	; 0x1180 <oled_write_line_to_SRAM+0xd8>
+    1130:	fe 01       	movw	r30, r28
+    1132:	64 91       	lpm	r22, Z
+    1134:	c8 01       	movw	r24, r16
+    1136:	8c 0f       	add	r24, r28
+    1138:	9d 1f       	adc	r25, r29
+    113a:	0e 94 6e 0a 	call	0x14dc	; 0x14dc <SRAM_write>
+    113e:	21 96       	adiw	r28, 0x01	; 1
+    1140:	ce 15       	cp	r28, r14
+    1142:	df 05       	cpc	r29, r15
+    1144:	a9 f7       	brne	.-22     	; 0x1130 <oled_write_line_to_SRAM+0x88>
+    1146:	b3 94       	inc	r11
+    1148:	ff e0       	ldi	r31, 0x0F	; 15
+    114a:	fb 15       	cp	r31, r11
+    114c:	c8 f0       	brcs	.+50     	; 0x1180 <oled_write_line_to_SRAM+0xd8>
+    114e:	c0 ef       	ldi	r28, 0xF0	; 240
+    1150:	d2 e0       	ldi	r29, 0x02	; 2
+    1152:	86 01       	movw	r16, r12
+    1154:	88 e0       	ldi	r24, 0x08	; 8
+    1156:	b8 9e       	mul	r11, r24
+    1158:	00 0d       	add	r16, r0
+    115a:	11 1d       	adc	r17, r1
+    115c:	11 24       	eor	r1, r1
+    115e:	08 19       	sub	r16, r8
+    1160:	19 09       	sbc	r17, r9
+    1162:	e6 cf       	rjmp	.-52     	; 0x1130 <oled_write_line_to_SRAM+0x88>
+    1164:	b1 2c       	mov	r11, r1
+    1166:	0f 2e       	mov	r0, r31
+    1168:	f0 ef       	ldi	r31, 0xF0	; 240
+    116a:	8f 2e       	mov	r8, r31
+    116c:	f2 e0       	ldi	r31, 0x02	; 2
+    116e:	9f 2e       	mov	r9, r31
+    1170:	f0 2d       	mov	r31, r0
+    1172:	0f 2e       	mov	r0, r31
+    1174:	f8 ef       	ldi	r31, 0xF8	; 248
+    1176:	ef 2e       	mov	r14, r31
+    1178:	f2 e0       	ldi	r31, 0x02	; 2
+    117a:	ff 2e       	mov	r15, r31
+    117c:	f0 2d       	mov	r31, r0
+    117e:	e7 cf       	rjmp	.-50     	; 0x114e <oled_write_line_to_SRAM+0xa6>
+    1180:	df 91       	pop	r29
+    1182:	cf 91       	pop	r28
+    1184:	1f 91       	pop	r17
+    1186:	0f 91       	pop	r16
+    1188:	ff 90       	pop	r15
+    118a:	ef 90       	pop	r14
+    118c:	df 90       	pop	r13
+    118e:	cf 90       	pop	r12
+    1190:	bf 90       	pop	r11
+    1192:	9f 90       	pop	r9
+    1194:	8f 90       	pop	r8
+    1196:	08 95       	ret
 
-000010c2 <oled_write_line_to_SRAM>:
-
-
-void oled_write_line_to_SRAM(uint8_t line, const char* data) {
-    10c2:	8f 92       	push	r8
-    10c4:	9f 92       	push	r9
-    10c6:	bf 92       	push	r11
-    10c8:	cf 92       	push	r12
-    10ca:	df 92       	push	r13
-    10cc:	ef 92       	push	r14
-    10ce:	ff 92       	push	r15
-    10d0:	0f 93       	push	r16
-    10d2:	1f 93       	push	r17
-    10d4:	cf 93       	push	r28
-    10d6:	df 93       	push	r29
-	if (line >= 8) {
-    10d8:	88 30       	cpi	r24, 0x08	; 8
-    10da:	08 f0       	brcs	.+2      	; 0x10de <oled_write_line_to_SRAM+0x1c>
-    10dc:	5e c0       	rjmp	.+188    	; 0x119a <oled_write_line_to_SRAM+0xd8>
-    10de:	fb 01       	movw	r30, r22
-		return; 
-	}
-	uint8_t max_chars_per_line = 16;
-	uint16_t sram_address = line * 128;  // Hver linje er 128 bytes, 16 karakterer à 8 pixels
-    10e0:	90 e8       	ldi	r25, 0x80	; 128
-    10e2:	89 9f       	mul	r24, r25
-    10e4:	60 01       	movw	r12, r0
-    10e6:	11 24       	eor	r1, r1
-	uint8_t i = 0; // så den ikkje døyr når vi går ut av forloopen (brukast igjen)
-	// Skriv karakterene til SRAM, men ikke mer enn 16
-	for (; i < max_chars_per_line; i++) {
-		if (data[i] == '\0') {
-    10e8:	80 81       	ld	r24, Z
-    10ea:	88 23       	and	r24, r24
-    10ec:	09 f4       	brne	.+2      	; 0x10f0 <oled_write_line_to_SRAM+0x2e>
-    10ee:	47 c0       	rjmp	.+142    	; 0x117e <oled_write_line_to_SRAM+0xbc>
-    10f0:	76 01       	movw	r14, r12
-    10f2:	8b 01       	movw	r16, r22
-    10f4:	b1 2c       	mov	r11, r1
-    10f6:	0a c0       	rjmp	.+20     	; 0x110c <oled_write_line_to_SRAM+0x4a>
-    10f8:	0f 5f       	subi	r16, 0xFF	; 255
-    10fa:	1f 4f       	sbci	r17, 0xFF	; 255
-    10fc:	a8 e0       	ldi	r26, 0x08	; 8
-    10fe:	ea 0e       	add	r14, r26
-    1100:	f1 1c       	adc	r15, r1
-    1102:	f8 01       	movw	r30, r16
-    1104:	80 81       	ld	r24, Z
-    1106:	88 23       	and	r24, r24
-    1108:	09 f4       	brne	.+2      	; 0x110c <oled_write_line_to_SRAM+0x4a>
-    110a:	3a c0       	rjmp	.+116    	; 0x1180 <oled_write_line_to_SRAM+0xbe>
-    110c:	c0 e0       	ldi	r28, 0x00	; 0
-    110e:	d0 e0       	ldi	r29, 0x00	; 0
-			break;  // Avslutt hvis vi når slutten av data
-		}
-		for (uint8_t j = 0; j < 8; j++) {
-			SRAM_write(sram_address + (i * 8) + j, pgm_read_byte(&font8x8_basic[(data[i] - 32) * 8 + j]));
-    1110:	d8 01       	movw	r26, r16
-    1112:	ec 91       	ld	r30, X
-    1114:	f0 e0       	ldi	r31, 0x00	; 0
-    1116:	b0 97       	sbiw	r30, 0x20	; 32
-    1118:	ee 0f       	add	r30, r30
-    111a:	ff 1f       	adc	r31, r31
-    111c:	ee 0f       	add	r30, r30
-    111e:	ff 1f       	adc	r31, r31
-    1120:	ee 0f       	add	r30, r30
-    1122:	ff 1f       	adc	r31, r31
-    1124:	ec 0f       	add	r30, r28
-    1126:	fd 1f       	adc	r31, r29
-    1128:	e0 51       	subi	r30, 0x10	; 16
-    112a:	fd 4f       	sbci	r31, 0xFD	; 253
-    112c:	64 91       	lpm	r22, Z
-    112e:	c7 01       	movw	r24, r14
-    1130:	8c 0f       	add	r24, r28
-    1132:	9d 1f       	adc	r25, r29
-    1134:	0e 94 b8 0a 	call	0x1570	; 0x1570 <SRAM_write>
-    1138:	21 96       	adiw	r28, 0x01	; 1
-	// Skriv karakterene til SRAM, men ikke mer enn 16
-	for (; i < max_chars_per_line; i++) {
-		if (data[i] == '\0') {
-			break;  // Avslutt hvis vi når slutten av data
-		}
-		for (uint8_t j = 0; j < 8; j++) {
-    113a:	c8 30       	cpi	r28, 0x08	; 8
-    113c:	d1 05       	cpc	r29, r1
-    113e:	41 f7       	brne	.-48     	; 0x1110 <oled_write_line_to_SRAM+0x4e>
-	}
-	uint8_t max_chars_per_line = 16;
-	uint16_t sram_address = line * 128;  // Hver linje er 128 bytes, 16 karakterer à 8 pixels
-	uint8_t i = 0; // så den ikkje døyr når vi går ut av forloopen (brukast igjen)
-	// Skriv karakterene til SRAM, men ikke mer enn 16
-	for (; i < max_chars_per_line; i++) {
-    1140:	b3 94       	inc	r11
-    1142:	b0 e1       	ldi	r27, 0x10	; 16
-    1144:	bb 12       	cpse	r11, r27
-    1146:	d8 cf       	rjmp	.-80     	; 0x10f8 <oled_write_line_to_SRAM+0x36>
-    1148:	28 c0       	rjmp	.+80     	; 0x119a <oled_write_line_to_SRAM+0xd8>
-		}
-	}
-	// Fyll resten av linjen med tomrom (mellomrom) etter slutten av data
-	for (; i < max_chars_per_line; i++) {
-		for (uint8_t j = 0; j < 8; j++) {
-			SRAM_write(sram_address + (i * 8) + j, pgm_read_byte(&font8x8_basic[(' ' - 32) * 8 + j]));
-    114a:	fe 01       	movw	r30, r28
-    114c:	64 91       	lpm	r22, Z
-    114e:	c8 01       	movw	r24, r16
-    1150:	8c 0f       	add	r24, r28
-    1152:	9d 1f       	adc	r25, r29
-    1154:	0e 94 b8 0a 	call	0x1570	; 0x1570 <SRAM_write>
-    1158:	21 96       	adiw	r28, 0x01	; 1
-			SRAM_write(sram_address + (i * 8) + j, pgm_read_byte(&font8x8_basic[(data[i] - 32) * 8 + j]));
-		}
-	}
-	// Fyll resten av linjen med tomrom (mellomrom) etter slutten av data
-	for (; i < max_chars_per_line; i++) {
-		for (uint8_t j = 0; j < 8; j++) {
-    115a:	ce 15       	cp	r28, r14
-    115c:	df 05       	cpc	r29, r15
-    115e:	a9 f7       	brne	.-22     	; 0x114a <oled_write_line_to_SRAM+0x88>
-		for (uint8_t j = 0; j < 8; j++) {
-			SRAM_write(sram_address + (i * 8) + j, pgm_read_byte(&font8x8_basic[(data[i] - 32) * 8 + j]));
-		}
-	}
-	// Fyll resten av linjen med tomrom (mellomrom) etter slutten av data
-	for (; i < max_chars_per_line; i++) {
-    1160:	b3 94       	inc	r11
-    1162:	ff e0       	ldi	r31, 0x0F	; 15
-    1164:	fb 15       	cp	r31, r11
-    1166:	c8 f0       	brcs	.+50     	; 0x119a <oled_write_line_to_SRAM+0xd8>
-		for (uint8_t j = 0; j < 8; j++) {
-			SRAM_write(sram_address + (i * 8) + j, pgm_read_byte(&font8x8_basic[(' ' - 32) * 8 + j]));
-    1168:	c0 ef       	ldi	r28, 0xF0	; 240
-    116a:	d2 e0       	ldi	r29, 0x02	; 2
-    116c:	86 01       	movw	r16, r12
-    116e:	88 e0       	ldi	r24, 0x08	; 8
-    1170:	b8 9e       	mul	r11, r24
-    1172:	00 0d       	add	r16, r0
-    1174:	11 1d       	adc	r17, r1
-    1176:	11 24       	eor	r1, r1
-    1178:	08 19       	sub	r16, r8
-    117a:	19 09       	sbc	r17, r9
-    117c:	e6 cf       	rjmp	.-52     	; 0x114a <oled_write_line_to_SRAM+0x88>
-	if (line >= 8) {
-		return; 
-	}
-	uint8_t max_chars_per_line = 16;
-	uint16_t sram_address = line * 128;  // Hver linje er 128 bytes, 16 karakterer à 8 pixels
-	uint8_t i = 0; // så den ikkje døyr når vi går ut av forloopen (brukast igjen)
-    117e:	b1 2c       	mov	r11, r1
-    1180:	0f 2e       	mov	r0, r31
-    1182:	f0 ef       	ldi	r31, 0xF0	; 240
-    1184:	8f 2e       	mov	r8, r31
-    1186:	f2 e0       	ldi	r31, 0x02	; 2
-    1188:	9f 2e       	mov	r9, r31
-    118a:	f0 2d       	mov	r31, r0
-    118c:	0f 2e       	mov	r0, r31
-    118e:	f8 ef       	ldi	r31, 0xF8	; 248
-    1190:	ef 2e       	mov	r14, r31
-    1192:	f2 e0       	ldi	r31, 0x02	; 2
-    1194:	ff 2e       	mov	r15, r31
-    1196:	f0 2d       	mov	r31, r0
-    1198:	e7 cf       	rjmp	.-50     	; 0x1168 <oled_write_line_to_SRAM+0xa6>
-	for (; i < max_chars_per_line; i++) {
-		for (uint8_t j = 0; j < 8; j++) {
-			SRAM_write(sram_address + (i * 8) + j, pgm_read_byte(&font8x8_basic[(' ' - 32) * 8 + j]));
-		}
-	}
-}
-    119a:	df 91       	pop	r29
-    119c:	cf 91       	pop	r28
-    119e:	1f 91       	pop	r17
-    11a0:	0f 91       	pop	r16
-    11a2:	ff 90       	pop	r15
-    11a4:	ef 90       	pop	r14
-    11a6:	df 90       	pop	r13
-    11a8:	cf 90       	pop	r12
-    11aa:	bf 90       	pop	r11
-    11ac:	9f 90       	pop	r9
-    11ae:	8f 90       	pop	r8
-    11b0:	08 95       	ret
-
-000011b2 <oled_write_char_to_SRAM>:
-//Nyttig for menyen trur eg, lar deg spesifisere nøyaktig kor på skjermen du vil overskrive
-void oled_write_char_to_SRAM(uint8_t row, uint8_t col, char c) {
-    11b2:	ef 92       	push	r14
-    11b4:	ff 92       	push	r15
-    11b6:	0f 93       	push	r16
-    11b8:	1f 93       	push	r17
-    11ba:	cf 93       	push	r28
-    11bc:	df 93       	push	r29
-	if (row >= 8 || col >= 16) {
-    11be:	88 30       	cpi	r24, 0x08	; 8
-    11c0:	70 f5       	brcc	.+92     	; 0x121e <oled_write_char_to_SRAM+0x6c>
-    11c2:	60 31       	cpi	r22, 0x10	; 16
-    11c4:	60 f5       	brcc	.+88     	; 0x121e <oled_write_char_to_SRAM+0x6c>
-    11c6:	28 2f       	mov	r18, r24
-		return; 
-	}
-	uint16_t sram_address = row * 128 + (col * 8); 
-    11c8:	86 2f       	mov	r24, r22
-    11ca:	90 e0       	ldi	r25, 0x00	; 0
-    11cc:	30 e1       	ldi	r19, 0x10	; 16
-    11ce:	23 9f       	mul	r18, r19
-    11d0:	80 0d       	add	r24, r0
-    11d2:	91 1d       	adc	r25, r1
-    11d4:	11 24       	eor	r1, r1
-    11d6:	88 0f       	add	r24, r24
-    11d8:	99 1f       	adc	r25, r25
-    11da:	88 0f       	add	r24, r24
-    11dc:	99 1f       	adc	r25, r25
-    11de:	88 0f       	add	r24, r24
-    11e0:	99 1f       	adc	r25, r25
-	for (uint8_t i = 0; i < 8; i++) {
-		SRAM_write(sram_address + i, pgm_read_byte(&font8x8_basic[(c - 32) * 8 + i]));
-    11e2:	04 2f       	mov	r16, r20
-    11e4:	10 e0       	ldi	r17, 0x00	; 0
-    11e6:	00 52       	subi	r16, 0x20	; 32
-    11e8:	11 09       	sbc	r17, r1
-    11ea:	00 0f       	add	r16, r16
-    11ec:	11 1f       	adc	r17, r17
-    11ee:	00 0f       	add	r16, r16
-    11f0:	11 1f       	adc	r17, r17
-    11f2:	00 0f       	add	r16, r16
-    11f4:	11 1f       	adc	r17, r17
-    11f6:	7c 01       	movw	r14, r24
-    11f8:	28 e0       	ldi	r18, 0x08	; 8
-    11fa:	e2 0e       	add	r14, r18
-    11fc:	f1 1c       	adc	r15, r1
-    11fe:	ec 01       	movw	r28, r24
-    1200:	08 1b       	sub	r16, r24
-    1202:	19 0b       	sbc	r17, r25
-    1204:	f8 01       	movw	r30, r16
-    1206:	ec 0f       	add	r30, r28
-    1208:	fd 1f       	adc	r31, r29
-    120a:	e0 51       	subi	r30, 0x10	; 16
-    120c:	fd 4f       	sbci	r31, 0xFD	; 253
-    120e:	64 91       	lpm	r22, Z
-    1210:	ce 01       	movw	r24, r28
-    1212:	0e 94 b8 0a 	call	0x1570	; 0x1570 <SRAM_write>
-    1216:	21 96       	adiw	r28, 0x01	; 1
-void oled_write_char_to_SRAM(uint8_t row, uint8_t col, char c) {
-	if (row >= 8 || col >= 16) {
-		return; 
-	}
-	uint16_t sram_address = row * 128 + (col * 8); 
-	for (uint8_t i = 0; i < 8; i++) {
-    1218:	ce 15       	cp	r28, r14
-    121a:	df 05       	cpc	r29, r15
-    121c:	99 f7       	brne	.-26     	; 0x1204 <oled_write_char_to_SRAM+0x52>
-		SRAM_write(sram_address + i, pgm_read_byte(&font8x8_basic[(c - 32) * 8 + i]));
-	}
-}
-    121e:	df 91       	pop	r29
-    1220:	cf 91       	pop	r28
-    1222:	1f 91       	pop	r17
-    1224:	0f 91       	pop	r16
-    1226:	ff 90       	pop	r15
-    1228:	ef 90       	pop	r14
-    122a:	08 95       	ret
-
-0000122c <oled_write_pixel_to_SRAM>:
+00001198 <oled_write_pixel_to_SRAM>:
 
 void oled_write_pixel_to_SRAM(uint8_t row, uint8_t col, uint8_t value) {
-    122c:	0f 93       	push	r16
-    122e:	1f 93       	push	r17
-    1230:	cf 93       	push	r28
-    1232:	df 93       	push	r29
+    1198:	0f 93       	push	r16
+    119a:	1f 93       	push	r17
+    119c:	cf 93       	push	r28
+    119e:	df 93       	push	r29
 	if (row >= 64 || col >= 128) {
-    1234:	80 34       	cpi	r24, 0x40	; 64
-    1236:	48 f5       	brcc	.+82     	; 0x128a <oled_write_pixel_to_SRAM+0x5e>
-    1238:	66 23       	and	r22, r22
-    123a:	3c f1       	brlt	.+78     	; 0x128a <oled_write_pixel_to_SRAM+0x5e>
-    123c:	04 2f       	mov	r16, r20
-    123e:	18 2f       	mov	r17, r24
+    11a0:	80 34       	cpi	r24, 0x40	; 64
+    11a2:	48 f5       	brcc	.+82     	; 0x11f6 <oled_write_pixel_to_SRAM+0x5e>
+    11a4:	66 23       	and	r22, r22
+    11a6:	3c f1       	brlt	.+78     	; 0x11f6 <oled_write_pixel_to_SRAM+0x5e>
+    11a8:	04 2f       	mov	r16, r20
+    11aa:	18 2f       	mov	r17, r24
 		return;
 	}
 	
 	// Finn korrekt byte i SRAM for å justere pikslen
 	uint16_t sram_address = (row / 8) * 128 + col;
-    1240:	86 95       	lsr	r24
-    1242:	86 95       	lsr	r24
-    1244:	86 95       	lsr	r24
-    1246:	c6 2f       	mov	r28, r22
-    1248:	d0 e0       	ldi	r29, 0x00	; 0
-    124a:	90 e8       	ldi	r25, 0x80	; 128
-    124c:	89 9f       	mul	r24, r25
-    124e:	c0 0d       	add	r28, r0
-    1250:	d1 1d       	adc	r29, r1
-    1252:	11 24       	eor	r1, r1
+    11ac:	86 95       	lsr	r24
+    11ae:	86 95       	lsr	r24
+    11b0:	86 95       	lsr	r24
+    11b2:	c6 2f       	mov	r28, r22
+    11b4:	d0 e0       	ldi	r29, 0x00	; 0
+    11b6:	90 e8       	ldi	r25, 0x80	; 128
+    11b8:	89 9f       	mul	r24, r25
+    11ba:	c0 0d       	add	r28, r0
+    11bc:	d1 1d       	adc	r29, r1
+    11be:	11 24       	eor	r1, r1
 	uint8_t current_byte = SRAM_read(sram_address);
-    1254:	ce 01       	movw	r24, r28
-    1256:	0e 94 c8 0a 	call	0x1590	; 0x1590 <SRAM_read>
+    11c0:	ce 01       	movw	r24, r28
+    11c2:	0e 94 7e 0a 	call	0x14fc	; 0x14fc <SRAM_read>
 	uint8_t bit_position = row % 8;
-    125a:	17 70       	andi	r17, 0x07	; 7
+    11c6:	17 70       	andi	r17, 0x07	; 7
 
 	// Sett eller nullstill den ønskede biten
 	if (value) {
-    125c:	00 23       	and	r16, r16
-    125e:	49 f0       	breq	.+18     	; 0x1272 <oled_write_pixel_to_SRAM+0x46>
+    11c8:	00 23       	and	r16, r16
+    11ca:	49 f0       	breq	.+18     	; 0x11de <oled_write_pixel_to_SRAM+0x46>
 		current_byte |= (1 << bit_position);  // Sett bit til 1
-    1260:	61 e0       	ldi	r22, 0x01	; 1
-    1262:	70 e0       	ldi	r23, 0x00	; 0
-    1264:	02 c0       	rjmp	.+4      	; 0x126a <oled_write_pixel_to_SRAM+0x3e>
-    1266:	66 0f       	add	r22, r22
-    1268:	77 1f       	adc	r23, r23
-    126a:	1a 95       	dec	r17
-    126c:	e2 f7       	brpl	.-8      	; 0x1266 <oled_write_pixel_to_SRAM+0x3a>
-    126e:	68 2b       	or	r22, r24
-    1270:	09 c0       	rjmp	.+18     	; 0x1284 <oled_write_pixel_to_SRAM+0x58>
+    11cc:	61 e0       	ldi	r22, 0x01	; 1
+    11ce:	70 e0       	ldi	r23, 0x00	; 0
+    11d0:	02 c0       	rjmp	.+4      	; 0x11d6 <oled_write_pixel_to_SRAM+0x3e>
+    11d2:	66 0f       	add	r22, r22
+    11d4:	77 1f       	adc	r23, r23
+    11d6:	1a 95       	dec	r17
+    11d8:	e2 f7       	brpl	.-8      	; 0x11d2 <oled_write_pixel_to_SRAM+0x3a>
+    11da:	68 2b       	or	r22, r24
+    11dc:	09 c0       	rjmp	.+18     	; 0x11f0 <oled_write_pixel_to_SRAM+0x58>
 		} else {
 		current_byte &= ~(1 << bit_position);  // Nullstill bit til 0
-    1272:	61 e0       	ldi	r22, 0x01	; 1
-    1274:	70 e0       	ldi	r23, 0x00	; 0
-    1276:	02 c0       	rjmp	.+4      	; 0x127c <oled_write_pixel_to_SRAM+0x50>
-    1278:	66 0f       	add	r22, r22
-    127a:	77 1f       	adc	r23, r23
-    127c:	1a 95       	dec	r17
-    127e:	e2 f7       	brpl	.-8      	; 0x1278 <oled_write_pixel_to_SRAM+0x4c>
-    1280:	60 95       	com	r22
-    1282:	68 23       	and	r22, r24
+    11de:	61 e0       	ldi	r22, 0x01	; 1
+    11e0:	70 e0       	ldi	r23, 0x00	; 0
+    11e2:	02 c0       	rjmp	.+4      	; 0x11e8 <oled_write_pixel_to_SRAM+0x50>
+    11e4:	66 0f       	add	r22, r22
+    11e6:	77 1f       	adc	r23, r23
+    11e8:	1a 95       	dec	r17
+    11ea:	e2 f7       	brpl	.-8      	; 0x11e4 <oled_write_pixel_to_SRAM+0x4c>
+    11ec:	60 95       	com	r22
+    11ee:	68 23       	and	r22, r24
 	}
 	
 	SRAM_write(sram_address, current_byte);
-    1284:	ce 01       	movw	r24, r28
-    1286:	0e 94 b8 0a 	call	0x1570	; 0x1570 <SRAM_write>
+    11f0:	ce 01       	movw	r24, r28
+    11f2:	0e 94 6e 0a 	call	0x14dc	; 0x14dc <SRAM_write>
 }
-    128a:	df 91       	pop	r29
-    128c:	cf 91       	pop	r28
-    128e:	1f 91       	pop	r17
-    1290:	0f 91       	pop	r16
-    1292:	08 95       	ret
+    11f6:	df 91       	pop	r29
+    11f8:	cf 91       	pop	r28
+    11fa:	1f 91       	pop	r17
+    11fc:	0f 91       	pop	r16
+    11fe:	08 95       	ret
 
-00001294 <oled_clear_screen>:
+00001200 <oled_clear_screen>:
 
 void oled_clear_screen(void) {
-    1294:	cf 93       	push	r28
-    1296:	df 93       	push	r29
+    1200:	cf 93       	push	r28
+    1202:	df 93       	push	r29
 	// Lag en tom buffer fylt med nuller eller mellomrom (0 er nok, fordi funksjonen oversetter til ' ')
 	char empty_buffer[128] = {0};  // Heile skjermen, 128 tegn
 
 	// Skriv den tomme bufferen til SRAM, som vil tømme skjermen
 	oled_write_screen_to_SRAM(empty_buffer);*/
 	for(int i = 0; i < 1024; i++){
-    1298:	c0 e0       	ldi	r28, 0x00	; 0
-    129a:	d0 e0       	ldi	r29, 0x00	; 0
+    1204:	c0 e0       	ldi	r28, 0x00	; 0
+    1206:	d0 e0       	ldi	r29, 0x00	; 0
 		SRAM_write(i, 0);
-    129c:	60 e0       	ldi	r22, 0x00	; 0
-    129e:	ce 01       	movw	r24, r28
-    12a0:	0e 94 b8 0a 	call	0x1570	; 0x1570 <SRAM_write>
+    1208:	60 e0       	ldi	r22, 0x00	; 0
+    120a:	ce 01       	movw	r24, r28
+    120c:	0e 94 6e 0a 	call	0x14dc	; 0x14dc <SRAM_write>
 	// Lag en tom buffer fylt med nuller eller mellomrom (0 er nok, fordi funksjonen oversetter til ' ')
 	char empty_buffer[128] = {0};  // Heile skjermen, 128 tegn
 
 	// Skriv den tomme bufferen til SRAM, som vil tømme skjermen
 	oled_write_screen_to_SRAM(empty_buffer);*/
 	for(int i = 0; i < 1024; i++){
-    12a4:	21 96       	adiw	r28, 0x01	; 1
-    12a6:	c1 15       	cp	r28, r1
-    12a8:	84 e0       	ldi	r24, 0x04	; 4
-    12aa:	d8 07       	cpc	r29, r24
-    12ac:	b9 f7       	brne	.-18     	; 0x129c <oled_clear_screen+0x8>
+    1210:	21 96       	adiw	r28, 0x01	; 1
+    1212:	c1 15       	cp	r28, r1
+    1214:	84 e0       	ldi	r24, 0x04	; 4
+    1216:	d8 07       	cpc	r29, r24
+    1218:	b9 f7       	brne	.-18     	; 0x1208 <oled_clear_screen+0x8>
 		SRAM_write(i, 0);
 	}
 }
-    12ae:	df 91       	pop	r29
-    12b0:	cf 91       	pop	r28
-    12b2:	08 95       	ret
+    121a:	df 91       	pop	r29
+    121c:	cf 91       	pop	r28
+    121e:	08 95       	ret
 
-000012b4 <oled_draw_line>:
+00001220 <oled_draw_line>:
 
 void oled_draw_line(uint8_t x0, uint8_t y0, uint8_t x1, uint8_t y1) {
-    12b4:	6f 92       	push	r6
-    12b6:	7f 92       	push	r7
-    12b8:	8f 92       	push	r8
-    12ba:	9f 92       	push	r9
-    12bc:	af 92       	push	r10
-    12be:	bf 92       	push	r11
-    12c0:	cf 92       	push	r12
-    12c2:	df 92       	push	r13
-    12c4:	ef 92       	push	r14
-    12c6:	ff 92       	push	r15
-    12c8:	0f 93       	push	r16
-    12ca:	1f 93       	push	r17
-    12cc:	cf 93       	push	r28
-    12ce:	df 93       	push	r29
-    12d0:	c8 2f       	mov	r28, r24
-    12d2:	d6 2f       	mov	r29, r22
-    12d4:	94 2e       	mov	r9, r20
-    12d6:	62 2e       	mov	r6, r18
+    1220:	6f 92       	push	r6
+    1222:	7f 92       	push	r7
+    1224:	8f 92       	push	r8
+    1226:	9f 92       	push	r9
+    1228:	af 92       	push	r10
+    122a:	bf 92       	push	r11
+    122c:	cf 92       	push	r12
+    122e:	df 92       	push	r13
+    1230:	ef 92       	push	r14
+    1232:	ff 92       	push	r15
+    1234:	0f 93       	push	r16
+    1236:	1f 93       	push	r17
+    1238:	cf 93       	push	r28
+    123a:	df 93       	push	r29
+    123c:	c8 2f       	mov	r28, r24
+    123e:	d6 2f       	mov	r29, r22
+    1240:	94 2e       	mov	r9, r20
+    1242:	62 2e       	mov	r6, r18
 	int dx = abs(x1 - x0);
-    12d8:	84 2f       	mov	r24, r20
-    12da:	90 e0       	ldi	r25, 0x00	; 0
-    12dc:	8c 1b       	sub	r24, r28
-    12de:	91 09       	sbc	r25, r1
-    12e0:	7c 01       	movw	r14, r24
-    12e2:	22 f4       	brpl	.+8      	; 0x12ec <oled_draw_line+0x38>
-    12e4:	ee 24       	eor	r14, r14
-    12e6:	ff 24       	eor	r15, r15
-    12e8:	e8 1a       	sub	r14, r24
-    12ea:	f9 0a       	sbc	r15, r25
+    1244:	84 2f       	mov	r24, r20
+    1246:	90 e0       	ldi	r25, 0x00	; 0
+    1248:	8c 1b       	sub	r24, r28
+    124a:	91 09       	sbc	r25, r1
+    124c:	7c 01       	movw	r14, r24
+    124e:	22 f4       	brpl	.+8      	; 0x1258 <oled_draw_line+0x38>
+    1250:	ee 24       	eor	r14, r14
+    1252:	ff 24       	eor	r15, r15
+    1254:	e8 1a       	sub	r14, r24
+    1256:	f9 0a       	sbc	r15, r25
 	int dy = abs(y1 - y0);
-    12ec:	86 2d       	mov	r24, r6
-    12ee:	90 e0       	ldi	r25, 0x00	; 0
-    12f0:	8d 1b       	sub	r24, r29
-    12f2:	91 09       	sbc	r25, r1
-    12f4:	5c 01       	movw	r10, r24
-    12f6:	22 f4       	brpl	.+8      	; 0x1300 <oled_draw_line+0x4c>
-    12f8:	aa 24       	eor	r10, r10
-    12fa:	bb 24       	eor	r11, r11
-    12fc:	a8 1a       	sub	r10, r24
-    12fe:	b9 0a       	sbc	r11, r25
+    1258:	86 2d       	mov	r24, r6
+    125a:	90 e0       	ldi	r25, 0x00	; 0
+    125c:	8d 1b       	sub	r24, r29
+    125e:	91 09       	sbc	r25, r1
+    1260:	5c 01       	movw	r10, r24
+    1262:	22 f4       	brpl	.+8      	; 0x126c <oled_draw_line+0x4c>
+    1264:	aa 24       	eor	r10, r10
+    1266:	bb 24       	eor	r11, r11
+    1268:	a8 1a       	sub	r10, r24
+    126a:	b9 0a       	sbc	r11, r25
 	int sx = (x0 < x1) ? 1 : -1;
-    1300:	c9 15       	cp	r28, r9
-    1302:	18 f0       	brcs	.+6      	; 0x130a <oled_draw_line+0x56>
-    1304:	88 24       	eor	r8, r8
-    1306:	8a 94       	dec	r8
-    1308:	02 c0       	rjmp	.+4      	; 0x130e <oled_draw_line+0x5a>
-    130a:	88 24       	eor	r8, r8
-    130c:	83 94       	inc	r8
+    126c:	c9 15       	cp	r28, r9
+    126e:	18 f0       	brcs	.+6      	; 0x1276 <oled_draw_line+0x56>
+    1270:	88 24       	eor	r8, r8
+    1272:	8a 94       	dec	r8
+    1274:	02 c0       	rjmp	.+4      	; 0x127a <oled_draw_line+0x5a>
+    1276:	88 24       	eor	r8, r8
+    1278:	83 94       	inc	r8
 	int sy = (y0 < y1) ? 1 : -1;
-    130e:	d6 15       	cp	r29, r6
-    1310:	18 f0       	brcs	.+6      	; 0x1318 <oled_draw_line+0x64>
-    1312:	77 24       	eor	r7, r7
-    1314:	7a 94       	dec	r7
-    1316:	02 c0       	rjmp	.+4      	; 0x131c <oled_draw_line+0x68>
-    1318:	77 24       	eor	r7, r7
-    131a:	73 94       	inc	r7
+    127a:	d6 15       	cp	r29, r6
+    127c:	18 f0       	brcs	.+6      	; 0x1284 <oled_draw_line+0x64>
+    127e:	77 24       	eor	r7, r7
+    1280:	7a 94       	dec	r7
+    1282:	02 c0       	rjmp	.+4      	; 0x1288 <oled_draw_line+0x68>
+    1284:	77 24       	eor	r7, r7
+    1286:	73 94       	inc	r7
 	int err = dx - dy;
-    131c:	87 01       	movw	r16, r14
-    131e:	0a 19       	sub	r16, r10
-    1320:	1b 09       	sbc	r17, r11
+    1288:	87 01       	movw	r16, r14
+    128a:	0a 19       	sub	r16, r10
+    128c:	1b 09       	sbc	r17, r11
 	while (1) {
 		oled_write_pixel_to_SRAM(y0, x0, 1);  // Tegn piksel
 
 		if (x0 == x1 && y0 == y1) break;
 		int e2 = 2 * err;
 		if (e2 > -dy) {
-    1322:	cc 24       	eor	r12, r12
-    1324:	dd 24       	eor	r13, r13
-    1326:	ca 18       	sub	r12, r10
-    1328:	db 08       	sbc	r13, r11
+    128e:	cc 24       	eor	r12, r12
+    1290:	dd 24       	eor	r13, r13
+    1292:	ca 18       	sub	r12, r10
+    1294:	db 08       	sbc	r13, r11
 	int sx = (x0 < x1) ? 1 : -1;
 	int sy = (y0 < y1) ? 1 : -1;
 	int err = dx - dy;
 
 	while (1) {
 		oled_write_pixel_to_SRAM(y0, x0, 1);  // Tegn piksel
-    132a:	41 e0       	ldi	r20, 0x01	; 1
-    132c:	6c 2f       	mov	r22, r28
-    132e:	8d 2f       	mov	r24, r29
-    1330:	0e 94 16 09 	call	0x122c	; 0x122c <oled_write_pixel_to_SRAM>
+    1296:	41 e0       	ldi	r20, 0x01	; 1
+    1298:	6c 2f       	mov	r22, r28
+    129a:	8d 2f       	mov	r24, r29
+    129c:	0e 94 cc 08 	call	0x1198	; 0x1198 <oled_write_pixel_to_SRAM>
 
 		if (x0 == x1 && y0 == y1) break;
-    1334:	c9 11       	cpse	r28, r9
-    1336:	02 c0       	rjmp	.+4      	; 0x133c <oled_draw_line+0x88>
-    1338:	d6 15       	cp	r29, r6
-    133a:	81 f0       	breq	.+32     	; 0x135c <oled_draw_line+0xa8>
+    12a0:	c9 11       	cpse	r28, r9
+    12a2:	02 c0       	rjmp	.+4      	; 0x12a8 <oled_draw_line+0x88>
+    12a4:	d6 15       	cp	r29, r6
+    12a6:	81 f0       	breq	.+32     	; 0x12c8 <oled_draw_line+0xa8>
 		int e2 = 2 * err;
-    133c:	c8 01       	movw	r24, r16
-    133e:	88 0f       	add	r24, r24
-    1340:	99 1f       	adc	r25, r25
+    12a8:	c8 01       	movw	r24, r16
+    12aa:	88 0f       	add	r24, r24
+    12ac:	99 1f       	adc	r25, r25
 		if (e2 > -dy) {
-    1342:	c8 16       	cp	r12, r24
-    1344:	d9 06       	cpc	r13, r25
-    1346:	1c f4       	brge	.+6      	; 0x134e <oled_draw_line+0x9a>
+    12ae:	c8 16       	cp	r12, r24
+    12b0:	d9 06       	cpc	r13, r25
+    12b2:	1c f4       	brge	.+6      	; 0x12ba <oled_draw_line+0x9a>
 			err -= dy;
-    1348:	0a 19       	sub	r16, r10
-    134a:	1b 09       	sbc	r17, r11
+    12b4:	0a 19       	sub	r16, r10
+    12b6:	1b 09       	sbc	r17, r11
 			x0 += sx;
-    134c:	c8 0d       	add	r28, r8
+    12b8:	c8 0d       	add	r28, r8
 		}
 		if (e2 < dx) {
-    134e:	8e 15       	cp	r24, r14
-    1350:	9f 05       	cpc	r25, r15
-    1352:	5c f7       	brge	.-42     	; 0x132a <oled_draw_line+0x76>
+    12ba:	8e 15       	cp	r24, r14
+    12bc:	9f 05       	cpc	r25, r15
+    12be:	5c f7       	brge	.-42     	; 0x1296 <oled_draw_line+0x76>
 			err += dx;
-    1354:	0e 0d       	add	r16, r14
-    1356:	1f 1d       	adc	r17, r15
+    12c0:	0e 0d       	add	r16, r14
+    12c2:	1f 1d       	adc	r17, r15
 			y0 += sy;
-    1358:	d7 0d       	add	r29, r7
-    135a:	e7 cf       	rjmp	.-50     	; 0x132a <oled_draw_line+0x76>
+    12c4:	d7 0d       	add	r29, r7
+    12c6:	e7 cf       	rjmp	.-50     	; 0x1296 <oled_draw_line+0x76>
 		}
 	}
 }
-    135c:	df 91       	pop	r29
-    135e:	cf 91       	pop	r28
-    1360:	1f 91       	pop	r17
-    1362:	0f 91       	pop	r16
-    1364:	ff 90       	pop	r15
-    1366:	ef 90       	pop	r14
-    1368:	df 90       	pop	r13
-    136a:	cf 90       	pop	r12
-    136c:	bf 90       	pop	r11
-    136e:	af 90       	pop	r10
-    1370:	9f 90       	pop	r9
-    1372:	8f 90       	pop	r8
-    1374:	7f 90       	pop	r7
-    1376:	6f 90       	pop	r6
-    1378:	08 95       	ret
+    12c8:	df 91       	pop	r29
+    12ca:	cf 91       	pop	r28
+    12cc:	1f 91       	pop	r17
+    12ce:	0f 91       	pop	r16
+    12d0:	ff 90       	pop	r15
+    12d2:	ef 90       	pop	r14
+    12d4:	df 90       	pop	r13
+    12d6:	cf 90       	pop	r12
+    12d8:	bf 90       	pop	r11
+    12da:	af 90       	pop	r10
+    12dc:	9f 90       	pop	r9
+    12de:	8f 90       	pop	r8
+    12e0:	7f 90       	pop	r7
+    12e2:	6f 90       	pop	r6
+    12e4:	08 95       	ret
 
-0000137a <oled_draw_circle>:
+000012e6 <oled_draw_circle>:
 
 void oled_draw_circle(uint8_t x0, uint8_t y0, uint8_t radius) {
-    137a:	9f 92       	push	r9
-    137c:	af 92       	push	r10
-    137e:	bf 92       	push	r11
-    1380:	cf 92       	push	r12
-    1382:	df 92       	push	r13
-    1384:	ef 92       	push	r14
-    1386:	ff 92       	push	r15
-    1388:	0f 93       	push	r16
-    138a:	1f 93       	push	r17
-    138c:	cf 93       	push	r28
-    138e:	df 93       	push	r29
-    1390:	98 2e       	mov	r9, r24
-    1392:	c6 2e       	mov	r12, r22
+    12e6:	9f 92       	push	r9
+    12e8:	af 92       	push	r10
+    12ea:	bf 92       	push	r11
+    12ec:	cf 92       	push	r12
+    12ee:	df 92       	push	r13
+    12f0:	ef 92       	push	r14
+    12f2:	ff 92       	push	r15
+    12f4:	0f 93       	push	r16
+    12f6:	1f 93       	push	r17
+    12f8:	cf 93       	push	r28
+    12fa:	df 93       	push	r29
+    12fc:	98 2e       	mov	r9, r24
+    12fe:	c6 2e       	mov	r12, r22
 	int x = radius;
-    1394:	c4 2f       	mov	r28, r20
-    1396:	d0 e0       	ldi	r29, 0x00	; 0
-    1398:	a1 2c       	mov	r10, r1
-    139a:	b1 2c       	mov	r11, r1
-    139c:	00 e0       	ldi	r16, 0x00	; 0
-    139e:	10 e0       	ldi	r17, 0x00	; 0
+    1300:	c4 2f       	mov	r28, r20
+    1302:	d0 e0       	ldi	r29, 0x00	; 0
+    1304:	a1 2c       	mov	r10, r1
+    1306:	b1 2c       	mov	r11, r1
+    1308:	00 e0       	ldi	r16, 0x00	; 0
+    130a:	10 e0       	ldi	r17, 0x00	; 0
 	int y = 0;
 	int err = 0;
 
 	while (x >= y) {
 		oled_write_pixel_to_SRAM(y0 + y, x0 + x, 1);
-    13a0:	41 e0       	ldi	r20, 0x01	; 1
-    13a2:	fc 2e       	mov	r15, r28
-    13a4:	f9 0c       	add	r15, r9
-    13a6:	6f 2d       	mov	r22, r15
-    13a8:	dc 2c       	mov	r13, r12
-    13aa:	d0 0e       	add	r13, r16
-    13ac:	8d 2d       	mov	r24, r13
-    13ae:	0e 94 16 09 	call	0x122c	; 0x122c <oled_write_pixel_to_SRAM>
+    130c:	41 e0       	ldi	r20, 0x01	; 1
+    130e:	fc 2e       	mov	r15, r28
+    1310:	f9 0c       	add	r15, r9
+    1312:	6f 2d       	mov	r22, r15
+    1314:	dc 2c       	mov	r13, r12
+    1316:	d0 0e       	add	r13, r16
+    1318:	8d 2d       	mov	r24, r13
+    131a:	0e 94 cc 08 	call	0x1198	; 0x1198 <oled_write_pixel_to_SRAM>
 		oled_write_pixel_to_SRAM(y0 + y, x0 - x, 1);
-    13b2:	41 e0       	ldi	r20, 0x01	; 1
-    13b4:	e9 2c       	mov	r14, r9
-    13b6:	ec 1a       	sub	r14, r28
-    13b8:	6e 2d       	mov	r22, r14
-    13ba:	8d 2d       	mov	r24, r13
-    13bc:	0e 94 16 09 	call	0x122c	; 0x122c <oled_write_pixel_to_SRAM>
+    131e:	41 e0       	ldi	r20, 0x01	; 1
+    1320:	e9 2c       	mov	r14, r9
+    1322:	ec 1a       	sub	r14, r28
+    1324:	6e 2d       	mov	r22, r14
+    1326:	8d 2d       	mov	r24, r13
+    1328:	0e 94 cc 08 	call	0x1198	; 0x1198 <oled_write_pixel_to_SRAM>
 		oled_write_pixel_to_SRAM(y0 - y, x0 + x, 1);
-    13c0:	41 e0       	ldi	r20, 0x01	; 1
-    13c2:	6f 2d       	mov	r22, r15
-    13c4:	fc 2c       	mov	r15, r12
-    13c6:	f0 1a       	sub	r15, r16
-    13c8:	8f 2d       	mov	r24, r15
-    13ca:	0e 94 16 09 	call	0x122c	; 0x122c <oled_write_pixel_to_SRAM>
+    132c:	41 e0       	ldi	r20, 0x01	; 1
+    132e:	6f 2d       	mov	r22, r15
+    1330:	fc 2c       	mov	r15, r12
+    1332:	f0 1a       	sub	r15, r16
+    1334:	8f 2d       	mov	r24, r15
+    1336:	0e 94 cc 08 	call	0x1198	; 0x1198 <oled_write_pixel_to_SRAM>
 		oled_write_pixel_to_SRAM(y0 - y, x0 - x, 1);
-    13ce:	41 e0       	ldi	r20, 0x01	; 1
-    13d0:	6e 2d       	mov	r22, r14
-    13d2:	8f 2d       	mov	r24, r15
-    13d4:	0e 94 16 09 	call	0x122c	; 0x122c <oled_write_pixel_to_SRAM>
+    133a:	41 e0       	ldi	r20, 0x01	; 1
+    133c:	6e 2d       	mov	r22, r14
+    133e:	8f 2d       	mov	r24, r15
+    1340:	0e 94 cc 08 	call	0x1198	; 0x1198 <oled_write_pixel_to_SRAM>
 		oled_write_pixel_to_SRAM(y0 + x, x0 + y, 1);
-    13d8:	41 e0       	ldi	r20, 0x01	; 1
-    13da:	f9 2c       	mov	r15, r9
-    13dc:	f0 0e       	add	r15, r16
-    13de:	6f 2d       	mov	r22, r15
-    13e0:	dc 2e       	mov	r13, r28
-    13e2:	dc 0c       	add	r13, r12
-    13e4:	8d 2d       	mov	r24, r13
-    13e6:	0e 94 16 09 	call	0x122c	; 0x122c <oled_write_pixel_to_SRAM>
+    1344:	41 e0       	ldi	r20, 0x01	; 1
+    1346:	f9 2c       	mov	r15, r9
+    1348:	f0 0e       	add	r15, r16
+    134a:	6f 2d       	mov	r22, r15
+    134c:	dc 2e       	mov	r13, r28
+    134e:	dc 0c       	add	r13, r12
+    1350:	8d 2d       	mov	r24, r13
+    1352:	0e 94 cc 08 	call	0x1198	; 0x1198 <oled_write_pixel_to_SRAM>
 		oled_write_pixel_to_SRAM(y0 + x, x0 - y, 1);
-    13ea:	41 e0       	ldi	r20, 0x01	; 1
-    13ec:	e9 2c       	mov	r14, r9
-    13ee:	e0 1a       	sub	r14, r16
-    13f0:	6e 2d       	mov	r22, r14
-    13f2:	8d 2d       	mov	r24, r13
-    13f4:	0e 94 16 09 	call	0x122c	; 0x122c <oled_write_pixel_to_SRAM>
+    1356:	41 e0       	ldi	r20, 0x01	; 1
+    1358:	e9 2c       	mov	r14, r9
+    135a:	e0 1a       	sub	r14, r16
+    135c:	6e 2d       	mov	r22, r14
+    135e:	8d 2d       	mov	r24, r13
+    1360:	0e 94 cc 08 	call	0x1198	; 0x1198 <oled_write_pixel_to_SRAM>
 		oled_write_pixel_to_SRAM(y0 - x, x0 + y, 1);
-    13f8:	41 e0       	ldi	r20, 0x01	; 1
-    13fa:	6f 2d       	mov	r22, r15
-    13fc:	fc 2c       	mov	r15, r12
-    13fe:	fc 1a       	sub	r15, r28
-    1400:	8f 2d       	mov	r24, r15
-    1402:	0e 94 16 09 	call	0x122c	; 0x122c <oled_write_pixel_to_SRAM>
+    1364:	41 e0       	ldi	r20, 0x01	; 1
+    1366:	6f 2d       	mov	r22, r15
+    1368:	fc 2c       	mov	r15, r12
+    136a:	fc 1a       	sub	r15, r28
+    136c:	8f 2d       	mov	r24, r15
+    136e:	0e 94 cc 08 	call	0x1198	; 0x1198 <oled_write_pixel_to_SRAM>
 		oled_write_pixel_to_SRAM(y0 - x, x0 - y, 1);
-    1406:	41 e0       	ldi	r20, 0x01	; 1
-    1408:	6e 2d       	mov	r22, r14
-    140a:	8f 2d       	mov	r24, r15
-    140c:	0e 94 16 09 	call	0x122c	; 0x122c <oled_write_pixel_to_SRAM>
+    1372:	41 e0       	ldi	r20, 0x01	; 1
+    1374:	6e 2d       	mov	r22, r14
+    1376:	8f 2d       	mov	r24, r15
+    1378:	0e 94 cc 08 	call	0x1198	; 0x1198 <oled_write_pixel_to_SRAM>
 
 		if (err <= 0) {
-    1410:	1a 14       	cp	r1, r10
-    1412:	1b 04       	cpc	r1, r11
-    1414:	5c f0       	brlt	.+22     	; 0x142c <oled_draw_circle+0xb2>
+    137c:	1a 14       	cp	r1, r10
+    137e:	1b 04       	cpc	r1, r11
+    1380:	5c f0       	brlt	.+22     	; 0x1398 <oled_draw_circle+0xb2>
 			y += 1;
-    1416:	0f 5f       	subi	r16, 0xFF	; 255
-    1418:	1f 4f       	sbci	r17, 0xFF	; 255
+    1382:	0f 5f       	subi	r16, 0xFF	; 255
+    1384:	1f 4f       	sbci	r17, 0xFF	; 255
 			err += 2 * y + 1;
-    141a:	c8 01       	movw	r24, r16
-    141c:	88 0f       	add	r24, r24
-    141e:	99 1f       	adc	r25, r25
-    1420:	01 96       	adiw	r24, 0x01	; 1
-    1422:	a8 0e       	add	r10, r24
-    1424:	b9 1e       	adc	r11, r25
+    1386:	c8 01       	movw	r24, r16
+    1388:	88 0f       	add	r24, r24
+    138a:	99 1f       	adc	r25, r25
+    138c:	01 96       	adiw	r24, 0x01	; 1
+    138e:	a8 0e       	add	r10, r24
+    1390:	b9 1e       	adc	r11, r25
 		}
 		if (err > 0) {
-    1426:	1a 14       	cp	r1, r10
-    1428:	1b 04       	cpc	r1, r11
-    142a:	3c f4       	brge	.+14     	; 0x143a <oled_draw_circle+0xc0>
+    1392:	1a 14       	cp	r1, r10
+    1394:	1b 04       	cpc	r1, r11
+    1396:	3c f4       	brge	.+14     	; 0x13a6 <oled_draw_circle+0xc0>
 			x -= 1;
-    142c:	21 97       	sbiw	r28, 0x01	; 1
+    1398:	21 97       	sbiw	r28, 0x01	; 1
 			err -= 2 * x + 1;
-    142e:	ce 01       	movw	r24, r28
-    1430:	88 0f       	add	r24, r24
-    1432:	99 1f       	adc	r25, r25
-    1434:	01 96       	adiw	r24, 0x01	; 1
-    1436:	a8 1a       	sub	r10, r24
-    1438:	b9 0a       	sbc	r11, r25
+    139a:	ce 01       	movw	r24, r28
+    139c:	88 0f       	add	r24, r24
+    139e:	99 1f       	adc	r25, r25
+    13a0:	01 96       	adiw	r24, 0x01	; 1
+    13a2:	a8 1a       	sub	r10, r24
+    13a4:	b9 0a       	sbc	r11, r25
 void oled_draw_circle(uint8_t x0, uint8_t y0, uint8_t radius) {
 	int x = radius;
 	int y = 0;
 	int err = 0;
 
 	while (x >= y) {
-    143a:	c0 17       	cp	r28, r16
-    143c:	d1 07       	cpc	r29, r17
-    143e:	0c f0       	brlt	.+2      	; 0x1442 <oled_draw_circle+0xc8>
-    1440:	af cf       	rjmp	.-162    	; 0x13a0 <oled_draw_circle+0x26>
+    13a6:	c0 17       	cp	r28, r16
+    13a8:	d1 07       	cpc	r29, r17
+    13aa:	0c f0       	brlt	.+2      	; 0x13ae <oled_draw_circle+0xc8>
+    13ac:	af cf       	rjmp	.-162    	; 0x130c <oled_draw_circle+0x26>
 		if (err > 0) {
 			x -= 1;
 			err -= 2 * x + 1;
 		}
 	}
 }
-    1442:	df 91       	pop	r29
-    1444:	cf 91       	pop	r28
-    1446:	1f 91       	pop	r17
-    1448:	0f 91       	pop	r16
-    144a:	ff 90       	pop	r15
-    144c:	ef 90       	pop	r14
-    144e:	df 90       	pop	r13
-    1450:	cf 90       	pop	r12
-    1452:	bf 90       	pop	r11
-    1454:	af 90       	pop	r10
-    1456:	9f 90       	pop	r9
-    1458:	08 95       	ret
+    13ae:	df 91       	pop	r29
+    13b0:	cf 91       	pop	r28
+    13b2:	1f 91       	pop	r17
+    13b4:	0f 91       	pop	r16
+    13b6:	ff 90       	pop	r15
+    13b8:	ef 90       	pop	r14
+    13ba:	df 90       	pop	r13
+    13bc:	cf 90       	pop	r12
+    13be:	bf 90       	pop	r11
+    13c0:	af 90       	pop	r10
+    13c2:	9f 90       	pop	r9
+    13c4:	08 95       	ret
 
-0000145a <oled_draw_square>:
+000013c6 <oled_draw_square>:
 
 void oled_draw_square(uint8_t x0, uint8_t y0, uint8_t width, uint8_t height) {
-    145a:	0f 93       	push	r16
-    145c:	1f 93       	push	r17
-    145e:	cf 93       	push	r28
-    1460:	df 93       	push	r29
-    1462:	08 2f       	mov	r16, r24
-    1464:	16 2f       	mov	r17, r22
-    1466:	d2 2f       	mov	r29, r18
+    13c6:	0f 93       	push	r16
+    13c8:	1f 93       	push	r17
+    13ca:	cf 93       	push	r28
+    13cc:	df 93       	push	r29
+    13ce:	08 2f       	mov	r16, r24
+    13d0:	16 2f       	mov	r17, r22
+    13d2:	d2 2f       	mov	r29, r18
 	oled_draw_line(x0, y0, x0 + width, y0);           // Øvre linje
-    1468:	c8 2f       	mov	r28, r24
-    146a:	c4 0f       	add	r28, r20
-    146c:	26 2f       	mov	r18, r22
-    146e:	4c 2f       	mov	r20, r28
-    1470:	0e 94 5a 09 	call	0x12b4	; 0x12b4 <oled_draw_line>
+    13d4:	c8 2f       	mov	r28, r24
+    13d6:	c4 0f       	add	r28, r20
+    13d8:	26 2f       	mov	r18, r22
+    13da:	4c 2f       	mov	r20, r28
+    13dc:	0e 94 10 09 	call	0x1220	; 0x1220 <oled_draw_line>
 	oled_draw_line(x0, y0 + height, x0 + width, y0 + height);  // Nedre linje
-    1474:	d1 0f       	add	r29, r17
-    1476:	2d 2f       	mov	r18, r29
-    1478:	4c 2f       	mov	r20, r28
-    147a:	6d 2f       	mov	r22, r29
-    147c:	80 2f       	mov	r24, r16
-    147e:	0e 94 5a 09 	call	0x12b4	; 0x12b4 <oled_draw_line>
+    13e0:	d1 0f       	add	r29, r17
+    13e2:	2d 2f       	mov	r18, r29
+    13e4:	4c 2f       	mov	r20, r28
+    13e6:	6d 2f       	mov	r22, r29
+    13e8:	80 2f       	mov	r24, r16
+    13ea:	0e 94 10 09 	call	0x1220	; 0x1220 <oled_draw_line>
 	oled_draw_line(x0, y0, x0, y0 + height);           // Venstre linje
-    1482:	2d 2f       	mov	r18, r29
-    1484:	40 2f       	mov	r20, r16
-    1486:	61 2f       	mov	r22, r17
-    1488:	80 2f       	mov	r24, r16
-    148a:	0e 94 5a 09 	call	0x12b4	; 0x12b4 <oled_draw_line>
+    13ee:	2d 2f       	mov	r18, r29
+    13f0:	40 2f       	mov	r20, r16
+    13f2:	61 2f       	mov	r22, r17
+    13f4:	80 2f       	mov	r24, r16
+    13f6:	0e 94 10 09 	call	0x1220	; 0x1220 <oled_draw_line>
 	oled_draw_line(x0 + width, y0, x0 + width, y0 + height);   // Høyre linje
-    148e:	2d 2f       	mov	r18, r29
-    1490:	4c 2f       	mov	r20, r28
-    1492:	61 2f       	mov	r22, r17
-    1494:	8c 2f       	mov	r24, r28
-    1496:	0e 94 5a 09 	call	0x12b4	; 0x12b4 <oled_draw_line>
+    13fa:	2d 2f       	mov	r18, r29
+    13fc:	4c 2f       	mov	r20, r28
+    13fe:	61 2f       	mov	r22, r17
+    1400:	8c 2f       	mov	r24, r28
+    1402:	0e 94 10 09 	call	0x1220	; 0x1220 <oled_draw_line>
 }
-    149a:	df 91       	pop	r29
-    149c:	cf 91       	pop	r28
-    149e:	1f 91       	pop	r17
-    14a0:	0f 91       	pop	r16
-    14a2:	08 95       	ret
+    1406:	df 91       	pop	r29
+    1408:	cf 91       	pop	r28
+    140a:	1f 91       	pop	r17
+    140c:	0f 91       	pop	r16
+    140e:	08 95       	ret
 
-000014a4 <__vector_15>:
+00001410 <__vector_15>:
 
 // Definer den globale variabelen for å telje millisekund
 volatile uint32_t overflow_count = 0;
 
 // Timer-overflyt interrupt service rutine
 ISR(TIMER1_OVF_vect) {
-    14a4:	1f 92       	push	r1
-    14a6:	0f 92       	push	r0
-    14a8:	0f b6       	in	r0, 0x3f	; 63
-    14aa:	0f 92       	push	r0
-    14ac:	11 24       	eor	r1, r1
-    14ae:	8f 93       	push	r24
-    14b0:	9f 93       	push	r25
-    14b2:	af 93       	push	r26
-    14b4:	bf 93       	push	r27
+    1410:	1f 92       	push	r1
+    1412:	0f 92       	push	r0
+    1414:	0f b6       	in	r0, 0x3f	; 63
+    1416:	0f 92       	push	r0
+    1418:	11 24       	eor	r1, r1
+    141a:	8f 93       	push	r24
+    141c:	9f 93       	push	r25
+    141e:	af 93       	push	r26
+    1420:	bf 93       	push	r27
 	overflow_count++;
-    14b6:	80 91 bd 01 	lds	r24, 0x01BD	; 0x8001bd <overflow_count>
-    14ba:	90 91 be 01 	lds	r25, 0x01BE	; 0x8001be <overflow_count+0x1>
-    14be:	a0 91 bf 01 	lds	r26, 0x01BF	; 0x8001bf <overflow_count+0x2>
-    14c2:	b0 91 c0 01 	lds	r27, 0x01C0	; 0x8001c0 <overflow_count+0x3>
-    14c6:	01 96       	adiw	r24, 0x01	; 1
-    14c8:	a1 1d       	adc	r26, r1
-    14ca:	b1 1d       	adc	r27, r1
-    14cc:	80 93 bd 01 	sts	0x01BD, r24	; 0x8001bd <overflow_count>
-    14d0:	90 93 be 01 	sts	0x01BE, r25	; 0x8001be <overflow_count+0x1>
-    14d4:	a0 93 bf 01 	sts	0x01BF, r26	; 0x8001bf <overflow_count+0x2>
-    14d8:	b0 93 c0 01 	sts	0x01C0, r27	; 0x8001c0 <overflow_count+0x3>
+    1422:	80 91 bd 01 	lds	r24, 0x01BD	; 0x8001bd <overflow_count>
+    1426:	90 91 be 01 	lds	r25, 0x01BE	; 0x8001be <overflow_count+0x1>
+    142a:	a0 91 bf 01 	lds	r26, 0x01BF	; 0x8001bf <overflow_count+0x2>
+    142e:	b0 91 c0 01 	lds	r27, 0x01C0	; 0x8001c0 <overflow_count+0x3>
+    1432:	01 96       	adiw	r24, 0x01	; 1
+    1434:	a1 1d       	adc	r26, r1
+    1436:	b1 1d       	adc	r27, r1
+    1438:	80 93 bd 01 	sts	0x01BD, r24	; 0x8001bd <overflow_count>
+    143c:	90 93 be 01 	sts	0x01BE, r25	; 0x8001be <overflow_count+0x1>
+    1440:	a0 93 bf 01 	sts	0x01BF, r26	; 0x8001bf <overflow_count+0x2>
+    1444:	b0 93 c0 01 	sts	0x01C0, r27	; 0x8001c0 <overflow_count+0x3>
 }
-    14dc:	bf 91       	pop	r27
-    14de:	af 91       	pop	r26
-    14e0:	9f 91       	pop	r25
-    14e2:	8f 91       	pop	r24
-    14e4:	0f 90       	pop	r0
-    14e6:	0f be       	out	0x3f, r0	; 63
-    14e8:	0f 90       	pop	r0
-    14ea:	1f 90       	pop	r1
-    14ec:	18 95       	reti
+    1448:	bf 91       	pop	r27
+    144a:	af 91       	pop	r26
+    144c:	9f 91       	pop	r25
+    144e:	8f 91       	pop	r24
+    1450:	0f 90       	pop	r0
+    1452:	0f be       	out	0x3f, r0	; 63
+    1454:	0f 90       	pop	r0
+    1456:	1f 90       	pop	r1
+    1458:	18 95       	reti
 
-000014ee <get_time_in_cycles>:
+0000145a <get_screen_time_in_cycles>:
 }
 
-uint32_t get_time_in_cycles(void) {
+uint32_t get_screen_time_in_cycles(void) {
 	// Returner tiden i klokkesykluser
 	// Hver gang timeren overflyter, har vi telt 65536 klokkesykluser
 	return (overflow_count * 65536UL) + TCNT1;
-    14ee:	80 91 bd 01 	lds	r24, 0x01BD	; 0x8001bd <overflow_count>
-    14f2:	90 91 be 01 	lds	r25, 0x01BE	; 0x8001be <overflow_count+0x1>
-    14f6:	a0 91 bf 01 	lds	r26, 0x01BF	; 0x8001bf <overflow_count+0x2>
-    14fa:	b0 91 c0 01 	lds	r27, 0x01C0	; 0x8001c0 <overflow_count+0x3>
-    14fe:	2c b5       	in	r18, 0x2c	; 44
-    1500:	3d b5       	in	r19, 0x2d	; 45
-    1502:	dc 01       	movw	r26, r24
-    1504:	99 27       	eor	r25, r25
-    1506:	88 27       	eor	r24, r24
-    1508:	bc 01       	movw	r22, r24
-    150a:	cd 01       	movw	r24, r26
-    150c:	62 0f       	add	r22, r18
-    150e:	73 1f       	adc	r23, r19
-    1510:	81 1d       	adc	r24, r1
-    1512:	91 1d       	adc	r25, r1
+    145a:	80 91 bd 01 	lds	r24, 0x01BD	; 0x8001bd <overflow_count>
+    145e:	90 91 be 01 	lds	r25, 0x01BE	; 0x8001be <overflow_count+0x1>
+    1462:	a0 91 bf 01 	lds	r26, 0x01BF	; 0x8001bf <overflow_count+0x2>
+    1466:	b0 91 c0 01 	lds	r27, 0x01C0	; 0x8001c0 <overflow_count+0x3>
+    146a:	2c b5       	in	r18, 0x2c	; 44
+    146c:	3d b5       	in	r19, 0x2d	; 45
+    146e:	dc 01       	movw	r26, r24
+    1470:	99 27       	eor	r25, r25
+    1472:	88 27       	eor	r24, r24
+    1474:	bc 01       	movw	r22, r24
+    1476:	cd 01       	movw	r24, r26
+    1478:	62 0f       	add	r22, r18
+    147a:	73 1f       	adc	r23, r19
+    147c:	81 1d       	adc	r24, r1
+    147e:	91 1d       	adc	r25, r1
 }
-    1514:	08 95       	ret
+    1480:	08 95       	ret
 
-00001516 <get_time_in_ms>:
+00001482 <get_screen_time_in_ms>:
 	overflow_count++;
 }
 
 // Funksjon som returnerer tida i millisekund sidan programstart
-uint32_t get_time_in_ms(void){
-	return get_time_in_cycles()/(4915200UL/1000);
-    1516:	0e 94 77 0a 	call	0x14ee	; 0x14ee <get_time_in_cycles>
-    151a:	23 e3       	ldi	r18, 0x33	; 51
-    151c:	33 e1       	ldi	r19, 0x13	; 19
-    151e:	40 e0       	ldi	r20, 0x00	; 0
-    1520:	50 e0       	ldi	r21, 0x00	; 0
-    1522:	0e 94 0c 0b 	call	0x1618	; 0x1618 <__udivmodsi4>
+uint32_t get_screen_time_in_ms(void){
+	return get_screen_time_in_cycles()/(4915200UL/1000);
+    1482:	0e 94 2d 0a 	call	0x145a	; 0x145a <get_screen_time_in_cycles>
+    1486:	23 e3       	ldi	r18, 0x33	; 51
+    1488:	33 e1       	ldi	r19, 0x13	; 19
+    148a:	40 e0       	ldi	r20, 0x00	; 0
+    148c:	50 e0       	ldi	r21, 0x00	; 0
+    148e:	0e 94 c2 0a 	call	0x1584	; 0x1584 <__udivmodsi4>
 }
-    1526:	ca 01       	movw	r24, r20
-    1528:	b9 01       	movw	r22, r18
-    152a:	08 95       	ret
+    1492:	ca 01       	movw	r24, r20
+    1494:	b9 01       	movw	r22, r18
+    1496:	08 95       	ret
 
-0000152c <setup_timer>:
-}
+00001498 <setup_timer>:
 
 // Funksjon for å setje opp Timer1 til å generere 1 ms avbrot
 void setup_timer() {
+	/*______SCREEN TIMER______*/
 	// Sett normal modus (WGM12 = 0)
 	TCCR1A = 0;      // Normal mode
-    152c:	1f bc       	out	0x2f, r1	; 47
+    1498:	1f bc       	out	0x2f, r1	; 47
 	TCCR1B = (1 << CS10); // Prescaler = 1 (ingen prescaling, f_CPU direkte)
-    152e:	81 e0       	ldi	r24, 0x01	; 1
-    1530:	8e bd       	out	0x2e, r24	; 46
+    149a:	81 e0       	ldi	r24, 0x01	; 1
+    149c:	8e bd       	out	0x2e, r24	; 46
 
 	// Aktiver Timer1 overflow interrupt
 	TIMSK = (1 << TOIE1);
-    1532:	80 e8       	ldi	r24, 0x80	; 128
-    1534:	89 bf       	out	0x39, r24	; 57
+    149e:	80 e8       	ldi	r24, 0x80	; 128
+    14a0:	89 bf       	out	0x39, r24	; 57
 
 	// Nullstill Timer/Counter1
 	TCNT1 = 0;
-    1536:	1d bc       	out	0x2d, r1	; 45
-    1538:	1c bc       	out	0x2c, r1	; 44
-    153a:	08 95       	ret
+    14a2:	1d bc       	out	0x2d, r1	; 45
+    14a4:	1c bc       	out	0x2c, r1	; 44
+    14a6:	08 95       	ret
 
-0000153c <restart_timer>:
+000014a8 <restart_screen_timer>:
+	//TCNT3 = 0;
+	//
 }
-void restart_timer(){
+void restart_screen_timer(){
 	// Nullstill Timer/Counter1
 	TCNT1 = 0;
-    153c:	1d bc       	out	0x2d, r1	; 45
-    153e:	1c bc       	out	0x2c, r1	; 44
+    14a8:	1d bc       	out	0x2d, r1	; 45
+    14aa:	1c bc       	out	0x2c, r1	; 44
 	overflow_count = 0;
-    1540:	10 92 bd 01 	sts	0x01BD, r1	; 0x8001bd <overflow_count>
-    1544:	10 92 be 01 	sts	0x01BE, r1	; 0x8001be <overflow_count+0x1>
-    1548:	10 92 bf 01 	sts	0x01BF, r1	; 0x8001bf <overflow_count+0x2>
-    154c:	10 92 c0 01 	sts	0x01C0, r1	; 0x8001c0 <overflow_count+0x3>
-    1550:	08 95       	ret
+    14ac:	10 92 bd 01 	sts	0x01BD, r1	; 0x8001bd <overflow_count>
+    14b0:	10 92 be 01 	sts	0x01BE, r1	; 0x8001be <overflow_count+0x1>
+    14b4:	10 92 bf 01 	sts	0x01BF, r1	; 0x8001bf <overflow_count+0x2>
+    14b8:	10 92 c0 01 	sts	0x01C0, r1	; 0x8001c0 <overflow_count+0x3>
+    14bc:	08 95       	ret
 
-00001552 <externalMemoryInit>:
+000014be <externalMemoryInit>:
  */ 
 #include "XMEM_Decode.h"
 // Funksjon for ï¿½ initialisere det eksterne minnet (SRAM + latch)
 void externalMemoryInit(void) {
 	// Set Port A (AD0-AD7) og Port C (A8-A15) som utgang for adresse- og databuss
 	DDRA = 0xFF;  // PA0-PA7 som utgang
-    1552:	8f ef       	ldi	r24, 0xFF	; 255
-    1554:	8a bb       	out	0x1a, r24	; 26
+    14be:	8f ef       	ldi	r24, 0xFF	; 255
+    14c0:	8a bb       	out	0x1a, r24	; 26
 	DDRC = 0x0F ;  // PC0-PC3 som utgang
-    1556:	8f e0       	ldi	r24, 0x0F	; 15
-    1558:	84 bb       	out	0x14, r24	; 20
+    14c2:	8f e0       	ldi	r24, 0x0F	; 15
+    14c4:	84 bb       	out	0x14, r24	; 20
 	
 	// Set Port D (PD6 og PD7) som utgang for WR og RD signal
 	setBit(DDRD, PD6);  // WR
-    155a:	8e 9a       	sbi	0x11, 6	; 17
+    14c6:	8e 9a       	sbi	0x11, 6	; 17
 	setBit(DDRD, PD7);  // RD
-    155c:	8f 9a       	sbi	0x11, 7	; 17
+    14c8:	8f 9a       	sbi	0x11, 7	; 17
 
 	// Set Port E (PE1) som utgang for ALE
 	setBit(DDRE, PE1);  // ALE
-    155e:	31 9a       	sbi	0x06, 1	; 6
+    14ca:	31 9a       	sbi	0x06, 1	; 6
 
 	// Aktivere ekstern minnegrensesnitt
 	setBit(MCUCR, SRE);   // Enable external SRAM interface
-    1560:	85 b7       	in	r24, 0x35	; 53
-    1562:	80 68       	ori	r24, 0x80	; 128
-    1564:	85 bf       	out	0x35, r24	; 53
+    14cc:	85 b7       	in	r24, 0x35	; 53
+    14ce:	80 68       	ori	r24, 0x80	; 128
+    14d0:	85 bf       	out	0x35, r24	; 53
 	SFIOR = 0x00;         // No wait state
-    1566:	10 be       	out	0x30, r1	; 48
+    14d2:	10 be       	out	0x30, r1	; 48
 	
 	//Maskes pc4-pc7 (disables as output) (s32 ATmega datasheet)
 	setBit(SFIOR, XMM2);
-    1568:	80 b7       	in	r24, 0x30	; 48
-    156a:	80 62       	ori	r24, 0x20	; 32
-    156c:	80 bf       	out	0x30, r24	; 48
-    156e:	08 95       	ret
+    14d4:	80 b7       	in	r24, 0x30	; 48
+    14d6:	80 62       	ori	r24, 0x20	; 32
+    14d8:	80 bf       	out	0x30, r24	; 48
+    14da:	08 95       	ret
 
-00001570 <SRAM_write>:
+000014dc <SRAM_write>:
 }
 
 
 // Funksjon for ï¿½ skrive data til SRAM
 void SRAM_write(volatile uint16_t addr, uint8_t data) {
-    1570:	cf 93       	push	r28
-    1572:	df 93       	push	r29
-    1574:	00 d0       	rcall	.+0      	; 0x1576 <SRAM_write+0x6>
-    1576:	cd b7       	in	r28, 0x3d	; 61
-    1578:	de b7       	in	r29, 0x3e	; 62
-    157a:	9a 83       	std	Y+2, r25	; 0x02
-    157c:	89 83       	std	Y+1, r24	; 0x01
+    14dc:	cf 93       	push	r28
+    14de:	df 93       	push	r29
+    14e0:	00 d0       	rcall	.+0      	; 0x14e2 <SRAM_write+0x6>
+    14e2:	cd b7       	in	r28, 0x3d	; 61
+    14e4:	de b7       	in	r29, 0x3e	; 62
+    14e6:	9a 83       	std	Y+2, r25	; 0x02
+    14e8:	89 83       	std	Y+1, r24	; 0x01
 	volatile char *ext_ram = (char *) SRAM_START; // Startadresse for SRAM
 	uint16_t ext_ram_size = SRAM_SIZE; // Stï¿½rrelsen pï¿½ SRAM (2 KB) - kan fjernast
 	ext_ram[addr] = data;
-    157e:	e9 81       	ldd	r30, Y+1	; 0x01
-    1580:	fa 81       	ldd	r31, Y+2	; 0x02
-    1582:	f8 5e       	subi	r31, 0xE8	; 232
-    1584:	60 83       	st	Z, r22
+    14ea:	e9 81       	ldd	r30, Y+1	; 0x01
+    14ec:	fa 81       	ldd	r31, Y+2	; 0x02
+    14ee:	f8 5e       	subi	r31, 0xE8	; 232
+    14f0:	60 83       	st	Z, r22
 }
-    1586:	0f 90       	pop	r0
-    1588:	0f 90       	pop	r0
-    158a:	df 91       	pop	r29
-    158c:	cf 91       	pop	r28
-    158e:	08 95       	ret
+    14f2:	0f 90       	pop	r0
+    14f4:	0f 90       	pop	r0
+    14f6:	df 91       	pop	r29
+    14f8:	cf 91       	pop	r28
+    14fa:	08 95       	ret
 
-00001590 <SRAM_read>:
+000014fc <SRAM_read>:
 
 // Funksjon for ï¿½ lese data frï¿½ SRAM
 uint8_t SRAM_read(volatile uint16_t addr) {
-    1590:	cf 93       	push	r28
-    1592:	df 93       	push	r29
-    1594:	00 d0       	rcall	.+0      	; 0x1596 <SRAM_read+0x6>
-    1596:	cd b7       	in	r28, 0x3d	; 61
-    1598:	de b7       	in	r29, 0x3e	; 62
-    159a:	9a 83       	std	Y+2, r25	; 0x02
-    159c:	89 83       	std	Y+1, r24	; 0x01
+    14fc:	cf 93       	push	r28
+    14fe:	df 93       	push	r29
+    1500:	00 d0       	rcall	.+0      	; 0x1502 <SRAM_read+0x6>
+    1502:	cd b7       	in	r28, 0x3d	; 61
+    1504:	de b7       	in	r29, 0x3e	; 62
+    1506:	9a 83       	std	Y+2, r25	; 0x02
+    1508:	89 83       	std	Y+1, r24	; 0x01
 	volatile char *ext_ram = (char *) SRAM_START; // Startadresse for SRAM
 	uint16_t ext_ram_size = SRAM_SIZE; // Stï¿½rrelsen pï¿½ SRAM (2 KB) - kan fjernast
 	uint8_t data = ext_ram[addr];
-    159e:	e9 81       	ldd	r30, Y+1	; 0x01
-    15a0:	fa 81       	ldd	r31, Y+2	; 0x02
-    15a2:	f8 5e       	subi	r31, 0xE8	; 232
-    15a4:	80 81       	ld	r24, Z
+    150a:	e9 81       	ldd	r30, Y+1	; 0x01
+    150c:	fa 81       	ldd	r31, Y+2	; 0x02
+    150e:	f8 5e       	subi	r31, 0xE8	; 232
+    1510:	80 81       	ld	r24, Z
 	
 	return data;
 }
-    15a6:	0f 90       	pop	r0
-    15a8:	0f 90       	pop	r0
-    15aa:	df 91       	pop	r29
-    15ac:	cf 91       	pop	r28
-    15ae:	08 95       	ret
+    1512:	0f 90       	pop	r0
+    1514:	0f 90       	pop	r0
+    1516:	df 91       	pop	r29
+    1518:	cf 91       	pop	r28
+    151a:	08 95       	ret
 
-000015b0 <Universal_write>:
+0000151c <Universal_write>:
 
 // Funksjon for ï¿½ skrive data til SRAM
 void Universal_write(volatile uint16_t addr, uint8_t data) {
-    15b0:	cf 93       	push	r28
-    15b2:	df 93       	push	r29
-    15b4:	00 d0       	rcall	.+0      	; 0x15b6 <Universal_write+0x6>
-    15b6:	cd b7       	in	r28, 0x3d	; 61
-    15b8:	de b7       	in	r29, 0x3e	; 62
-    15ba:	9a 83       	std	Y+2, r25	; 0x02
-    15bc:	89 83       	std	Y+1, r24	; 0x01
+    151c:	cf 93       	push	r28
+    151e:	df 93       	push	r29
+    1520:	00 d0       	rcall	.+0      	; 0x1522 <Universal_write+0x6>
+    1522:	cd b7       	in	r28, 0x3d	; 61
+    1524:	de b7       	in	r29, 0x3e	; 62
+    1526:	9a 83       	std	Y+2, r25	; 0x02
+    1528:	89 83       	std	Y+1, r24	; 0x01
 	volatile char *ext_ram = (char *) OLED_START; // Startadresse for SRAM
 	ext_ram[addr] = data;
-    15be:	e9 81       	ldd	r30, Y+1	; 0x01
-    15c0:	fa 81       	ldd	r31, Y+2	; 0x02
-    15c2:	f0 5f       	subi	r31, 0xF0	; 240
-    15c4:	60 83       	st	Z, r22
+    152a:	e9 81       	ldd	r30, Y+1	; 0x01
+    152c:	fa 81       	ldd	r31, Y+2	; 0x02
+    152e:	f0 5f       	subi	r31, 0xF0	; 240
+    1530:	60 83       	st	Z, r22
 		
 }
-    15c6:	0f 90       	pop	r0
-    15c8:	0f 90       	pop	r0
-    15ca:	df 91       	pop	r29
-    15cc:	cf 91       	pop	r28
-    15ce:	08 95       	ret
+    1532:	0f 90       	pop	r0
+    1534:	0f 90       	pop	r0
+    1536:	df 91       	pop	r29
+    1538:	cf 91       	pop	r28
+    153a:	08 95       	ret
 
-000015d0 <Universal_read>:
+0000153c <Universal_read>:
 
 // Funksjon for ï¿½ lese data frï¿½ SRAM
 uint8_t Universal_read(volatile uint16_t addr) {
-    15d0:	cf 93       	push	r28
-    15d2:	df 93       	push	r29
-    15d4:	00 d0       	rcall	.+0      	; 0x15d6 <Universal_read+0x6>
-    15d6:	cd b7       	in	r28, 0x3d	; 61
-    15d8:	de b7       	in	r29, 0x3e	; 62
-    15da:	9a 83       	std	Y+2, r25	; 0x02
-    15dc:	89 83       	std	Y+1, r24	; 0x01
+    153c:	cf 93       	push	r28
+    153e:	df 93       	push	r29
+    1540:	00 d0       	rcall	.+0      	; 0x1542 <Universal_read+0x6>
+    1542:	cd b7       	in	r28, 0x3d	; 61
+    1544:	de b7       	in	r29, 0x3e	; 62
+    1546:	9a 83       	std	Y+2, r25	; 0x02
+    1548:	89 83       	std	Y+1, r24	; 0x01
 	volatile char *ext_ram = (char *) OLED_START; // Startadresse for SRAM
 	uint8_t data = ext_ram[addr];
-    15de:	e9 81       	ldd	r30, Y+1	; 0x01
-    15e0:	fa 81       	ldd	r31, Y+2	; 0x02
-    15e2:	f0 5f       	subi	r31, 0xF0	; 240
-    15e4:	80 81       	ld	r24, Z
+    154a:	e9 81       	ldd	r30, Y+1	; 0x01
+    154c:	fa 81       	ldd	r31, Y+2	; 0x02
+    154e:	f0 5f       	subi	r31, 0xF0	; 240
+    1550:	80 81       	ld	r24, Z
 	
 	return data;
 }
-    15e6:	0f 90       	pop	r0
-    15e8:	0f 90       	pop	r0
-    15ea:	df 91       	pop	r29
-    15ec:	cf 91       	pop	r28
+    1552:	0f 90       	pop	r0
+    1554:	0f 90       	pop	r0
+    1556:	df 91       	pop	r29
+    1558:	cf 91       	pop	r28
+    155a:	08 95       	ret
+
+0000155c <__divmodhi4>:
+    155c:	97 fb       	bst	r25, 7
+    155e:	07 2e       	mov	r0, r23
+    1560:	16 f4       	brtc	.+4      	; 0x1566 <__divmodhi4+0xa>
+    1562:	00 94       	com	r0
+    1564:	07 d0       	rcall	.+14     	; 0x1574 <__divmodhi4_neg1>
+    1566:	77 fd       	sbrc	r23, 7
+    1568:	09 d0       	rcall	.+18     	; 0x157c <__divmodhi4_neg2>
+    156a:	0e 94 e4 0a 	call	0x15c8	; 0x15c8 <__udivmodhi4>
+    156e:	07 fc       	sbrc	r0, 7
+    1570:	05 d0       	rcall	.+10     	; 0x157c <__divmodhi4_neg2>
+    1572:	3e f4       	brtc	.+14     	; 0x1582 <__divmodhi4_exit>
+
+00001574 <__divmodhi4_neg1>:
+    1574:	90 95       	com	r25
+    1576:	81 95       	neg	r24
+    1578:	9f 4f       	sbci	r25, 0xFF	; 255
+    157a:	08 95       	ret
+
+0000157c <__divmodhi4_neg2>:
+    157c:	70 95       	com	r23
+    157e:	61 95       	neg	r22
+    1580:	7f 4f       	sbci	r23, 0xFF	; 255
+
+00001582 <__divmodhi4_exit>:
+    1582:	08 95       	ret
+
+00001584 <__udivmodsi4>:
+    1584:	a1 e2       	ldi	r26, 0x21	; 33
+    1586:	1a 2e       	mov	r1, r26
+    1588:	aa 1b       	sub	r26, r26
+    158a:	bb 1b       	sub	r27, r27
+    158c:	fd 01       	movw	r30, r26
+    158e:	0d c0       	rjmp	.+26     	; 0x15aa <__udivmodsi4_ep>
+
+00001590 <__udivmodsi4_loop>:
+    1590:	aa 1f       	adc	r26, r26
+    1592:	bb 1f       	adc	r27, r27
+    1594:	ee 1f       	adc	r30, r30
+    1596:	ff 1f       	adc	r31, r31
+    1598:	a2 17       	cp	r26, r18
+    159a:	b3 07       	cpc	r27, r19
+    159c:	e4 07       	cpc	r30, r20
+    159e:	f5 07       	cpc	r31, r21
+    15a0:	20 f0       	brcs	.+8      	; 0x15aa <__udivmodsi4_ep>
+    15a2:	a2 1b       	sub	r26, r18
+    15a4:	b3 0b       	sbc	r27, r19
+    15a6:	e4 0b       	sbc	r30, r20
+    15a8:	f5 0b       	sbc	r31, r21
+
+000015aa <__udivmodsi4_ep>:
+    15aa:	66 1f       	adc	r22, r22
+    15ac:	77 1f       	adc	r23, r23
+    15ae:	88 1f       	adc	r24, r24
+    15b0:	99 1f       	adc	r25, r25
+    15b2:	1a 94       	dec	r1
+    15b4:	69 f7       	brne	.-38     	; 0x1590 <__udivmodsi4_loop>
+    15b6:	60 95       	com	r22
+    15b8:	70 95       	com	r23
+    15ba:	80 95       	com	r24
+    15bc:	90 95       	com	r25
+    15be:	9b 01       	movw	r18, r22
+    15c0:	ac 01       	movw	r20, r24
+    15c2:	bd 01       	movw	r22, r26
+    15c4:	cf 01       	movw	r24, r30
+    15c6:	08 95       	ret
+
+000015c8 <__udivmodhi4>:
+    15c8:	aa 1b       	sub	r26, r26
+    15ca:	bb 1b       	sub	r27, r27
+    15cc:	51 e1       	ldi	r21, 0x11	; 17
+    15ce:	07 c0       	rjmp	.+14     	; 0x15de <__udivmodhi4_ep>
+
+000015d0 <__udivmodhi4_loop>:
+    15d0:	aa 1f       	adc	r26, r26
+    15d2:	bb 1f       	adc	r27, r27
+    15d4:	a6 17       	cp	r26, r22
+    15d6:	b7 07       	cpc	r27, r23
+    15d8:	10 f0       	brcs	.+4      	; 0x15de <__udivmodhi4_ep>
+    15da:	a6 1b       	sub	r26, r22
+    15dc:	b7 0b       	sbc	r27, r23
+
+000015de <__udivmodhi4_ep>:
+    15de:	88 1f       	adc	r24, r24
+    15e0:	99 1f       	adc	r25, r25
+    15e2:	5a 95       	dec	r21
+    15e4:	a9 f7       	brne	.-22     	; 0x15d0 <__udivmodhi4_loop>
+    15e6:	80 95       	com	r24
+    15e8:	90 95       	com	r25
+    15ea:	bc 01       	movw	r22, r24
+    15ec:	cd 01       	movw	r24, r26
     15ee:	08 95       	ret
 
-000015f0 <__divmodhi4>:
-    15f0:	97 fb       	bst	r25, 7
-    15f2:	07 2e       	mov	r0, r23
-    15f4:	16 f4       	brtc	.+4      	; 0x15fa <__divmodhi4+0xa>
-    15f6:	00 94       	com	r0
-    15f8:	07 d0       	rcall	.+14     	; 0x1608 <__divmodhi4_neg1>
-    15fa:	77 fd       	sbrc	r23, 7
-    15fc:	09 d0       	rcall	.+18     	; 0x1610 <__divmodhi4_neg2>
-    15fe:	0e 94 2e 0b 	call	0x165c	; 0x165c <__udivmodhi4>
-    1602:	07 fc       	sbrc	r0, 7
-    1604:	05 d0       	rcall	.+10     	; 0x1610 <__divmodhi4_neg2>
-    1606:	3e f4       	brtc	.+14     	; 0x1616 <__divmodhi4_exit>
+000015f0 <_exit>:
+    15f0:	f8 94       	cli
 
-00001608 <__divmodhi4_neg1>:
-    1608:	90 95       	com	r25
-    160a:	81 95       	neg	r24
-    160c:	9f 4f       	sbci	r25, 0xFF	; 255
-    160e:	08 95       	ret
-
-00001610 <__divmodhi4_neg2>:
-    1610:	70 95       	com	r23
-    1612:	61 95       	neg	r22
-    1614:	7f 4f       	sbci	r23, 0xFF	; 255
-
-00001616 <__divmodhi4_exit>:
-    1616:	08 95       	ret
-
-00001618 <__udivmodsi4>:
-    1618:	a1 e2       	ldi	r26, 0x21	; 33
-    161a:	1a 2e       	mov	r1, r26
-    161c:	aa 1b       	sub	r26, r26
-    161e:	bb 1b       	sub	r27, r27
-    1620:	fd 01       	movw	r30, r26
-    1622:	0d c0       	rjmp	.+26     	; 0x163e <__udivmodsi4_ep>
-
-00001624 <__udivmodsi4_loop>:
-    1624:	aa 1f       	adc	r26, r26
-    1626:	bb 1f       	adc	r27, r27
-    1628:	ee 1f       	adc	r30, r30
-    162a:	ff 1f       	adc	r31, r31
-    162c:	a2 17       	cp	r26, r18
-    162e:	b3 07       	cpc	r27, r19
-    1630:	e4 07       	cpc	r30, r20
-    1632:	f5 07       	cpc	r31, r21
-    1634:	20 f0       	brcs	.+8      	; 0x163e <__udivmodsi4_ep>
-    1636:	a2 1b       	sub	r26, r18
-    1638:	b3 0b       	sbc	r27, r19
-    163a:	e4 0b       	sbc	r30, r20
-    163c:	f5 0b       	sbc	r31, r21
-
-0000163e <__udivmodsi4_ep>:
-    163e:	66 1f       	adc	r22, r22
-    1640:	77 1f       	adc	r23, r23
-    1642:	88 1f       	adc	r24, r24
-    1644:	99 1f       	adc	r25, r25
-    1646:	1a 94       	dec	r1
-    1648:	69 f7       	brne	.-38     	; 0x1624 <__udivmodsi4_loop>
-    164a:	60 95       	com	r22
-    164c:	70 95       	com	r23
-    164e:	80 95       	com	r24
-    1650:	90 95       	com	r25
-    1652:	9b 01       	movw	r18, r22
-    1654:	ac 01       	movw	r20, r24
-    1656:	bd 01       	movw	r22, r26
-    1658:	cf 01       	movw	r24, r30
-    165a:	08 95       	ret
-
-0000165c <__udivmodhi4>:
-    165c:	aa 1b       	sub	r26, r26
-    165e:	bb 1b       	sub	r27, r27
-    1660:	51 e1       	ldi	r21, 0x11	; 17
-    1662:	07 c0       	rjmp	.+14     	; 0x1672 <__udivmodhi4_ep>
-
-00001664 <__udivmodhi4_loop>:
-    1664:	aa 1f       	adc	r26, r26
-    1666:	bb 1f       	adc	r27, r27
-    1668:	a6 17       	cp	r26, r22
-    166a:	b7 07       	cpc	r27, r23
-    166c:	10 f0       	brcs	.+4      	; 0x1672 <__udivmodhi4_ep>
-    166e:	a6 1b       	sub	r26, r22
-    1670:	b7 0b       	sbc	r27, r23
-
-00001672 <__udivmodhi4_ep>:
-    1672:	88 1f       	adc	r24, r24
-    1674:	99 1f       	adc	r25, r25
-    1676:	5a 95       	dec	r21
-    1678:	a9 f7       	brne	.-22     	; 0x1664 <__udivmodhi4_loop>
-    167a:	80 95       	com	r24
-    167c:	90 95       	com	r25
-    167e:	bc 01       	movw	r22, r24
-    1680:	cd 01       	movw	r24, r26
-    1682:	08 95       	ret
-
-00001684 <_exit>:
-    1684:	f8 94       	cli
-
-00001686 <__stop_program>:
-    1686:	ff cf       	rjmp	.-2      	; 0x1686 <__stop_program>
+000015f2 <__stop_program>:
+    15f2:	ff cf       	rjmp	.-2      	; 0x15f2 <__stop_program>

@@ -52,8 +52,8 @@ int main(void) {
 		16ms skal gi ich 60hz, gitt at resten av programmet kjører raskt nok...
 		*/
 		
-		if (get_time_in_ms() >= 16) {
-			restart_timer();
+		if (get_screen_time_in_ms() >= 16) {
+			restart_screen_timer();
 			oled_data_from_SRAM();
 		}
 	 }
