@@ -36,6 +36,7 @@ int main(void) {
 	oled_data_from_SRAM();
 	_delay_ms(500);
 	
+	
 	/*______MENY______*/
 	current_menu = &mainMenu; //kan kanskje teste med å starte i ein anna meny
 	write_menu_oled_to_SRAM(current_menu);
@@ -52,10 +53,12 @@ int main(void) {
 		16ms skal gi ich 60hz, gitt at resten av programmet kjører raskt nok...
 		*/
 		
-		if (get_screen_time_in_ms() >= 16) {
+		
+		if (screen_ms() >= 16) {
 			restart_screen_timer();
 			oled_data_from_SRAM();
 		}
+		//if (general_ms() > 65536UL ){ restart_general_timer();}
 	 }
 	return 0;
 }

@@ -39,40 +39,37 @@ void update_menu_arrows(uint8_t new_position, uint8_t old_position) {
 // Oppdaterer menyposisjonen frå joystick-input hugs å kalle på MultiBoard_Update(board);  // Oppdater joystick-posisjonen
 void update_menu_position_from_joystick(MultiBoard* board, Menu* menu) {
 	int16_t joyY = (int16_t)(board->JoyYposCal);  // Les Y-posisjonen frå joysticken
+	int32_t deltaT = (general_ms() - board->JoyYLastAction);
 	
-	// Beveg oppover i menyen
-	if (joyY > 50) {
-		if (menu->current_position > 0) {
-			menu->prev_position = menu->current_position;
-			menu->current_position--;
-
-			// Hvis vi har scrollet forbi synlege element, oppdater scroll_offset
-			// då må vi og oppdatere heile menyen
-			if (menu->current_position < menu->scroll_offset) {
-				menu->scroll_offset--;
-				//oled_display_menu(menu);
-			} 
-			//else{
-				//update_menu_arrows(menu->current_position - menu->scroll_offset, menu->prev_position - menu->scroll_offset);
-			//}
-			_delay_ms(100);  // Forsinkelse for å unngå rask scrolling
+	board->JoyYLastAction = (deltaT < 0) ? general_ms() : board->JoyYLastAction;
+	
+	if( deltaT > 100){
+		// Beveg oppover i menyen
+		if (joyY > 50) {
+			if (menu->current_position > 0) {
+				menu->prev_position = menu->current_position;
+				menu->current_position--;
+				// Hvis vi har scrollet forbi synlege element, oppdater scroll_offset
+				// då må vi og oppdatere heile menyen
+				if (menu->current_position < menu->scroll_offset) {
+					menu->scroll_offset--;
+				} 
+				board->JoyYLastAction = general_ms();  // Forsinkelse for å unngå rask scrolling
+			}
 		}
-	}
-	// Beveg nedover i menyen
-	else if (joyY < -50) {
-		if (menu->current_position < menu->num_items - 1) {
-			menu->prev_position = menu->current_position;
+		// Beveg nedover i menyen
+		else if (joyY < -50) {
+			if (menu->current_position < menu->num_items - 1) {
+				menu->prev_position = menu->current_position;
 			
-			menu->current_position++;
+				menu->current_position++;
 
-			// Hvis vi har nådd slutten av den synlege menyen, oppdater scroll_offset
-			if (menu->current_position >= menu->scroll_offset + MENU_ITEMS_PER_PAGE) {
-				menu->scroll_offset++;
-			} 
-			//else{
-				//update_menu_arrows(menu->current_position - menu->scroll_offset, menu->prev_position - menu->scroll_offset);
-			//}
-			_delay_ms(100);  // Forsinkelse for å unngå rask scrolling
+				// Hvis vi har nådd slutten av den synlege menyen, oppdater scroll_offset
+				if (menu->current_position >= menu->scroll_offset + MENU_ITEMS_PER_PAGE) {
+					menu->scroll_offset++;
+				} 
+				board->JoyYLastAction = general_ms();   // Forsinkelse for å unngå rask scrolling
+			}
 		}
 	}
 }
@@ -132,11 +129,11 @@ void menu_navigate(MultiBoard* board, Menu* menu) {
 	MultiBoard_Update(board);
 	update_menu_position_from_joystick(board, menu);
 	// Sjekk om knappen er trykt for å bekrefte menyval
-	if (board->JoyBtn & !board->prevJoyBtn) {
+	if (board->JoyBtn & !board->JoyBtn_l) {
 		handleMenuSelection(board, menu);  // Behandlar menyvalet (trenger tilsyn)
 	}
 	write_menu_oled_to_SRAM(menu); // 15 ms ikke bra, pontus har ansvar for å finne en løsning
-	board->prevJoyBtn = board->JoyBtn;
+	board->JoyBtn_l = board->JoyBtn;
 }
 
 
@@ -149,7 +146,6 @@ void handleMenuSelection(MultiBoard* board, Menu* menu) {
 			case 0:
 			oled_write_line_to_SRAM(0, "Startar spelet...");
 			oled_data_from_SRAM();
-			_delay_ms(1000);
 			break;
 			case 1:
 			// Gå til innstillingar

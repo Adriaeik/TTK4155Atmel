@@ -8,7 +8,7 @@
 
 void MultiBoard_Init(MultiBoard* board) {
 	// Set pinner for knapper som input
-	clearBit(DDRB, LEFT_BUTTON_PIN);  // Set Left button pin as input
+	clearBit(DDRD, LEFT_BUTTON_PIN);  // Set Left button pin as input
 	clearBit(DDRB, RIGHT_BUTTON_PIN); // Set Right button pin as input
 	clearBit(DDRB, JOY_BUTTON_PIN);   // Set Joystick button pin as input
 	clearBit(DDRB, BUSY_PIN);         // Set BUSY pin as input
@@ -34,7 +34,8 @@ void MultiBoard_Init(MultiBoard* board) {
 	board->JoyYposCal = 0;
 	board->JoyAngle = 0;
 	board->JoyBtn = 0;  // Endra fra en, vi bruker fortsatt 0 for av basert på logikk i MB_Update()
-	board->prevJoyBtn = 0;
+	board->JoyBtn_l = 0;
+	board->JoyYLastAction = 0;
 }
 
 
@@ -47,7 +48,7 @@ void MultiBoard_Update(MultiBoard* board) {
 	board->RSpos = Universal_read(ADC_START);	//	- CH2
 	board->LSpos = Universal_read(ADC_START);	//	- CH3
 	// Les knappestatus
-	board->LBtn = 0<testBit(PINB, LEFT_BUTTON_PIN);
+	board->LBtn = 0<testBit(PIND, LEFT_BUTTON_PIN);
 	board->RBtn = 0<testBit(PINB, RIGHT_BUTTON_PIN);
 	board->JoyBtn = !(0<testBit(PINB, JOY_BUTTON_PIN));
 	// Opretter ein int med pluss og minus slik at vi kan finne riktig vinkel med _UpdateJoystickAngel
@@ -86,28 +87,3 @@ void MultiBoard_UpdateJoystickAngle(MultiBoard* board) {
 		}
 	}
 }
-
-//void MultiBoard_UpdateJoystickAngle(MultiBoard* board) {
-	//int16_t x = board->JoyXposCal;
-	//int16_t y = board->JoyYposCal;
-//
-	//// Unng� divisjon med 0 (n�r senterpunkt)
-	//if (!(abs(x) > 10 || abs(y) > 10)) {
-		//board->JoyAngle = 0;  // Midtpunkt, sett vinkelen til 0
-		//} else {
-		//// Beregn vinkelen basert p� kvadrantar
-		//if (x >= 0 && y >= 0) {
-			//// F�rste kvadrant
-			//board->JoyAngle = (y * 90) / (x + y);  // Enklare tiln�rming
-			//} else if (x < 0 && y >= 0) {
-			//// Andre kvadrant
-			//board->JoyAngle = 90 + ((-x * 90) / (-x + y));
-			//} else if (x < 0 && y < 0) {
-			//// Tredje kvadrant
-			//board->JoyAngle = 180 + ((-y * 90) / (-x - y));
-			//} else if (x >= 0 && y < 0) {
-			//// Fjerde kvadrant
-			//board->JoyAngle = 270 + ((x * 90) / (x - y));
-		//}
-	//}
-//}

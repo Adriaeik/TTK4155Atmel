@@ -170,7 +170,7 @@ void oled_data_from_SRAM(void) {
 }
 
 void oled_update_display_non_blocking(void) {
-	if (get_screen_time_in_ms() >= 16) {
+	if (screen_ms() >= 16) {
 		restart_screen_timer();
 		oled_data_from_SRAM();
 	}

@@ -28,12 +28,12 @@ extern volatile uint32_t overflow_count;  // Extern deklarasjon av millis_counte
 
 void setup_timer();  // Funksjon for å sette opp timer
 
-uint32_t get_screen_time_in_ms(void);  // Funksjon for å hente tida i millisekund
-uint32_t get_screen_time_in_cycles(void);
+uint32_t screen_ms(void);  // Funksjon for å hente tida i millisekund
+uint32_t screen_cycles(void);
 void restart_screen_timer();
 
-uint32_t get_general_time_in_ms(void);  // Funksjon for å hente tida i millisekund
-uint32_t get_general_time_in_cycles(void);
+uint32_t general_ms(void);  // Funksjon for å hente tida i millisekund
+uint32_t general_cycles(void);
 void restart_general_timer();
 
 #endif /* UTILS_H_ */
