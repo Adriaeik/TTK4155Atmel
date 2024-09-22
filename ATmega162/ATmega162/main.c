@@ -29,23 +29,47 @@ int main(void) {
 			//SRAM_test();
 			
 	/*_________________SPI_________________*/
-	// Initialiser SPI, CAN og MCP2515
+	// Initialiser SPI og MCP2515 i loopback-modus
 	SPI_Init();
 	CAN_Init();
 
 	// CAN-melding å sende
-	CANMessage msg;
-	msg.id = 0x123;  // Eksempel-ID
-	msg.length = 3;
-	msg.data[0] = 0x11;
-	msg.data[1] = 0x22;
-	msg.data[2] = 0x33;
+	CANMessage msg_to_send;
+	msg_to_send.id = 0x123;  // Eksempel-ID
+	msg_to_send.length = 3;
+	msg_to_send.data[0] = 0x11;
+	msg_to_send.data[1] = 0x22;
+	msg_to_send.data[2] = 0x33;
 
-	// Send meldingen
-	CAN_SendMessage(&msg);
+	// Send CAN-melding
+	CAN_SendMessage(&msg_to_send);
+
+	_delay_ms(100);  // Vent litt før vi prøver å lese meldingen (simuler en liten forsinkelse)
 
 	// Mottak CAN-melding
 	CANMessage received_msg = CAN_ReceiveMessage();
+
+	// Sjekk om mottatt melding er lik som den sendte
+	if (received_msg.id == msg_to_send.id && received_msg.length == msg_to_send.length) {
+		uint8_t matching_data = 1;
+		for (uint8_t i = 0; i < received_msg.length; i++) {
+			if (received_msg.data[i] != msg_to_send.data[i]) {
+				matching_data = 0;
+				break;
+			}
+		}
+
+		if (matching_data) {
+			// Meldingene samsvarer - loopback-testen er vellykket
+			printf("Loopback test successful! Received ID: 0x%X, Data: %X %X %X\n", received_msg.id, received_msg.data[0], received_msg.data[1], received_msg.data[2]);
+			} else {
+			// Dataene samsvarer ikke
+			printf("Loopback test failed! Data mismatch.\n");
+		}
+		} else {
+		// ID eller lengde samsvarer ikke
+		printf("Loopback test failed! ID or length mismatch.\n");
+	}
 		
 	/*_______OLED + LOGO_______*/
 	oled_clear_screen();
