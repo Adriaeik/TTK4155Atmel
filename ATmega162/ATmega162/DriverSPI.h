@@ -9,10 +9,11 @@
 #ifndef DRIVERSPI_H_
 #define DRIVERSPI_H_
 #include "Utils.h"  // Inkluderer dine makroer
+#include "DriverUART.h"
 
 // SPI-funksjoner
 void SPI_Init(void);          // Initialiserer SPI-grensesnittet
-void SPI_Transmit(uint8_t data);  // Sender byte over SPI
+void SPI_Transmit(char data);  // Sender byte over SPI
 uint8_t SPI_Receive(void);     // Mottar byte over SPI
 
 

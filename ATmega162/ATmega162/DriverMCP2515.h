@@ -11,7 +11,6 @@
 
 #include <avr/io.h>
 #include "DriverSPI.h"
-#include "Utils.h"
 
 // MCP2515-instruksjoner
 #define MCP2515_RESET        0xC0

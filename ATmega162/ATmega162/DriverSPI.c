@@ -16,16 +16,18 @@ void SPI_Init(void) {
 
 	// Aktiver SPI, sett som master, clock rate fosc/16
 	SPCR = (1 << SPE) | (1 << MSTR) | (1 << SPR0);
+	
+	clearBit(PORTB, PB4);
 }
 
 // Sender byte via SPI
-void SPI_Transmit(uint8_t data) {
+void SPI_Transmit(char data) {
 	SPDR = data;  // Send data
 	loopUntilBitIsSet(SPSR, SPIF);  // Vent til overføring er ferdig
 }
 
 // Mottar byte via SPI
 uint8_t SPI_Receive(void) {
-	SPI_Transmit(0xFF);  // Send dummy byte for å lese svar
+	SPI_Transmit(0x00);  // Send dummy byte for å lese svar
 	return SPDR;  // Returner mottatt byte
 }

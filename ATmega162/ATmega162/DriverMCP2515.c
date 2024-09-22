@@ -8,7 +8,9 @@
 
 // MCP2515 Reset-funksjon
 void MCP2515_Reset(void) {
+	clearBit(PORTB, PB4);
 	MCP2515_SendCommand(MCP2515_RESET);  // Send RESET-kommandoen
+	setBit(PORTB, PB4);
 }
 
 // MCP2515 Read-funksjon
