@@ -10,7 +10,6 @@
 void CAN_Init(void) {
 	// Tilbakestill MCP2515 og sett i loopback-modus
 	MCP2515_Reset();
-	_delay_ms(10);
 
 	// Sett MCP2515 i konfigurasjonsmodus
 	MCP2515_Write(0x0F, 0x80);  // CANCTRL register - Set config mode

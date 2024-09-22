@@ -9,10 +9,10 @@
 // Initialiser SPI som master
 void SPI_Init(void) {
 	// Sett MOSI og SCK som output, MISO som input
-	setBit(DDRB, PB3);  // MOSI
-	setBit(DDRB, PB5);  // SCK
-	clearBit(DDRB, PB4); // MISO
-	setBit(DDRB, PB2);  // SS som output
+	setBit(DDRB, PB5);  // MOSI
+	setBit(DDRB, PB7);  // SCK
+	clearBit(DDRB, PB6); // MISO
+	setBit(DDRB, PB4);  // SS som output
 
 	// Aktiver SPI, sett som master, clock rate fosc/16
 	SPCR = (1 << SPE) | (1 << MSTR) | (1 << SPR0);

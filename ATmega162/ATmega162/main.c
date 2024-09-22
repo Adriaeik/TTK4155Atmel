@@ -41,9 +41,9 @@ int main(void) {
 	printf("CANSTAT: 0x%X\n", canstat);
 
 	if ((canstat & 0xE0) == 0x40) {  // Loopback-modus har verdi 0x40 i CANSTAT
-		printf("MCP2515 er i loopback-modus.\n");
+		printf("MCP2515 er i loopback-modus.\n\r");
 		} else {
-		printf("Feil: MCP2515 er ikke i loopback-modus.\n");
+		printf("Feil: MCP2515 er ikke i loopback-modus.\n\r");
 	}
 
 	// CAN-melding å sende
@@ -74,14 +74,14 @@ int main(void) {
 
 		if (matching_data) {
 			// Meldingene samsvarer - loopback-testen er vellykket
-			printf("Loopback test successful! Received ID: 0x%X, Data: %X %X %X\n", received_msg.id, received_msg.data[0], received_msg.data[1], received_msg.data[2]);
+			printf("Loopback test successful! Received ID: 0x%X, Data: %X %X %X\n\r", received_msg.id, received_msg.data[0], received_msg.data[1], received_msg.data[2]);
 			} else {
 			// Dataene samsvarer ikke
-			printf("Loopback test failed! Data mismatch.\n");
+			printf("Loopback test failed! Data mismatch.Received ID: 0x%X, Data: %X %X %X\n\r", received_msg.id, received_msg.data[0], received_msg.data[1], received_msg.data[2]);
 		}
 		} else {
 		// ID eller lengde samsvarer ikke
-		printf("Loopback test failed! ID or length mismatch.\n");
+		printf("Loopback test failed! ID or length mismatch.Received ID: 0x%X, Data: %X %X %X\n\r", received_msg.id, received_msg.data[0], received_msg.data[1], received_msg.data[2]);
 	}
 		
 	/*_______OLED + LOGO_______*/
