@@ -32,6 +32,19 @@ int main(void) {
 	// Initialiser SPI og MCP2515 i loopback-modus
 	SPI_Init();
 	CAN_Init();
+	MCP2515_Reset();  // Tilbakestill MCP2515 for å sette den i kjent tilstand
+
+	_delay_ms(10);  // Vent litt etter reset
+
+	// Les CANSTAT-registeret (0x0E) for å sjekke om MCP2515 er i loopback-modus
+	uint8_t canstat = MCP2515_Read(canstat);
+	printf("CANSTAT: 0x%X\n", canstat);
+
+	if ((canstat & 0xE0) == 0x40) {  // Loopback-modus har verdi 0x40 i CANSTAT
+		printf("MCP2515 er i loopback-modus.\n");
+		} else {
+		printf("Feil: MCP2515 er ikke i loopback-modus.\n");
+	}
 
 	// CAN-melding å sende
 	CANMessage msg_to_send;
