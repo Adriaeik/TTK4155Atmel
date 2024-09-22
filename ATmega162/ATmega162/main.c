@@ -8,7 +8,7 @@
 #include "DriverUART.h"
 #include "SRAM.h"
 #include "Menu_init.h"
-#include "DriverSPI.h"
+#include "DriverCAN.h"
 
 int main(void) {
 	/*_________________INITIALISERINGER START______________________*/
@@ -29,19 +29,23 @@ int main(void) {
 			//SRAM_test();
 			
 	/*_________________SPI_________________*/
-	// Initialiser SPI
-	SPI_MasterInit();
+	// Initialiser SPI, CAN og MCP2515
+	SPI_Init();
+	CAN_Init();
 
-	// Test SPI-kommunikasjon
-	MCP2515_SendCommand(0xC0);  // Send ein vilkårlig kommando til MCP2515
-	uint8_t status = MCP2515_ReadStatus();  // Les status frå MCP2515
-	    
-	// Sjekk om statusen er korrekt 
-	if (status == 0x00) {
-		printf("good shit");
-		} else {
-		printf("bad shit");
-	}
+	// CAN-melding å sende
+	CANMessage msg;
+	msg.id = 0x123;  // Eksempel-ID
+	msg.length = 3;
+	msg.data[0] = 0x11;
+	msg.data[1] = 0x22;
+	msg.data[2] = 0x33;
+
+	// Send meldingen
+	CAN_SendMessage(&msg);
+
+	// Mottak CAN-melding
+	CANMessage received_msg = CAN_ReceiveMessage();
 		
 	/*_______OLED + LOGO_______*/
 	oled_clear_screen();

@@ -121,6 +121,18 @@
     </ToolchainSettings>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="DriverCAN.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="DriverCAN.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="DriverMCP2515.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="DriverMCP2515.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="DriverSPI.c">
       <SubType>compile</SubType>
     </Compile>

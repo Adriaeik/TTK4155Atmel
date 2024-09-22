@@ -6,58 +6,26 @@
  */ 
 
 #include "DriverSPI.h"
+// Initialiser SPI som master
+void SPI_Init(void) {
+	// Sett MOSI og SCK som output, MISO som input
+	setBit(DDRB, PB3);  // MOSI
+	setBit(DDRB, PB5);  // SCK
+	clearBit(DDRB, PB4); // MISO
+	setBit(DDRB, PB2);  // SS som output
 
-void SPI_MasterInit(void) {
-	// Sett MOSI (PB5), SCK (PB7), og SS (PB4) som utgangar
-	setBit(DDRB, PB4); // SS
-	setBit(DDRB, PB5); // MOSI
-	setBit(DDRB, PB7); // SCK
-	
-	// Sett MISO (PB6) som inngang
-	clearBit(DDRB, PB6);
-
-	// Aktiver SPI, sett opp SPI i master-modus, klokkhastighet fosc/16
-	setBit(SPCR, SPE);   // Aktivere SPI
-	setBit(SPCR, MSTR);  // Master-modus
-	setBit(SPCR, SPR0);  // fosc/16 for SPI-klokkehastighet
-	
-	// Deselect MCP2515 ved å sette SS høgt
-	setBit(PORTB, PB4);
+	// Aktiver SPI, sett som master, clock rate fosc/16
+	SPCR = (1 << SPE) | (1 << MSTR) | (1 << SPR0);
 }
 
-uint8_t SPI_MasterTransmit(uint8_t data) {
-	// Last data inn i SPDR-registeret
-	SPDR = data;
-	
-	// Vent til overføringa er ferdig (SPIF sett i SPSR når ferdig)
-	loopUntilBitIsSet(SPSR, SPIF);
-	
-	// Returner data mottatt frå slave
-	return SPDR;
+// Sender byte via SPI
+void SPI_Transmit(uint8_t data) {
+	SPDR = data;  // Send data
+	loopUntilBitIsSet(SPSR, SPIF);  // Vent til overføring er ferdig
 }
 
-void SPI_SelectSlave(void) {
-	// Velje MCP2515 ved å sette SS lågt
-	clearBit(PORTB, PB4);
-}
-
-void SPI_DeselectSlave(void) {
-	// Frigjere MCP2515 ved å sette SS høgt
-	setBit(PORTB, PB4);
-}
-
-void MCP2515_SendCommand(uint8_t command) {
-	SPI_SelectSlave();               // Velje MCP2515 som slave
-	SPI_MasterTransmit(command);     // Send kommando
-	SPI_DeselectSlave();             // Frigjere MCP2515
-}
-
-uint8_t MCP2515_ReadStatus(void) {
-	uint8_t status;
-	SPI_SelectSlave();               // Velje MCP2515
-	SPI_MasterTransmit(0xA0);        // Kommando for å lese status
-	status = SPI_MasterTransmit(0x00);  // Les status frå MCP2515
-	SPI_DeselectSlave();             // Frigjere MCP2515
-	
-	return status;
+// Mottar byte via SPI
+uint8_t SPI_Receive(void) {
+	SPI_Transmit(0xFF);  // Send dummy byte for å lese svar
+	return SPDR;  // Returner mottatt byte
 }
