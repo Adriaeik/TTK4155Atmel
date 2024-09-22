@@ -32,12 +32,10 @@ int main(void) {
 	// Initialiser SPI og MCP2515 i loopback-modus
 	SPI_Init();
 	CAN_Init();
-	MCP2515_Reset();  // Tilbakestill MCP2515 for å sette den i kjent tilstand
 
-	_delay_ms(10);  // Vent litt etter reset
 
 	// Les CANSTAT-registeret (0x0E) for å sjekke om MCP2515 er i loopback-modus
-	uint8_t canstat = MCP2515_Read(canstat);
+	uint8_t canstat = MCP2515_Read(0x0E);
 	printf("CANSTAT: 0x%X\n", canstat);
 
 	if ((canstat & 0xE0) == 0x40) {  // Loopback-modus har verdi 0x40 i CANSTAT
@@ -57,8 +55,7 @@ int main(void) {
 	// Send CAN-melding
 	CAN_SendMessage(&msg_to_send);
 
-	_delay_ms(100);  // Vent litt før vi prøver å lese meldingen (simuler en liten forsinkelse)
-
+	
 	// Mottak CAN-melding
 	CANMessage received_msg = CAN_ReceiveMessage();
 
@@ -101,6 +98,7 @@ int main(void) {
 	/*_______HOVUDLØKKE______*/
 	 while (1) {
 
+
         menu_navigate(&board, current_menu);  // Kallar `menu_navigate` med referanse til gjeldande meny
 		
 		/*Så lenge vi ikkje har noko delay gåandes og ditta står her tenker eg 
@@ -115,7 +113,7 @@ int main(void) {
 			restart_screen_timer();
 			oled_data_from_SRAM();
 		}
-		//if (general_ms() > 65536UL ){ restart_general_timer();}
+		if (general_ms() > 65536UL ){ restart_general_timer();}
 	 }
 	return 0;
 }
