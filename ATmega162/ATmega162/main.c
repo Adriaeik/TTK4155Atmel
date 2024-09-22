@@ -8,6 +8,7 @@
 #include "DriverUART.h"
 #include "SRAM.h"
 #include "Menu_init.h"
+#include "DriverSPI.h"
 
 int main(void) {
 	/*_________________INITIALISERINGER START______________________*/
@@ -26,6 +27,21 @@ int main(void) {
 		/*--- Optional setup ---*/
 			//setup_printf_for_oled();		
 			//SRAM_test();
+			
+	/*_________________SPI_________________*/
+	// Initialiser SPI
+	SPI_MasterInit();
+
+	// Test SPI-kommunikasjon
+	MCP2515_SendCommand(0xC0);  // Send ein vilkårlig kommando til MCP2515
+	uint8_t status = MCP2515_ReadStatus();  // Les status frå MCP2515
+	    
+	// Sjekk om statusen er korrekt 
+	if (status == 0x00) {
+		printf("good shit");
+		} else {
+		printf("bad shit");
+	}
 		
 	/*_______OLED + LOGO_______*/
 	oled_clear_screen();

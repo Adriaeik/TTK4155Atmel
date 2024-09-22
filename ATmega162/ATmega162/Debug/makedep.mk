@@ -2,6 +2,8 @@
 # Automatically-generated file. Do not edit or delete the file
 ################################################################################
 
+DriverSPI.c
+
 DriverUART.c
 
 Font.c
