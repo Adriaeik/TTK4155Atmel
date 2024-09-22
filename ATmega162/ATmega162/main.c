@@ -32,8 +32,8 @@ int main(void) {
 	// Initialiser SPI og MCP2515 i loopback-modus
 	SPI_Init();
 	CAN_Init();
-
-
+	
+    MCP2515_SetMode(MCP2515_MODE_CONFIG);  // Sett MCP2515 i Configuration Mode
 	// Les CANSTAT-registeret (0x0E) for å sjekke om MCP2515 er i loopback-modus
 	uint8_t canstat = MCP2515_Read(0x0E);
 	printf("CANSTAT: 0x%X\n", canstat);
