@@ -31,7 +31,7 @@ int main(void) {
 	/*_________________SPI_________________*/
 	// Initialiser SPI og MCP2515 i loopback-modus
 	//SPI_MasterInit(); // ligger i CAN_Init()
-	CAN_Init();
+	CAN_Init(MCP2515_MODE_LOOPBACK);
 	
     //MCP2515_SetMode(MCP2515_MODE_CONFIG);  // Sett MCP2515 i Configuration Mode
 	// Les CANSTAT-registeret (0x0E) for å sjekke om MCP2515 er i loopback-modus
@@ -59,7 +59,8 @@ int main(void) {
 	printf("Can message sent\\r\n");
 	
 	// Mottak CAN-melding
-	CANMessage received_msg = CAN_ReceiveMessage();
+	CANMessage received_msg;
+	CAN_ReceiveMessage(&received_msg);
 
 	printf("Can message recieved\r\n");
 

@@ -7,12 +7,12 @@
 
 #include "DriverSPI.h"
 // Initialiser SPI som master
-void SPI_MasterInit(void) {
+void SPI_Init(void) {
 	// Sett MOSI og SCK som output, MISO som input
-	setBit(DDRB, PB5);  // MOSI
-	setBit(DDRB, PB7);  // SCK
-	clearBit(DDRB, PB6); // MISO
-	setBit(DDRB, PB4);  // SS som output
+	setBit(DDRB, DD_MOSI);  // MOSI
+	setBit(DDRB, DD_SCK);  // SCK
+	clearBit(DDRB, DD_MISO); // MISO
+	setBit(DDRB, DD_SS);  // SS som output
 	//KOK
 	// DDR_SPI = (1<<DD_MOSI)|(1<<DD_SCK)|(1<<DD_SS);
 
@@ -21,7 +21,6 @@ void SPI_MasterInit(void) {
 	///KOK
 	// SPCR = (1<<SPE)|(1<<MSTR)|(1<<SPR0)|(1<<SPIE);
 	
-	clearBit(PORTB, PB4);
 }
 
 // Sender byte via SPI
