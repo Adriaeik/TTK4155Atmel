@@ -14,27 +14,35 @@ void CAN_Init(uint8_t mode) {
 
 //KOKEN har litt anerledes på dissa to funksjonane - vhat sa dei var funksjonelt like
 void CAN_SendMessage(CANMessage* msg) {
-	//while (MCP2515_ReadStatus() & 0x04);  // Vent til TX buffer er ledig
+	while (MCP2515_ReadStatus() & 0x04);  // Vent til TX buffer er ledig
 	// Send CAN-melding til TX-buffer
+	//MCP2515_Write(MCP2515_TXB0SIDH, msg->id / 8);  // SIDH - Standard ID high - KOK: mcp_write(MCP_TXB0SIDH, message->id / 8); // De åtte høyeste bitene i iden.
+	//MCP2515_Write(MCP2515_TXB0SIDL,  (msg->id % 8) << 5);// & MCP2515_CANSTAT);  // SIDL - Standard ID low  - KOK: mcp_write(MCP_TXB0SIDL, (message->id % 8) << 5); // De tre laveste bitene i iden.
+	//
 	MCP2515_Write(MCP2515_TXB0SIDH, msg->id >> 3);  // SIDH - Standard ID high - KOK: mcp_write(MCP_TXB0SIDH, message->id / 8); // De åtte høyeste bitene i iden.
-	MCP2515_Write(MCP2515_TXB0SIDL, ((msg->id & 0x07) << 5));// & MCP2515_CANSTAT);  // SIDL - Standard ID low  - KOK: mcp_write(MCP_TXB0SIDL, (message->id % 8) << 5); // De tre laveste bitene i iden.
+	MCP2515_Write(MCP2515_TXB0SIDL, (msg->id & 0x07));// & MCP2515_CANSTAT);  // SIDL - Standard ID low  - KOK: mcp_write(MCP_TXB0SIDL, (message->id % 8) << 5); // De tre laveste bitene i iden.
 	MCP2515_Write(MCP2515_TXB0DLC, msg->length);  // DLC - Data length code
 	for (uint8_t i = 0; i < msg->length; i++) {
 		MCP2515_Write(MCP2515_TXB0D0 + i, msg->data[i]);  // Send data byte-by-byte
 	}
 
 	// Be MCP2515 om � sende meldingen
-	MCP2515_RequestToSend(0x01);  // RTS TX buffer 0
+	MCP2515_RequestToSend(0);  // RTS TX buffer 0
 }
 
 uint8_t CAN_ReceiveMessage(CANMessage* msg) {
 	// Sjekk om det finst ei melding i RX bufferet ved å lese status
-	//if (!(MCP2515_ReadStatus() & 0x01)) {
-		//return 1;  // Ingen melding tilgjengeleg, returner feil
-	//}
+	if (!(MCP2515_ReadStatus() & 0x01)) {
+		return 1;  // Ingen melding tilgjengeleg, returner feil
+	}
 
 	// Les ID og lengde
-	msg->id = (MCP2515_Read(MCP2515_RXB0SIDH) << 3) + (MCP2515_Read(MCP2515_RXB0SIDL) >> 5);
+	//uint8_t id_low = MCP2515_Read(MCP2515_RXB0SIDL)/0b100000;
+	//uint8_t id_high = MCP2515_Read(MCP2515_RXB0SIDH);
+	//msg->id = id_high * 0b1000 + id_low;
+	uint16_t ID = (MCP2515_Read(MCP2515_RXB0SIDH) << 3) | (MCP2515_Read(MCP2515_RXB0SIDL));
+	msg->id = ID;
+	printf("msg id: %d,   ", ID);
 	msg->length = MCP2515_Read(MCP2515_RXB0DLC);  // RX buffer 0 DLC
 
 	// Sjekk om meldingslengda er gyldig (0-8 bytes for CAN)

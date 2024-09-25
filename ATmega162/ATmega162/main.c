@@ -18,6 +18,7 @@ int main(void) {
 	UART_EnableReceiveInterrupt();
     setup_timer();						// Start millisekundteljinga
 	sei();								// Aktiver globale avbrot
+	printf("GO!");
 	/*--- Ditta må (noko av det ihvertfall) vere etter sei() ---*/
 	externalMemoryInit();				// Initialiser eksternt minne må vere etter sei
 	initialize_menus();
@@ -56,45 +57,47 @@ int main(void) {
 	// CAN-melding å sende
 	CANMessage msg_to_send = {
 		10, // Id
-		6, // Lengde på dataen
-		"heiiii" // Data. Maks åtte byte
+		3, // Lengde på dataen
+		"abc" // Data. Maks åtte byte
 	};
+	CANMessage received_msg;
 	for (uint16_t i = 0; i < 2047; i++)
 	{
-		msg_to_send.id+=i;
+		msg_to_send.id = i;
 		// Send CAN-melding
 		CAN_SendMessage(&msg_to_send);
 
 		//printf("Can message sent\\r\n");
 		
 		// Mottak CAN-melding
-		CANMessage received_msg;
+		
 		CAN_ReceiveMessage(&received_msg);
-		printf("i = %d, ID: %d\r\n", i, received_msg.id);
-//
-		//printf("Can message recieved\r\n");
-//
-		//// Sjekk om mottatt melding er lik som den sendte
-		//if (received_msg.id == msg_to_send.id && received_msg.length == msg_to_send.length) {
-			//uint8_t matching_data = 1;
-			//for (uint8_t i = 0; i < received_msg.length; i++) {
-				//if (received_msg.data[i] != msg_to_send.data[i]) {
-					//matching_data = 0;
-					//break;
-				//}
-			//}
-//
-			//if (matching_data) {
-				//// Meldingene samsvarer - loopback-testen er vellykket
-				//printf("Loopback test successful! Received ID: 0x%X, Data:%c %c %c\n\r", received_msg.id, received_msg.data[0], received_msg.data[1], received_msg.data[2]);
-				//} else {
-				//// Dataene samsvarer ikke
-				//printf("Loopback test failed! Data mismatch Data: %c %c %c\n\r", received_msg.data[0], received_msg.data[1], received_msg.data[2]);
-			//}
-			//} else {
-			//// ID eller lengde samsvarer ikke
-			//printf("Loopback test failed! ID or length mismatch.Received ID: 0x%X, Data: %c %c %c\n\r", received_msg.id, received_msg.data[0], received_msg.data[1], received_msg.data[2]);
+		//if (received_msg.id == msg_to_send.id){
+			printf("i = %d, ID_rec: %d, ID_send: %d\r\n", i, received_msg.id, msg_to_send.id);
 		//}
+		printf("Can message recieved\r\n");
+
+		// Sjekk om mottatt melding er lik som den sendte
+		if (received_msg.id == msg_to_send.id && received_msg.length == msg_to_send.length) {
+			uint8_t matching_data = 1;
+			for (uint8_t i = 0; i < received_msg.length; i++) {
+				if (received_msg.data[i] != msg_to_send.data[i]) {
+					matching_data = 0;
+					break;
+				}
+			}
+
+			if (matching_data) {
+				// Meldingene samsvarer - loopback-testen er vellykket
+				printf("Loopback test successful! Received ID: 0x%X, Data:%c %c %c\n\r", received_msg.id, received_msg.data[0], received_msg.data[1], received_msg.data[2]);
+				} else {
+				// Dataene samsvarer ikke
+				printf("Loopback test failed! Data mismatch Data: %c %c %c\n\r", received_msg.data[0], received_msg.data[1], received_msg.data[2]);
+			}
+			} else {
+			// ID eller lengde samsvarer ikke
+			printf("Loopback test failed! ID or length mismatch.Received ID: 0x%X, Data: %c %c %c\n\r", received_msg.id, received_msg.data[0], received_msg.data[1], received_msg.data[2]);
+		}
 	}
 	
 		
