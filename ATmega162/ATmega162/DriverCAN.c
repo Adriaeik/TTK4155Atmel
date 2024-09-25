@@ -23,9 +23,9 @@ void CAN_SendMessage(CANMessage* msg) {
 	uint16_t id = msg->id & 0x07FF;  // Sørg for at ID er 11-bits
 	uint8_t id_high = id >> 3;
 	uint8_t id_low = (id & 0x07) << 5;
-	printf("ID HIGH: %d,  ID LOW: %d, Satt saman i Send: %d \n\r",id_high, id_low, (id_high << 3) | (id_low >> 5) );
+	//printf("ID HIGH: %d,  ID LOW: %d, Satt saman i Send: %d \n\r",id_high, id_low, (id_high << 3) | (id_low >> 5) );
 	MCP2515_Write(MCP2515_TXB0SIDH, id_high);
-	MCP2515_Write(MCP2515_TXB0SIDL, id_low);
+	MCP2515_Write(MCP2515_TXB0SIDL, id_low & 0xE0);
 	MCP2515_Write(MCP2515_TXB0DLC, msg->length);  // DLC - Data length code
 	for (uint8_t i = 0; i < msg->length; i++) {
 		MCP2515_Write(MCP2515_TXB0D0 + i, msg->data[i]);  // Send data byte-by-byte
@@ -42,8 +42,14 @@ uint8_t CAN_ReceiveMessage(CANMessage* msg) {
 	}
 	uint8_t id_high = MCP2515_Read(MCP2515_RXB0SIDH);
 	uint8_t id_low = MCP2515_Read(MCP2515_RXB0SIDL);
-	printf("ID HIGH: %d,  ID LOW: %d, Satt saman i Reci: %d \n\r",id_high, id_low, (id_high << 3) | (id_low >> 5) );
-	msg->id = (id_high << 3) | (id_low >> 5);
+	if (id_low  == 0){ //(0 == 1) {//
+		//printf("ID HIGH: %d,  ID LOW: %d, Satt saman i Reci: %d \n\r",id_high, id_low,  8+8*id_high);
+		msg->id = 8+8*id_high;
+	}else{
+		//printf("ID HIGH: %d,  ID LOW: %d, Satt saman i Reci: %d \n\r",id_high, id_low, (id_high << 3) | (id_low >> 5) );
+		msg->id = (((id_high << 3) & 0x7f8) | (id_low >> 5));
+	}
+
 	
 	msg->length = MCP2515_Read(MCP2515_RXB0DLC);  // RX buffer 0 DLC
 

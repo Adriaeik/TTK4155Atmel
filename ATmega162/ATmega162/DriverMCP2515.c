@@ -28,7 +28,7 @@ void MCP2515_Reset(void) {
 
 // MCP2515 Read-funksjon
 uint8_t MCP2515_Read(uint8_t address) {
-	uint8_t result;
+	uint8_t result= 0xFF; 
 	SPI_SelctSlave();               // Aktiver slave (CS lav)
 	SPI_Transmit(MCP2515_READ_);         // Send READ-kommandoen
 	SPI_Transmit(address);              // Send adressen vi vil lese fra
@@ -47,10 +47,34 @@ void MCP2515_Write(uint8_t address, uint8_t data) {
 	SPI_DselectSlave();                 // Deaktiver slave (CS h�y)
 }
 
+//void MCP2515_RequestToSend(uint8_t txBuffers) {
+	//if (txBuffers > 2) {
+		//// Feil buffer, returner ingenting
+		//return;
+	//}
+//
+	//SPI_SelctSlave();  // Aktiver slave (CS lav)
+	//
+	//// Send RTS-kommando for spesifisert buffer
+	//switch (txBuffers) {
+		//case 0:
+		//SPI_Transmit(MCP2515_RTS_TX0);  // Send RTS for TXB0
+		//break;
+		//case 1:
+		//SPI_Transmit(MCP2515_RTS_TX1);  // Send RTS for TXB1
+		//break;
+		//case 2:
+		//SPI_Transmit(MCP2515_RTS_TX2);  // Send RTS for TXB2
+		//break;
+	//}
+//
+	//SPI_DselectSlave();  // Deaktiver slave (CS høy)
+//}
 // MCP2515 Request to Send-funksjon
 void MCP2515_RequestToSend(uint8_t txBuffers) {
 	if (txBuffers > 2) {
 		// Feilverdi
+		printf("feil i MCP2515_RequestToSend");
 		return; 
 	}
 	SPI_SelctSlave();               // Aktiver slave (CS lav)

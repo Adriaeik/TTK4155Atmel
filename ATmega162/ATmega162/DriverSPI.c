@@ -16,7 +16,7 @@ void SPI_MasterInit(void) {
 	
 	// Aktiver SPI, sett som master, clock rate fosc/16
 	SPCR = (1 << SPE) | (1 << MSTR) | (1 << SPR0);
-	//clearBit(DDR_SPI, DD_SS);
+	// clearBit(DDR_SPI, DD_SS);
 }
 
 // Sender byte via SPI
@@ -35,8 +35,13 @@ void spi_write(char cData) {
 
 // Mottar byte via SPI
 uint8_t SPI_Receive(void) {
-	SPI_Transmit(0x00);  // Send dummy byte for � lese svar
-	return SPDR;  // Returner mottatt byte
+	//SPI_Transmit(0x00);  // Send dummy byte for � lese svar
+	//return SPDR;  // Returner mottatt byte
+	//
+	SPDR = 0xFF;
+	while(!(SPSR & (1<<SPIF))) {
+	}
+	return SPDR;
 }
 
 /*

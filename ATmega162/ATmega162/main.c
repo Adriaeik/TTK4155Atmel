@@ -64,6 +64,8 @@ int main(void) {
 	for (uint16_t i = 0; i < 2047; i++)
 	{
 		msg_to_send.id = i;
+		msg_to_send.data[2] = i%255;
+		
 		// Send CAN-melding
 		CAN_SendMessage(&msg_to_send);
 
@@ -96,8 +98,8 @@ int main(void) {
 			}
 			} else {
 			// ID eller lengde samsvarer ikke
-			printf("Loopback test failed! ID or length mismatch.Received ID: 0x%X, Data: %c %c %c\n\r", received_msg.id, received_msg.data[0], received_msg.data[1], received_msg.data[2]);
-			printf("i = %d, ID_rec: %d, ID_send: %d\r\n", i, received_msg.id, msg_to_send.id);	
+			//printf("Loopback test failed! ID or length mismatch.Received ID: 0x%X, Data: %c %c %c\n\r", received_msg.id, received_msg.data[0], received_msg.data[1], received_msg.data[2]);
+			printf("%d, %d\r\n", received_msg.id, msg_to_send.data[2]);	
 		}
 	}
 	
