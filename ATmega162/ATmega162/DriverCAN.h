@@ -19,8 +19,8 @@ typedef struct {
 } CANMessage;
 
 // CAN-funksjoner
-void CAN_Init(void);
+void CAN_Init(uint8_t mode);
 void CAN_SendMessage(CANMessage* msg);
-CANMessage CAN_ReceiveMessage(void);
+uint8_t CAN_ReceiveMessage(CANMessage* msg);
 
 #endif /* DRIVER_CAN_H_ */

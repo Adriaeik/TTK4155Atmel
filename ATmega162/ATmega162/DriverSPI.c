@@ -9,19 +9,15 @@
 // Initialiser SPI som master
 void SPI_MasterInit(void) {
 	// Sett MOSI og SCK som output, MISO som input
-	setBit(DDRB, PB5);  // MOSI
-	setBit(DDRB, PB7);  // SCK
-	clearBit(DDRB, PB6); // MISO
-	setBit(DDRB, PB4);  // SS som output
-	//KOK
-	// DDR_SPI = (1<<DD_MOSI)|(1<<DD_SCK)|(1<<DD_SS);
-
-	// Aktiver SPI, sett som master, clock rate fosc/16
-	SPCR = (1 << SPE) | (1 << MSTR) | (1 << SPR0);
-	///KOK
-	// SPCR = (1<<SPE)|(1<<MSTR)|(1<<SPR0)|(1<<SPIE);
+	setBit(DDR_SPI, DD_SS);  // SS som output
+	setBit(DDR_SPI, DD_MOSI);  // MOSI
+	setBit(DDR_SPI, DD_SCK);  // SCK
+	clearBit(DDR_SPI, DD_MISO); // MISO
 	
-	clearBit(PORTB, PB4);
+	// Aktiver SPI, sett som master, clock rate fosc/16
+	SPCR = (1 << SPE) | (1 << MSTR) | (1 << SPR0) | (1<<SPIE);
+	
+	clearBit(DDR_SPI, DD_SS);
 }
 
 // Sender byte via SPI
@@ -53,3 +49,11 @@ uint8_t spi_read() {
 	return SPDR;
 }
 */
+
+void SPI_DselectSlave() {
+	PORTB |= (1 << DD_SS);
+}
+
+void SPI_SelctSlave() {
+	PORTB &= ~(1 << DD_SS);
+}
