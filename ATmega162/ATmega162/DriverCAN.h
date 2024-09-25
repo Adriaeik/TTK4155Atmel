@@ -13,7 +13,7 @@
 
 // CAN-meldingsstruktur
 typedef struct {
-	uint16_t id;
+	uint16_t id; //ID må vre 
 	uint8_t length;
 	uint8_t data[8];
 } CANMessage;

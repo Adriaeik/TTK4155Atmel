@@ -7,17 +7,17 @@
 #include "DriverMCP2515.h"
 
 // Init kokt rett fra Waseem
-void MCP2515_init(void) {
+void MCP2515_init() {
 	SPI_MasterInit();
+	//Kommer hit
 	MCP2515_Reset(); //Se kode for denne lenger ned
-
-	_delay_ms(1); //Viktig!
-
+	_delay_ms(4); //Viktig!
+	//MCP2515_SetMode(MCP2515_MODE_CONFIG);
 	// Sjøltesting
-	uint8_t value = MCP2515_Read(MCP2515_CANSTAT); 
-	if ((value & MCP2515_CANSTAT) != MCP2515_MODE_CONFIG) {
+	uint8_t value = MCP2515_Read(MCP2515_CANSTAT);
+	if ((value & MCP2515_MODE_MASK) != MCP2515_MODE_CONFIG) {
 		printf("MCP2515 er ikkje i konfigurasjonsmodus etter reset. CANSTAT: %x \r\n", value);
-	}
+		}
 }
 // MCP2515 Reset-funksjon
 void MCP2515_Reset(void) {
@@ -29,9 +29,8 @@ void MCP2515_Reset(void) {
 // MCP2515 Read-funksjon
 uint8_t MCP2515_Read(uint8_t address) {
 	uint8_t result;
-
 	SPI_SelctSlave();               // Aktiver slave (CS lav)
-	SPI_Transmit(MCP2515_READ);         // Send READ-kommandoen
+	SPI_Transmit(MCP2515_READ_);         // Send READ-kommandoen
 	SPI_Transmit(address);              // Send adressen vi vil lese fra
 	result = SPI_Receive();             // Les resultatet fra MCP2515
 	SPI_DselectSlave();                 // Deaktiver slave (CS h�y)
@@ -88,6 +87,7 @@ uint8_t MCP2515_ReadStatus(void) {
 
 // MCP2515 Bit Modify-funksjon
 void MCP2515_BitModify(uint8_t address, uint8_t mask, uint8_t data) {
+	
 	SPI_SelctSlave();               // Aktiver slave (CS lav)
 	SPI_Transmit(MCP2515_BIT_MODIFY);   // Send BIT MODIFY-kommandoen
 	SPI_Transmit(address);              // Send adressen vi vil modifisere
@@ -98,12 +98,15 @@ void MCP2515_BitModify(uint8_t address, uint8_t mask, uint8_t data) {
 
 // MCP2515 Send Command-funksjon
 void MCP2515_SendCommand(uint8_t command) {
+	printf("s1\r\n");
 	SPI_SelctSlave();               // Aktiver slave (CS lav)
+	printf("s11\r\n");
 	SPI_Transmit(command);              // Send kommandoen til MCP2515
 	SPI_DselectSlave();                 // Deaktiver slave (CS h�y)
+	printf("s2\r\n");
 }
 
 // MCP2515 Set Mode-funksjon
 void MCP2515_SetMode(uint8_t mode) {
-	MCP2515_BitModify(MCP2515_CANCTRL, MCP2515_CANSTAT, mode);  // Sett mode-bits (bits 5-7) i CANCTRL-registeret
+	MCP2515_BitModify(MCP2515_CANCTRL, MCP2515_MODE_MASK, mode);  // Sett mode-bits (bits 5-7) i CANCTRL-registeret
 }

@@ -27,6 +27,14 @@ int main(void) {
 		/*--- Optional setup ---*/
 			//setup_printf_for_oled();		
 			//SRAM_test();
+	/*_______OLED + LOGO_______*/
+	oled_clear_screen();
+	/*- Den komboen her var heilt nydelig -*/
+	oled_draw_line(10, 10, 100, 50);
+	oled_draw_circle(64, 32, 20);
+	oled_draw_square(20, 20, 40, 30);
+	oled_data_from_SRAM();
+	_delay_ms(500);
 			
 	/*_________________SPI_________________*/
 	// Initialiser SPI og MCP2515 i loopback-modus
@@ -36,9 +44,9 @@ int main(void) {
     //MCP2515_SetMode(MCP2515_MODE_CONFIG);  // Sett MCP2515 i Configuration Mode
 	// Les CANSTAT-registeret (0x0E) for å sjekke om MCP2515 er i loopback-modus
 	uint8_t canstat = MCP2515_Read(0x0f);
-	printf("CANSTAT: 0x%X\n", canstat);
+	printf("CANSTAT: 0x%X\n", canstat & MCP2515_MODE_MASK);
 
-	if ((canstat & 0xE0) == 0x40) {  // Loopback-modus har verdi 0x40 i CANSTAT
+	if ((canstat & MCP2515_MODE_MASK) == 0x40) {  // Loopback-modus har verdi 0x40 i CANSTAT
 		printf("MCP2515 er i loopback-modus.\n\r");
 		} else {
 		printf("Feil: MCP2515 er ikke i loopback-modus.\n\r");
@@ -46,54 +54,51 @@ int main(void) {
 
 	
 	// CAN-melding å sende
-	CANMessage msg_to_send;
-	msg_to_send.id = 0x123;  // Eksempel-ID
-	msg_to_send.length = 3;
-	msg_to_send.data[0] = 0x11;
-	msg_to_send.data[1] = 0x22;
-	msg_to_send.data[2] = 0x33;
+	CANMessage msg_to_send = {
+		10, // Id
+		6, // Lengde på dataen
+		"heiiii" // Data. Maks åtte byte
+	};
+	for (uint16_t i = 0; i < 2047; i++)
+	{
+		msg_to_send.id+=i;
+		// Send CAN-melding
+		CAN_SendMessage(&msg_to_send);
 
-	// Send CAN-melding
-	CAN_SendMessage(&msg_to_send);
-
-	printf("Can message sent\\r\n");
-	
-	// Mottak CAN-melding
-	CANMessage received_msg; 
-	CAN_ReceiveMessage(&received_msg);
-
-	printf("Can message recieved\r\n");
-
-	// Sjekk om mottatt melding er lik som den sendte
-	if (received_msg.id == msg_to_send.id && received_msg.length == msg_to_send.length) {
-		uint8_t matching_data = 1;
-		for (uint8_t i = 0; i < received_msg.length; i++) {
-			if (received_msg.data[i] != msg_to_send.data[i]) {
-				matching_data = 0;
-				break;
-			}
-		}
-
-		if (matching_data) {
-			// Meldingene samsvarer - loopback-testen er vellykket
-			printf("Loopback test successful! Received ID: 0x%X, Data: %X %X %X\n\r", received_msg.id, received_msg.data[0], received_msg.data[1], received_msg.data[2]);
-			} else {
-			// Dataene samsvarer ikke
-			printf("Loopback test failed! Data mismatch.Received ID: 0x%X, Data: %X %X %X\n\r", received_msg.id, received_msg.data[0], received_msg.data[1], received_msg.data[2]);
-		}
-		} else {
-		// ID eller lengde samsvarer ikke
-		printf("Loopback test failed! ID or length mismatch.Received ID: 0x%X, Data: %X %X %X\n\r", received_msg.id, received_msg.data[0], received_msg.data[1], received_msg.data[2]);
-	}
+		//printf("Can message sent\\r\n");
 		
-	/*_______OLED + LOGO_______*/
-	oled_clear_screen();
-	/*- Den komboen her var heilt nydelig -*/
-		oled_draw_line(10, 10, 100, 50);
-		oled_draw_circle(64, 32, 20);
-		oled_draw_square(20, 20, 40, 30);
-	oled_data_from_SRAM();
-	_delay_ms(500);
+		// Mottak CAN-melding
+		CANMessage received_msg;
+		CAN_ReceiveMessage(&received_msg);
+		printf("i = %d, ID: %d\r\n", i, received_msg.id);
+//
+		//printf("Can message recieved\r\n");
+//
+		//// Sjekk om mottatt melding er lik som den sendte
+		//if (received_msg.id == msg_to_send.id && received_msg.length == msg_to_send.length) {
+			//uint8_t matching_data = 1;
+			//for (uint8_t i = 0; i < received_msg.length; i++) {
+				//if (received_msg.data[i] != msg_to_send.data[i]) {
+					//matching_data = 0;
+					//break;
+				//}
+			//}
+//
+			//if (matching_data) {
+				//// Meldingene samsvarer - loopback-testen er vellykket
+				//printf("Loopback test successful! Received ID: 0x%X, Data:%c %c %c\n\r", received_msg.id, received_msg.data[0], received_msg.data[1], received_msg.data[2]);
+				//} else {
+				//// Dataene samsvarer ikke
+				//printf("Loopback test failed! Data mismatch Data: %c %c %c\n\r", received_msg.data[0], received_msg.data[1], received_msg.data[2]);
+			//}
+			//} else {
+			//// ID eller lengde samsvarer ikke
+			//printf("Loopback test failed! ID or length mismatch.Received ID: 0x%X, Data: %c %c %c\n\r", received_msg.id, received_msg.data[0], received_msg.data[1], received_msg.data[2]);
+		//}
+	}
+	
+		
+	
 	
 	
 	/*______MENY______*/
@@ -102,7 +107,6 @@ int main(void) {
 	
 	/*_______HOVUDLØKKE______*/
 	 while (1) {
-
 
         menu_navigate(&board, current_menu);  // Kallar `menu_navigate` med referanse til gjeldande meny
 		

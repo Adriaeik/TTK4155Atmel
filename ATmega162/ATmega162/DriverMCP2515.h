@@ -14,7 +14,7 @@
 
 // MCP2515-instruksjoner
 #define MCP2515_RESET        0xC0
-#define MCP2515_READ         0x03
+#define MCP2515_READ_         0x03
 #define MCP2515_WRITE        0x02
 #define MCP2515_RTS_TX0      0x81
 #define MCP2515_RTS_TX1      0x82
@@ -186,7 +186,7 @@
 #define MCP2515_TX_MASK		0x54
 
 // MCP2515-funksjoner
-void MCP2515_init(void);
+void MCP2515_init();
 void MCP2515_Reset(void);
 uint8_t MCP2515_Read(uint8_t address);
 void MCP2515_Write(uint8_t address, uint8_t data);

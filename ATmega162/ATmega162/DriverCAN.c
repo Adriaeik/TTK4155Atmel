@@ -17,7 +17,7 @@ void CAN_SendMessage(CANMessage* msg) {
 	//while (MCP2515_ReadStatus() & 0x04);  // Vent til TX buffer er ledig
 	// Send CAN-melding til TX-buffer
 	MCP2515_Write(MCP2515_TXB0SIDH, msg->id >> 3);  // SIDH - Standard ID high - KOK: mcp_write(MCP_TXB0SIDH, message->id / 8); // De åtte høyeste bitene i iden.
-	MCP2515_Write(MCP2515_TXB0SIDL, (msg->id << 5) & MCP2515_CANSTAT);  // SIDL - Standard ID low  - KOK: mcp_write(MCP_TXB0SIDL, (message->id % 8) << 5); // De tre laveste bitene i iden.
+	MCP2515_Write(MCP2515_TXB0SIDL, ((msg->id & 0x07) << 5));// & MCP2515_CANSTAT);  // SIDL - Standard ID low  - KOK: mcp_write(MCP_TXB0SIDL, (message->id % 8) << 5); // De tre laveste bitene i iden.
 	MCP2515_Write(MCP2515_TXB0DLC, msg->length);  // DLC - Data length code
 	for (uint8_t i = 0; i < msg->length; i++) {
 		MCP2515_Write(MCP2515_TXB0D0 + i, msg->data[i]);  // Send data byte-by-byte

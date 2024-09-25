@@ -15,9 +15,8 @@ void SPI_MasterInit(void) {
 	clearBit(DDR_SPI, DD_MISO); // MISO
 	
 	// Aktiver SPI, sett som master, clock rate fosc/16
-	SPCR = (1 << SPE) | (1 << MSTR) | (1 << SPR0) | (1<<SPIE);
-	
-	clearBit(DDR_SPI, DD_SS);
+	SPCR = (1 << SPE) | (1 << MSTR) | (1 << SPR0);
+	//clearBit(DDR_SPI, DD_SS);
 }
 
 // Sender byte via SPI
