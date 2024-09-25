@@ -19,41 +19,45 @@ void CAN_SendMessage(CANMessage* msg) {
 	//MCP2515_Write(MCP2515_TXB0SIDH, msg->id / 8);  // SIDH - Standard ID high - KOK: mcp_write(MCP_TXB0SIDH, message->id / 8); // De åtte høyeste bitene i iden.
 	//MCP2515_Write(MCP2515_TXB0SIDL,  (msg->id % 8) << 5);// & MCP2515_CANSTAT);  // SIDL - Standard ID low  - KOK: mcp_write(MCP_TXB0SIDL, (message->id % 8) << 5); // De tre laveste bitene i iden.
 	//
-	MCP2515_Write(MCP2515_TXB0SIDH, msg->id >> 3);  // SIDH - Standard ID high - KOK: mcp_write(MCP_TXB0SIDH, message->id / 8); // De åtte høyeste bitene i iden.
-	MCP2515_Write(MCP2515_TXB0SIDL, (msg->id & 0x07));// & MCP2515_CANSTAT);  // SIDL - Standard ID low  - KOK: mcp_write(MCP_TXB0SIDL, (message->id % 8) << 5); // De tre laveste bitene i iden.
+	// set ID and length
+	uint16_t id = msg->id & 0x07FF;  // Sørg for at ID er 11-bits
+	uint8_t id_high = id >> 3;
+	uint8_t id_low = (id & 0x07) << 5;
+	printf("ID HIGH: %d,  ID LOW: %d, Satt saman i Send: %d \n\r",id_high, id_low, (id_high << 3) | (id_low >> 5) );
+	MCP2515_Write(MCP2515_TXB0SIDH, id_high);
+	MCP2515_Write(MCP2515_TXB0SIDL, id_low);
 	MCP2515_Write(MCP2515_TXB0DLC, msg->length);  // DLC - Data length code
 	for (uint8_t i = 0; i < msg->length; i++) {
 		MCP2515_Write(MCP2515_TXB0D0 + i, msg->data[i]);  // Send data byte-by-byte
 	}
 
 	// Be MCP2515 om � sende meldingen
-	MCP2515_RequestToSend(0);  // RTS TX buffer 0
+	MCP2515_RequestToSend(MCP2515_RX0IF);
 }
 
 uint8_t CAN_ReceiveMessage(CANMessage* msg) {
 	// Sjekk om det finst ei melding i RX bufferet ved å lese status
-	if (!(MCP2515_ReadStatus() & 0x01)) {
+	if (!(MCP2515_ReadStatus() & MCP2515_TX0IF)) {
 		return 1;  // Ingen melding tilgjengeleg, returner feil
 	}
-
-	// Les ID og lengde
-	//uint8_t id_low = MCP2515_Read(MCP2515_RXB0SIDL)/0b100000;
-	//uint8_t id_high = MCP2515_Read(MCP2515_RXB0SIDH);
-	//msg->id = id_high * 0b1000 + id_low;
-	uint16_t ID = (MCP2515_Read(MCP2515_RXB0SIDH) << 3) | (MCP2515_Read(MCP2515_RXB0SIDL));
-	msg->id = ID;
-	printf("msg id: %d,   ", ID);
+	uint8_t id_high = MCP2515_Read(MCP2515_RXB0SIDH);
+	uint8_t id_low = MCP2515_Read(MCP2515_RXB0SIDL);
+	printf("ID HIGH: %d,  ID LOW: %d, Satt saman i Reci: %d \n\r",id_high, id_low, (id_high << 3) | (id_low >> 5) );
+	msg->id = (id_high << 3) | (id_low >> 5);
+	
 	msg->length = MCP2515_Read(MCP2515_RXB0DLC);  // RX buffer 0 DLC
 
 	// Sjekk om meldingslengda er gyldig (0-8 bytes for CAN)
 	if (msg->length > 8) {
 		return 1;  // Ugyldig lengde, returner feil
 	}
-
+	
 	// Les data dersom lengda er gyldig
 	for (uint8_t i = 0; i < msg->length; i++) {
 		msg->data[i] = MCP2515_Read(MCP2515_RXB0D0 + i);  // RX buffer 0 data
 	}
-
+	MCP2515_BitModify(MCP2515_CANINTF, MCP2515_RX0IF, 0);
+	//MCP2515_BitModify(MCP2515_CANINTF, 1, 0); // set interupt vector 1 to 0
+	//MCP2515_BitModify(MCP2515_CANINTF, 2, 0); // set interupt vector 2 to 0
 	return 0;  // Melding motteken utan feil
 }

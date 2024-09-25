@@ -57,21 +57,6 @@ void MCP2515_RequestToSend(uint8_t txBuffers) {
 	SPI_Transmit(MCP2515_RTS_TX0 | txBuffers);  // Send RTS-kommandoen med buffer-parameter
 	SPI_DselectSlave();                 // Deaktiver slave (CS h�y)
 }
-// KOK (ifølge chat er vår lik)
-// void mcp_request_to_send(int buffer_number) {
-// 	spi_clear_ss();
-// 	buffer_number = buffer_number % 3; // Mapper buffernummer til 0, 1, 2
-// 	char data = MCP_RTS_TX0;
-// 	if (buffer_number == 0) {
-// 		data = MCP_RTS_TX0;
-// 	} else if (buffer_number == 1) {
-// 		data = MCP_RTS_TX1;
-// 	} else if (buffer_number == 2) {
-// 		data = MCP_RTS_TX2;
-// 	}
-// 	spi_write(data);
-// 	spi_set_ss();
-// }
 
 // MCP2515 Read Status-funksjon
 uint8_t MCP2515_ReadStatus(void) {
@@ -87,7 +72,6 @@ uint8_t MCP2515_ReadStatus(void) {
 
 // MCP2515 Bit Modify-funksjon
 void MCP2515_BitModify(uint8_t address, uint8_t mask, uint8_t data) {
-	
 	SPI_SelctSlave();               // Aktiver slave (CS lav)
 	SPI_Transmit(MCP2515_BIT_MODIFY);   // Send BIT MODIFY-kommandoen
 	SPI_Transmit(address);              // Send adressen vi vil modifisere
@@ -98,12 +82,9 @@ void MCP2515_BitModify(uint8_t address, uint8_t mask, uint8_t data) {
 
 // MCP2515 Send Command-funksjon
 void MCP2515_SendCommand(uint8_t command) {
-	printf("s1\r\n");
 	SPI_SelctSlave();               // Aktiver slave (CS lav)
-	printf("s11\r\n");
 	SPI_Transmit(command);              // Send kommandoen til MCP2515
 	SPI_DselectSlave();                 // Deaktiver slave (CS h�y)
-	printf("s2\r\n");
 }
 
 // MCP2515 Set Mode-funksjon

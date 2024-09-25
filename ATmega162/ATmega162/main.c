@@ -73,9 +73,9 @@ int main(void) {
 		
 		CAN_ReceiveMessage(&received_msg);
 		//if (received_msg.id == msg_to_send.id){
-			printf("i = %d, ID_rec: %d, ID_send: %d\r\n", i, received_msg.id, msg_to_send.id);
+			//printf("i = %d, ID_rec: %d, ID_send: %d\r\n", i, received_msg.id, msg_to_send.id);
 		//}
-		printf("Can message recieved\r\n");
+		//printf("Can message recieved\r\n");
 
 		// Sjekk om mottatt melding er lik som den sendte
 		if (received_msg.id == msg_to_send.id && received_msg.length == msg_to_send.length) {
@@ -89,7 +89,7 @@ int main(void) {
 
 			if (matching_data) {
 				// Meldingene samsvarer - loopback-testen er vellykket
-				printf("Loopback test successful! Received ID: 0x%X, Data:%c %c %c\n\r", received_msg.id, received_msg.data[0], received_msg.data[1], received_msg.data[2]);
+				//printf("Loopback test successful! Received ID: 0x%X, Data:%c %c %c\n\r", received_msg.id, received_msg.data[0], received_msg.data[1], received_msg.data[2]);
 				} else {
 				// Dataene samsvarer ikke
 				printf("Loopback test failed! Data mismatch Data: %c %c %c\n\r", received_msg.data[0], received_msg.data[1], received_msg.data[2]);
@@ -97,6 +97,7 @@ int main(void) {
 			} else {
 			// ID eller lengde samsvarer ikke
 			printf("Loopback test failed! ID or length mismatch.Received ID: 0x%X, Data: %c %c %c\n\r", received_msg.id, received_msg.data[0], received_msg.data[1], received_msg.data[2]);
+			printf("i = %d, ID_rec: %d, ID_send: %d\r\n", i, received_msg.id, msg_to_send.id);	
 		}
 	}
 	
