@@ -65,7 +65,7 @@ int main(void) {
 	for (uint16_t i = 0; i < 2047*6; i++)
 	{			
 		
-		msg_to_send.id = i%2047;
+		msg_to_send.id = 2;
 		msg_to_send.data[2] = i%255;
 		
 		// Send CAN-melding
