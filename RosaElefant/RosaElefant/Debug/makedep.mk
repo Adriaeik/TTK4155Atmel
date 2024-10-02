@@ -14,6 +14,8 @@ lib\urat\printf-stdarg.c
 
 lib\urat\uart.c
 
+src\pwm.c
+
 src\main.c
 
 src\servo.c

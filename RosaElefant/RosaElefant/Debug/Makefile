@@ -49,6 +49,7 @@ C_SRCS +=  \
 ../lib/can/can_interrupt.c \
 ../lib/urat/printf-stdarg.c \
 ../lib/urat/uart.c \
+../src/pwm.c \
 ../src/main.c \
 ../src/servo.c \
 ../src/time.c \
@@ -68,6 +69,7 @@ lib/can/can_controller.o \
 lib/can/can_interrupt.o \
 lib/urat/printf-stdarg.o \
 lib/urat/uart.o \
+src/pwm.o \
 src/main.o \
 src/servo.o \
 src/time.o \
@@ -80,6 +82,7 @@ lib/can/can_controller.o \
 lib/can/can_interrupt.o \
 lib/urat/printf-stdarg.o \
 lib/urat/uart.o \
+src/pwm.o \
 src/main.o \
 src/servo.o \
 src/time.o \
@@ -92,6 +95,7 @@ lib/can/can_controller.d \
 lib/can/can_interrupt.d \
 lib/urat/printf-stdarg.d \
 lib/urat/uart.d \
+src/pwm.d \
 src/main.d \
 src/servo.d \
 src/time.d \
@@ -104,6 +108,7 @@ lib/can/can_controller.d \
 lib/can/can_interrupt.d \
 lib/urat/printf-stdarg.d \
 lib/urat/uart.d \
+src/pwm.d \
 src/main.d \
 src/servo.d \
 src/time.d \
@@ -163,6 +168,13 @@ lib/urat/printf-stdarg.o: ../lib/urat/printf-stdarg.c
 	
 
 lib/urat/uart.o: ../lib/urat/uart.c
+	@echo Building file: $<
+	@echo Invoking: ARM/GNU C Compiler : 6.3.1
+	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\arm\arm-gnu-toolchain\bin\arm-none-eabi-gcc.exe$(QUOTE)  -x c -mthumb -D__SAM3X8E__ -DDEBUG  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\arm\CMSIS\5.4.0\CMSIS\Core\Include" -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\SAM3X_DFP\1.0.50\include"  -Og -ffunction-sections -mlong-calls -g3 -Wall -mcpu=cortex-m3 -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
+	@echo Finished building: $<
+	
+
+src/pwm.o: ../src/pwm.c
 	@echo Building file: $<
 	@echo Invoking: ARM/GNU C Compiler : 6.3.1
 	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\arm\arm-gnu-toolchain\bin\arm-none-eabi-gcc.exe$(QUOTE)  -x c -mthumb -D__SAM3X8E__ -DDEBUG  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\arm\CMSIS\5.4.0\CMSIS\Core\Include" -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\SAM3X_DFP\1.0.50\include"  -Og -ffunction-sections -mlong-calls -g3 -Wall -mcpu=cortex-m3 -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 

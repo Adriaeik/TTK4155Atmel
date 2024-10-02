@@ -9,6 +9,8 @@
 #include "sam.h"
 #include "../include/uart_int.h"
 #include "../include/time.h"
+#include "../include/pwm.h"
+
 
 int main(void) {
 	SystemInit();  // Initialiser systemklokka og mikrokontrolleren
@@ -17,19 +19,17 @@ int main(void) {
 	uint8_t received_char;
 	
 	  // Initialiser PWM for servo
-	  servo_pwm_init();
+	  pwm_init();
 
 	while (1) {
-		printf("lol\n\r");
-		if (uart_rx(&received_char)) {  // Mottar data frå PC via UART
-			uart_tx(received_char);     // Send mottatt data tilbake
-		}
-		// Sett servo til maks posisjon (2.1 ms duty cycle)
-		servo_set_position(2100);  // 2100 us = 2.1 ms (maks posisjon)
-		time_spinFor(msecs(1000));  // Vent i 1 sekund
+		
+		// Sett PWM duty cycle til 100% (høy)
+		PWM->PWM_CH_NUM[1].PWM_CDTY = PWM_CDTY_CDTY(0);
+		time_spinFor(msecs(100));  // Vent i 1 sekund
 
-		// Sett servo til minimum posisjon (0.9 ms duty cycle)
-		servo_set_position(900);  // 900 us = 0.9 ms (minimum posisjon)
-		time_spinFor(msecs(1000));  // Vent i 1 sekund
+		// Sett PWM duty cycle til 0% (lav)
+		PWM->PWM_CH_NUM[1].PWM_CDTY = PWM_CDTY_CDTY(PWM->PWM_CH_NUM[1].PWM_CPRD);
+		time_spinFor(msecs(100));  // Vent 100 ms
+		
 	}
 }
