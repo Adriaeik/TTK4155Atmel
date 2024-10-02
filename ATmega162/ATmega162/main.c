@@ -57,37 +57,23 @@ int main(void) {
 	// CAN-melding å sende
 	CANMessage msg_to_send = {
 		10, // Id
-		4, // Lengde på dataen
-		"hei" // Data. Maks åtte byte
+		8, // Lengde på dataen
+		"heiiiiii" // Data. Maks åtte byte
 	};
 	static uint16_t sucsesscout = 0;
 	CANMessage received_msg;
 	for (uint16_t i = 0; i < 2047*6; i++)
-	{
-		if (i < 2047*3){
-			_delay_us(5);
-			if (i == 0){printf("5 us delay no:\n\r");}
-		}else{
-			if (i ==  2047*3 + 1){printf("ingen delay no:\n\r");}
-			}
-			
+	{			
 		
 		msg_to_send.id = i%2047;
 		msg_to_send.data[2] = i%255;
 		
 		// Send CAN-melding
+		
 		CAN_SendMessage(&msg_to_send);
 
-		//printf("Can message sent\\r\n");
-		
-		// Mottak CAN-melding
-		
-		CAN_ReceiveMessage(&received_msg);
-		//if (received_msg.id == msg_to_send.id){
-			//printf("i = %d, ID_rec: %d, ID_send: %d\r\n", i, received_msg.id, msg_to_send.id);
-		//}
-		//printf("Can message recieved\r\n");
-
+		while(CAN_ReceiveMessage(&received_msg)){} // leser fram til vi retunerer 0 -> suksess
+			
 		// Sjekk om mottatt melding er lik som den sendte
 		if (received_msg.id == msg_to_send.id && received_msg.length == msg_to_send.length) {
 			uint8_t matching_data = 1;
@@ -110,7 +96,7 @@ int main(void) {
 			} else {
 			// ID eller lengde samsvarer ikke
 			//printf("Loopback test failed! ID or length mismatch.Received ID: 0x%X, Data: %c %c %c\n\r", received_msg.id, received_msg.data[0], received_msg.data[1], received_msg.data[2]);
-			printf("motatt ID: %d, sent ID: %d,  Data: %c%c%c, sendt data plass 3: %c\n\r", received_msg.id, msg_to_send.id, received_msg.data[0], received_msg.data[1], received_msg.data[2], msg_to_send.data[2]);
+			 printf("motatt ID: %d, sent ID: %d,  Data: %c%c%c, sendt data plass 3: %c\n\r", received_msg.id , msg_to_send.id, received_msg.data[0], received_msg.data[1], received_msg.data[2], msg_to_send.data[2]);
 			//printf("%d, %d\r\n", received_msg.id, msg_to_send.data[2]);
 		}
 	}

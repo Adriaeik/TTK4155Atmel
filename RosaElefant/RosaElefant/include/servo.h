@@ -1,0 +1,21 @@
+/*
+ * servo.h
+ *
+ * Created: 02.10.2024 11:25:32
+ *  Author: adriaeik
+ */ 
+
+
+#ifndef SERVO_H_
+#define SERVO_H_
+
+#include "sam.h"
+
+#define SERVO_PIN PIO_PB13  // Servo signal pin (PB13)
+#define PWM_FREQUENCY 50     // PWM frekvens: 50 Hz (20 ms periode)
+
+// Funksjonsprototypar for å initialisere og styre PWM-signalet for servoen
+void servo_pwm_init(void);
+void servo_set_position(uint32_t duty_cycle_us);  // Juster posisjonen til servoen basert på duty cycle
+
+#endif /* SERVO_H_ */
