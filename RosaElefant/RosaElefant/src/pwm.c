@@ -20,33 +20,28 @@
 
 //P value = MCK/(PRESCALER*PV)
 
-void pwm_init(){	
-	// enabe wpenable
-	//PIOB->PIO_WPMR_WPKEY = PIO_WPMR_WPKEY(WPKEY);
-	//PIOB->PIO_WPMR_WPEN = 0;
+void pwm_init(){
 	
-	
-	//Enable peripheral B at PB13
+	//setter pin PB13 til å bruke Peripheral B-funksjonaliteten (i dette tilfellet PWM)
 	PIOB->PIO_ABSR |= PIO_ABSR_P13; 
-	//Disable PIO from controlling pin13
+	//Deaktiverer vanlig PIO-kontroll av pinnen slik at periferien (PWM) kan overta kontrollen.
 	PIOB->PIO_PDR |= PIO_PDR_P13;
 	
-	// enable clock for PWM:    DIV = 0 (clk = MCK), CMD = 0 (read), PID = 36 (PWM)
+	// PMC_PCR aktiverer periferiklokken for PWM. Klokken settes til å bruke masterklokken (MCK), og ID_PWM er ID-en til PWM-modulen (36). Dette gjør at PWM-enheten får strøm og kan operere.
 	PMC->PMC_PCR = PMC_PCR_EN | PMC_PCR_DIV_PERIPH_DIV_MCK | (ID_PWM << PMC_PCR_PID_Pos);
+	// Aktiverer klokken for PWM-modulen ved å sette riktig bit i PMC
 	PMC->PMC_PCER1 |= 1 << (ID_PWM - 32);
 	
-	// set PWM clock A to 84 MHz
-	PWM->PWM_CLK |= PWM_CLK_PREB(0) | PWM_CLK_DIVA(DIVA);
 	
-	
-	//Enable channel 1?
+	//Enable channel 1. Dette gjør at kanal 1 begynner å generere et PWM-signal
 	PWM->PWM_ENA |= PWM_ENA_CHID1; 
 	
-	// set PWM clock A to 1 MHz and clock B to 84 MHz
+	// Setter opp PWM-klokke A til en frekvens på 1 MHz ved å dividere MCK (84 MHz) med DIVA (84). PREB for klokke B settes til 0 (ikke relevant her siden vi kun bruker klokke A).
 	PWM->PWM_CLK = PWM_CLK_PREA(0) | PWM_CLK_DIVA(DIVA);
 	
+	// Konfigurerer PWM-kanal 1 til å bruke klokke A som kilde
 	PWM->PWM_CH_NUM[1].PWM_CMR = PWM_CMR_CPRE_CLKA;
 	
-	// set channel 1 to a period to 20 ms, giving a frequency of 50 Hz
+	// Setter periodeverdien (CPRD) til CPRDA, som representerer en periode på 20 ms (50 Hz).
 	PWM->PWM_CH_NUM[1].PWM_CPRD = PWM_CPRD_CPRD(CPRDA);	
 }
