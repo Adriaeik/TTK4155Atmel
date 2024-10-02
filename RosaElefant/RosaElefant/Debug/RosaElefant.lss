@@ -739,7 +739,7 @@ void pwm_init(){
    806d8:	605a      	str	r2, [r3, #4]
 	
 	// Setter opp PWM-klokke A til en frekvens på 1 MHz ved å dividere MCK (84 MHz) med DIVA (84). PREB for klokke B settes til 0 (ikke relevant her siden vi kun bruker klokke A).
-	PWM->PWM_CLK = PWM_CLK_PREA(0) | PWM_CLK_DIVA(DIVA);
+	PWM->PWM_CLK = PWM_CLK_PREB(0) | PWM_CLK_DIVA(DIVA);
    806da:	2254      	movs	r2, #84	; 0x54
    806dc:	601a      	str	r2, [r3, #0]
 	
