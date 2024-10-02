@@ -2,6 +2,12 @@
 # Automatically-generated file. Do not edit or delete the file
 ################################################################################
 
+DriverCAN.c
+
+DriverMCP2515.c
+
+DriverSPI.c
+
 DriverUART.c
 
 Font.c

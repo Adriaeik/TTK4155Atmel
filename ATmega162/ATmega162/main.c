@@ -57,13 +57,22 @@ int main(void) {
 	// CAN-melding å sende
 	CANMessage msg_to_send = {
 		10, // Id
-		3, // Lengde på dataen
-		"abc" // Data. Maks åtte byte
+		4, // Lengde på dataen
+		"hei" // Data. Maks åtte byte
 	};
+	static uint16_t sucsesscout = 0;
 	CANMessage received_msg;
-	for (uint16_t i = 0; i < 2047; i++)
+	for (uint16_t i = 0; i < 2047*6; i++)
 	{
-		msg_to_send.id = i;
+		if (i < 2047*3){
+			_delay_us(5);
+			if (i == 0){printf("5 us delay no:\n\r");}
+		}else{
+			if (i ==  2047*3 + 1){printf("ingen delay no:\n\r");}
+			}
+			
+		
+		msg_to_send.id = i%2047;
 		msg_to_send.data[2] = i%255;
 		
 		// Send CAN-melding
@@ -85,13 +94,15 @@ int main(void) {
 			for (uint8_t i = 0; i < received_msg.length; i++) {
 				if (received_msg.data[i] != msg_to_send.data[i]) {
 					matching_data = 0;
+					
 					break;
 				}
 			}
 
 			if (matching_data) {
 				// Meldingene samsvarer - loopback-testen er vellykket
-				//printf("Loopback test successful! Received ID: 0x%X, Data:%c %c %c\n\r", received_msg.id, received_msg.data[0], received_msg.data[1], received_msg.data[2]);
+				// printf("Loopback test successful! Received ID: 0x%X, Data:%c %c %c sendt data plass 3: %c\n\r", received_msg.id, received_msg.data[0], received_msg.data[1], received_msg.data[2], msg_to_send.data[2]);
+				sucsesscout++;
 				} else {
 				// Dataene samsvarer ikke
 				printf("Loopback test failed! Data mismatch Data: %c %c %c\n\r", received_msg.data[0], received_msg.data[1], received_msg.data[2]);
@@ -99,9 +110,11 @@ int main(void) {
 			} else {
 			// ID eller lengde samsvarer ikke
 			//printf("Loopback test failed! ID or length mismatch.Received ID: 0x%X, Data: %c %c %c\n\r", received_msg.id, received_msg.data[0], received_msg.data[1], received_msg.data[2]);
-			printf("%d, %d\r\n", received_msg.id, msg_to_send.data[2]);	
+			printf("motatt ID: %d, sent ID: %d,  Data: %c%c%c, sendt data plass 3: %c\n\r", received_msg.id, msg_to_send.id, received_msg.data[0], received_msg.data[1], received_msg.data[2], msg_to_send.data[2]);
+			//printf("%d, %d\r\n", received_msg.id, msg_to_send.data[2]);
 		}
 	}
+	printf("adresse test ferdig ant suksess: %d", sucsesscout);
 	
 		
 	

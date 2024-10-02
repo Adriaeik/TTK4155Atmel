@@ -42,7 +42,7 @@ uint8_t CAN_ReceiveMessage(CANMessage* msg) {
 	}
 	uint8_t id_high = MCP2515_Read(MCP2515_RXB0SIDH);
 	uint8_t id_low = MCP2515_Read(MCP2515_RXB0SIDL);
-	if (id_low  == 0){ //(0 == 1) {//
+	if  (id_low  == 0){ // (0 == 1) {//
 		//printf("ID HIGH: %d,  ID LOW: %d, Satt saman i Reci: %d \n\r",id_high, id_low,  8+8*id_high);
 		msg->id = 8+8*id_high;
 	}else{
