@@ -24,9 +24,9 @@
  *
  * \retval Success(0) or failure(1)
  */
-uint8_t can_init_def_tx_rx_mb(uint32_t can_br)
+uint8_t can_init_def_tx_rx_mb(void)
 {
-	return can_init_controller(can_br, 1, 2);
+	return can_init_controller(1, 2);
 }
 
 /**
@@ -42,7 +42,7 @@ uint8_t can_init_def_tx_rx_mb(uint32_t can_br)
  */
 
 
-uint8_t can_init_controller(uint32_t can_br, uint8_t num_tx_mb, uint8_t num_rx_mb)
+uint8_t can_init_controller(uint8_t num_tx_mb, uint8_t num_rx_mb)
 {
 	
 	//Make sure num_rx_mb and num_tx_mb is valid
@@ -78,8 +78,13 @@ uint8_t can_init_controller(uint32_t can_br, uint8_t num_tx_mb, uint8_t num_rx_m
 	PMC->PMC_PCR = PMC_PCR_EN | (0 << PMC_PCR_DIV_Pos) | PMC_PCR_CMD | (ID_CAN0 << PMC_PCR_PID_Pos); // DIV = 1(can clk = MCK/2), CMD = 1 (write), PID = 2B (CAN0)
 	PMC->PMC_PCER1 |= 1 << (ID_CAN0 - 32);
 	
-	//Set baudrate, Phase1, phase2 and propagation delay for can bus. Must match on all nodes!
-	CAN0->CAN_BR = can_br; 
+	// Set baudrate, Phase1, Phase2, propagation delay, and SJW for CAN bus timing
+	CAN0->CAN_BR = CAN_BR_PHASE2(3)       // Phase 2 segment = 3 TQ
+	| CAN_BR_PROPAG(3)      // Propagation segment = 2 TQ
+	| CAN_BR_PHASE1(3)      // Phase 1 segment = 3 TQ
+	| CAN_BR_SJW(1)         // Synchronization jump width = 1 TQ
+	| CAN_BR_BRP(34);        // Baud rate prescaler = 6 (adjust for desired baud rate)
+
 	
 
 	/****** Start of mailbox configuration ******/

@@ -82,7 +82,7 @@ src/main.d src/main.o: ../src/main.c \
  C:\Program\ Files\ (x86)\Atmel\Studio\7.0\Packs\atmel\SAM3X_DFP\1.0.50\include/instance/gpbr.h \
  C:\Program\ Files\ (x86)\Atmel\Studio\7.0\Packs\atmel\SAM3X_DFP\1.0.50\include/pio/sam3x8e.h \
  ../src/../include/uart_int.h ../src/../include/time.h \
- ../src/../include/pwm.h
+ ../src/../include/pwm.h ../src/../lib/can/can_controller.h
 
 C:\Program\ Files\ (x86)\Atmel\Studio\7.0\Packs\atmel\SAM3X_DFP\1.0.50\include/sam.h:
 
@@ -253,3 +253,5 @@ C:\Program\ Files\ (x86)\Atmel\Studio\7.0\Packs\atmel\SAM3X_DFP\1.0.50\include/p
 ../src/../include/time.h:
 
 ../src/../include/pwm.h:
+
+../src/../lib/can/can_controller.h:

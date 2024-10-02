@@ -26,7 +26,7 @@
  *
  * \retval 
  */
-void CAN0_Handler( void )
+void CAN0_Handler(void)
 {
 	if(DEBUG_INTERRUPT)printf("CAN0 interrupt\n\r");
 	char can_sr = CAN0->CAN_SR; 
