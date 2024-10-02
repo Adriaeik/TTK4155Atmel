@@ -14,6 +14,8 @@ lib\urat\printf-stdarg.c
 
 lib\urat\uart.c
 
+src\can.c
+
 src\pwm.c
 
 src\main.c

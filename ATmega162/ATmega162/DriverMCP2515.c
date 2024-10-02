@@ -12,8 +12,6 @@ void MCP2515_init() {
 	//Kommer hit
 	MCP2515_Reset(); //Se kode for denne lenger ned
 	_delay_ms(4); //Viktig!
-	//MCP2515_SetMode(MCP2515_MODE_CONFIG);
-	// Sjøltesting
 	uint8_t value = MCP2515_Read(MCP2515_CANSTAT);
 	if ((value & MCP2515_MODE_MASK) != MCP2515_MODE_CONFIG) {
 		printf("MCP2515 er ikkje i konfigurasjonsmodus etter reset. CANSTAT: %x \r\n", value);

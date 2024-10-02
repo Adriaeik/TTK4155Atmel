@@ -9,6 +9,10 @@
 
 void CAN_Init(uint8_t mode) {
 	MCP2515_init();
+	/*___________CANBUS bit timing______________*/
+	MCP2515_Write(MCP2515_CNF1, 0x02);
+	MCP2515_Write(MCP2515_CNF2, 0x9B);
+	MCP2515_Write(MCP2515_CNF3, 0x43);
 	MCP2515_SetMode(mode);	
 }
 

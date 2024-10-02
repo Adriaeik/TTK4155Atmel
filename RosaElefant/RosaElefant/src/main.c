@@ -19,17 +19,19 @@ int main(void) {
 	uint8_t received_char;
 	
 	  // Initialiser PWM for servo
-	  pwm_init();
+	  servo_init();
 
 	while (1) {
-		
-		// Sett PWM duty cycle til 100% (høy)
-		PWM->PWM_CH_NUM[1].PWM_CDTY = PWM_CDTY_CDTY(0);
-		time_spinFor(msecs(100));  // Vent i 1 sekund
+		// Gå opp til maksimal posisjon (2.1 ms)
+		for (double pos = 0.9; pos <= 2.1; pos += 0.01) {
+			servo_set_position(pos);
+			time_spinFor(msecs(20));  // Vent i 20 ms for glatt overgang
+		}
 
-		// Sett PWM duty cycle til 0% (lav)
-		PWM->PWM_CH_NUM[1].PWM_CDTY = PWM_CDTY_CDTY(PWM->PWM_CH_NUM[1].PWM_CPRD);
-		time_spinFor(msecs(100));  // Vent 100 ms
-		
+		// Gå ned til minimum posisjon (0.9 ms)
+		for (double pos = 2.1; pos >= 0.9; pos -= 0.01) {
+			servo_set_position(pos);
+			time_spinFor(msecs(20));  // Vent i 20 ms for glatt overgang
+		}
 	}
 }

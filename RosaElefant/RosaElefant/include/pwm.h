@@ -11,6 +11,15 @@
 
 #include "sam.h"
 
+#define MCK 84000000
+#define PV 50
+#define WPKEY 0x50494F
+
+#define PERIOD_A    20E-3
+#define DIVA        84
+#define CLK_A       1E6
+#define CPRDA       (int) (PERIOD_A * MCK / DIVA)
+
 void pwm_init();
 
 
