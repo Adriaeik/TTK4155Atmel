@@ -80,15 +80,15 @@ uint8_t can_init_controller(uint8_t num_tx_mb, uint8_t num_rx_mb)
 	
 	// Set baudrate, Phase1, Phase2, propagation delay, and SJW for CAN bus timing
 	// KAN og sende det inn som ein uint32_t : 
-	//CAN0->CAN_BR = ATSAM_CAN_BR;
-	 
-	CAN0->CAN_BR =	  CAN_BR_PHASE2(3)       // Phase 2 segment = 3 TQ									Pontus: 3,  RAVN: 4
-					| CAN_BR_PROPAG(3)      // Propagation segment = 2 TQ								Pontus: 3,  RAVN: 2
-					| CAN_BR_PHASE1(3)      // Phase 1 segment = 3 TQ									Pontus: 3,  RAVN: 3
-					| CAN_BR_SJW(1)         // Synchronization jump width = 1 TQ						Pontus: 1,  RAVN: 4
-					| CAN_BR_BRP(66);        // Baud rate prescaler = 6 (adjust for desired baud rate)	Pontus: 34, RAVN:33 (33 funka)
-
-	//
+	CAN0->CAN_BR = ATSAM_CAN_BR;
+	 //
+	//CAN0->CAN_BR =	  CAN_BR_PHASE2(3)       // Phase 2 segment = 3 TQ									Pontus: 3,  RAVN: 4
+					//| CAN_BR_PROPAG(3)      // Propagation segment = 2 TQ								Pontus: 3,  RAVN: 2
+					//| CAN_BR_PHASE1(3)      // Phase 1 segment = 3 TQ									Pontus: 3,  RAVN: 3
+					//| CAN_BR_SJW(1)         // Synchronization jump width = 1 TQ						Pontus: 1,  RAVN: 4
+					//| CAN_BR_BRP(66);        // Baud rate prescaler = 6 (adjust for desired baud rate)	Pontus: 34, RAVN:33 (33 funka)
+//
+	////
 
 	/****** Start of mailbox configuration ******/
 
@@ -119,12 +119,13 @@ uint8_t can_init_controller(uint8_t num_tx_mb, uint8_t num_rx_mb)
 
 	//Enable interrupt in NVIC 
 	NVIC_EnableIRQ(ID_CAN0);
+	NVIC_SetPriority(CAN0_IRQn, 1); // FRÅ KOK
 
 	//enable CAN
 	CAN0->CAN_MR |= CAN_MR_CANEN;
 	
 	// SLÅ av reset
-	// WDT->WDT_MR = WDT_MR_WDDIS;
+	
 
 	return 0;
 }

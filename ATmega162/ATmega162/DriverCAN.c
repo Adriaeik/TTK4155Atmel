@@ -7,14 +7,25 @@
 
 #include "DriverCAN.h"
 
+static char recieved_flag = 0;
+
+static void CAN_Interrupt_recive_init(){
+	DDRD &= ~(1 << PD2);
+	
+	GICR |= (1<<INT0);
+	MCUCR|= (1<<ISC01)	;
+	MCUCR&= ~(1<<ISC00)	;
+}
+
 void CAN_Init(uint8_t mode) {
 	MCP2515_init();
-	/*___________CANBUS bit timing______________*/
-	MCP2515_Write(MCP2515_CNF1, 0x01);
-	MCP2515_Write(MCP2515_CNF2, 0x9B);
-	MCP2515_Write(MCP2515_CNF3, 0x43);
+
 	MCP2515_SetMode(mode);	
+	
+	MCP2515_BitModify(MCP2515_CANINTE, MCP2515_RX1IF | MCP2515_RX0IF, 0xFF);
+	CAN_Interrupt_recive_init();
 }
+
 
 //KOKEN har litt anerledes på dissa to funksjonane - vhat sa dei var funksjonelt like
 void CAN_SendMessage(CANMessage* msg) {
@@ -37,7 +48,7 @@ void CAN_SendMessage(CANMessage* msg) {
 
 uint8_t CAN_ReceiveMessage(CANMessage* msg) {
 	// Sjekk om det finst ei melding i RX bufferet ved å lese status
-	if ((MCP2515_ReadStatus() & MCP2515_RX0IF)) {
+	if ((/*MCP2515_ReadStatus()*/MCP2515_Read(MCP2515_CANINTF) & MCP2515_RX0IF)) {
 		uint8_t id_high = MCP2515_Read(MCP2515_RXB1SIDH);
 		uint8_t id_low = MCP2515_Read(MCP2515_RXB1SIDL);
 		printf("id_high: %X id_low: %X \n\r", id_high, id_low);

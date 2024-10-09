@@ -16,6 +16,13 @@ void MCP2515_init() {
 	if ((value & MCP2515_MODE_MASK) != MCP2515_MODE_CONFIG) {
 		printf("MCP2515 er ikkje i konfigurasjonsmodus etter reset. CANSTAT: %x \r\n", value);
 		}
+		
+		
+	/*___________CANBUS bit timing______________*/
+	uint8_t BRP = FOSC/ (20 * 125000);
+	MCP2515_Write(MCP2515_CNF1, MCP2515_SJW4 | (BRP-1));
+	MCP2515_Write(MCP2515_CNF2, MCP2515_BTLMODE | MCP2515_SAMPLE_1X | ((3-1) << 3) | (2-1));
+	MCP2515_Write(MCP2515_CNF3, MCP2515_WAKFIL_DISABLE | (4 - 1));
 }
 // MCP2515 Reset-funksjon
 void MCP2515_Reset(void) {

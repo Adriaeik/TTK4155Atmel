@@ -17,7 +17,7 @@ int main(void) {
 	URAT_initStudio();
 	UART_EnableReceiveInterrupt();
     setup_timer();						// Start millisekundteljinga
-	sei();								// Aktiver globale avbrot
+	
 	printf("GO!");
 	/*--- Ditta må (noko av det ihvertfall) vere etter sei() ---*/
 	externalMemoryInit();				// Initialiser eksternt minne må vere etter sei
@@ -53,6 +53,8 @@ int main(void) {
 		printf("Feil: MCP2515 er ikke i normal-modus.\n\r");
 	}
 
+	sei();								// Aktiver globale avbrot
+	
 	
 	// CAN-melding å sende
 	CANMessage msg_to_send = {
@@ -94,13 +96,26 @@ int main(void) {
 		16ms skal gi ich 60hz, gitt at resten av programmet kjører raskt nok...
 		*/
 		
-		if(!CAN_ReceiveMessage(&received_msg)){	printf("data[0]:    %d adresse = %X\n\r",received_msg.data[0], received_msg.id);}
-			
-		if (screen_ms() >= 16) {
-			restart_screen_timer();
-			oled_data_from_SRAM();
-		}
-		if (general_ms() > 65536UL ){ restart_general_timer();}
+		//if(!CAN_ReceiveMessage(&received_msg)){	printf("data[0]:    %d adresse = %X\n\r",received_msg.data[0], received_msg.id);}
+			//
+		//if (screen_ms() >= 16) {
+			//restart_screen_timer();
+			////oled_data_from_SRAM();
+		//}
+		//if (general_ms() > 65536UL ){ restart_general_timer();}
 	 }
 	return 0;
 }
+
+
+ISR(INT0_vect) {
+	CANMessage msg;
+	CAN_ReceiveMessage(&msg);
+	printf("data[0]: %d adresse = %X\n\r",msg.data[0], msg.id);
+	MCP2515_BitModify(MCP2515_CANINTF, MCP2515_RX1IF | MCP2515_RX0IF, 0xFF);
+	
+}
+
+ISR(TIMER1_COMPA_vect){
+	oled_data_from_SRAM();
+};

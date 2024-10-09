@@ -22,5 +22,6 @@ typedef struct {
 void CAN_Init(uint8_t mode);
 void CAN_SendMessage(CANMessage* msg);
 uint8_t CAN_ReceiveMessage(CANMessage* msg);
+void CAN_Interrupt_recive_int();
 
 #endif /* DRIVER_CAN_H_ */

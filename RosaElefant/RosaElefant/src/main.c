@@ -16,6 +16,7 @@
 
 int main(void) {
 	SystemInit();  // Initialiser systemklokka og mikrokontrolleren
+	WDT->WDT_MR = WDT_MR_WDDIS;
 	uart_init(84000000, 9600);  // Initialiser UART med ein baudrate på 9600
 	
 	// Kall can_init med CanInit-strukturen og rxInterrupt = 1 for å aktivere mottaksinterrupt
@@ -27,10 +28,10 @@ int main(void) {
 	CAN0->CAN_BR = can_baudrate;
 	
 	// Konfigurer meldinga som skal sendast
-	CAN_MESSAGE msg;
-	msg.id = 69;  // ID på meldinga
-	msg.data_length = 8;  // Antall byte data
-	strcpy((char*)msg.data, "TrurDetF");  // Data til meldinga
+	CAN_MESSAGE msg = {
+	69,
+	8,
+	"TrurDetF"};  // Data til meldinga
 	
 	uint8_t i = 0;
 
@@ -40,13 +41,8 @@ int main(void) {
 			printf("Sendte melding nr %d no!\n\n\r", i);
 			i++;
 		}
-		
-		// Les meldinga frå RX-mailboksen
-		if (!can_receive(&msg, 1)) {  // Bruk den første mottaksboks
-			printf("Mottok melding med ID: %X, Data[0]: %d\n\r", msg.id, msg.data[0]);
-		}
 		// Legg inn ei forsinking (eller anna logikk)
-		time_spinFor(msecs(1000));
+		//time_spinFor(msecs(1000));
 
 		//// Gå opp til maksimal posisjon (2.1 ms)
 		//for (double pos = 0.9; pos <= 2.1; pos += 0.01) {
@@ -59,5 +55,6 @@ int main(void) {
 			//servo_set_position(pos);
 			//time_spinFor(msecs(20));  // Vent i 20 ms for glatt overgang
 		//}
+		
 	}
 }
