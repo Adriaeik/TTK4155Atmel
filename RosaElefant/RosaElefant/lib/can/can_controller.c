@@ -79,13 +79,16 @@ uint8_t can_init_controller(uint8_t num_tx_mb, uint8_t num_rx_mb)
 	PMC->PMC_PCER1 |= 1 << (ID_CAN0 - 32);
 	
 	// Set baudrate, Phase1, Phase2, propagation delay, and SJW for CAN bus timing
-	CAN0->CAN_BR = CAN_BR_PHASE2(3)       // Phase 2 segment = 3 TQ
-	| CAN_BR_PROPAG(3)      // Propagation segment = 2 TQ
-	| CAN_BR_PHASE1(3)      // Phase 1 segment = 3 TQ
-	| CAN_BR_SJW(1)         // Synchronization jump width = 1 TQ
-	| CAN_BR_BRP(34);        // Baud rate prescaler = 6 (adjust for desired baud rate)
+	// KAN og sende det inn som ein uint32_t : 
+	//CAN0->CAN_BR = ATSAM_CAN_BR;
+	 
+	CAN0->CAN_BR =	  CAN_BR_PHASE2(3)       // Phase 2 segment = 3 TQ									Pontus: 3,  RAVN: 4
+					| CAN_BR_PROPAG(3)      // Propagation segment = 2 TQ								Pontus: 3,  RAVN: 2
+					| CAN_BR_PHASE1(3)      // Phase 1 segment = 3 TQ									Pontus: 3,  RAVN: 3
+					| CAN_BR_SJW(1)         // Synchronization jump width = 1 TQ						Pontus: 1,  RAVN: 4
+					| CAN_BR_BRP(66);        // Baud rate prescaler = 6 (adjust for desired baud rate)	Pontus: 34, RAVN:33 (33 funka)
 
-	
+	//
 
 	/****** Start of mailbox configuration ******/
 
@@ -119,6 +122,9 @@ uint8_t can_init_controller(uint8_t num_tx_mb, uint8_t num_rx_mb)
 
 	//enable CAN
 	CAN0->CAN_MR |= CAN_MR_CANEN;
+	
+	// SLÅ av reset
+	// WDT->WDT_MR = WDT_MR_WDDIS;
 
 	return 0;
 }
@@ -178,7 +184,8 @@ uint8_t can_receive(CAN_MESSAGE* can_msg, uint8_t rx_mb_id)
 		//Get data from CAN mailbox
 		uint32_t data_low = CAN0->CAN_MB[rx_mb_id].CAN_MDL;
 		uint32_t data_high = CAN0->CAN_MB[rx_mb_id].CAN_MDH;
-		
+
+
 		//Get message ID
 		can_msg->id = (uint16_t)((CAN0->CAN_MB[rx_mb_id].CAN_MID & CAN_MID_MIDvA_Msk) >> CAN_MID_MIDvA_Pos);
 		

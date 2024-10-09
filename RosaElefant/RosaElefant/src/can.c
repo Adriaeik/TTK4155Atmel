@@ -20,6 +20,7 @@ void can_printmsg(CanMsg m){
 
 
 void can_init(CanInit init, uint8_t rxInterrupt){
+
     // Disable CAN
     CAN0->CAN_MR &= ~CAN_MR_CANEN; 
     
@@ -67,6 +68,7 @@ void can_init(CanInit init, uint8_t rxInterrupt){
 
     // Enable CAN
     CAN0->CAN_MR |= CAN_MR_CANEN;
+	can_init_def_tx_rx_mb(); //Dette er oss(!!!)
 }
 
 

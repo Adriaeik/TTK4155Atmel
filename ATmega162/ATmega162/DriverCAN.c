@@ -10,7 +10,7 @@
 void CAN_Init(uint8_t mode) {
 	MCP2515_init();
 	/*___________CANBUS bit timing______________*/
-	MCP2515_Write(MCP2515_CNF1, 0x02);
+	MCP2515_Write(MCP2515_CNF1, 0x01);
 	MCP2515_Write(MCP2515_CNF2, 0x9B);
 	MCP2515_Write(MCP2515_CNF3, 0x43);
 	MCP2515_SetMode(mode);	
@@ -38,14 +38,17 @@ void CAN_SendMessage(CANMessage* msg) {
 uint8_t CAN_ReceiveMessage(CANMessage* msg) {
 	// Sjekk om det finst ei melding i RX bufferet ved å lese status
 	if ((MCP2515_ReadStatus() & MCP2515_RX0IF)) {
-		uint8_t id_high = MCP2515_Read(MCP2515_RXB0SIDH);
-		uint8_t id_low = MCP2515_Read(MCP2515_RXB0SIDL);
+		uint8_t id_high = MCP2515_Read(MCP2515_RXB1SIDH);
+		uint8_t id_low = MCP2515_Read(MCP2515_RXB1SIDL);
+		printf("id_high: %X id_low: %X \n\r", id_high, id_low);
+		
 		msg->id = (((id_high << 3) & 0x7f8) | (id_low >> 5));
 	
 		msg->length = MCP2515_Read(MCP2515_RXB0DLC);  // RX buffer 0 DLC
 
 		// Sjekk om meldingslengda er gyldig (0-8 bytes for CAN)
 		if (msg->length > 8) {
+			printf("feil lengde");
 			return 1;  // Ugyldig lengde, returner feil
 		}
 	
@@ -54,8 +57,8 @@ uint8_t CAN_ReceiveMessage(CANMessage* msg) {
 			msg->data[i] = MCP2515_Read(MCP2515_RXB0D0 + i);  // RX buffer 0 data
 		}
 		MCP2515_BitModify(MCP2515_CANINTF, MCP2515_RX0IF, 0);
-		//MCP2515_BitModify(MCP2515_CANINTF, 1, 0); // set interupt vector 1 to 0
-		//MCP2515_BitModify(MCP2515_CANINTF, 2, 0); // set interupt vector 2 to 0
+		MCP2515_BitModify(MCP2515_CANINTF, 1, 0); // set interupt vector 1 to 0
+		MCP2515_BitModify(MCP2515_CANINTF, 2, 0); // set interupt vector 2 to 0
 	} else{
 		return 1; // Ingen melding tilgjengeleg, returner feil
 	}

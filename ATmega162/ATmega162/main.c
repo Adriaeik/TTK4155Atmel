@@ -48,9 +48,9 @@ int main(void) {
 	printf("CANSTAT: 0x%X\n", canstat & MCP2515_MODE_MASK);
 
 	if ((canstat & MCP2515_MODE_MASK) == MCP2515_MODE_NORMAL) {  // Loopback-modus har verdi 0x40 i CANSTAT
-		printf("MCP2515 er i loopback-modus.\n\r");
+		printf("MCP2515 er i normal-modus.\n\r");
 		} else {
-		printf("Feil: MCP2515 er ikke i loopback-modus.\n\r");
+		printf("Feil: MCP2515 er ikke i normal-modus.\n\r");
 	}
 
 	
@@ -62,17 +62,17 @@ int main(void) {
 	};
 	static uint16_t sucsesscout = 0;
 	CANMessage received_msg;
-	for (uint16_t i = 0; i < 2047*6; i++)
-	{			
-		
-		msg_to_send.id = 2;
-		msg_to_send.data[2] = i%255;
-		
-		// Send CAN-melding
-		
-		CAN_SendMessage(&msg_to_send);
-		printf("Sendte ID: %d, med den mystiske dataen: %d \n\r", msg_to_send.id, msg_to_send.data[2]);
-	}
+	//for (uint16_t i = 0; i < 2047*6; i++)
+	//{			
+		//
+		//msg_to_send.id = 2;
+		//msg_to_send.data[2] = i%255;
+		//
+		//// Send CAN-melding
+		//
+		//CAN_SendMessage(&msg_to_send);
+		//printf("Sendte ID: %d, med den mystiske dataen: %d \n\r", msg_to_send.id, msg_to_send.data[2]);
+	//}
 	
 		
 	
@@ -94,7 +94,8 @@ int main(void) {
 		16ms skal gi ich 60hz, gitt at resten av programmet kjører raskt nok...
 		*/
 		
-		
+		if(!CAN_ReceiveMessage(&received_msg)){	printf("data[0]:    %d adresse = %X\n\r",received_msg.data[0], received_msg.id);}
+			
 		if (screen_ms() >= 16) {
 			restart_screen_timer();
 			oled_data_from_SRAM();

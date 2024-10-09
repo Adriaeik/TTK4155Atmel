@@ -28,6 +28,6 @@ void servo_set_position(double ms) {
 	// Oppdater duty cycle direkte ved å skrive til PWM_CDTYUPD
 	PWM->PWM_CH_NUM[1].PWM_CDTYUPD = inverted_duty_cycle;
 
-	printf("Ny PWM duty cycle sett til: %u ticks (for %f ms)\n\r", inverted_duty_cycle, ms);
+	//printf("Ny PWM duty cycle sett til: %u ticks (for %f ms)\n\r", inverted_duty_cycle, ms);
 }
 

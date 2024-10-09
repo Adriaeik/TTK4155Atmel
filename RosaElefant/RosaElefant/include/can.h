@@ -2,7 +2,7 @@
 #pragma once
 
 #include <stdint.h>
-
+#include "../lib/can/can_controller.h"
 
 // Struct with bit timing information
 // See `can_init` for usage example
