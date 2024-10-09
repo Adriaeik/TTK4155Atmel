@@ -11,6 +11,8 @@ static char recieved_flag = 0;
 
 static void CAN_Interrupt_recive_init(){
 	DDRD &= ~(1 << PD2);
+	//
+	cli();
 	
 	GICR |= (1<<INT0);
 	MCUCR|= (1<<ISC01)	;
@@ -22,6 +24,10 @@ void CAN_Init(uint8_t mode) {
 
 	MCP2515_SetMode(mode);	
 	
+	MCP2515_Write(MCP2515_RXB0CTRL, 0x40 | 0x20 );
+	MCP2515_Write(MCP2515_RXB1CTRL, 0x40 | 0x20 );
+	
+	//Skal sette int low når den mottar på rx0 eller rx1
 	MCP2515_BitModify(MCP2515_CANINTE, MCP2515_RX1IF | MCP2515_RX0IF, 0xFF);
 	CAN_Interrupt_recive_init();
 }
@@ -58,8 +64,8 @@ uint8_t CAN_ReceiveMessage(CANMessage* msg) {
 		msg->length = MCP2515_Read(MCP2515_RXB0DLC);  // RX buffer 0 DLC
 
 		// Sjekk om meldingslengda er gyldig (0-8 bytes for CAN)
-		if (msg->length > 8) {
-			printf("feil lengde");
+		if (/*msg->length > 8*/0) {
+			printf("feil lengde\n\r");
 			return 1;  // Ugyldig lengde, returner feil
 		}
 	

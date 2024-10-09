@@ -20,9 +20,9 @@ void MCP2515_init() {
 		
 	/*___________CANBUS bit timing______________*/
 	uint8_t BRP = FOSC/ (20 * 125000);
-	MCP2515_Write(MCP2515_CNF1, MCP2515_SJW4 | (BRP-1));
-	MCP2515_Write(MCP2515_CNF2, MCP2515_BTLMODE | MCP2515_SAMPLE_1X | ((3-1) << 3) | (2-1));
-	MCP2515_Write(MCP2515_CNF3, MCP2515_WAKFIL_DISABLE | (4 - 1));
+	MCP2515_Write(MCP2515_CNF1, 0x43 /*MCP2515_SJW4 | (BRP-1)*/);
+	MCP2515_Write(MCP2515_CNF2, 0xB5 /* MCP2515_BTLMODE | MCP2515_SAMPLE_1X | ((3-1) << 3) | (2-1)*/);
+	MCP2515_Write(MCP2515_CNF3, 0x01 /* MCP2515_WAKFIL_DISABLE | (4 - 1)*/);
 }
 // MCP2515 Reset-funksjon
 void MCP2515_Reset(void) {

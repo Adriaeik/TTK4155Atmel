@@ -17,6 +17,7 @@ int main(void) {
 	URAT_initStudio();
 	UART_EnableReceiveInterrupt();
     setup_timer();						// Start millisekundteljinga
+	CAN_Init(MCP2515_MODE_NORMAL);
 	
 	printf("GO!");
 	/*--- Ditta må (noko av det ihvertfall) vere etter sei() ---*/
@@ -39,8 +40,7 @@ int main(void) {
 			
 	/*_________________SPI_________________*/
 	// Initialiser SPI og MCP2515 i loopback-modus
-	//SPI_MasterInit(); // ligger i CAN_Init()
-	CAN_Init(MCP2515_MODE_NORMAL);
+	
 	
     //MCP2515_SetMode(MCP2515_MODE_CONFIG);  // Sett MCP2515 i Configuration Mode
 	// Les CANSTAT-registeret (0x0E) for å sjekke om MCP2515 er i loopback-modus
@@ -111,8 +111,8 @@ int main(void) {
 ISR(INT0_vect) {
 	CANMessage msg;
 	CAN_ReceiveMessage(&msg);
-	printf("data[0]: %d adresse = %X\n\r",msg.data[0], msg.id);
-	MCP2515_BitModify(MCP2515_CANINTF, MCP2515_RX1IF | MCP2515_RX0IF, 0xFF);
+	printf("data[0]: %c adresse = %X\n\r",msg.data[0], msg.id);
+	MCP2515_BitModify(MCP2515_CANINTF, MCP2515_RX1IF | MCP2515_RX0IF, 0x00);
 	
 }
 

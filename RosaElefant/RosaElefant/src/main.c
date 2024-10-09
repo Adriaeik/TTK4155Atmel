@@ -22,25 +22,30 @@ int main(void) {
 	// Kall can_init med CanInit-strukturen og rxInterrupt = 1 for å aktivere mottaksinterrupt
 	// Sett opp CAN, definer 1 TX-mailboks og 2 RX-mailboksar
 	can_init_def_tx_rx_mb();
-	
-	// Sett opp baudrate for 250 kbps (BRP = 17 og TQ = 10)
-	uint32_t can_baudrate = CAN_BR_PHASE2(4) | CAN_BR_PHASE1(3) | CAN_BR_PROPAG(2) | CAN_BR_SJW(1) | CAN_BR_BRP(17);
-	CAN0->CAN_BR = can_baudrate;
+
 	
 	// Konfigurer meldinga som skal sendast
 	CAN_MESSAGE msg = {
 	69,
 	8,
 	"TrurDetF"};  // Data til meldinga
+	CAN_MESSAGE msg_rec;
 	
 	uint8_t i = 0;
 
 	while (1) {
+		i++;
+		msg.id = i;
 		// Sjekk om du kan sende meldinga (TX-mailboksen er klar)
 		if (!can_send(&msg, 0)) {
 			printf("Sendte melding nr %d no!\n\n\r", i);
-			i++;
+			
 		}
+		time_spinFor(msecs(1000)); 
+		//if (!can_receive(&msg, 1)) {
+			//printf("fikk melding, ID:  %d no!\n\n\r", i);
+			//
+		//}
 		// Legg inn ei forsinking (eller anna logikk)
 		//time_spinFor(msecs(1000));
 

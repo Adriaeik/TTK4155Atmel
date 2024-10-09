@@ -15,8 +15,9 @@
 #include <stdint.h>
 
 #define CAN_BRP 34
-// baudrate of 250 kbits/s, sjw = 4 TQ, propag = 2 TQ, phase1 = 6 TQ, phase2 = 7 TQ
-#define ATSAM_CAN_BR 0x00420123// 0x00143156
+// baudrate of 125 kbits/s, sjw = 4 TQ, propag = 2 TQ, phase1 = 6 TQ, phase2 = 7 TQ
+// VITAS SIN CONFIG: 0x00290561
+#define ATSAM_CAN_BR 0x00880561 //0x00420123// 0x00143156
 
 typedef struct can_message_t
 {

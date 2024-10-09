@@ -82,7 +82,7 @@ uint8_t can_init_controller(uint8_t num_tx_mb, uint8_t num_rx_mb)
 	// KAN og sende det inn som ein uint32_t : 
 	CAN0->CAN_BR = ATSAM_CAN_BR;
 	 //
-	//CAN0->CAN_BR =	  CAN_BR_PHASE2(3)       // Phase 2 segment = 3 TQ									Pontus: 3,  RAVN: 4
+	//CAN0->CAN_BR =	CAN_BR_PHASE2(3)       // Phase 2 segment = 3 TQ									Pontus: 3,  RAVN: 4
 					//| CAN_BR_PROPAG(3)      // Propagation segment = 2 TQ								Pontus: 3,  RAVN: 2
 					//| CAN_BR_PHASE1(3)      // Phase 1 segment = 3 TQ									Pontus: 3,  RAVN: 3
 					//| CAN_BR_SJW(1)         // Synchronization jump width = 1 TQ						Pontus: 1,  RAVN: 4
@@ -142,7 +142,7 @@ uint8_t can_init_controller(uint8_t num_tx_mb, uint8_t num_rx_mb)
 uint8_t can_send(CAN_MESSAGE* can_msg, uint8_t tx_mb_id)
 {
 	//Check that mailbox is ready
-	if(CAN0->CAN_MB[tx_mb_id].CAN_MSR & CAN_MSR_MRDY)
+	if(CAN0->CAN_MB[tx_mb_id].CAN_MSR & CAN_MSR_MRDY || 1 == 1)
 	{
 		//Set message ID and use CAN 2.0B protocol
 		CAN0->CAN_MB[tx_mb_id].CAN_MID = CAN_MID_MIDvA(can_msg->id) | CAN_MID_MIDE ;
