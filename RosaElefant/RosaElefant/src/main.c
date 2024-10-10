@@ -35,17 +35,22 @@ int main(void) {
 	
 	uint8_t i = 0;
 
+	for(int i = 0; i < 10; i++){
+		if (!can_send(&msg, 0)) {
+		printf("Send melding nr %d no!\n\n\r", i);
+		}
+	}
+
 	while (1) {
 		i++;
 		msg.id = i;
 		// Sjekk om du kan sende meldinga (TX-mailboksen er klar)
-		if (!can_send(&msg, 0)) {
-			printf("Send melding nr %d no!\n\n\r", i);
-		} 
-		//if (!can_receive(&msg, 1)) {
-			//printf("fikk melding, ID:  %d no!\n\n\r", i);
-			//
-		//}
+		//if (!can_send(&msg, 0)) {
+			//printf("Send melding nr %d no!\n\n\r", i);
+		//} 
+		if (!can_receive(&msg, 0)) {
+			printf("fikk melding, ID:  %d, data nr 1:  %c no!\n\n\r", msg.id, msg.data[0]);
+		}
 		// Legg inn ei forsinking (eller anna logikk)
 		//time_spinFor(msecs(1000));
 
