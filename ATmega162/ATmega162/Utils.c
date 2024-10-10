@@ -23,7 +23,9 @@ void setup_timer() {
 	TCCR1B |= (1 << WGM12);
 
 	// Set verdien for sammenligning, f.eks. 15624 for 1 Hz med 16 MHz klokke
-	OCR1A = 169;
+	
+	//Fiks denne til riktig Hz seneree
+	OCR1A = 600;
 
 	// Aktiver interrupt for sammenligning A
 	TIMSK |= (1 << OCIE1A);

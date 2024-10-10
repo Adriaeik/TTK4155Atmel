@@ -19,10 +19,29 @@ void MCP2515_init() {
 		
 		
 	/*___________CANBUS bit timing______________*/
-	uint8_t BRP = FOSC/ (20 * 125000);
-	MCP2515_Write(MCP2515_CNF1, 0x43 /*MCP2515_SJW4 | (BRP-1)*/);
-	MCP2515_Write(MCP2515_CNF2, 0xB5 /* MCP2515_BTLMODE | MCP2515_SAMPLE_1X | ((3-1) << 3) | (2-1)*/);
-	MCP2515_Write(MCP2515_CNF3, 0x01 /* MCP2515_WAKFIL_DISABLE | (4 - 1)*/);
+	
+	/*
+	Klokkefrekvens = 16MHz (f_osc)
+	Vil ha baudrate lik 125kHz
+	TQ = 2(BRP+1)*T_osc
+	BRP = 
+	
+	Vi bruker 16 TQ per message
+	t_osc = 62.25 ns
+	BRP = 4 for å få Tq til 500ns -> f_br = 125kHz
+	
+	*/
+
+	const uint8_t sjw = 1;
+	const uint8_t bltmode = 1;
+	const uint8_t brp = 4;
+	const uint8_t propseg = 2;
+	const uint8_t phseg1 = 7;
+	const uint8_t phseg2 = 6;
+	
+	MCP2515_Write(MCP2515_CNF1, ((sjw - 1) << 6) | (brp-1));
+	MCP2515_Write(MCP2515_CNF2, (bltmode << 7) | ((phseg1-1) << 3) | (propseg-1));
+	MCP2515_Write(MCP2515_CNF3, (phseg2-1));
 }
 // MCP2515 Reset-funksjon
 void MCP2515_Reset(void) {

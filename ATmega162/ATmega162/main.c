@@ -87,6 +87,11 @@ int main(void) {
 	/*_______HOVUDLØKKE______*/
 	 while (1) {
 
+		//if(!CAN_ReceiveMessage(&received_msg)){printf("data[0]: %c adresse = %X\n\r",received_msg.data[0], received_msg.id);}
+		//else{printf("Ingen melding tilgjengelig \r\n");}
+
+		//CAN_SendMessage(&msg_to_send);
+		
         menu_navigate(&board, current_menu);  // Kallar `menu_navigate` med referanse til gjeldande meny
 		
 		/*Så lenge vi ikkje har noko delay gåandes og ditta står her tenker eg 
@@ -111,9 +116,8 @@ int main(void) {
 ISR(INT0_vect) {
 	CANMessage msg;
 	CAN_ReceiveMessage(&msg);
-	printf("data[0]: %c adresse = %X\n\r",msg.data[0], msg.id);
-	MCP2515_BitModify(MCP2515_CANINTF, MCP2515_RX1IF | MCP2515_RX0IF, 0x00);
-	
+	printf("data[0]: %c adresse = %d\n\r",msg.data[0], msg.id);
+	MCP2515_BitModify(MCP2515_CANINTF, MCP2515_RX1IF | MCP2515_RX0IF, 0xFF);	
 }
 
 ISR(TIMER1_COMPA_vect){

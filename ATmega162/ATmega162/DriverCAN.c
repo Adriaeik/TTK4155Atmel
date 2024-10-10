@@ -55,9 +55,9 @@ void CAN_SendMessage(CANMessage* msg) {
 uint8_t CAN_ReceiveMessage(CANMessage* msg) {
 	// Sjekk om det finst ei melding i RX bufferet ved å lese status
 	if ((/*MCP2515_ReadStatus()*/MCP2515_Read(MCP2515_CANINTF) & MCP2515_RX0IF)) {
-		uint8_t id_high = MCP2515_Read(MCP2515_RXB1SIDH);
-		uint8_t id_low = MCP2515_Read(MCP2515_RXB1SIDL);
-		printf("id_high: %X id_low: %X \n\r", id_high, id_low);
+		uint8_t id_high = MCP2515_Read(MCP2515_RXB0SIDH);
+		uint8_t id_low = MCP2515_Read(MCP2515_RXB0SIDL);
+		//printf("id_high: %X id_low: %X \n\r", id_high, id_low);
 		
 		msg->id = (((id_high << 3) & 0x7f8) | (id_low >> 5));
 	

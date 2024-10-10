@@ -22,6 +22,8 @@ int main(void) {
 	// Kall can_init med CanInit-strukturen og rxInterrupt = 1 for å aktivere mottaksinterrupt
 	// Sett opp CAN, definer 1 TX-mailboks og 2 RX-mailboksar
 	can_init_def_tx_rx_mb();
+	
+	
 
 	
 	// Konfigurer meldinga som skal sendast
@@ -38,10 +40,8 @@ int main(void) {
 		msg.id = i;
 		// Sjekk om du kan sende meldinga (TX-mailboksen er klar)
 		if (!can_send(&msg, 0)) {
-			printf("Sendte melding nr %d no!\n\n\r", i);
-			
-		}
-		time_spinFor(msecs(1000)); 
+			printf("Send melding nr %d no!\n\n\r", i);
+		} 
 		//if (!can_receive(&msg, 1)) {
 			//printf("fikk melding, ID:  %d no!\n\n\r", i);
 			//
