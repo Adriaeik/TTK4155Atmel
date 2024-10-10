@@ -116,7 +116,7 @@ int main(void) {
 ISR(INT0_vect) {
 	CANMessage msg;
 	CAN_ReceiveMessage(&msg);
-	printf("data[0]: %c adresse = %d\n\r",msg.data[0], msg.id);
+	//printf("data[0]: %c adresse = %d\n\r",msg.data[0], msg.id);
 	MCP2515_BitModify(MCP2515_CANINTF, MCP2515_RX1IF | MCP2515_RX0IF, 0xFF);	
 }
 
