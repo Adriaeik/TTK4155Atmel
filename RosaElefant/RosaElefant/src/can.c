@@ -3,6 +3,12 @@
 #include "../include/can.h"
 #include <stdio.h>
 
+
+/*
+Brukes ikke
+Please slett meg ved første anledning. (NB: husk h fila mi <3)
+*/
+
 void can_printmsg(CanMsg m){
     printf("CanMsg(id:%d, length:%d, data:{", m.id, m.length);
     if(m.length){
