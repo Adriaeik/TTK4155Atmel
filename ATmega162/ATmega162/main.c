@@ -134,9 +134,8 @@ ISR(INT0_vect) {
 		//printf("data[0]: %c adresse = %d\n\r",msg.data[0], msg.id);
 		playGame = 0;
 		printf("melding tatt imot\n\r");
-		//MCP2515_SetMode(MCP2515_MODE_CONFIG);
+	/* VI TROR at dette handterast i recive, trøbbel å ha det med*/
 		//MCP2515_BitModify(MCP2515_CANINTF, MCP2515_RX1IF | MCP2515_RX0IF, 0xFF);
-		//MCP2515_SetMode(MCP2515_MODE_NORMAL);
 }
 
 ISR(TIMER1_COMPA_vect){

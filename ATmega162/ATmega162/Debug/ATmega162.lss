@@ -1014,9 +1014,8 @@ ISR(INT0_vect) {
      ac4:	9f 93       	push	r25
      ac6:	8f 93       	push	r24
      ac8:	0e 94 1e 0e 	call	0x1c3c	; 0x1c3c <printf>
-		//MCP2515_SetMode(MCP2515_MODE_CONFIG);
+	/* VI TROR at dette handterast i recive, trøbbel å ha det med*/
 		//MCP2515_BitModify(MCP2515_CANINTF, MCP2515_RX1IF | MCP2515_RX0IF, 0xFF);
-		//MCP2515_SetMode(MCP2515_MODE_NORMAL);
 }
      acc:	0f 90       	pop	r0
      ace:	0f 90       	pop	r0
