@@ -42,15 +42,15 @@ int main(void) {
 	}
 
 	while (1) {
-		i++;
-		msg.id = i;
-		// Sjekk om du kan sende meldinga (TX-mailboksen er klar)
-		//if (!can_send(&msg, 0)) {
-			//printf("Send melding nr %d no!\n\n\r", i);
-		//} 
-		if (!can_receive(&msg, 0)) {
-			printf("fikk melding, ID:  %d, data nr 1:  %d no!\n\n\r", msg.id, msg.data[0]);
-		}
+		//i++;
+		//msg.id = i;
+		//// Sjekk om du kan sende meldinga (TX-mailboksen er klar)
+		////if (!can_send(&msg, 0)) {
+			////printf("Send melding nr %d no!\n\n\r", i);
+		////} 
+		//if (!can_receive(&msg, 0)) {
+			//printf("fikk melding, ID:  %d, data nr 1:  %d no!\n\n\r", msg.id, msg.data[0]);
+		//}
 		// Legg inn ei forsinking (eller anna logikk)
 		//time_spinFor(msecs(1000));
 
@@ -65,6 +65,9 @@ int main(void) {
 			//servo_set_position(pos);
 			//time_spinFor(msecs(20));  // Vent i 20 ms for glatt overgang
 		//}
+		
+		
+		CAN0_Handler();
 		
 	}
 }
