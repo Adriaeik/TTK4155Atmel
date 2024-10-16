@@ -49,7 +49,7 @@ int main(void) {
 			//printf("Send melding nr %d no!\n\n\r", i);
 		//} 
 		if (!can_receive(&msg, 0)) {
-			printf("fikk melding, ID:  %d, data nr 1:  %c no!\n\n\r", msg.id, msg.data[0]);
+			printf("fikk melding, ID:  %d, data nr 1:  %d no!\n\n\r", msg.id, msg.data[0]);
 		}
 		// Legg inn ei forsinking (eller anna logikk)
 		//time_spinFor(msecs(1000));

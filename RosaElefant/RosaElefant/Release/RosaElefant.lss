@@ -1028,7 +1028,7 @@ Disassembly of section .text:
    80a84:	74616420 	.word	0x74616420
    80a88:	726e2061 	.word	0x726e2061
    80a8c:	203a3120 	.word	0x203a3120
-   80a90:	20632520 	.word	0x20632520
+   80a90:	20642520 	.word	0x20642520
    80a94:	0a216f6e 	.word	0x0a216f6e
    80a98:	00000d0a 	.word	0x00000d0a
 

@@ -5,6 +5,7 @@
  *  Author: ravneb
  */ 
 #include "MultiBoard.h"
+#include "DriverCAN.h"
 
 void MultiBoard_Init(MultiBoard* board) {
 	// Set pinner for knapper som input
@@ -34,8 +35,19 @@ void MultiBoard_Init(MultiBoard* board) {
 	board->JoyYposCal = 0;
 	board->JoyAngle = 0;
 	board->JoyBtn = 0;  // Endra fra en, vi bruker fortsatt 0 for av basert på logikk i MB_Update()
-	board->JoyBtn_l = 0;
 	board->JoyYLastAction = 0;
+	
+	//FLAG
+	// Initialiser alle andre verdier
+	board->LSpos_l_can = 0;
+	board->RSpos_l_can = 0;
+	board->LBtn_l_can = 0;
+	board->RBtn_l_can = 0;
+	board->JoyBtn_l = 0;
+	board->JoyBtn_l_can = 0;
+	board->JoyXposCal_l_can = 0;
+	board->JoyYposCal_l_can = 0;
+	board->JoyAngle_l_can = 0;
 }
 
 
@@ -54,8 +66,8 @@ void MultiBoard_Update(MultiBoard* board) {
 	// Opretter ein int med pluss og minus slik at vi kan finne riktig vinkel med _UpdateJoystickAngel
 	board->JoyYposCal = (int16_t)(board->JoyYpos) - (int16_t)(board->JoyYOrigo);
 	board->JoyXposCal = (int16_t)(board->JoyXpos) - (int16_t)(board->JoyXOrigo);
-	///IKKJE TESTA
 	MultiBoard_UpdateJoystickAngle(board);
+	MultiBoard_Send(board);
 }
 
 /// IKKJE TESTA 
@@ -85,5 +97,76 @@ void MultiBoard_UpdateJoystickAngle(MultiBoard* board) {
 			board->JoyAngle = 0;  // Feiltilfelle, skal ikkje skje
 			break;
 		}
+	}
+}
+
+void MultiBoard_Send(MultiBoard* board){
+	// CAN-melding å sende
+	CANMessage msg_to_send;
+	/* KAn vere fornuftig å slå sammen litt sia vi bare bruker 1 til 2 bytes per variabel*/
+	// Sjekk for alle verdier som har endra seg
+	if (board->JoyYposCal != board->JoyYposCal_l_can) {
+		msg_to_send.id = ID_JOY_Y_POS;
+		msg_to_send.length = 1;
+		msg_to_send.data[0] = board->JoyYpos;
+		CAN_SendMessage(&msg_to_send);
+		board->JoyYposCal_l_can = board->JoyYposCal;
+	}
+	
+	if (board->JoyXposCal != board->JoyXposCal_l_can) {
+		msg_to_send.id = ID_JOY_X_POS;
+		msg_to_send.length = 1;
+		msg_to_send.data[0] = board->JoyXpos;
+		CAN_SendMessage(&msg_to_send);
+		board->JoyXposCal_l_can = board->JoyXposCal;
+	}
+	
+	if (board->LBtn != board->LBtn_l_can) {
+		msg_to_send.id = ID_L_BTN;
+		msg_to_send.length = 1;
+		msg_to_send.data[0] = board->LBtn;
+		CAN_SendMessage(&msg_to_send);
+		board->LBtn_l_can = board->LBtn;
+	}
+	
+	if (board->RBtn != board->RBtn_l_can) {
+		msg_to_send.id = ID_R_BTN;
+		msg_to_send.length = 1;
+		msg_to_send.data[0] = board->RBtn;
+		CAN_SendMessage(&msg_to_send);
+		board->RBtn_l_can = board->RBtn;
+	}
+	
+	if (board->JoyBtn != board->JoyBtn_l_can) {
+		msg_to_send.id = ID_JOY_BTN;
+		msg_to_send.length = 1;
+		msg_to_send.data[0] = board->JoyBtn;
+		CAN_SendMessage(&msg_to_send);
+		board->JoyBtn_l = board->JoyBtn;
+	}
+	
+	if (board->RSpos != board->RSpos_l_can) {
+		msg_to_send.id = ID_RS_POS;
+		msg_to_send.length = 1;
+		msg_to_send.data[0] = board->RSpos;
+		CAN_SendMessage(&msg_to_send);
+		board->RSpos_l_can = board->RSpos;
+	}
+	
+	if (board->LSpos != board->LSpos_l_can) {
+		msg_to_send.id = ID_LS_POS;
+		msg_to_send.length = 1;
+		msg_to_send.data[0] = board->LSpos;
+		CAN_SendMessage(&msg_to_send);
+		board->LSpos_l_can = board->LSpos;
+	}
+
+	if (board->JoyAngle != board->JoyAngle_l_can) {
+		msg_to_send.id = ID_JOY_ANGLE;
+		msg_to_send.length = 2;
+		msg_to_send.data[0] = (uint8_t)(board->JoyAngle & 0xFF);
+		msg_to_send.data[1] = (uint8_t)((board->JoyAngle >> 8) & 0xFF);
+		CAN_SendMessage(&msg_to_send);
+		board->JoyAngle_l_can = board->JoyAngle;
 	}
 }

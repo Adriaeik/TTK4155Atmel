@@ -90,13 +90,13 @@ int main(void) {
 		//if(!CAN_ReceiveMessage(&received_msg)){printf("data[0]: %c adresse = %X\n\r",received_msg.data[0], received_msg.id);}
 		//else{printf("Ingen melding tilgjengelig \r\n");}
 		
-		
-		static int i = 0;
-		i++;
-		msg_to_send.id = i;
+		//
+		//static int i = 0;
+		//i++;
+		//msg_to_send.id = i;
 		//// Sjekk om du kan sende meldinga (TX-mailboksen er klar)
-		CAN_SendMessage(&msg_to_send);
-		printf("Send melding nr %d no!\n\n\r", i);
+		//CAN_SendMessage(&msg_to_send);
+		//printf("Send melding nr %d no!\n\n\r", i);
 		
         menu_navigate(&board, current_menu);  // Kallar `menu_navigate` med referanse til gjeldande meny
 		
