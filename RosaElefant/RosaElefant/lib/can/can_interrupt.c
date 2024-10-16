@@ -14,10 +14,11 @@
 #include "sam.h"
 
 #include "../urat/printf-stdarg.h"
+#include "../../include/MultiBoard.h"
 
 #include "can_controller.h"
 
-#define DEBUG_INTERRUPT 1
+#define DEBUG_INTERRUPT 0
 
 /**
  * \brief CAN0 Interrupt handler for RX, TX and bus error interrupts
@@ -26,6 +27,8 @@
  *
  * \retval 
  */
+MultiBoard board;
+
 void CAN0_Handler(void)
 {
 	if(DEBUG_INTERRUPT)printf("CAN0 interrupt\n\r");
@@ -57,6 +60,7 @@ void CAN0_Handler(void)
 			if(DEBUG_INTERRUPT)printf("%d ", message.data[i]);
 		}
 		if(DEBUG_INTERRUPT)printf("\n\r");
+		update_board_from_can(&board, &message);
 	}
 	
 	if(can_sr & CAN_SR_MB0)
@@ -80,5 +84,8 @@ void CAN0_Handler(void)
 	}
 	
 	NVIC_ClearPendingIRQ(ID_CAN0);
+	
 	//sei();*/
+	
 }
+

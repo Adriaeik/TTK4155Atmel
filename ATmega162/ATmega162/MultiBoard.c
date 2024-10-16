@@ -67,7 +67,7 @@ void MultiBoard_Update(MultiBoard* board) {
 	board->JoyYposCal = (int16_t)(board->JoyYpos) - (int16_t)(board->JoyYOrigo);
 	board->JoyXposCal = (int16_t)(board->JoyXpos) - (int16_t)(board->JoyXOrigo);
 	MultiBoard_UpdateJoystickAngle(board);
-	MultiBoard_Send(board);
+	
 }
 
 /// IKKJE TESTA 
@@ -105,18 +105,20 @@ void MultiBoard_Send(MultiBoard* board){
 	CANMessage msg_to_send;
 	/* KAn vere fornuftig å slå sammen litt sia vi bare bruker 1 til 2 bytes per variabel*/
 	// Sjekk for alle verdier som har endra seg
-	if (abs(board->JoyYposCal - board->JoyYposCal_l_can)>2) {
+	if (abs(board->JoyYposCal - board->JoyYposCal_l_can) > 2) {
 		msg_to_send.id = ID_JOY_Y_POS;
-		msg_to_send.length = 1;
-		msg_to_send.data[0] = board->JoyYpos;
+		msg_to_send.length = 2; // Vi sender 2 bytes for int16_t
+		msg_to_send.data[0] = (uint8_t)(board->JoyYposCal & 0xFF); // LSB
+		msg_to_send.data[1] = (uint8_t)((board->JoyYposCal >> 8) & 0xFF); // MSB
 		CAN_SendMessage(&msg_to_send);
 		board->JoyYposCal_l_can = board->JoyYposCal;
 	}
 	
-	if (abs(board->JoyXposCal - board->JoyXposCal_l_can)>2) {
+	if (abs(board->JoyXposCal - board->JoyXposCal_l_can) > 2) {
 		msg_to_send.id = ID_JOY_X_POS;
-		msg_to_send.length = 1;
-		msg_to_send.data[0] = board->JoyXpos;
+		msg_to_send.length = 2; // Vi sender 2 bytes for int16_t
+		msg_to_send.data[0] = (uint8_t)(board->JoyXposCal & 0xFF); // LSB
+		msg_to_send.data[1] = (uint8_t)((board->JoyXposCal >> 8) & 0xFF); // MSB
 		CAN_SendMessage(&msg_to_send);
 		board->JoyXposCal_l_can = board->JoyXposCal;
 	}
@@ -137,15 +139,17 @@ void MultiBoard_Send(MultiBoard* board){
 		board->RBtn_l_can = board->RBtn;
 	}
 	
+/* PROBLEMER!!! sikkert eigentlig kjempe lett, men fuck det */
+/*
 	if (board->JoyBtn != board->JoyBtn_l_can) {
 		msg_to_send.id = ID_JOY_BTN;
 		msg_to_send.length = 1;
 		msg_to_send.data[0] = board->JoyBtn;
 		CAN_SendMessage(&msg_to_send);
-		board->JoyBtn_l = board->JoyBtn;
+		board->JoyBtn_l_can = !board->JoyBtn;
 	}
-	
-	if (board->RSpos != board->RSpos_l_can) {
+*/
+	if (abs(board->RSpos - board->RSpos_l_can) >2) {
 		msg_to_send.id = ID_RS_POS;
 		msg_to_send.length = 1;
 		msg_to_send.data[0] = board->RSpos;
@@ -153,7 +157,7 @@ void MultiBoard_Send(MultiBoard* board){
 		board->RSpos_l_can = board->RSpos;
 	}
 	
-	if (board->LSpos != board->LSpos_l_can) {
+	if (abs(board->LSpos - board->LSpos_l_can) >2) {
 		msg_to_send.id = ID_LS_POS;
 		msg_to_send.length = 1;
 		msg_to_send.data[0] = board->LSpos;

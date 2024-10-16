@@ -24,7 +24,7 @@ void setup_timer() {
 
 	// Set verdien for sammenligning, f.eks. 15624 for 1 Hz med 16 MHz klokke
 	
-	//Fiks denne til riktig Hz seneree
+	//Fiks denne til riktig Hz seneree 569 funker bra
 	OCR1A = 569;
 
 	// Aktiver interrupt for sammenligning A

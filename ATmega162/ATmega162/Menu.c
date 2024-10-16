@@ -137,6 +137,7 @@ void menu_navigate(MultiBoard* board, Menu* menu) {
 }
 
 
+uint8_t playGame;
 
 void handleMenuSelection(MultiBoard* board, Menu* menu) {
 	oled_clear_screen();
@@ -145,6 +146,7 @@ void handleMenuSelection(MultiBoard* board, Menu* menu) {
 		switch (menu->current_position) {
 			case 0:
 			oled_write_line_to_SRAM(0, "Startar spelet...");
+			playGame = 1;
 			oled_data_from_SRAM();
 			break;
 			case 1:

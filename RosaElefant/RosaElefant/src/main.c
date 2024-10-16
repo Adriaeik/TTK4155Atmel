@@ -11,20 +11,25 @@
 #include "../include/time.h"
 #include "../include/pwm.h"
 #include "../lib/can/can_controller.h"
+#include "../include/MultiBoard.h"
+#include "../include/driver_IR.h"
 
+extern MultiBoard board;
 
 
 int main(void) {
 	SystemInit();  // Initialiser systemklokka og mikrokontrolleren
 	WDT->WDT_MR = WDT_MR_WDDIS;
 	uart_init(84000000, 9600);  // Initialiser UART med ein baudrate på 9600
-	
+	MultiBoard_Init(&board);
 	// Kall can_init med CanInit-strukturen og rxInterrupt = 1 for å aktivere mottaksinterrupt
 	// Sett opp CAN, definer 1 TX-mailboks og 2 RX-mailboksar
 	can_init_def_tx_rx_mb();
+	servo_init();
+	IR_Init();
 	
 	
-
+	
 	
 	// Konfigurer meldinga som skal sendast
 	CAN_MESSAGE msg = {
@@ -35,11 +40,12 @@ int main(void) {
 	
 	uint8_t i = 0;
 
-	for(int i = 0; i < 10; i++){
+	/*for(int i = 0; i < 10; i++){
 		if (!can_send(&msg, 0)) {
 		printf("Send melding nr %d no!\n\n\r", i);
 		}
-	}
+	}*/
+	//can_send(&msg,0);
 
 	while (1) {
 		//i++;
@@ -66,8 +72,12 @@ int main(void) {
 			//time_spinFor(msecs(20));  // Vent i 20 ms for glatt overgang
 		//}
 		
+		printf("%d \r\n", IR_Read());
 		
-		CAN0_Handler();
+		/*	can_send(&msg,0);
+			time_spinFor(msecs(1000));
+		servo_set_position_joy();
+		CAN0_Handler();*/
 		
 	}
 }

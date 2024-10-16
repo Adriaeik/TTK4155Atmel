@@ -10,6 +10,8 @@
 #include "Menu_init.h"
 #include "DriverCAN.h"
 
+extern uint8_t playGame = 0;
+
 int main(void) {
 	/*_________________INITIALISERINGER START______________________*/
 	/*--- Initialiser UART ---*/
@@ -114,6 +116,13 @@ int main(void) {
 			////oled_data_from_SRAM();
 		//}
 		//if (general_ms() > 65536UL ){ restart_general_timer();}
+			
+			while(playGame){
+				oled_write_screen_to_SRAM(&solkors);
+				MultiBoard_Update(&board);
+				MultiBoard_Send(&board);
+				
+			}
 	 }
 	return 0;
 }
@@ -122,8 +131,12 @@ int main(void) {
 ISR(INT0_vect) {
 	CANMessage msg;
 	CAN_ReceiveMessage(&msg);
-	//printf("data[0]: %c adresse = %d\n\r",msg.data[0], msg.id);
-	MCP2515_BitModify(MCP2515_CANINTF, MCP2515_RX1IF | MCP2515_RX0IF, 0xFF);	
+		//printf("data[0]: %c adresse = %d\n\r",msg.data[0], msg.id);
+		playGame = 0;
+		printf("melding tatt imot\n\r");
+		//MCP2515_SetMode(MCP2515_MODE_CONFIG);
+		//MCP2515_BitModify(MCP2515_CANINTF, MCP2515_RX1IF | MCP2515_RX0IF, 0xFF);
+		//MCP2515_SetMode(MCP2515_MODE_NORMAL);
 }
 
 ISR(TIMER1_COMPA_vect){

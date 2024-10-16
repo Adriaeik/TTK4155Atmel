@@ -17,6 +17,7 @@ static void CAN_Interrupt_recive_init(){
 	GICR |= (1<<INT0);
 	MCUCR|= (1<<ISC01)	;
 	MCUCR&= ~(1<<ISC00)	;
+
 }
 
 void CAN_Init(uint8_t mode) {

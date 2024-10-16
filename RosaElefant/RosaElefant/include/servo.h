@@ -18,5 +18,6 @@
 // Funksjonsprototypar for å initialisere og styre PWM-signalet for servoen
 void servo_pwm_init(void);
 void servo_set_position(double ms);  // Juster posisjonen til servoen basert på duty cycle
+void servo_set_position_joy(void);
 
 #endif /* SERVO_H_ */

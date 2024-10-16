@@ -16,6 +16,10 @@ lib\urat\uart.c
 
 src\can.c
 
+src\driver_IR.c
+
+src\MultiBoard.c
+
 src\pwm.c
 
 src\main.c
