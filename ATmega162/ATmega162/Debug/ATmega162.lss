@@ -3338,6 +3338,12 @@ void oled_draw_square(uint8_t x0, uint8_t y0, uint8_t width, uint8_t height) {
     19d2:	08 95       	ret
 
 000019d4 <__vector_9>:
+
+
+// Funksjon som returnerer tida i millisekund sidan programstart
+uint32_t screen_ms(void){
+	return screen_cycles()/(4915200UL/1000);
+}
     19d4:	1f 92       	push	r1
     19d6:	0f 92       	push	r0
     19d8:	0f b6       	in	r0, 0x3f	; 63
@@ -3372,8 +3378,8 @@ void oled_draw_square(uint8_t x0, uint8_t y0, uint8_t width, uint8_t height) {
     1a1e:	8e b5       	in	r24, 0x2e	; 46
     1a20:	88 60       	ori	r24, 0x08	; 8
     1a22:	8e bd       	out	0x2e, r24	; 46
-    1a24:	89 ea       	ldi	r24, 0xA9	; 169
-    1a26:	90 e0       	ldi	r25, 0x00	; 0
+    1a24:	89 e3       	ldi	r24, 0x39	; 57
+    1a26:	92 e0       	ldi	r25, 0x02	; 2
     1a28:	9b bd       	out	0x2b, r25	; 43
     1a2a:	8a bd       	out	0x2a, r24	; 42
     1a2c:	89 b7       	in	r24, 0x39	; 57
@@ -3392,6 +3398,12 @@ void oled_draw_square(uint8_t x0, uint8_t y0, uint8_t width, uint8_t height) {
     1a4e:	08 95       	ret
 
 00001a50 <general_cycles>:
+}
+
+uint32_t general_cycles(void) {
+	// Returner tiden i klokkesykluser
+	// Hver gang timeren overflyter, har vi telt 65536 klokkesykluser
+	return (overflow_count3 * 65536UL) + TCNT3;
     1a50:	80 91 75 02 	lds	r24, 0x0275	; 0x800275 <overflow_count3>
     1a54:	90 91 76 02 	lds	r25, 0x0276	; 0x800276 <overflow_count3+0x1>
     1a58:	a0 91 77 02 	lds	r26, 0x0277	; 0x800277 <overflow_count3+0x2>
@@ -3407,9 +3419,16 @@ void oled_draw_square(uint8_t x0, uint8_t y0, uint8_t width, uint8_t height) {
     1a74:	73 1f       	adc	r23, r19
     1a76:	81 1d       	adc	r24, r1
     1a78:	91 1d       	adc	r25, r1
+}
     1a7a:	08 95       	ret
 
 00001a7c <general_ms>:
+
+
+
+// Funksjon som returnerer tida i millisekund sidan programstart
+uint32_t general_ms(void){
+	return 1000*general_cycles()/(4800UL);
     1a7c:	0e 94 28 0d 	call	0x1a50	; 0x1a50 <general_cycles>
     1a80:	9b 01       	movw	r18, r22
     1a82:	ac 01       	movw	r20, r24
@@ -3421,6 +3440,7 @@ void oled_draw_square(uint8_t x0, uint8_t y0, uint8_t width, uint8_t height) {
     1a90:	40 e0       	ldi	r20, 0x00	; 0
     1a92:	50 e0       	ldi	r21, 0x00	; 0
     1a94:	0e 94 b2 0d 	call	0x1b64	; 0x1b64 <__udivmodsi4>
+}
     1a98:	ca 01       	movw	r24, r20
     1a9a:	b9 01       	movw	r22, r18
     1a9c:	08 95       	ret

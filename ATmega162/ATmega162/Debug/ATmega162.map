@@ -1111,7 +1111,7 @@ END GROUP
  .debug_str     0x00000b63      0x1d5 OLED.o
                                 0x4b4 (size before relaxing)
  .debug_str     0x00000d38       0x6b Utils.o
-                                0x200 (size before relaxing)
+                                0x20c (size before relaxing)
  .debug_str     0x00000da3       0x2d XMEM_Decode.o
                                 0x1e9 (size before relaxing)
 
