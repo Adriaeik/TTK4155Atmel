@@ -24,6 +24,8 @@ src\pwm.c
 
 src\main.c
 
+src\score.c
+
 src\servo.c
 
 src\time.c

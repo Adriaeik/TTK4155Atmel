@@ -11,6 +11,7 @@
 
 void IR_Init();
 uint16_t IR_Read();
+void IR_Handler();
 
 
 #endif /* DRIVER_IR_H_ */

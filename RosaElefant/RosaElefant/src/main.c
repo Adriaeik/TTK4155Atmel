@@ -16,6 +16,7 @@
 
 extern MultiBoard board;
 
+uint16_t score;
 
 int main(void) {
 	SystemInit();  // Initialiser systemklokka og mikrokontrolleren
@@ -39,6 +40,7 @@ int main(void) {
 	CAN_MESSAGE msg_rec;
 	
 	uint8_t i = 0;
+	
 
 	/*for(int i = 0; i < 10; i++){
 		if (!can_send(&msg, 0)) {
@@ -71,8 +73,8 @@ int main(void) {
 			//servo_set_position(pos);
 			//time_spinFor(msecs(20));  // Vent i 20 ms for glatt overgang
 		//}
-		
-		printf("%d \r\n", IR_Read());
+		IR_Handler();
+		printf("%d \r\n", score);
 		
 		/*	can_send(&msg,0);
 			time_spinFor(msecs(1000));

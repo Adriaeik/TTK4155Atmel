@@ -54,6 +54,7 @@ C_SRCS +=  \
 ../src/MultiBoard.c \
 ../src/pwm.c \
 ../src/main.c \
+../src/score.c \
 ../src/servo.c \
 ../src/time.c \
 ../src/uart_int.c
@@ -77,6 +78,7 @@ src/driver_IR.o \
 src/MultiBoard.o \
 src/pwm.o \
 src/main.o \
+src/score.o \
 src/servo.o \
 src/time.o \
 src/uart_int.o
@@ -93,6 +95,7 @@ src/driver_IR.o \
 src/MultiBoard.o \
 src/pwm.o \
 src/main.o \
+src/score.o \
 src/servo.o \
 src/time.o \
 src/uart_int.o
@@ -109,6 +112,7 @@ src/driver_IR.d \
 src/MultiBoard.d \
 src/pwm.d \
 src/main.d \
+src/score.d \
 src/servo.d \
 src/time.d \
 src/uart_int.d
@@ -125,6 +129,7 @@ src/driver_IR.d \
 src/MultiBoard.d \
 src/pwm.d \
 src/main.d \
+src/score.d \
 src/servo.d \
 src/time.d \
 src/uart_int.d
@@ -218,6 +223,13 @@ src/pwm.o: ../src/pwm.c
 	
 
 src/main.o: ../src/main.c
+	@echo Building file: $<
+	@echo Invoking: ARM/GNU C Compiler : 6.3.1
+	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\arm\arm-gnu-toolchain\bin\arm-none-eabi-gcc.exe$(QUOTE)  -x c -mthumb -D__SAM3X8E__ -DNDEBUG  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\arm\CMSIS\5.4.0\CMSIS\Core\Include" -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\SAM3X_DFP\1.0.50\include"  -Os -ffunction-sections -mlong-calls -Wall -mcpu=cortex-m3 -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
+	@echo Finished building: $<
+	
+
+src/score.o: ../src/score.c
 	@echo Building file: $<
 	@echo Invoking: ARM/GNU C Compiler : 6.3.1
 	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\arm\arm-gnu-toolchain\bin\arm-none-eabi-gcc.exe$(QUOTE)  -x c -mthumb -D__SAM3X8E__ -DNDEBUG  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\arm\CMSIS\5.4.0\CMSIS\Core\Include" -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\SAM3X_DFP\1.0.50\include"  -Os -ffunction-sections -mlong-calls -Wall -mcpu=cortex-m3 -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
