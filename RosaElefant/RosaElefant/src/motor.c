@@ -12,6 +12,8 @@ void motor_init(void) {
 
 	PIOC->PIO_OER |= PHASE_PIN; // Sett PHASE_PIN som utgang
 	PIOC->PIO_PER |= PHASE_PIN; // Aktiver PIO kontroll over PHASE_PIN
+	PIOC->PIO_OER |= PHASE_PIN_alias; // Sett PHASE_PIN som utgang
+	PIOC->PIO_PER |= PHASE_PIN_alias; // Aktiver PIO kontroll over PHASE_PIN
 	// Aktiver klokka til PIOC
 	//PMC->PMC_PCER0 = (1 << ID_PIOC);  // Aktiver klokka til PIOC
 
@@ -47,7 +49,7 @@ void update_motor_control(void) {
 	// Kalkuler duty cycle basert på den nye ms-verdien
 	uint32_t duty_cycle_ticks = (uint32_t)(ms * PWM->PWM_CH_NUM[5].PWM_CPRD);
 	// Inverter duty cycle slik at høg tid svarer til 0.9 til 2.1 ms
-	uint32_t inverted_duty_cycle = PWM->PWM_CH_NUM[1].PWM_CPRD - duty_cycle_ticks;
+	uint32_t inverted_duty_cycle = PWM->PWM_CH_NUM[5].PWM_CPRD - duty_cycle_ticks;
 	// Oppdater duty cycle direkte ved å skrive til PWM_CDTYUPD
 	PWM->PWM_CH_NUM[5].PWM_CDTYUPD = inverted_duty_cycle;
 
