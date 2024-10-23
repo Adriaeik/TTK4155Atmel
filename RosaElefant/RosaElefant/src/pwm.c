@@ -7,10 +7,8 @@
 
 #include "../include/pwm.h"
 
-#define PHASE_PIN    PIO_PC23   // Phase/DIR er koblet til D7, som tilsvarer PC23
-#define ENABLE_PIN_ABSR   PIO_ABSR_P19   // ENABLE/PWM er koblet til D20/SDA, som tilsvarer PB12
-#define ENABLE_PIN_PDR   PIO_PDR_P19   // ENABLE/PWM er koblet til D20/SDA, som tilsvarer PB12
-
+#define ENABLE_PIN_ABSR   PIO_ABSR_P19   // C register 
+#define ENABLE_PIN_PDR   PIO_PDR_P19  
 //P value = MCK/(PRESCALER*PV)
 
 void pwm_init(){
@@ -21,8 +19,8 @@ void pwm_init(){
 	PIOB->PIO_PDR |= PIO_PDR_P13;
 	
 	//// 4. Sett opp PIOB for PWM-funksjonalitet på ENABLE_PIN (koblet til PB12)
-	//PIOB->PIO_ABSR |= ENABLE_PIN_ABSR;  // Sett pinnen i Peripheral B mode for PWM
-	//PIOB->PIO_PDR |= ENABLE_PIN_PDR;   // Deaktiver PIO-kontroll for å gi kontroll til PWM
+	PIOC->PIO_ABSR |= ENABLE_PIN_ABSR;  // Sett pinnen i Peripheral B mode for PWM
+	PIOC->PIO_PDR |= ENABLE_PIN_PDR;   // Deaktiver PIO-kontroll for å gi kontroll til PWM
 	
 	// PMC_PCR aktiverer periferiklokken for PWM. Klokken settes til å bruke masterklokken (MCK), og ID_PWM er ID-en til PWM-modulen (36). Dette gjør at PWM-enheten får strøm og kan operere.
 	PMC->PMC_PCR = PMC_PCR_EN | PMC_PCR_DIV_PERIPH_DIV_MCK | (ID_PWM << PMC_PCR_PID_Pos);
@@ -31,7 +29,8 @@ void pwm_init(){
 	
 	
 	//Enable channel 1. Dette gjør at kanal 1 begynner å generere et PWM-signal
-	PWM->PWM_ENA |= PWM_ENA_CHID1; 
+	PWM->PWM_ENA |= PWM_ENA_CHID1;
+	PWM->PWM_ENA |= PWM_ENA_CHID5; 
 	
 	// Setter opp PWM-klokke A til en frekvens på 1 MHz ved å dividere MCK (84 MHz) med DIVA (84).
 	PWM->PWM_CLK =  PWM_CLK_DIVA(DIVA);
@@ -41,4 +40,9 @@ void pwm_init(){
 	
 	// Setter periodeverdien (CPRD) til CPRDA, som representerer en periode på 20 ms (50 Hz).
 	PWM->PWM_CH_NUM[1].PWM_CPRD = PWM_CPRD_CPRD(CPRDA);	
+	// Konfigurerer PWM-kanal 1 til å bruke klokke A som kilde
+	PWM->PWM_CH_NUM[5].PWM_CMR = PWM_CMR_CPRE_CLKA;
+	
+	// Setter periodeverdien (CPRD) til CPRDA, som representerer en periode på 20 ms (50 Hz).
+	PWM->PWM_CH_NUM[5].PWM_CPRD = PWM_CPRD_CPRD(CPRDA);
 }

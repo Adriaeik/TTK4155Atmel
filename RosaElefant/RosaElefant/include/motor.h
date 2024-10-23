@@ -11,8 +11,8 @@
 
 #include "sam.h"
 
-#define PHASE_PIN    PIO_PC23   // Phase/DIR er koblet til D7, som tilsvarer PC23
-#define ENABLE_PIN   PIO_PB12   // ENABLE/PWM er koblet til D20/SDA, som tilsvarer PB12
+#define PHASE_PIN    PIO_PC17   // Phase/DIR er koblet til D7, som tilsvarer PC23 TEST:PIO_PC17
+#define ENABLE_PIN   PIO_PB12   // ENABLE/PWM er koblet til D20/SDA, som tilsvarer PB12 TEST:PIO_PDR_P19
 
 #define ENCODER_RANGE 5654
 

@@ -30,7 +30,7 @@ int main(void) {
 	servo_init();
 	IR_Init();
 	encoder_init();
-	//motor_init();
+	motor_init();
 	
 	
 	
@@ -80,7 +80,11 @@ int main(void) {
 		
 		//can_send(&msg,0);
 			//time_spinFor(msecs(1000));
-		//update_motor_control();
+		update_motor_control();
+
+		/*	can_send(&msg,0);
+			time_spinFor(msecs(1000));*/
+
 		servo_set_position_joy();
 		CAN0_Handler();
 		
