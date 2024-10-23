@@ -7,6 +7,9 @@
 
 #include "../include/pwm.h"
 
+#define PHASE_PIN    PIO_PC23   // Phase/DIR er koblet til D7, som tilsvarer PC23
+#define ENABLE_PIN_ABSR   PIO_ABSR_P19   // ENABLE/PWM er koblet til D20/SDA, som tilsvarer PB12
+#define ENABLE_PIN_PDR   PIO_PDR_P19   // ENABLE/PWM er koblet til D20/SDA, som tilsvarer PB12
 
 //P value = MCK/(PRESCALER*PV)
 
@@ -16,6 +19,10 @@ void pwm_init(){
 	PIOB->PIO_ABSR |= PIO_ABSR_P13; 
 	//Deaktiverer vanlig PIO-kontroll av pinnen slik at periferien (PWM) kan overta kontrollen.
 	PIOB->PIO_PDR |= PIO_PDR_P13;
+	
+	//// 4. Sett opp PIOB for PWM-funksjonalitet på ENABLE_PIN (koblet til PB12)
+	//PIOB->PIO_ABSR |= ENABLE_PIN_ABSR;  // Sett pinnen i Peripheral B mode for PWM
+	//PIOB->PIO_PDR |= ENABLE_PIN_PDR;   // Deaktiver PIO-kontroll for å gi kontroll til PWM
 	
 	// PMC_PCR aktiverer periferiklokken for PWM. Klokken settes til å bruke masterklokken (MCK), og ID_PWM er ID-en til PWM-modulen (36). Dette gjør at PWM-enheten får strøm og kan operere.
 	PMC->PMC_PCR = PMC_PCR_EN | PMC_PCR_DIV_PERIPH_DIV_MCK | (ID_PWM << PMC_PCR_PID_Pos);

@@ -116,7 +116,7 @@ int main(void) {
 			////oled_data_from_SRAM();
 		//}
 		//if (general_ms() > 65536UL ){ restart_general_timer();}
-			
+			printf("ka faen\n\r");
 			while(playGame){
 				oled_write_screen_to_SRAM(&solkors);
 				MultiBoard_Update(&board);

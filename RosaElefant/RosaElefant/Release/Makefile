@@ -51,6 +51,8 @@ C_SRCS +=  \
 ../lib/urat/uart.c \
 ../src/can.c \
 ../src/driver_IR.c \
+../src/encoder.c \
+../src/motor.c \
 ../src/MultiBoard.c \
 ../src/pwm.c \
 ../src/main.c \
@@ -75,6 +77,8 @@ lib/urat/printf-stdarg.o \
 lib/urat/uart.o \
 src/can.o \
 src/driver_IR.o \
+src/encoder.o \
+src/motor.o \
 src/MultiBoard.o \
 src/pwm.o \
 src/main.o \
@@ -92,6 +96,8 @@ lib/urat/printf-stdarg.o \
 lib/urat/uart.o \
 src/can.o \
 src/driver_IR.o \
+src/encoder.o \
+src/motor.o \
 src/MultiBoard.o \
 src/pwm.o \
 src/main.o \
@@ -109,6 +115,8 @@ lib/urat/printf-stdarg.d \
 lib/urat/uart.d \
 src/can.d \
 src/driver_IR.d \
+src/encoder.d \
+src/motor.d \
 src/MultiBoard.d \
 src/pwm.d \
 src/main.d \
@@ -126,6 +134,8 @@ lib/urat/printf-stdarg.d \
 lib/urat/uart.d \
 src/can.d \
 src/driver_IR.d \
+src/encoder.d \
+src/motor.d \
 src/MultiBoard.d \
 src/pwm.d \
 src/main.d \
@@ -202,6 +212,20 @@ src/can.o: ../src/can.c
 	
 
 src/driver_IR.o: ../src/driver_IR.c
+	@echo Building file: $<
+	@echo Invoking: ARM/GNU C Compiler : 6.3.1
+	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\arm\arm-gnu-toolchain\bin\arm-none-eabi-gcc.exe$(QUOTE)  -x c -mthumb -D__SAM3X8E__ -DNDEBUG  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\arm\CMSIS\5.4.0\CMSIS\Core\Include" -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\SAM3X_DFP\1.0.50\include"  -Os -ffunction-sections -mlong-calls -Wall -mcpu=cortex-m3 -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
+	@echo Finished building: $<
+	
+
+src/encoder.o: ../src/encoder.c
+	@echo Building file: $<
+	@echo Invoking: ARM/GNU C Compiler : 6.3.1
+	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\arm\arm-gnu-toolchain\bin\arm-none-eabi-gcc.exe$(QUOTE)  -x c -mthumb -D__SAM3X8E__ -DNDEBUG  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\arm\CMSIS\5.4.0\CMSIS\Core\Include" -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\SAM3X_DFP\1.0.50\include"  -Os -ffunction-sections -mlong-calls -Wall -mcpu=cortex-m3 -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
+	@echo Finished building: $<
+	
+
+src/motor.o: ../src/motor.c
 	@echo Building file: $<
 	@echo Invoking: ARM/GNU C Compiler : 6.3.1
 	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\arm\arm-gnu-toolchain\bin\arm-none-eabi-gcc.exe$(QUOTE)  -x c -mthumb -D__SAM3X8E__ -DNDEBUG  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\arm\CMSIS\5.4.0\CMSIS\Core\Include" -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\SAM3X_DFP\1.0.50\include"  -Os -ffunction-sections -mlong-calls -Wall -mcpu=cortex-m3 -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 

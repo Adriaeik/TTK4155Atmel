@@ -13,6 +13,7 @@
 #include "../lib/can/can_controller.h"
 #include "../include/MultiBoard.h"
 #include "../include/driver_IR.h"
+#include "../include/encoder.h"
 
 extern MultiBoard board;
 
@@ -28,7 +29,8 @@ int main(void) {
 	can_init_def_tx_rx_mb();
 	servo_init();
 	IR_Init();
-	
+	encoder_init();
+	//motor_init();
 	
 	
 	
@@ -74,12 +76,13 @@ int main(void) {
 			//time_spinFor(msecs(20));  // Vent i 20 ms for glatt overgang
 		//}
 		IR_Handler();
-		printf("%d \r\n", score);
+		printf("score: %d. Encoder val: %d.   Xpos: %d \r\n", score, read_encoder_position(), board.JoyXposCal);
 		
-		/*	can_send(&msg,0);
-			time_spinFor(msecs(1000));
+		//can_send(&msg,0);
+			//time_spinFor(msecs(1000));
+		//update_motor_control();
 		servo_set_position_joy();
-		CAN0_Handler();*/
+		CAN0_Handler();
 		
 	}
 }

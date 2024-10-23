@@ -18,6 +18,10 @@ src\can.c
 
 src\driver_IR.c
 
+src\encoder.c
+
+src\motor.c
+
 src\MultiBoard.c
 
 src\pwm.c
