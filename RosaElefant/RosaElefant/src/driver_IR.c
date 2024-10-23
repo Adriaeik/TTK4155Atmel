@@ -24,7 +24,7 @@ Schematics bladet til arduino due lyver!! veldig kult
 ADC channel 7 er A0 og ADC channel 0 er A7. vet ikke hva resten av ADC kanalene er, men må testes
 */
 void IR_Init(){
-	uint16_t threshold_value = 2000;
+	uint16_t threshold_value = 500;
 	ADC->ADC_WPMR &= ~ADC_WPMR_WPEN;
 	// Aktivere klokka for PIOA og ADC
 	PMC->PMC_PCER1 |= (1 << (ID_ADC - 32));  // Aktivere klokka for ADC
@@ -65,7 +65,7 @@ void IR_Handler() {
 		if (IR_l == 0) {
 			score++;   // Legg til eit poeng
 			IR_l++;  // Oppdater tilstanden til lav (linja er brutt)
-			time_spinFor(msecs(10));
+			//time_spinFor(msecs(10));
 		}
 		} else {
 		// Om linja har gått frå låg til høg (linja ikkje lenger brutt)

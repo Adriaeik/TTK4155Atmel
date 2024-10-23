@@ -77,7 +77,7 @@ int main(void) {
 		//}
 		IR_Handler();
 		printf("score: %d. Encoder val: %d.   Xpos: %d \r\n", score, read_encoder_position(), board.JoyXposCal);
-		
+
 		//can_send(&msg,0);
 			//time_spinFor(msecs(1000));
 		update_motor_control();

@@ -5,6 +5,8 @@
  *  Author: adriaeik
  */ 
 #include "../include/MultiBoard.h"
+#include "sam.h"
+#define SOLENOID_PIN    PIO_PC17
 void MultiBoard_Init(MultiBoard* board) {
 	// Initialiser alle andre verdier
 	board->LSpos = 0;
@@ -42,8 +44,16 @@ void update_board_from_can(MultiBoard* board, CAN_MESSAGE* msg) {
 		case ID_JOY_BTN:
 		if (msg->data_length == 1) {
 			board->JoyBtn = msg->data[0];
+			
+			if (board->JoyBtn == 1) {
+				PIOC->PIO_CODR = SOLENOID_PIN;  // Sett pin 0 høg (positiv retning)
+				} else {
+				PIOC->PIO_SODR = SOLENOID_PIN;  // Sett pin 0 låg (negativ retning)
+			}
+			
 			#if DEBUG_MULTIBOARD == 1
 			printf("JoyBtn: %d\n\r", board->JoyBtn);
+			
 			#endif
 		}
 		break;

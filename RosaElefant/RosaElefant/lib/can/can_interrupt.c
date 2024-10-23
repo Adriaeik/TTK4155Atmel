@@ -29,6 +29,7 @@
  */
 MultiBoard board;
 
+#define SOLENOID_PIN    PIO_PC17
 void CAN0_Handler(void)
 {
 	if(DEBUG_INTERRUPT)printf("CAN0 interrupt\n\r");

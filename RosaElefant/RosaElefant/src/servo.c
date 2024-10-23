@@ -40,12 +40,14 @@ void servo_set_position_joy(void) {
 	double leftZat = -161;
 	double righZat = 93;
 	double midt = (0.9+2.1)/2;
-	if (abs(board.JoyXposCal) < 2){
+	
+	int x_pos = board.JoyYposCal;  // Les joystick posisjon
+	if (abs(x_pos) < 2){
 		ms = midt;
-	} else if (board.JoyXposCal > 0){
-		ms = board.JoyXposCal/righZat* (2.1 - midt) + midt;
-	} else if (board.JoyXposCal < 0) {
-		ms = board.JoyXposCal/leftZat* (0.9- midt) + midt;
+	} else if (x_pos > 5){
+		ms = x_pos/righZat* (2.1 - midt) + midt;
+	} else if (x_pos < -5) {
+		ms = x_pos/leftZat* (0.9- midt) + midt;
 	}
 	if (ms < 0.9) {
 		ms = 0.9;

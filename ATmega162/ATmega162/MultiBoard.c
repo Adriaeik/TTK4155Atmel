@@ -140,15 +140,15 @@ void MultiBoard_Send(MultiBoard* board){
 	}
 	
 /* PROBLEMER!!! sikkert eigentlig kjempe lett, men fuck det */
-/*
+
 	if (board->JoyBtn != board->JoyBtn_l_can) {
 		msg_to_send.id = ID_JOY_BTN;
 		msg_to_send.length = 1;
 		msg_to_send.data[0] = board->JoyBtn;
 		CAN_SendMessage(&msg_to_send);
-		board->JoyBtn_l_can = !board->JoyBtn;
+		board->JoyBtn_l_can = board->JoyBtn;
 	}
-*/
+
 	if (abs(board->RSpos - board->RSpos_l_can) >2) {
 		msg_to_send.id = ID_RS_POS;
 		msg_to_send.length = 1;

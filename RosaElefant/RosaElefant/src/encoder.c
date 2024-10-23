@@ -14,7 +14,7 @@ void encoder_init(void) {
 	TC2->TC_BMR = TC_BMR_QDEN   // Aktivere Quadrature Decoder Mode
 	| TC_BMR_POSEN  // Aktivere posisjonsmåling
 	| TC_BMR_EDGPHA // Bruke overgangar for dekoding
-	| TC_BMR_MAXFILT(0b111);  // Angi filter for støyreduksjon (valfri verdi)
+	| TC_BMR_MAXFILT(2);  // Angi filter for støyreduksjon (valfri verdi)
 
 	// Velje klokka for TC2, eks. interne klokke (f.eks. TIMER_CLOCK1)
 	TC2->TC_CHANNEL[0].TC_CMR = TC_CMR_TCCLKS_TIMER_CLOCK1;

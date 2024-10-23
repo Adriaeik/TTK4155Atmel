@@ -89,6 +89,7 @@ int main(void) {
 	/*_______HOVUDLØKKE______*/
 	 while (1) {
 
+
 		//if(!CAN_ReceiveMessage(&received_msg)){printf("data[0]: %c adresse = %X\n\r",received_msg.data[0], received_msg.id);}
 		//else{printf("Ingen melding tilgjengelig \r\n");}
 		
@@ -99,7 +100,7 @@ int main(void) {
 		//// Sjekk om du kan sende meldinga (TX-mailboksen er klar)
 		//CAN_SendMessage(&msg_to_send);
 		//printf("Send melding nr %d no!\n\n\r", i);
-		
+
         menu_navigate(&board, current_menu);  // Kallar `menu_navigate` med referanse til gjeldande meny
 		
 		/*Så lenge vi ikkje har noko delay gåandes og ditta står her tenker eg 
@@ -116,12 +117,17 @@ int main(void) {
 			////oled_data_from_SRAM();
 		//}
 		//if (general_ms() > 65536UL ){ restart_general_timer();}
-			printf("ka faen\n\r");
+			//printf("%d\n\r", board.LBtn);
 			while(playGame){
 				oled_write_screen_to_SRAM(&solkors);
 				MultiBoard_Update(&board);
 				MultiBoard_Send(&board);
-				
+				if (board.LBtn == 1)
+				{
+					currentMenuState = MAIN_MENU;
+					current_menu = &mainMenu;
+					playGame = 0;
+				}
 			}
 	 }
 	return 0;
@@ -138,6 +144,22 @@ ISR(INT0_vect) {
 		//MCP2515_BitModify(MCP2515_CANINTF, MCP2515_RX1IF | MCP2515_RX0IF, 0xFF);
 }
 
-ISR(TIMER1_COMPA_vect){
-	oled_data_from_SRAM();
-};
+//ISR(TIMER1_COMPA_vect){
+	//oled_data_from_SRAM();
+//};
+
+// Kjører i 75Hz ish
+ISR(TIMER1_OVF_vect) {
+	static uint8_t screen_count = 0;
+	cli();
+	
+	//static uint16_t count = 0;
+	//count++;
+	screen_count++;
+	if(screen_count >= 2){
+		oled_data_from_SRAM();
+		screen_count = 0;
+	}	
+	sei();
+	//printf("%d ", count/75);
+}

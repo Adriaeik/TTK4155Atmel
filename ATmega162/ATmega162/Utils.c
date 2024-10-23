@@ -19,20 +19,24 @@ ISR(TIMER3_OVF_vect) {
 // Funksjon for å setje opp Timer1 til å generere 1 ms avbrot
 void setup_timer() {
 	/*______SCREEN TIMER______*/
-	// Set Timer1 til CTC-modus
-	TCCR1B |= (1 << WGM12);
+	// Set Timer1 til normal-modus //CTC-modus
+	TCCR1A = 0; // (1 << WGM12);
 
 	// Set verdien for sammenligning, f.eks. 15624 for 1 Hz med 16 MHz klokke
-	
 	//Fiks denne til riktig Hz seneree 569 funker bra
-	OCR1A = 569;
+	//OCR1A = 569;
 
-	// Aktiver interrupt for sammenligning A
-	TIMSK |= (1 << OCIE1A);
 
-	// Velg prescaler 1024
-	TCCR1B |= (1 << CS12) | (1 << CS10);
+	// -> trenger ikke mer Aktiver interrupt for sammenligning A
+	//TIMSK |= (1 << OCIE1A);
 
+	// Velg prescaler 0
+	TCCR1B |= (1 << CS10);
+	//.... 1024
+	//TCCR1B |= (1 << CS12) | (1 << CS10);
+
+	//enable interupt overflow for timer 1
+	TIMSK |= (1 << TOIE1);
 	// Nullstill telleren
 	TCNT1 = 0;
 	
@@ -41,7 +45,7 @@ void setup_timer() {
 	TCCR3B = (1 << CS32) | (1 << CS30); // Prescaler = 1/1024
 
 	// Aktiver Timer3 overflow interrupt
-	//TIMSK |= (1 << TOIE3);
+	ETIMSK |= (1 << TOIE3);
 
 	// Nullstill Timer/Counter1
 	TCNT3 = 0;

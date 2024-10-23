@@ -12,8 +12,8 @@ void motor_init(void) {
 
 	PIOC->PIO_OER |= PHASE_PIN; // Sett PHASE_PIN som utgang
 	PIOC->PIO_PER |= PHASE_PIN; // Aktiver PIO kontroll over PHASE_PIN
-	PIOC->PIO_OER |= PHASE_PIN_alias; // Sett PHASE_PIN som utgang
-	PIOC->PIO_PER |= PHASE_PIN_alias; // Aktiver PIO kontroll over PHASE_PIN
+	PIOC->PIO_OER |= SOLENOID_PIN; // Sett PHASE_PIN som utgang
+	PIOC->PIO_PER |= SOLENOID_PIN; // Aktiver PIO kontroll over PHASE_PIN
 	// Aktiver klokka til PIOC
 	//PMC->PMC_PCER0 = (1 << ID_PIOC);  // Aktiver klokka til PIOC
 
@@ -54,12 +54,8 @@ void update_motor_control(void) {
 	PWM->PWM_CH_NUM[5].PWM_CDTYUPD = inverted_duty_cycle;
 
 	// Sett motor retning basert på fortegnet til joystick-verdien
-	if (x_pos > 0) {
-		PIOC->PIO_SODR = PHASE_PIN;  // Sett pin 0 høg (positiv retning)
-		} else if (x_pos < 0) {
-		PIOC->PIO_CODR = PHASE_PIN;  // Sett pin 0 låg (negativ retning)
-	}
-
+	if (x_pos > 0)PIOC->PIO_SODR = PHASE_PIN;  // Sett pin 0 høg (positiv retning)} 
+	else if (x_pos < 0)PIOC->PIO_CODR = PHASE_PIN;  // Sett pin 0 låg (negativ retning)
 
 	// Optional: printf for å debug duty cycle og retning
 	// printf("Ny PWM duty cycle sett til: %u ticks (for joystick posisjon: %d)\n\r", duty_cycle_ticks, x_pos);

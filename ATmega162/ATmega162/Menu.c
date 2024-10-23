@@ -13,6 +13,7 @@ Menu mainMenu;
 Menu scrollMenu;
 Menu settingsMenu;
 
+uint8_t playGame;
 
 void oled_display_menu(Menu* menu) {
 	for (uint16_t j = 0; j < 128; j++) {
@@ -132,12 +133,11 @@ void menu_navigate(MultiBoard* board, Menu* menu) {
 	if (board->JoyBtn & !board->JoyBtn_l) {
 		handleMenuSelection(board, menu);  // Behandlar menyvalet (trenger tilsyn)
 	}
+
 	write_menu_oled_to_SRAM(menu); // 15 ms ikke bra, pontus har ansvar for å finne en løsning
 	board->JoyBtn_l = board->JoyBtn;
 }
 
-
-uint8_t playGame;
 
 void handleMenuSelection(MultiBoard* board, Menu* menu) {
 	oled_clear_screen();
@@ -147,6 +147,7 @@ void handleMenuSelection(MultiBoard* board, Menu* menu) {
 			case 0:
 			oled_write_line_to_SRAM(0, "Startar spelet...");
 			playGame = 1;
+
 			oled_data_from_SRAM();
 			break;
 			case 1:
