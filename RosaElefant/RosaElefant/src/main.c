@@ -51,7 +51,7 @@ int main(void) {
 		}
 	}*/
 	//can_send(&msg,0);
-
+	double error;
 	while (1) {
 		//i++;
 		//msg.id = i;
@@ -77,11 +77,11 @@ int main(void) {
 			//time_spinFor(msecs(20));  // Vent i 20 ms for glatt overgang
 		//}
 		IR_Handler();
-		printf("score: %d. Encoder val: %d.   Xpos: %d \r\n", score, read_encoder_position(), board.JoyXposCal);
+		printf("score: %d. Encoder val: %d.   XSLIDEpos: %d, ERROR: %d \r\n", score, read_encoder_position(), board.RSpos, error);
 
 		//can_send(&msg,0);
 			//time_spinFor(msecs(1000));
-		update_motor_control();
+		motor_control_PID();
 
 		/*	can_send(&msg,0);
 			time_spinFor(msecs(1000));*/

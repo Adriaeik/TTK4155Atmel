@@ -1587,7 +1587,7 @@ Disassembly of section .text:
     1150:	91 95       	neg	r25
     1152:	81 95       	neg	r24
     1154:	91 09       	sbc	r25, r1
-    1156:	03 97       	sbiw	r24, 0x03	; 3
+    1156:	08 97       	sbiw	r24, 0x08	; 8
     1158:	8c f0       	brlt	.+34     	; 0x117c <MultiBoard_Send+0x5c>
     115a:	81 e0       	ldi	r24, 0x01	; 1
     115c:	90 e0       	ldi	r25, 0x00	; 0
@@ -1619,7 +1619,7 @@ Disassembly of section .text:
     1192:	91 95       	neg	r25
     1194:	81 95       	neg	r24
     1196:	91 09       	sbc	r25, r1
-    1198:	03 97       	sbiw	r24, 0x03	; 3
+    1198:	08 97       	sbiw	r24, 0x08	; 8
     119a:	84 f0       	brlt	.+32     	; 0x11bc <MultiBoard_Send+0x9c>
     119c:	82 e0       	ldi	r24, 0x02	; 2
     119e:	90 e0       	ldi	r25, 0x00	; 0

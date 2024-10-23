@@ -19,7 +19,7 @@ void motor_init(void) {
 
 }
 
-void update_motor_control(void) {
+void motor_control_velocity(void) {
 	// Definer parametrene for joystickkalibrering og duty cycle
 	double ms;
 	double leftZat = -161;
@@ -61,3 +61,42 @@ void update_motor_control(void) {
 	// printf("Ny PWM duty cycle sett til: %u ticks (for joystick posisjon: %d)\n\r", duty_cycle_ticks, x_pos);
 }
 
+void motor_control_PID(void){
+	error = normalize_pos_encoder();
+	double minDutyMs = 0.0; // Minimum duty cycle (0 %)
+	double maxDutyMs = 1.0; // Maksimum duty cycle (100 %)
+	double ms = 0;
+
+	// Kalkuler ms-verdi (duty cycle) basert på joystickens posisjon
+	if (error > 0) {
+		ms = (error) * maxDutyMs;  // Positiv bevegelse (0 til 100 % duty cycle)
+		} else if (error < 0) {
+		ms = (-error) * maxDutyMs;  // Negativ bevegelse (0 til 100 % duty cycle)
+	}
+	if(abs(error) > 1) ms = 1;
+	else ms = abs(error);
+
+	// Begrens ms-verdien mellom minimum og maksimum
+	if (ms < minDutyMs) {
+		ms = minDutyMs;
+		} else if (ms > maxDutyMs) {
+		ms = maxDutyMs;
+	}
+
+	// Kalkuler duty cycle basert på den nye ms-verdien
+	uint32_t duty_cycle_ticks = (uint32_t)(ms * PWM->PWM_CH_NUM[5].PWM_CPRD);
+	// Inverter duty cycle slik at høg tid svarer til 0.9 til 2.1 ms
+	uint32_t inverted_duty_cycle = PWM->PWM_CH_NUM[5].PWM_CPRD - duty_cycle_ticks;
+	// Oppdater duty cycle direkte ved å skrive til PWM_CDTYUPD
+	PWM->PWM_CH_NUM[5].PWM_CDTYUPD = inverted_duty_cycle;
+
+	// Sett motor retning basert på fortegnet til joystick-verdien
+	if (error > 0)PIOC->PIO_SODR = PHASE_PIN;  // Sett pin 0 høg (positiv retning)}
+	else if (error < 0)PIOC->PIO_CODR = PHASE_PIN;  // Sett pin 0 låg (negativ retning)
+
+}
+
+#include "../include/encoder.h"
+double normalize_pos_encoder(void){
+	return board.RSpos/SLIDER_RANGE*1000 - read_encoder_position()/ENCODER_RANGE*1000;
+}

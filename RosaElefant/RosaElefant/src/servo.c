@@ -41,7 +41,7 @@ void servo_set_position_joy(void) {
 	double righZat = 93;
 	double midt = (0.9+2.1)/2;
 	
-	int x_pos = board.JoyYposCal;  // Les joystick posisjon
+	int x_pos = board.JoyXposCal;  // Les joystick posisjon
 	if (abs(x_pos) < 2){
 		ms = midt;
 	} else if (x_pos > 5){

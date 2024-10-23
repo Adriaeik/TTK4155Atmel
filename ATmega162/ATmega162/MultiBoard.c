@@ -105,7 +105,7 @@ void MultiBoard_Send(MultiBoard* board){
 	CANMessage msg_to_send;
 	/* KAn vere fornuftig å slå sammen litt sia vi bare bruker 1 til 2 bytes per variabel*/
 	// Sjekk for alle verdier som har endra seg
-	if (abs(board->JoyYposCal - board->JoyYposCal_l_can) > 2) {
+	if (abs(board->JoyYposCal - board->JoyYposCal_l_can) > 7) {
 		msg_to_send.id = ID_JOY_Y_POS;
 		msg_to_send.length = 2; // Vi sender 2 bytes for int16_t
 		msg_to_send.data[0] = (uint8_t)(board->JoyYposCal & 0xFF); // LSB
@@ -114,7 +114,7 @@ void MultiBoard_Send(MultiBoard* board){
 		board->JoyYposCal_l_can = board->JoyYposCal;
 	}
 	
-	if (abs(board->JoyXposCal - board->JoyXposCal_l_can) > 2) {
+	if (abs(board->JoyXposCal - board->JoyXposCal_l_can) > 7) {
 		msg_to_send.id = ID_JOY_X_POS;
 		msg_to_send.length = 2; // Vi sender 2 bytes for int16_t
 		msg_to_send.data[0] = (uint8_t)(board->JoyXposCal & 0xFF); // LSB

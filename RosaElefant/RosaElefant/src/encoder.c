@@ -23,6 +23,9 @@ void encoder_init(void) {
 	TC2->TC_CHANNEL[0].TC_CCR = TC_CCR_CLKEN | TC_CCR_SWTRG;
 }
 uint32_t read_encoder_position(void) {
+	//if  (TC2->TC_CHANNEL[0].TC_CV < 0) {
+		//encoder_init();
+	//}
 	return TC2->TC_CHANNEL[0].TC_CV;  // Les posisjonsverdi
 }
 
