@@ -120,6 +120,8 @@ int main(void) {
 			//printf("%d\n\r", board.LBtn);
 			while(playGame){
 				oled_write_screen_to_SRAM(&solkors);
+				TIMSK &= ~(1 << TOIE1);
+				
 				MultiBoard_Update(&board);
 				MultiBoard_Send(&board);
 				if (board.LBtn == 1)
@@ -140,6 +142,7 @@ ISR(INT0_vect) {
 		//printf("data[0]: %c adresse = %d\n\r",msg.data[0], msg.id);
 		playGame = 0;
 		printf("melding tatt imot\n\r");
+		TIMSK |= (1 << TOIE1);
 	/* VI TROR at dette handterast i recive, trøbbel å ha det med*/
 		//MCP2515_BitModify(MCP2515_CANINTF, MCP2515_RX1IF | MCP2515_RX0IF, 0xFF);
 }

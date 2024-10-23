@@ -28,9 +28,10 @@ int main(void) {
 	// Sett opp CAN, definer 1 TX-mailboks og 2 RX-mailboksar
 	can_init_def_tx_rx_mb();
 	servo_init();
+	motor_init();
 	IR_Init();
 	encoder_init();
-	motor_init();
+	
 	
 	
 	

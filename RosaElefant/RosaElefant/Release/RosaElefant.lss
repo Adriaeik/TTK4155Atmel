@@ -738,7 +738,7 @@ Disassembly of section .text:
    80782:	4b05      	ldr	r3, [pc, #20]	; (80798 <encoder_init+0x24>)
    80784:	4a05      	ldr	r2, [pc, #20]	; (8079c <encoder_init+0x28>)
    80786:	f8c3 20c4 	str.w	r2, [r3, #196]	; 0xc4
-   8078a:	2200      	movs	r2, #0
+   8078a:	2201      	movs	r2, #1
    8078c:	605a      	str	r2, [r3, #4]
    8078e:	2205      	movs	r2, #5
    80790:	601a      	str	r2, [r3, #0]
@@ -1124,9 +1124,9 @@ Disassembly of section .text:
    80b38:	00080999 	.word	0x00080999
    80b3c:	00080349 	.word	0x00080349
    80b40:	00080b71 	.word	0x00080b71
-   80b44:	000806e9 	.word	0x000806e9
-   80b48:	00080775 	.word	0x00080775
-   80b4c:	000807ad 	.word	0x000807ad
+   80b44:	000807ad 	.word	0x000807ad
+   80b48:	000806e9 	.word	0x000806e9
+   80b4c:	00080775 	.word	0x00080775
    80b50:	00080739 	.word	0x00080739
    80b54:	200004b2 	.word	0x200004b2
    80b58:	000807a1 	.word	0x000807a1

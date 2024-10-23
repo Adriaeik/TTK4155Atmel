@@ -17,7 +17,7 @@ void encoder_init(void) {
 	| TC_BMR_MAXFILT(2);  // Angi filter for støyreduksjon (valfri verdi)
 
 	// Velje klokka for TC2, eks. interne klokke (f.eks. TIMER_CLOCK1)
-	TC2->TC_CHANNEL[0].TC_CMR = TC_CMR_TCCLKS_TIMER_CLOCK1;
+	TC2->TC_CHANNEL[0].TC_CMR = TC_CMR_TCCLKS_TIMER_CLOCK2;
 
 	// Start Timer Counter Channel 0
 	TC2->TC_CHANNEL[0].TC_CCR = TC_CCR_CLKEN | TC_CCR_SWTRG;
