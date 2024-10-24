@@ -81,7 +81,9 @@ src/driver_IR.d src/driver_IR.o: ../src/driver_IR.c \
  C:\Program\ Files\ (x86)\Atmel\Studio\7.0\Packs\atmel\SAM3X_DFP\1.0.50\include/instance/rtc.h \
  C:\Program\ Files\ (x86)\Atmel\Studio\7.0\Packs\atmel\SAM3X_DFP\1.0.50\include/instance/gpbr.h \
  C:\Program\ Files\ (x86)\Atmel\Studio\7.0\Packs\atmel\SAM3X_DFP\1.0.50\include/pio/sam3x8e.h \
- ../src/../include/driver_IR.h ../src/../include/time.h
+ ../src/../include/driver_IR.h ../src/../include/time.h \
+ ../src/../include/game.h ../src/../include/../lib/can/can_controller.h \
+ ../src/../include/MultiBoard.h ../src/../include/driver_IR.h
 
 C:\Program\ Files\ (x86)\Atmel\Studio\7.0\Packs\atmel\SAM3X_DFP\1.0.50\include/sam.h:
 
@@ -250,3 +252,11 @@ C:\Program\ Files\ (x86)\Atmel\Studio\7.0\Packs\atmel\SAM3X_DFP\1.0.50\include/p
 ../src/../include/driver_IR.h:
 
 ../src/../include/time.h:
+
+../src/../include/game.h:
+
+../src/../include/../lib/can/can_controller.h:
+
+../src/../include/MultiBoard.h:
+
+../src/../include/driver_IR.h:

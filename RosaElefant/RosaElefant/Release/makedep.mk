@@ -20,6 +20,10 @@ src\driver_IR.c
 
 src\encoder.c
 
+src\game.c
+
+src\init.c
+
 src\motor.c
 
 src\MultiBoard.c
