@@ -17,6 +17,7 @@ MultiBoard board;
 
 
 
+
 int main(void) {
 	/*_________________INITIALISERINGER START______________________*/
 	/*--- Initialiser UART ---*/
@@ -63,6 +64,8 @@ int main(void) {
 	extern Menu* current_men;//u = &mainMenu; //kan kanskje teste med å starte i ein anna meny
 	write_menu_oled_to_SRAM(current_menu);
 	
+	print_game_status(&main_game);
+	
 	/*_______HOVUDLØKKE______*/
 	 while (1) {
 
@@ -87,7 +90,7 @@ int main(void) {
 					//main_game.start_game = 0;
 				//}
 			//}
-			printf("%d,   %d\r\n", main_game.start_game, main_game.lives);
+			//printf("%d,   %d\r\n", main_game.start_game, main_game.lives);
 	 }
 	return 0;
 }

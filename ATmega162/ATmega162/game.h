@@ -36,6 +36,5 @@ void game_Send(Game* game, uint8_t ID);
 void game_Recive(Game* game, CANMessage* msg);
 void set_difficulty(Difficulty difficulty);
 int game_run(void);
-
-
+void print_game_status(Game *game);
 #endif /* GAME_H_ */

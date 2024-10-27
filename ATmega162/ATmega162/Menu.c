@@ -160,6 +160,7 @@ void handleMenuSelection(MultiBoard* board, Menu* menu) {
 			playGame = 1;
 			main_game.start_game = 1;
 			game_Start(&main_game);
+			print_game_status(&main_game);
 			while(game_run());
 
 
