@@ -1,4 +1,4 @@
-main.d main.o: .././main.c .././DriverUART.h .././Utils.h \
+HighScore.d HighScore.o: .././HighScore.c .././HighScore.h .././Utils.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\io.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\sfr_defs.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\inttypes.h \
@@ -18,13 +18,9 @@ main.d main.o: .././main.c .././DriverUART.h .././Utils.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\gcc\avr\5.4.0\include\stddef.h \
  .././Font.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\pgmspace.h \
- c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdio.h \
- c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\gcc\avr\5.4.0\include\stdarg.h \
- .././SRAM.h .././Menu_init.h .././Menu.h .././OLED.h .././XMEM_Decode.h \
- .././MultiBoard.h .././GameSettings.h .././utils.h .././DriverCAN.h \
- .././DriverMCP2515.h .././DriverSPI.h .././HighScore.h
+ .././XMEM_Decode.h
 
-.././DriverUART.h:
+.././HighScore.h:
 
 .././Utils.h:
 
@@ -66,30 +62,4 @@ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\
 
 c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\pgmspace.h:
 
-c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdio.h:
-
-c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\gcc\avr\5.4.0\include\stdarg.h:
-
-.././SRAM.h:
-
-.././Menu_init.h:
-
-.././Menu.h:
-
-.././OLED.h:
-
 .././XMEM_Decode.h:
-
-.././MultiBoard.h:
-
-.././GameSettings.h:
-
-.././utils.h:
-
-.././DriverCAN.h:
-
-.././DriverMCP2515.h:
-
-.././DriverSPI.h:
-
-.././HighScore.h:

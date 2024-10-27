@@ -9,6 +9,7 @@
 #include "SRAM.h"
 #include "Menu_init.h"
 #include "DriverCAN.h"
+#include "HighScore.h"
 
 extern uint8_t playGame = 0;
 
@@ -87,6 +88,13 @@ int main(void) {
 	settings_init(&settings);
 	
 	write_menu_oled_to_SRAM(current_menu);
+	
+	
+	//Highscore
+	////clear_highscore_list();
+	//highscore_to_SRAM(123);
+	//highscore_to_SRAM(0);
+	//highscore_to_SRAM(420);
 	
 	/*_______HOVUDLØKKE______*/
 	 while (1) {

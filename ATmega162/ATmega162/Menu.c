@@ -132,6 +132,10 @@ void write_menu_oled_to_SRAM(Menu* menu){
 		}
 	}
 	
+	if(currentMenuState == SCROLL_MENU){
+		highscore_to_SRAM(menu->scroll_offset);
+	}
+	
 }
 
 

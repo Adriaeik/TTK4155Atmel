@@ -14,6 +14,8 @@ Font.c
 
 GameSettings.c
 
+HighScore.c
+
 main.c
 
 Menu.c

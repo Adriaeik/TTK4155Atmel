@@ -157,6 +157,12 @@
     <Compile Include="GameSettings.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="HighScore.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="HighScore.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="main.c">
       <SubType>compile</SubType>
     </Compile>

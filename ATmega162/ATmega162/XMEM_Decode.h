@@ -26,6 +26,7 @@
 #define SRAM_START_IDX 0x0800
 
 #define SRAM_OLED_DATA 1024
+#define HIGH_SCORE_DATA 16*20
 
 
 void externalMemoryInit(void);
