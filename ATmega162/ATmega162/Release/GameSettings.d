@@ -1,4 +1,5 @@
-SRAM_Test.d SRAM_Test.o: .././SRAM_Test.c .././SRAM.h .././Utils.h \
+GameSettings.d GameSettings.o: .././GameSettings.c .././GameSettings.h \
+ .././utils.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\io.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\sfr_defs.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\inttypes.h \
@@ -19,9 +20,9 @@ SRAM_Test.d SRAM_Test.o: .././SRAM_Test.c .././SRAM.h .././Utils.h \
  .././Font.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\pgmspace.h
 
-.././SRAM.h:
+.././GameSettings.h:
 
-.././Utils.h:
+.././utils.h:
 
 c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\io.h:
 
