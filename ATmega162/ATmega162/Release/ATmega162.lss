@@ -17,9 +17,9 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY, DEBUGGING
   6 .debug_abbrev 00000580  00000000  00000000  00002b7c  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_line   0000001a  00000000  00000000  000030fc  2**0
+  7 .debug_line   0000013f  00000000  00000000  000030fc  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_str    000001f6  00000000  00000000  00003116  2**0
+  8 .debug_str    000001f6  00000000  00000000  0000323b  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -1826,7 +1826,7 @@ Disassembly of section .text:
     1328:	46 1b       	sub	r20, r22
     132a:	57 0b       	sbc	r21, r23
     132c:	ba 01       	movw	r22, r20
-    132e:	0e 94 4c 0e 	call	0x1c98	; 0x1c98 <__divmodhi4>
+    132e:	0e 94 60 0e 	call	0x1cc0	; 0x1cc0 <__divmodhi4>
     1332:	66 5a       	subi	r22, 0xA6	; 166
     1334:	7f 4f       	sbci	r23, 0xFF	; 255
     1336:	27 c0       	rjmp	.+78     	; 0x1386 <MultiBoard_UpdateJoystickAngle+0xb8>
@@ -1838,7 +1838,7 @@ Disassembly of section .text:
     1342:	11 24       	eor	r1, r1
     1344:	62 0f       	add	r22, r18
     1346:	73 1f       	adc	r23, r19
-    1348:	0e 94 4c 0e 	call	0x1c98	; 0x1c98 <__divmodhi4>
+    1348:	0e 94 60 0e 	call	0x1cc0	; 0x1cc0 <__divmodhi4>
     134c:	1c c0       	rjmp	.+56     	; 0x1386 <MultiBoard_UpdateJoystickAngle+0xb8>
     134e:	46 ea       	ldi	r20, 0xA6	; 166
     1350:	42 03       	mulsu	r20, r18
@@ -1851,7 +1851,7 @@ Disassembly of section .text:
     135e:	71 09       	sbc	r23, r1
     1360:	62 1b       	sub	r22, r18
     1362:	73 0b       	sbc	r23, r19
-    1364:	0e 94 4c 0e 	call	0x1c98	; 0x1c98 <__divmodhi4>
+    1364:	0e 94 60 0e 	call	0x1cc0	; 0x1cc0 <__divmodhi4>
     1368:	6c 54       	subi	r22, 0x4C	; 76
     136a:	7f 4f       	sbci	r23, 0xFF	; 255
     136c:	0c c0       	rjmp	.+24     	; 0x1386 <MultiBoard_UpdateJoystickAngle+0xb8>
@@ -1863,7 +1863,7 @@ Disassembly of section .text:
     1378:	11 24       	eor	r1, r1
     137a:	62 1b       	sub	r22, r18
     137c:	73 0b       	sbc	r23, r19
-    137e:	0e 94 4c 0e 	call	0x1c98	; 0x1c98 <__divmodhi4>
+    137e:	0e 94 60 0e 	call	0x1cc0	; 0x1cc0 <__divmodhi4>
     1382:	62 5f       	subi	r22, 0xF2	; 242
     1384:	7e 4f       	sbci	r23, 0xFE	; 254
     1386:	76 87       	std	Z+14, r23	; 0x0e
@@ -2855,16 +2855,16 @@ Disassembly of section .text:
     1b88:	89 bf       	out	0x39, r24	; 57
     1b8a:	1d bc       	out	0x2d, r1	; 45
     1b8c:	1c bc       	out	0x2c, r1	; 44
-    1b8e:	10 92 8b 00 	sts	0x008B, r1	; 0x80008b <__TEXT_REGION_LENGTH__+0x7fc08b>
+    1b8e:	10 92 8b 00 	sts	0x008B, r1	; 0x80008b <__DATA_REGION_ORIGIN__+0x2b>
     1b92:	85 e0       	ldi	r24, 0x05	; 5
-    1b94:	80 93 8a 00 	sts	0x008A, r24	; 0x80008a <__TEXT_REGION_LENGTH__+0x7fc08a>
+    1b94:	80 93 8a 00 	sts	0x008A, r24	; 0x80008a <__DATA_REGION_ORIGIN__+0x2a>
     1b98:	ed e7       	ldi	r30, 0x7D	; 125
     1b9a:	f0 e0       	ldi	r31, 0x00	; 0
     1b9c:	80 81       	ld	r24, Z
     1b9e:	84 60       	ori	r24, 0x04	; 4
     1ba0:	80 83       	st	Z, r24
-    1ba2:	10 92 89 00 	sts	0x0089, r1	; 0x800089 <__TEXT_REGION_LENGTH__+0x7fc089>
-    1ba6:	10 92 88 00 	sts	0x0088, r1	; 0x800088 <__TEXT_REGION_LENGTH__+0x7fc088>
+    1ba2:	10 92 89 00 	sts	0x0089, r1	; 0x800089 <__DATA_REGION_ORIGIN__+0x29>
+    1ba6:	10 92 88 00 	sts	0x0088, r1	; 0x800088 <__DATA_REGION_ORIGIN__+0x28>
     1baa:	08 95       	ret
 
 00001bac <general_cycles>:
@@ -2872,8 +2872,8 @@ Disassembly of section .text:
     1bb0:	90 91 66 02 	lds	r25, 0x0266	; 0x800266 <overflow_count3+0x1>
     1bb4:	a0 91 67 02 	lds	r26, 0x0267	; 0x800267 <overflow_count3+0x2>
     1bb8:	b0 91 68 02 	lds	r27, 0x0268	; 0x800268 <overflow_count3+0x3>
-    1bbc:	20 91 88 00 	lds	r18, 0x0088	; 0x800088 <__TEXT_REGION_LENGTH__+0x7fc088>
-    1bc0:	30 91 89 00 	lds	r19, 0x0089	; 0x800089 <__TEXT_REGION_LENGTH__+0x7fc089>
+    1bbc:	20 91 88 00 	lds	r18, 0x0088	; 0x800088 <__DATA_REGION_ORIGIN__+0x28>
+    1bc0:	30 91 89 00 	lds	r19, 0x0089	; 0x800089 <__DATA_REGION_ORIGIN__+0x29>
     1bc4:	dc 01       	movw	r26, r24
     1bc6:	99 27       	eor	r25, r25
     1bc8:	88 27       	eor	r24, r24
@@ -2891,12 +2891,12 @@ Disassembly of section .text:
     1bde:	ac 01       	movw	r20, r24
     1be0:	a8 ee       	ldi	r26, 0xE8	; 232
     1be2:	b3 e0       	ldi	r27, 0x03	; 3
-    1be4:	0e 94 82 0e 	call	0x1d04	; 0x1d04 <__muluhisi3>
+    1be4:	0e 94 96 0e 	call	0x1d2c	; 0x1d2c <__muluhisi3>
     1be8:	20 ec       	ldi	r18, 0xC0	; 192
     1bea:	32 e1       	ldi	r19, 0x12	; 18
     1bec:	40 e0       	ldi	r20, 0x00	; 0
     1bee:	50 e0       	ldi	r21, 0x00	; 0
-    1bf0:	0e 94 60 0e 	call	0x1cc0	; 0x1cc0 <__udivmodsi4>
+    1bf0:	0e 94 74 0e 	call	0x1ce8	; 0x1ce8 <__udivmodsi4>
     1bf4:	ca 01       	movw	r24, r20
     1bf6:	b9 01       	movw	r22, r18
     1bf8:	08 95       	ret
@@ -2990,109 +2990,109 @@ Disassembly of section .text:
     1c94:	cf 91       	pop	r28
     1c96:	08 95       	ret
 
-00001c98 <__divmodhi4>:
-    1c98:	97 fb       	bst	r25, 7
-    1c9a:	07 2e       	mov	r0, r23
-    1c9c:	16 f4       	brtc	.+4      	; 0x1ca2 <__divmodhi4+0xa>
-    1c9e:	00 94       	com	r0
-    1ca0:	07 d0       	rcall	.+14     	; 0x1cb0 <__divmodhi4_neg1>
-    1ca2:	77 fd       	sbrc	r23, 7
-    1ca4:	09 d0       	rcall	.+18     	; 0x1cb8 <__divmodhi4_neg2>
-    1ca6:	0e 94 8d 0e 	call	0x1d1a	; 0x1d1a <__udivmodhi4>
-    1caa:	07 fc       	sbrc	r0, 7
-    1cac:	05 d0       	rcall	.+10     	; 0x1cb8 <__divmodhi4_neg2>
-    1cae:	3e f4       	brtc	.+14     	; 0x1cbe <__divmodhi4_exit>
+00001c98 <__udivmodhi4>:
+    1c98:	aa 1b       	sub	r26, r26
+    1c9a:	bb 1b       	sub	r27, r27
+    1c9c:	51 e1       	ldi	r21, 0x11	; 17
+    1c9e:	07 c0       	rjmp	.+14     	; 0x1cae <__udivmodhi4_ep>
 
-00001cb0 <__divmodhi4_neg1>:
-    1cb0:	90 95       	com	r25
-    1cb2:	81 95       	neg	r24
-    1cb4:	9f 4f       	sbci	r25, 0xFF	; 255
-    1cb6:	08 95       	ret
+00001ca0 <__udivmodhi4_loop>:
+    1ca0:	aa 1f       	adc	r26, r26
+    1ca2:	bb 1f       	adc	r27, r27
+    1ca4:	a6 17       	cp	r26, r22
+    1ca6:	b7 07       	cpc	r27, r23
+    1ca8:	10 f0       	brcs	.+4      	; 0x1cae <__udivmodhi4_ep>
+    1caa:	a6 1b       	sub	r26, r22
+    1cac:	b7 0b       	sbc	r27, r23
 
-00001cb8 <__divmodhi4_neg2>:
-    1cb8:	70 95       	com	r23
-    1cba:	61 95       	neg	r22
-    1cbc:	7f 4f       	sbci	r23, 0xFF	; 255
-
-00001cbe <__divmodhi4_exit>:
+00001cae <__udivmodhi4_ep>:
+    1cae:	88 1f       	adc	r24, r24
+    1cb0:	99 1f       	adc	r25, r25
+    1cb2:	5a 95       	dec	r21
+    1cb4:	a9 f7       	brne	.-22     	; 0x1ca0 <__udivmodhi4_loop>
+    1cb6:	80 95       	com	r24
+    1cb8:	90 95       	com	r25
+    1cba:	bc 01       	movw	r22, r24
+    1cbc:	cd 01       	movw	r24, r26
     1cbe:	08 95       	ret
 
-00001cc0 <__udivmodsi4>:
-    1cc0:	a1 e2       	ldi	r26, 0x21	; 33
-    1cc2:	1a 2e       	mov	r1, r26
-    1cc4:	aa 1b       	sub	r26, r26
-    1cc6:	bb 1b       	sub	r27, r27
-    1cc8:	fd 01       	movw	r30, r26
-    1cca:	0d c0       	rjmp	.+26     	; 0x1ce6 <__udivmodsi4_ep>
+00001cc0 <__divmodhi4>:
+    1cc0:	97 fb       	bst	r25, 7
+    1cc2:	07 2e       	mov	r0, r23
+    1cc4:	16 f4       	brtc	.+4      	; 0x1cca <__divmodhi4+0xa>
+    1cc6:	00 94       	com	r0
+    1cc8:	07 d0       	rcall	.+14     	; 0x1cd8 <__divmodhi4_neg1>
+    1cca:	77 fd       	sbrc	r23, 7
+    1ccc:	09 d0       	rcall	.+18     	; 0x1ce0 <__divmodhi4_neg2>
+    1cce:	0e 94 4c 0e 	call	0x1c98	; 0x1c98 <__udivmodhi4>
+    1cd2:	07 fc       	sbrc	r0, 7
+    1cd4:	05 d0       	rcall	.+10     	; 0x1ce0 <__divmodhi4_neg2>
+    1cd6:	3e f4       	brtc	.+14     	; 0x1ce6 <__divmodhi4_exit>
 
-00001ccc <__udivmodsi4_loop>:
-    1ccc:	aa 1f       	adc	r26, r26
-    1cce:	bb 1f       	adc	r27, r27
-    1cd0:	ee 1f       	adc	r30, r30
-    1cd2:	ff 1f       	adc	r31, r31
-    1cd4:	a2 17       	cp	r26, r18
-    1cd6:	b3 07       	cpc	r27, r19
-    1cd8:	e4 07       	cpc	r30, r20
-    1cda:	f5 07       	cpc	r31, r21
-    1cdc:	20 f0       	brcs	.+8      	; 0x1ce6 <__udivmodsi4_ep>
-    1cde:	a2 1b       	sub	r26, r18
-    1ce0:	b3 0b       	sbc	r27, r19
-    1ce2:	e4 0b       	sbc	r30, r20
-    1ce4:	f5 0b       	sbc	r31, r21
+00001cd8 <__divmodhi4_neg1>:
+    1cd8:	90 95       	com	r25
+    1cda:	81 95       	neg	r24
+    1cdc:	9f 4f       	sbci	r25, 0xFF	; 255
+    1cde:	08 95       	ret
 
-00001ce6 <__udivmodsi4_ep>:
-    1ce6:	66 1f       	adc	r22, r22
-    1ce8:	77 1f       	adc	r23, r23
-    1cea:	88 1f       	adc	r24, r24
-    1cec:	99 1f       	adc	r25, r25
-    1cee:	1a 94       	dec	r1
-    1cf0:	69 f7       	brne	.-38     	; 0x1ccc <__udivmodsi4_loop>
-    1cf2:	60 95       	com	r22
-    1cf4:	70 95       	com	r23
-    1cf6:	80 95       	com	r24
-    1cf8:	90 95       	com	r25
-    1cfa:	9b 01       	movw	r18, r22
-    1cfc:	ac 01       	movw	r20, r24
-    1cfe:	bd 01       	movw	r22, r26
-    1d00:	cf 01       	movw	r24, r30
-    1d02:	08 95       	ret
+00001ce0 <__divmodhi4_neg2>:
+    1ce0:	70 95       	com	r23
+    1ce2:	61 95       	neg	r22
+    1ce4:	7f 4f       	sbci	r23, 0xFF	; 255
 
-00001d04 <__muluhisi3>:
-    1d04:	0e 94 a1 0e 	call	0x1d42	; 0x1d42 <__umulhisi3>
-    1d08:	a5 9f       	mul	r26, r21
-    1d0a:	90 0d       	add	r25, r0
-    1d0c:	b4 9f       	mul	r27, r20
-    1d0e:	90 0d       	add	r25, r0
-    1d10:	a4 9f       	mul	r26, r20
-    1d12:	80 0d       	add	r24, r0
-    1d14:	91 1d       	adc	r25, r1
-    1d16:	11 24       	eor	r1, r1
-    1d18:	08 95       	ret
+00001ce6 <__divmodhi4_exit>:
+    1ce6:	08 95       	ret
 
-00001d1a <__udivmodhi4>:
-    1d1a:	aa 1b       	sub	r26, r26
-    1d1c:	bb 1b       	sub	r27, r27
-    1d1e:	51 e1       	ldi	r21, 0x11	; 17
-    1d20:	07 c0       	rjmp	.+14     	; 0x1d30 <__udivmodhi4_ep>
+00001ce8 <__udivmodsi4>:
+    1ce8:	a1 e2       	ldi	r26, 0x21	; 33
+    1cea:	1a 2e       	mov	r1, r26
+    1cec:	aa 1b       	sub	r26, r26
+    1cee:	bb 1b       	sub	r27, r27
+    1cf0:	fd 01       	movw	r30, r26
+    1cf2:	0d c0       	rjmp	.+26     	; 0x1d0e <__udivmodsi4_ep>
 
-00001d22 <__udivmodhi4_loop>:
-    1d22:	aa 1f       	adc	r26, r26
-    1d24:	bb 1f       	adc	r27, r27
-    1d26:	a6 17       	cp	r26, r22
-    1d28:	b7 07       	cpc	r27, r23
-    1d2a:	10 f0       	brcs	.+4      	; 0x1d30 <__udivmodhi4_ep>
-    1d2c:	a6 1b       	sub	r26, r22
-    1d2e:	b7 0b       	sbc	r27, r23
+00001cf4 <__udivmodsi4_loop>:
+    1cf4:	aa 1f       	adc	r26, r26
+    1cf6:	bb 1f       	adc	r27, r27
+    1cf8:	ee 1f       	adc	r30, r30
+    1cfa:	ff 1f       	adc	r31, r31
+    1cfc:	a2 17       	cp	r26, r18
+    1cfe:	b3 07       	cpc	r27, r19
+    1d00:	e4 07       	cpc	r30, r20
+    1d02:	f5 07       	cpc	r31, r21
+    1d04:	20 f0       	brcs	.+8      	; 0x1d0e <__udivmodsi4_ep>
+    1d06:	a2 1b       	sub	r26, r18
+    1d08:	b3 0b       	sbc	r27, r19
+    1d0a:	e4 0b       	sbc	r30, r20
+    1d0c:	f5 0b       	sbc	r31, r21
 
-00001d30 <__udivmodhi4_ep>:
-    1d30:	88 1f       	adc	r24, r24
-    1d32:	99 1f       	adc	r25, r25
-    1d34:	5a 95       	dec	r21
-    1d36:	a9 f7       	brne	.-22     	; 0x1d22 <__udivmodhi4_loop>
-    1d38:	80 95       	com	r24
-    1d3a:	90 95       	com	r25
-    1d3c:	bc 01       	movw	r22, r24
-    1d3e:	cd 01       	movw	r24, r26
+00001d0e <__udivmodsi4_ep>:
+    1d0e:	66 1f       	adc	r22, r22
+    1d10:	77 1f       	adc	r23, r23
+    1d12:	88 1f       	adc	r24, r24
+    1d14:	99 1f       	adc	r25, r25
+    1d16:	1a 94       	dec	r1
+    1d18:	69 f7       	brne	.-38     	; 0x1cf4 <__udivmodsi4_loop>
+    1d1a:	60 95       	com	r22
+    1d1c:	70 95       	com	r23
+    1d1e:	80 95       	com	r24
+    1d20:	90 95       	com	r25
+    1d22:	9b 01       	movw	r18, r22
+    1d24:	ac 01       	movw	r20, r24
+    1d26:	bd 01       	movw	r22, r26
+    1d28:	cf 01       	movw	r24, r30
+    1d2a:	08 95       	ret
+
+00001d2c <__muluhisi3>:
+    1d2c:	0e 94 a1 0e 	call	0x1d42	; 0x1d42 <__umulhisi3>
+    1d30:	a5 9f       	mul	r26, r21
+    1d32:	90 0d       	add	r25, r0
+    1d34:	b4 9f       	mul	r27, r20
+    1d36:	90 0d       	add	r25, r0
+    1d38:	a4 9f       	mul	r26, r20
+    1d3a:	80 0d       	add	r24, r0
+    1d3c:	91 1d       	adc	r25, r1
+    1d3e:	11 24       	eor	r1, r1
     1d40:	08 95       	ret
 
 00001d42 <__umulhisi3>:
