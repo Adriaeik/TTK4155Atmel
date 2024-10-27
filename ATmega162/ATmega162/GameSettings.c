@@ -7,33 +7,32 @@
 
 #include "GameSettings.h"
 
-Settings settings = {5, 5};
 
-void settings_init(Settings* s){
+void settings_init(Game* s){
 	s->lives = 5;
 	s->sensitivity = 5;
 	s->difficulty = 1;
 }
 
-void add_lives(Settings* s){
+void add_lives(Game* s){
 	if(s->lives == 9){s->lives = 1; return;}
 	
 	s->lives++;	
 }
 
-void add_sensitivity(Settings* s){
+void add_sensitivity(Game* s){
 	if(s->sensitivity == 9){s->sensitivity = 1; return;}
 		
 	s->sensitivity++;
 }
 
-void add_difficulty(Settings* s){
+void add_difficulty(Game* s){
 	if(s->difficulty == 3){s->difficulty = 1; return;}
 	
 	s->difficulty++;
 }
 
-void reset_settings(Settings* s){
+void reset_settings(Game* s){
 	settings_init(s);
 }
 

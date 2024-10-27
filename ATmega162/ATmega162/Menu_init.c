@@ -29,10 +29,12 @@ void initialize_menus() {
 	scrollMenu.scroll_offset = 0;
 
 	settingsMenu.items = &settingsMenuItems;
-	settingsMenu.num_items = 4;
+	settingsMenu.num_items = 5;
 	settingsMenu.current_position = 0;
 	settingsMenu.prev_position = 0;
 	settingsMenu.scroll_offset = 0;
+	
+	current_menu = &mainMenu;
 }
 
 

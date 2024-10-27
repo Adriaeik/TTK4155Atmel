@@ -8,7 +8,7 @@
 
 #ifndef GAME_H_
 #define GAME_H_
-#define  DEBUG_GAME 0
+#define  DEBUG_GAME 1
 
 //#include "motor.h"
 #include "../lib/can/can_controller.h"

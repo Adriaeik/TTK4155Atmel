@@ -14,7 +14,7 @@ Menu scrollMenu;
 Menu settingsMenu;
 
 uint8_t playGame;
-Settings settings;
+Game main_game;
 
 void oled_display_menu(Menu* menu) {
 	for (uint16_t j = 0; j < 128; j++) {
@@ -93,13 +93,13 @@ void write_menu_oled_to_SRAM(Menu* menu){
 					SRAM_write(j*8 + i, pgm_read_byte(&font8x8_basic[('>'-32)*8 + i]));
 				}
 				else if((j%16 == 15) & (j/16 == 1) & (currentMenuState == SETTINGS_MENU)){
-					SRAM_write(j*8 + i, pgm_read_byte(&font8x8_basic[(0x30 + settings.lives - 32)*8 + i]));
+					SRAM_write(j*8 + i, pgm_read_byte(&font8x8_basic[(0x30 + main_game.lives - 32)*8 + i]));
 				}
 				else if((j%16 == 15) & (j/16 == 2) & (currentMenuState == SETTINGS_MENU)){
-					SRAM_write(j*8 + i, pgm_read_byte(&font8x8_basic[(0x30 + settings.sensitivity - 32)*8 + i]));
+					SRAM_write(j*8 + i, pgm_read_byte(&font8x8_basic[(0x30 + main_game.sensitivity - 32)*8 + i]));
 				}
 				else if((j%16 == 15) & (j/16 == 3) & (currentMenuState == SETTINGS_MENU)){
-					SRAM_write(j*8 + i, pgm_read_byte(&font8x8_basic[(0x30 + settings.difficulty - 32)*8 + i]));
+					SRAM_write(j*8 + i, pgm_read_byte(&font8x8_basic[(0x30 + main_game.difficulty - 32)*8 + i]));
 				}
 				else{
 					SRAM_write(j*8 + i, pgm_read_byte(&font8x8_basic[(c-32)*8 + i]));	
@@ -158,6 +158,9 @@ void handleMenuSelection(MultiBoard* board, Menu* menu) {
 			oled_write_line_to_SRAM(0, "Startar spelet...");
 			playGame = 1;
 			main_game.start_game = 1;
+			game_Start(&main_game);
+			while(game_run());
+
 
 			oled_data_from_SRAM();
 			break;
@@ -189,16 +192,16 @@ void handleMenuSelection(MultiBoard* board, Menu* menu) {
 		// Håndter valg i innstillingsmenyen
 		switch (menu->current_position) {
 			case 0:
-			reset_settings(&settings);
+			reset_settings(&main_game);
 			break;
 			case 1:
-			add_lives(&settings);
+			add_lives(&main_game);
 			break;
 			case 2:
-			add_sensitivity(&settings);
+			add_sensitivity(&main_game);
 			break;
 			case 3:
-			add_difficulty(&settings);
+			add_difficulty(&main_game);
 			break;
 			case 4:
 			// Gå tilbake til hovudmenyen

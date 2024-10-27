@@ -13,6 +13,8 @@
 
 extern uint8_t playGame = 0;
 Game main_game;
+MultiBoard board;
+
 
 
 int main(void) {
@@ -28,7 +30,6 @@ int main(void) {
 	/*--- Ditta må (noko av det ihvertfall) vere etter sei() ---*/
 	externalMemoryInit();				// Initialiser eksternt minne må vere etter sei
 	initialize_menus();
-	MultiBoard board;
 	MultiBoard_Init(&board);			// Initialiser MultiBoard og kalibrer joystickens origo
 	game_Init(&main_game);
 	main_game.lives = 5;
@@ -59,9 +60,7 @@ int main(void) {
 	
 	
 	/*______MENY______*/
-	current_menu = &mainMenu; //kan kanskje teste med å starte i ein anna meny
-	settings_init(&settings);
-	
+	extern Menu* current_men;//u = &mainMenu; //kan kanskje teste med å starte i ein anna meny
 	write_menu_oled_to_SRAM(current_menu);
 	
 	/*_______HOVUDLØKKE______*/
@@ -69,26 +68,25 @@ int main(void) {
 
         menu_navigate(&board, current_menu);  // Kallar `menu_navigate` med referanse til gjeldande meny
 		
-		
 		/*Så lenge vi ikkje har noko delay gåandes og ditta står her tenker eg 
 		at den oppdateres automatisk med det minnet vi har skreve til sramen?
 		Det kunne vert fornuftig med eit flag her då
 		
 		16ms skal gi ich 60hz, gitt at resten av programmet kjører raskt nok...
 		*/	
-			while(main_game.start_game == 1){
-				oled_write_screen_to_SRAM(&solkors);
-				//TIMSK &= ~(1 << TOIE1);
-				
-				MultiBoard_Update(&board);
-				MultiBoard_Send(&board);
-				if (main_game.lives == 0)
-				{
-					currentMenuState = MAIN_MENU;
-					current_menu = &mainMenu;
-					main_game.start_game = 0;
-				}
-			}
+			//while(main_game.start_game == 1){
+				//oled_write_screen_to_SRAM(&solkors);
+				////TIMSK &= ~(1 << TOIE1);
+				//
+				//MultiBoard_Update(&board);
+				//MultiBoard_Send(&board);
+				//if (main_game.lives == 0)
+				//{
+					//currentMenuState = MAIN_MENU;
+					//current_menu = &mainMenu;
+					//main_game.start_game = 0;
+				//}
+			//}
 			printf("%d,   %d\r\n", main_game.start_game, main_game.lives);
 	 }
 	return 0;

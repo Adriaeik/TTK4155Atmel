@@ -157,7 +157,7 @@ void MultiBoard_Send(MultiBoard* board){
 		board->RSpos_l_can = board->RSpos;
 	}
 	
-	if (abs(board->LSpos - board->LSpos_l_can) >2) {
+	if (abs(board->LSpos - board->LSpos_l_can) > 10) {
 		msg_to_send.id = ID_LS_POS;
 		msg_to_send.length = 1;
 		msg_to_send.data[0] = board->LSpos;

@@ -46,11 +46,23 @@ static void reset_game(void) {
 	main_game.score = 0;
 }
 
+extern int IR_initialized;
 // Funksjon for handtering av game over
 static void handle_game_over(void) {
 	reset_game();
+	IR_initialized = 0;
 }
 
+void print_game_status(Game *game) {
+	printf("\n==================== Game Status ====================\n\r");
+	printf("| %-15s | %-10s |\n\r", "Attribute", "Value");
+	printf("|-----------------|------------|\n");
+	printf("| %-15s | %-10s |\n\r", "Difficulty", game->difficulty == EASY ? "Easy" : "Hard");
+	printf("| %-15s | %-10d |\n\r", "Lives", game->lives);
+	printf("| %-15s | %-10d |\n\r", "Score", game->score);
+	printf("| %-15s | %-10s |\n\r", "Start Game", game->start_game ? "Yes" : "No");
+	printf("=====================================================\n\r");
+}
 
 // Hovudfunksjon for spelet - non-blocking versjon
 // Bær startes av ein melding fra 
@@ -64,6 +76,8 @@ void start_game() {
 		main_game.score = 0;
 		remaining_lives = main_game.lives;
 		game_initialized = 1;
+		print_game_status(&main_game);
+		printf("\n\r %d\n\r", main_game.lives);
 	}
 
 	// Sjekk om exit-knappen er trykt
@@ -103,6 +117,7 @@ void start_game() {
 
 // Oppdater Game status frå CAN-melding
 void update_game_status_from_can(Game* game, CAN_MESSAGE* msg) {
+	printf("CAN_ ID: %d \n\r", msg->id);
 	switch (msg->id) {
 		case ID_GAME_LIVES:  // ID for lives
 		if (msg->data_length == 1) {

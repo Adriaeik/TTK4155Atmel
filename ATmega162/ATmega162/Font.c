@@ -367,7 +367,7 @@ const char scrollMenuItems[20*16] PROGMEM =
 	" Item 11        " " Item 12        " " Item 13        " " Item 14        " " Item 15        "
 	" Item 16        " " Item 17        " " Item 18        " " Item 19        " " Item 20        ";
 
-const char settingsMenuItems[4*16] PROGMEM = 
+const char settingsMenuItems[5*16] PROGMEM = 
 	" Reset settings "
 	" Lives          "
 	" Sensitivity    "

@@ -14,6 +14,8 @@ Font.c
 
 game.c
 
+GameSettings.c
+
 main.c
 
 Menu.c

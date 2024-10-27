@@ -21,8 +21,8 @@ main.d main.o: .././main.c .././DriverUART.h .././Utils.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdio.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\gcc\avr\5.4.0\include\stdarg.h \
  .././SRAM.h .././Menu_init.h .././Menu.h .././OLED.h .././XMEM_Decode.h \
- .././MultiBoard.h .././DriverCAN.h .././DriverMCP2515.h .././DriverSPI.h \
- .././game.h
+ .././MultiBoard.h .././GameSettings.h .././utils.h .././game.h \
+ .././DriverCAN.h .././DriverMCP2515.h .././DriverSPI.h
 
 .././DriverUART.h:
 
@@ -82,10 +82,14 @@ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\
 
 .././MultiBoard.h:
 
+.././GameSettings.h:
+
+.././utils.h:
+
+.././game.h:
+
 .././DriverCAN.h:
 
 .././DriverMCP2515.h:
 
 .././DriverSPI.h:
-
-.././game.h:

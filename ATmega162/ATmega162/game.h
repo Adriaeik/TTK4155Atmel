@@ -22,16 +22,20 @@ typedef enum {
 // Definer Game struct
 typedef struct game_t {
 	uint8_t lives;
-	Difficulty difficulty;
+	uint8_t difficulty;
 	uint8_t start_game;
 	uint16_t score;
+	uint8_t sensitivity;
 } Game;
 extern Game main_game;
 
 void game_Init(Game *game);
+void game_Start(Game *game);
+void game_over(Game* game);
 void game_Send(Game* game, uint8_t ID);
 void game_Recive(Game* game, CANMessage* msg);
 void set_difficulty(Difficulty difficulty);
+int game_run(void);
 
 
 #endif /* GAME_H_ */

@@ -43,6 +43,7 @@ C_SRCS +=  \
 ../DriverUART.c \
 ../Font.c \
 ../game.c \
+../GameSettings.c \
 ../main.c \
 ../Menu.c \
 ../Menu_init.c \
@@ -66,6 +67,7 @@ DriverSPI.o \
 DriverUART.o \
 Font.o \
 game.o \
+GameSettings.o \
 main.o \
 Menu.o \
 Menu_init.o \
@@ -82,6 +84,7 @@ DriverSPI.o \
 DriverUART.o \
 Font.o \
 game.o \
+GameSettings.o \
 main.o \
 Menu.o \
 Menu_init.o \
@@ -98,6 +101,7 @@ DriverSPI.d \
 DriverUART.d \
 Font.d \
 game.d \
+GameSettings.d \
 main.d \
 Menu.d \
 Menu_init.d \
@@ -114,6 +118,7 @@ DriverSPI.d \
 DriverUART.d \
 Font.d \
 game.d \
+GameSettings.d \
 main.d \
 Menu.d \
 Menu_init.d \
@@ -173,6 +178,13 @@ LINKER_SCRIPT_DEP+=
 	
 
 ./game.o: .././game.c
+	@echo Building file: $<
+	@echo Invoking: AVR/GNU C Compiler : 5.4.0
+	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -DNDEBUG  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.3.300\include"  -Os -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -Wall -mmcu=atmega162 -B "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.3.300\gcc\dev\atmega162" -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
+	@echo Finished building: $<
+	
+
+./GameSettings.o: .././GameSettings.c
 	@echo Building file: $<
 	@echo Invoking: AVR/GNU C Compiler : 5.4.0
 	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -DNDEBUG  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.3.300\include"  -Os -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -Wall -mmcu=atmega162 -B "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.3.300\gcc\dev\atmega162" -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 

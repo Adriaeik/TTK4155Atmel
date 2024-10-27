@@ -24,7 +24,7 @@ Schematics bladet til arduino due lyver!! veldig kult
 ADC channel 7 er A0 og ADC channel 0 er A7. vet ikke hva resten av ADC kanalene er, men må testes
 */
 void IR_Init(){
-	uint16_t threshold_value = 500;
+	uint16_t threshold_value = 200;
 	ADC->ADC_WPMR &= ~ADC_WPMR_WPEN;
 	// Aktivere klokka for PIOA og ADC
 	PMC->PMC_PCER1 |= (1 << (ID_ADC - 32));  // Aktivere klokka for ADC
@@ -52,24 +52,58 @@ void IR_Init(){
 
 uint16_t IR_Read(){
 	// Returner ADC-data frå kanal 7 (PA2 / A7)
+	//printf("IR VERDI: %d \n\r", ADC->ADC_CDR[0] );
 	return ADC->ADC_CDR[0];
 }
 
 #include "../include/game.h"
-uint8_t IR_l = 0;
+uint8_t IR_l = 1;
+uint8_t IR_buffer = 0;
 Game main_game;
 
+#define MOVING_AVERAGE_SIZE 20
+#define INITIAL_VALUE 3000
+
+// Array for å lagre dei siste 20 målingane
+int read_values[MOVING_AVERAGE_SIZE];
+int read_index = 0;       // Indeks for å halde styr på kvar vi er i arrayet
+int read_sum = 0;         // Sum av alle verdiar i read_values for raskt gjennomsnitt
+extern int IR_initialized = 0;      // Flag for å sjekke om arrayet er initialisert
+
 void IR_Handler() {
+	// Initialiserer alle element i read_values med INITIAL_VALUE ved første kall
+	if (!IR_initialized) {
+		for (int i = 0; i < MOVING_AVERAGE_SIZE; i++) {
+			read_values[i] = INITIAL_VALUE;
+			read_sum += INITIAL_VALUE;
+		}
+		IR_initialized = 1;  // Sett flagget til 1 for å unngå fleire initialiseringar
+	}
+
 	// Sjekk om ADC har registrert sammenligningshendinga (lav verdi)
-	if (ADC->ADC_ISR & ADC_ISR_COMPE) {
-		// Om linja har gått frå høg til låg (det er her vi legg til poeng)
+	int read = IR_Read();
+
+	// Fjerne den eldste verdien frå summen
+	read_sum -= read_values[read_index];
+
+	// Legg til den nye verdien både i arrayet og til summen
+	read_values[read_index] = read;
+	read_sum += read;
+
+	// Flytt til neste indeks i arrayet, og loop tilbake til starten om nødvendig
+	read_index = (read_index + 1) % MOVING_AVERAGE_SIZE;
+
+	// Berekn moving average
+	int moving_average = read_sum / MOVING_AVERAGE_SIZE;
+
+	// Du kan no bruke moving_average for å sjekke forholdet i staden for read
+	if (moving_average < 1500) {
+		printf("trigger faen: %d \n\r", moving_average);
 		if (IR_l == 0) {
 			main_game.score++;   // Legg til eit poeng
 			IR_l++;  // Oppdater tilstanden til lav (linja er brutt)
-			//time_spinFor(msecs(10));
 		}
 		} else {
-		// Om linja har gått frå låg til høg (linja ikkje lenger brutt)
 		if (IR_l == 1) {
 			IR_l = 0;  // Nullstill flagget for å kunne registrere neste negative flanke
 		}

@@ -79,6 +79,7 @@ int clamp(int value, int min, int max) {
 }
 
 uint8_t reset_PID_flag = 0;
+int ref = 0;
 // PID-regulator
 void motor_control_PID(void) {
 	// Normaliser posisjon og referanse
@@ -86,7 +87,7 @@ void motor_control_PID(void) {
 	static int prev_pos = 0;
 	
 	int pos = normalize_pos_encoder(prev_pos);
-	int ref = reset_PID_flag == 0 ? normalize_pos_ref(prev_ref) : PARAM_SCALE/2; // Set referanse til midtposisjon ved reset
+	ref = reset_PID_flag == 0 ? normalize_pos_ref(prev_ref) : PARAM_SCALE/2; // Set referanse til midtposisjon ved reset
 	prev_ref = ref;
 	prev_pos = pos;
 	
@@ -141,6 +142,7 @@ void reset_pid(void) {
 	integral = 0;
 	derivat = 0;
 	uint32_t timeout = 1000; // Tidsavbrudd for å unngå evig løkke
+	ref = 0;
 	
 	reset_PID_flag = 1;
 	while ((error > 1 || error < -1) && timeout > 0) { 

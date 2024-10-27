@@ -5,14 +5,37 @@
  *  Author: adriaeik
  */ 
 #include "game.h"
+#include "MultiBoard.h"
+
 extern Game main_game;
+extern MultiBoard board;
 
 void game_Init(Game *game){
 	game->difficulty = EASY;
 	game->lives = 5;
+	game->sensitivity = 5;
 	game->score = 0;
 	game->start_game = 0;
 	set_difficulty(game->difficulty);
+}
+void game_Start(Game* game){
+	game_Send(game, ID_GAME_LIVES);
+	game_Send(game, ID_GAME_DIFFICULTY);
+	game_Send(game, ID_GAME_START);
+	
+}
+
+int game_run(){
+	if (main_game.lives == 0)
+	{
+		main_game.start_game = 0;
+		
+		return 0; //avslutt
+	}
+	oled_write_screen_to_SRAM(&solkors);
+	MultiBoard_Update(&board);
+	MultiBoard_Send(&board);
+	return 1;//fortsett å kjøre
 }
 void game_over(Game* game){
 	game->start_game = 0;
@@ -22,7 +45,7 @@ void game_over(Game* game){
 void game_Send(Game* game, uint8_t ID){
 	CANMessage msg_to_send = {
 		.id = ID,
-		.data = 1,
+		.length = 1,
 		.data = {0, 0, 0, 0, 0, 0, 0, 0}
 	};
 	switch (ID) {
@@ -34,7 +57,7 @@ void game_Send(Game* game, uint8_t ID){
 			msg_to_send.data[0]= (int)game->difficulty;
 		
 		break;
-		case ID_GAME_START:  // ID for lives
+		case ID_GAME_START: 
 			msg_to_send.data[0] = game->start_game;
 	
 		break;

@@ -9,20 +9,16 @@
 #ifndef GAMESETTINGS_H_
 #define GAMESETTINGS_H_
 #include "utils.h"
+#include "game.h"
 
-typedef struct {
-	uint8_t lives;
-	uint8_t sensitivity;	
-	uint8_t difficulty;
-} Settings;
 
-extern Settings settings;
+extern Game main_game;
 
-void settings_init(Settings* s);
-void add_lives(Settings* s);
-void add_sensitivity(Settings* s);
-void add_difficulty(Settings* s);
-void reset_settings(Settings* s);
+void settings_init(Game* s);
+void add_lives(Game* s);
+void add_sensitivity(Game* s);
+void add_difficulty(Game* s);
+void reset_settings(Game* s);
 
 
 
