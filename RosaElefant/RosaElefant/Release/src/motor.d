@@ -81,9 +81,8 @@ src/motor.d src/motor.o: ../src/motor.c ../src/../include/motor.h \
  C:\Program\ Files\ (x86)\Atmel\Studio\7.0\Packs\atmel\SAM3X_DFP\1.0.50\include/instance/rtc.h \
  C:\Program\ Files\ (x86)\Atmel\Studio\7.0\Packs\atmel\SAM3X_DFP\1.0.50\include/instance/gpbr.h \
  C:\Program\ Files\ (x86)\Atmel\Studio\7.0\Packs\atmel\SAM3X_DFP\1.0.50\include/pio/sam3x8e.h \
- ../src/../include/MultiBoard.h \
- ../src/../include/../lib/can/can_controller.h \
- ../src/../include/encoder.h
+ ../src/../include/../include/encoder.h ../src/../include/MultiBoard.h \
+ ../src/../include/../lib/can/can_controller.h
 
 ../src/../include/motor.h:
 
@@ -251,8 +250,8 @@ C:\Program\ Files\ (x86)\Atmel\Studio\7.0\Packs\atmel\SAM3X_DFP\1.0.50\include/i
 
 C:\Program\ Files\ (x86)\Atmel\Studio\7.0\Packs\atmel\SAM3X_DFP\1.0.50\include/pio/sam3x8e.h:
 
+../src/../include/../include/encoder.h:
+
 ../src/../include/MultiBoard.h:
 
 ../src/../include/../lib/can/can_controller.h:
-
-../src/../include/encoder.h:

@@ -140,8 +140,8 @@ ISR(INT0_vect) {
 	CANMessage msg;
 	CAN_ReceiveMessage(&msg);
 		//printf("data[0]: %c adresse = %d\n\r",msg.data[0], msg.id);
-		playGame = 0;
-		printf("melding tatt imot\n\r");
+		//playGame = 0;
+		printf("melding tatt imot ID: %d\n\r", msg.id);
 		TIMSK |= (1 << TOIE1);
 	/* VI TROR at dette handterast i recive, trøbbel å ha det med*/
 		//MCP2515_BitModify(MCP2515_CANINTF, MCP2515_RX1IF | MCP2515_RX0IF, 0xFF);

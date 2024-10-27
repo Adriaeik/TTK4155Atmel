@@ -23,6 +23,8 @@ void encoder_init(void) {
 	TC2->TC_CHANNEL[0].TC_CCR = TC_CCR_CLKEN | TC_CCR_SWTRG;
 }
 uint32_t read_encoder_position(void) {
+	// KANSKJE DETTE GÅR FINT når PID er aktivert??
+	// OG då er det jo bare å kjøre den til bunn og så er vi kalibrert!
 	//if  (TC2->TC_CHANNEL[0].TC_CV < 0) {
 		//encoder_init();
 	//}

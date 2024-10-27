@@ -55,15 +55,16 @@ uint16_t IR_Read(){
 	return ADC->ADC_CDR[0];
 }
 
-
+#include "../include/game.h"
 uint8_t IR_l = 0;
+Game main_game;
 
 void IR_Handler() {
 	// Sjekk om ADC har registrert sammenligningshendinga (lav verdi)
 	if (ADC->ADC_ISR & ADC_ISR_COMPE) {
 		// Om linja har gått frå høg til låg (det er her vi legg til poeng)
 		if (IR_l == 0) {
-			score++;   // Legg til eit poeng
+			main_game.score++;   // Legg til eit poeng
 			IR_l++;  // Oppdater tilstanden til lav (linja er brutt)
 			//time_spinFor(msecs(10));
 		}

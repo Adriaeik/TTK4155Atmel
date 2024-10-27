@@ -148,6 +148,15 @@
     <Compile Include="include\encoder.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="include\external.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="include\game.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="include\init.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="include\motor.h">
       <SubType>compile</SubType>
     </Compile>
@@ -200,6 +209,12 @@
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="src\encoder.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\game.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\init.c">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="src\motor.c">

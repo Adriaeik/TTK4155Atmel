@@ -11,8 +11,11 @@ MultiBoard board;
 
 void servo_init(void) {
 	pwm_init();
+	PIOC->PIO_OER |= SOLENOID_PIN; // Sett SOLENOID_PIN som utgang
+	PIOC->PIO_PER |= SOLENOID_PIN; // Aktiver PIO kontroll over SOLENOID_PIN
 }
 
+//IKKJE I BRUK
 void servo_set_position(double ms) {
 	// Sjekk og avgrens millisekundverdien innanfor 0.9 ms og 2.1 ms
 	if (ms < 0.9) {
@@ -64,8 +67,16 @@ void servo_set_position_joy(void) {
 
 	// Oppdater duty cycle direkte ved å skrive til PWM_CDTYUPD
 	PWM->PWM_CH_NUM[1].PWM_CDTYUPD = inverted_duty_cycle;
+	void solenoid_handle();
 
 	//printf("Ny PWM duty cycle sett til: %u ticks (for %f ms)\n\r", inverted_duty_cycle, ms);
 }
 
+void solenoid_handle(){
+	if (board.JoyBtn == 1) {
+		PIOC->PIO_SODR = SOLENOID_PIN;  // Sett pin høg (positiv retning)
+		} else if (board.JoyBtn == 0) {
+		PIOC->PIO_CODR = SOLENOID_PIN;  // Sett pin låg (negativ retning)
+	}
+}
 

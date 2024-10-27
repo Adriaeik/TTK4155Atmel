@@ -15,6 +15,7 @@
 
 #include "../urat/printf-stdarg.h"
 #include "../../include/MultiBoard.h"
+#include "../../include/game.h"
 
 #include "can_controller.h"
 
@@ -28,6 +29,7 @@
  * \retval 
  */
 MultiBoard board;
+Game main_game;
 
 #define SOLENOID_PIN    PIO_PC17
 void CAN0_Handler(void)
@@ -62,6 +64,7 @@ void CAN0_Handler(void)
 		}
 		if(DEBUG_INTERRUPT)printf("\n\r");
 		update_board_from_can(&board, &message);
+		update_game_status_from_can(&main_game, &message);
 	}
 	
 	if(can_sr & CAN_SR_MB0)
