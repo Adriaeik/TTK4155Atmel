@@ -119,6 +119,7 @@ void write_menu_oled_to_SRAM(Menu* menu){
 	//Om det er mer enn 8 linjer
 	//litt usikker om scroll kan gå for høy her, men satser på nei
 	else{
+		highscore_to_SRAM(menu->scroll_offset);
 		for(uint16_t j = 0; j < 8*16; j++) {
 			char c = pgm_read_byte(&menu->items[menu->scroll_offset*16 + j]);
 			for(int i = 0; i < 8; i++){

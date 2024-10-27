@@ -20,6 +20,7 @@ void clear_highscore_list(void);
 void printf_highscore_list(void);
 void update_highscore_list(uint16_t new_score);
 
+//Må fikses: Siden vi bruker uint16 og hver adresse er 8bit må det gjøres noe multiplexing i lesing (ogg sikkert skriving) av higscores. 
 void highscore_to_SRAM(uint8_t scroll_offset);
 
 //Hjelpefunksjon, kan flyttes til utils
