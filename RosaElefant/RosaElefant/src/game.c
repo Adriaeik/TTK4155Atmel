@@ -8,24 +8,25 @@
 // Globale variablar
 Game main_game;
 MultiBoard board;
-double Kp;
-double Ki;
-double Kd;
+long long int Kp;
+long long int Ki;
+long long int Kd;
 
 
 void game_Init(Game *game){
-	game->difficulty = HARD;
+	game->difficulty = EASY;
 	game->lives = 5;
 	game->score = 0;
 	game->start_game = 0;
+	set_difficulty(game->difficulty);
 }
 
 static void set_difficulty(Difficulty difficulty) {
 	switch (difficulty) {
 		case EASY:
-		Kp = 100;
-		Ki = 5;
-		Kd = 10;
+		Kp = 2;
+		Ki = 2;
+		Kd = 0;
 		break;
 		case MEDIUM:
 		Kp = 150;
@@ -85,15 +86,15 @@ void start_game() {
 
 		// Send meldinga over CAN med mailboks 0
 		if (!can_send(&msg, 0)) {
-			//printf("Send melding om resterande liv: %d\n\r", remaining_lives);
+			printf("Send melding om resterande liv: %d\n\r", remaining_lives);
 		}
 	}
 
 	// Handter game over dersom ingen liv igjen
-	if (remaining_lives == 0) {
-		handle_game_over();
-		game_initialized = 0;
-	}
+	//if (remaining_lives == 0) {
+		//handle_game_over();
+		//game_initialized = 0;
+	//}
 	
 	if (game_initialized == 1){
 		run_game();

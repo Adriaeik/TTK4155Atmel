@@ -17,24 +17,25 @@
 
 #define ENCODER_RANGE 5654
 #define SLIDER_RANGE 255
+#define PARAM_SCALE 10E6
 
 // Definert extern og value i external.h
-double Kp;
-double Ki;
-double Kd;
-double error;
-double prev_error;
-double integral;
-double derivat;
+extern  long long int Kp = 199.0;
+extern  long long int Ki = 10.0;
+extern  long long int Kd = 20.0;
+extern  long long int error = 0.0;
+extern  long long int prev_error = 0;
+extern  long long int integral = 0;
+extern  long long int derivat = 0;
 	
 void motor_init(void);
 void motor_control_velocity(void);
 void normalize_pos_error(void);
 void motor_control_PID(void);
 void update_motor_pwm(double u);
-static double normalize_pos_encoder(void);
-static double normalize_pos_ref(void);
-static double clamp(double value, double min, double max);
+int normalize_pos_encoder(int prev_pos);
+int normalize_pos_ref(int prev_ref);
+int clamp(int value, int min, int max);
 void reset_pid(void);
 
 

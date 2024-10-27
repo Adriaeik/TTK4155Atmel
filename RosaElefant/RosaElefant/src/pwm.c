@@ -34,6 +34,9 @@ void pwm_init(){
 	
 	// Setter opp PWM-klokke A til en frekvens på 1 MHz ved å dividere MCK (84 MHz) med DIVA (84).
 	PWM->PWM_CLK =  PWM_CLK_DIVA(DIVA);
+	//PWM->PWM_CLK =  PWM_CLK_DIVB(DIVB);
+	
+
 	
 	// Konfigurerer PWM-kanal 1 til å bruke klokke A som kilde
 	PWM->PWM_CH_NUM[1].PWM_CMR = PWM_CMR_CPRE_CLKA;

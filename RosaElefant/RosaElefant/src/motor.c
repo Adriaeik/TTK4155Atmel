@@ -55,21 +55,24 @@ void motor_control_velocity(void) {
 	// printf("Ny PWM duty cycle sett til: %u ticks (for joystick posisjon: %d)\n\r", duty_cycle_ticks, x_pos);
 }
 // Funksjonar for normalisering
-static double normalize_pos_encoder(void) {
-	uint32_t encoder_pos = read_encoder_position();
+int normalize_pos_encoder(int prev_pos) {
+	int32_t encoder_pos = read_encoder_position();
 	// Sørg for at posisjonen ikkje er negativ
 	if (encoder_pos < 0)encoder_pos = 0;
 	if (encoder_pos > ENCODER_RANGE)encoder_pos = ENCODER_RANGE;
-	// Normaliserer posisjonen til eit verdi mellom 0 og 1
-	return (double)encoder_pos / ENCODER_RANGE;
+	double a = 10;
+	double b = 10 - a;
+	return (int)((double)encoder_pos / ENCODER_RANGE * a * PARAM_SCALE + prev_pos*b)/10 ;
 }
 
-static double normalize_pos_ref(void) {
+int normalize_pos_ref(int prev_ref) {
+	int a = 10;
+	int b = 10 - a;
 	uint8_t slider_pos = board.RSpos;
-	return (double)slider_pos / SLIDER_RANGE;
+	return (int)((double)slider_pos / SLIDER_RANGE* a*PARAM_SCALE + prev_ref * b)/10; //IKKJE 1000 for å fjerne 10
 }
 
-static double clamp(double value, double min, double max) {
+int clamp(int value, int min, int max) {
 	if (value > max) return max;
 	if (value < min) return min;
 	return value;
@@ -79,27 +82,48 @@ uint8_t reset_PID_flag = 0;
 // PID-regulator
 void motor_control_PID(void) {
 	// Normaliser posisjon og referanse
-	double pos = normalize_pos_encoder();
-	double ref = reset_PID_flag == 0 ? normalize_pos_ref() : 0.5; // Set referanse til midtposisjon ved reset
+	static int prev_ref = 0;
+	static int prev_pos = 0;
+	
+	int pos = normalize_pos_encoder(prev_pos);
+	int ref = reset_PID_flag == 0 ? normalize_pos_ref(prev_ref) : PARAM_SCALE/2; // Set referanse til midtposisjon ved reset
+	prev_ref = ref;
+	prev_pos = pos;
 	
 	// Beregn avviket
-	error = ref - pos;
-	integral += error;
+	error = pos - ref;
+	integral = clamp((integral + error)/50, -PARAM_SCALE,PARAM_SCALE);
 	derivat = error - prev_error;
+	
+	//int test = (int)(ref * 1000 - pos*1000);
+	//int integral_1000 = (int)(integral * 1000);
+	//int derivat_1000 = (int)(derivat * 1000);
+
+
+
 	// Sett motor retning basert på fortegnet til avviket
 	if (error > 0) {
-		PIOC->PIO_SODR = PHASE_PIN;  // Sett pin høg (positiv retning)
+		PIOC->PIO_SODR = PHASE_PIN;  // Sett pin høg (positiv retning) mot høyre?
 		} else if (error < 0) {
 		PIOC->PIO_CODR = PHASE_PIN;  // Sett pin låg (negativ retning)
 	}
 	
-	double actuation = (Kp * error) + (Ki * integral) + (Kd * derivat);
+	int actuation = (Kp * error) + (Ki * integral) + (Kd * derivat);
+	//printf("podrag1: %d ", (int)(actuation));
 	prev_error = error;
 	
 	//VIKTIG med abs verdi då u må vere eit tall mellom 0 og 1
-	double u = clamp(abs(actuation), 0.0, 1.0);	// Normaliser og klamp pådraget
-	// Oppdater PWM duty cycle
-	update_motor_pwm(u);
+	int u = clamp(abs(actuation), 0, PARAM_SCALE);	// Normaliser og klamp pådraget
+	//printf("podrag2: %d ", (int)(u));
+	// Oppdater PWM duty cycle. normalisert
+	//update_motor_pwm((double)u/PARAM_SCALE);
+	
+	//printf(" ");
+	//printf("1000 ganger error: %d     ", test);
+	//printf("1000 ganger integral: %d     ", integral_1000);
+	//printf("1000 ganger derivat: %d \r\n",derivat_1000);
+	//printf("Pos: %d  ", (int)(pos));
+	//printf("Ref: %d \r\n", (int)(ref));
 }
 
 // Funksjon for å oppdatere motor PWM
@@ -119,7 +143,7 @@ void reset_pid(void) {
 	uint32_t timeout = 1000; // Tidsavbrudd for å unngå evig løkke
 	
 	reset_PID_flag = 1;
-	while ((error > 0.01 || error < -0.01) && timeout > 0) { 
+	while ((error > 1 || error < -1) && timeout > 0) { 
 		motor_control_PID();
 		timeout--;
 	}

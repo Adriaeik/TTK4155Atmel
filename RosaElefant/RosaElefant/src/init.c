@@ -10,13 +10,13 @@ MultiBoard board;
 Game main_game;
 uint16_t score;
 
-double Kp;
-double Ki;
-double Kd;
-double error;
-double prev_error;
-double integral;
-double derivat;
+long long int Kp;
+long long int Ki;
+long long int Kd;
+long long int error;
+long long int prev_error;
+long long int integral;
+long long int derivat;
 
 void init(void){
 	SystemInit();  // Initialiser systemklokka og mikrokontrolleren
@@ -51,12 +51,13 @@ void checkExternalValues_toScreen(void) {
 	printf("| %-15s | %-10d | %-15s |\n\r", "JoyYLastAction", board.JoyYLastAction, "Timestamp");
 	printf("| %-15s | %-10d | %-15s |\n\r", "Lives", main_game.lives, "Count");
 	printf("| %-15s | %-10d | %-15s |\n\r", "Score", main_game.score, "Points");
-	printf("| %-15s | %-10.2f | %-15s |\n\r", "Kp", Kp, "Unitless");
-	printf("| %-15s | %-10.2f | %-15s |\n\r", "Ki", Ki, "Unitless");
-	printf("| %-15s | %-10.2f | %-15s |\n\r", "Kd", Kd, "Unitless");
-	printf("| %-15s | %-10.2f | %-15s |\n\r", "Error", error, "Unitless");
-	printf("| %-15s | %-10.2f | %-15s |\n\r", "Prev Error", prev_error, "Unitless");
-	printf("| %-15s | %-10.2f | %-15s |\n\r", "Integral", integral, "Unitless");
-	printf("| %-15s | %-10.2f | %-15s |\n\r", "Derivat", derivat, "Unitless");
+	printf("| %-15s | %-10d | %-15s |\n\r", "start", main_game.start_game, "Start");
+	printf("| %-15s | %-10d | %-15s |\n\r", "Kp", (int)Kp, "Unitless");
+	printf("| %-15s | %-10d | %-15s |\n\r", "Ki", (int)Ki, "Unitless");
+	printf("| %-15s | %-10d | %-15s |\n\r", "Kd", (int)Kd, "Unitless");
+	printf("| %-15s | %-10d | %-15s |\n\r", "Error", (int)error, "Unitless");
+	printf("| %-15s | %-10d | %-15s |\n\r", "Prev Error", (int)prev_error, "Unitless");
+	printf("| %-15s | %-10d | %-15s |\n\r", "Integral", (int)integral, "Unitless");
+	printf("| %-15s | %-10d | %-15s |\n\r", "Derivat", (int)derivat, "Unitless");
 	printf("===============================================================\n\n\r");
 }

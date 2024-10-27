@@ -11,6 +11,7 @@ Game main_game;
 
 int main(void) {
 	init();
+	main_game.start_game = 1;
 
 	while (1) {
 		
