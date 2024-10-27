@@ -12,6 +12,8 @@ DriverUART.c
 
 Font.c
 
+game.c
+
 main.c
 
 Menu.c

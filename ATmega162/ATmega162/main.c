@@ -9,8 +9,11 @@
 #include "SRAM.h"
 #include "Menu_init.h"
 #include "DriverCAN.h"
+#include "game.h"
 
 extern uint8_t playGame = 0;
+Game main_game;
+
 
 int main(void) {
 	/*_________________INITIALISERINGER START______________________*/
@@ -27,6 +30,8 @@ int main(void) {
 	initialize_menus();
 	MultiBoard board;
 	MultiBoard_Init(&board);			// Initialiser MultiBoard og kalibrer joystickens origo
+	game_Init(&main_game);
+	main_game.lives = 5;
 	oled_init();						// Initialiser OLED-skjermen
 		/*--- Optional setup ---*/
 			//setup_printf_for_oled();		
@@ -46,39 +51,10 @@ int main(void) {
 	
     //MCP2515_SetMode(MCP2515_MODE_CONFIG);  // Sett MCP2515 i Configuration Mode
 	// Les CANSTAT-registeret (0x0E) for å sjekke om MCP2515 er i loopback-modus
-	uint8_t canstat = MCP2515_Read(0x0f);
-	printf("CANSTAT: 0x%X\n", canstat & MCP2515_MODE_MASK);
-
-	if ((canstat & MCP2515_MODE_MASK) == MCP2515_MODE_NORMAL) {  // Loopback-modus har verdi 0x40 i CANSTAT
-		printf("MCP2515 er i normal-modus.\n\r");
-		} else {
-		printf("Feil: MCP2515 er ikke i normal-modus.\n\r");
-	}
-
+	CAN_Check_startup();
 	sei();								// Aktiver globale avbrot
 	
-	
-	// CAN-melding å sende
-	CANMessage msg_to_send = {
-		10, // Id
-		8, // Lengde på dataen
-		"heiiiiii" // Data. Maks åtte byte
-	};
-	static uint16_t sucsesscout = 0;
-	CANMessage received_msg;
-	//for (uint16_t i = 0; i < 2047*6; i++)
-	//{			
-		//
-		//msg_to_send.id = 2;
-		//msg_to_send.data[2] = i%255;
-		//
-		//// Send CAN-melding
-		//
-		//CAN_SendMessage(&msg_to_send);
-		//printf("Sendte ID: %d, med den mystiske dataen: %d \n\r", msg_to_send.id, msg_to_send.data[2]);
-	//}
-	
-		
+
 	
 	
 	
@@ -89,18 +65,6 @@ int main(void) {
 	/*_______HOVUDLØKKE______*/
 	 while (1) {
 
-
-		//if(!CAN_ReceiveMessage(&received_msg)){printf("data[0]: %c adresse = %X\n\r",received_msg.data[0], received_msg.id);}
-		//else{printf("Ingen melding tilgjengelig \r\n");}
-		
-		//
-		//static int i = 0;
-		//i++;
-		//msg_to_send.id = i;
-		//// Sjekk om du kan sende meldinga (TX-mailboksen er klar)
-		//CAN_SendMessage(&msg_to_send);
-		//printf("Send melding nr %d no!\n\n\r", i);
-
         menu_navigate(&board, current_menu);  // Kallar `menu_navigate` med referanse til gjeldande meny
 		
 		/*Så lenge vi ikkje har noko delay gåandes og ditta står her tenker eg 
@@ -108,41 +72,40 @@ int main(void) {
 		Det kunne vert fornuftig med eit flag her då
 		
 		16ms skal gi ich 60hz, gitt at resten av programmet kjører raskt nok...
-		*/
-		
-		//if(!CAN_ReceiveMessage(&received_msg)){	printf("data[0]:    %d adresse = %X\n\r",received_msg.data[0], received_msg.id);}
-			//
-		//if (screen_ms() >= 16) {
-			//restart_screen_timer();
-			////oled_data_from_SRAM();
-		//}
-		//if (general_ms() > 65536UL ){ restart_general_timer();}
-			//printf("%d\n\r", board.LBtn);
-			while(playGame){
+		*/	
+			while(main_game.start_game == 1){
 				oled_write_screen_to_SRAM(&solkors);
-				TIMSK &= ~(1 << TOIE1);
+				//TIMSK &= ~(1 << TOIE1);
 				
 				MultiBoard_Update(&board);
 				MultiBoard_Send(&board);
-				if (board.LBtn == 1)
+				if (main_game.lives == 0)
 				{
 					currentMenuState = MAIN_MENU;
 					current_menu = &mainMenu;
-					playGame = 0;
+					main_game.start_game = 0;
 				}
 			}
+			printf("%d,   %d\r\n", main_game.start_game, main_game.lives);
 	 }
 	return 0;
 }
 
-
+/*
+switch (menu->current_position) {
+	case 0:
+	oled_write_line_to_SRAM(0, "Startar spelet...");
+	playGame = 1;
+	main_game.start_game = 1;
+*/
 ISR(INT0_vect) {
 	CANMessage msg;
 	CAN_ReceiveMessage(&msg);
 		//printf("data[0]: %c adresse = %d\n\r",msg.data[0], msg.id);
 		//playGame = 0;
 		printf("melding tatt imot ID: %d\n\r", msg.id);
-		TIMSK |= (1 << TOIE1);
+		game_Recive(&main_game, &msg);
+		//TIMSK |= (1 << TOIE1);
 	/* VI TROR at dette handterast i recive, trøbbel å ha det med*/
 		//MCP2515_BitModify(MCP2515_CANINTF, MCP2515_RX1IF | MCP2515_RX0IF, 0xFF);
 }

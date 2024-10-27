@@ -91,10 +91,10 @@ void start_game() {
 	}
 
 	// Handter game over dersom ingen liv igjen
-	//if (remaining_lives == 0) {
-		//handle_game_over();
-		//game_initialized = 0;
-	//}
+	if (remaining_lives == 0) {
+		handle_game_over();
+		game_initialized = 0;
+	}
 	
 	if (game_initialized == 1){
 		run_game();

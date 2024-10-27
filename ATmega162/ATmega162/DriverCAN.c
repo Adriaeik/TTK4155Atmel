@@ -82,3 +82,14 @@ uint8_t CAN_ReceiveMessage(CANMessage* msg) {
 	}
 	return 0;  // Melding motteken utan feil
 }
+void CAN_Check_startup(void){
+	uint8_t canstat = MCP2515_Read(0x0f);
+	printf("CANSTAT: 0x%X\n", canstat & MCP2515_MODE_MASK);
+
+	if ((canstat & MCP2515_MODE_MASK) == MCP2515_MODE_NORMAL) {  // Loopback-modus har verdi 0x40 i CANSTAT
+		printf("MCP2515 er i normal-modus.\n\r");
+		} else {
+		printf("Feil: MCP2515 er ikke i normal-modus.\n\r");
+	}
+
+}

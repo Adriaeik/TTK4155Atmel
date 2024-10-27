@@ -137,8 +137,8 @@ void menu_navigate(MultiBoard* board, Menu* menu) {
 	write_menu_oled_to_SRAM(menu); // 15 ms ikke bra, pontus har ansvar for å finne en løsning
 	board->JoyBtn_l = board->JoyBtn;
 }
-
-
+#include "game.h"
+extern Game main_game;
 void handleMenuSelection(MultiBoard* board, Menu* menu) {
 	oled_clear_screen();
 	switch (currentMenuState) {
@@ -147,6 +147,7 @@ void handleMenuSelection(MultiBoard* board, Menu* menu) {
 			case 0:
 			oled_write_line_to_SRAM(0, "Startar spelet...");
 			playGame = 1;
+			main_game.start_game = 1;
 
 			oled_data_from_SRAM();
 			break;
