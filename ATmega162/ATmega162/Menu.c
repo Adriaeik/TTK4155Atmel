@@ -14,6 +14,7 @@ Menu scrollMenu;
 Menu settingsMenu;
 
 uint8_t playGame;
+Settings settings;
 
 void oled_display_menu(Menu* menu) {
 	for (uint16_t j = 0; j < 128; j++) {
@@ -91,6 +92,15 @@ void write_menu_oled_to_SRAM(Menu* menu){
 				if((j%16 == 0) & (j/16 == menu->current_position)){
 					SRAM_write(j*8 + i, pgm_read_byte(&font8x8_basic[('>'-32)*8 + i]));
 				}
+				else if((j%16 == 15) & (j/16 == 1) & (currentMenuState == SETTINGS_MENU)){
+					SRAM_write(j*8 + i, pgm_read_byte(&font8x8_basic[(0x30 + settings.lives - 32)*8 + i]));
+				}
+				else if((j%16 == 15) & (j/16 == 2) & (currentMenuState == SETTINGS_MENU)){
+					SRAM_write(j*8 + i, pgm_read_byte(&font8x8_basic[(0x30 + settings.sensitivity - 32)*8 + i]));
+				}
+				else if((j%16 == 15) & (j/16 == 3) & (currentMenuState == SETTINGS_MENU)){
+					SRAM_write(j*8 + i, pgm_read_byte(&font8x8_basic[(0x30 + settings.difficulty - 32)*8 + i]));
+				}
 				else{
 					SRAM_write(j*8 + i, pgm_read_byte(&font8x8_basic[(c-32)*8 + i]));	
 				}	
@@ -133,7 +143,7 @@ void menu_navigate(MultiBoard* board, Menu* menu) {
 	if (board->JoyBtn & !board->JoyBtn_l) {
 		handleMenuSelection(board, menu);  // Behandlar menyvalet (trenger tilsyn)
 	}
-
+	
 	write_menu_oled_to_SRAM(menu); // 15 ms ikke bra, pontus har ansvar for å finne en løsning
 	board->JoyBtn_l = board->JoyBtn;
 }
@@ -179,15 +189,18 @@ void handleMenuSelection(MultiBoard* board, Menu* menu) {
 		// Håndter valg i innstillingsmenyen
 		switch (menu->current_position) {
 			case 0:
-			oled_write_line_to_SRAM(0, "Endrer lydinnstillingar...");
+			reset_settings(&settings);
 			break;
 			case 1:
-			oled_write_line_to_SRAM(0, "Endrer lysstyrke...");
+			add_lives(&settings);
 			break;
 			case 2:
-			oled_write_line_to_SRAM(0, "Endrer kontrollar...");
+			add_sensitivity(&settings);
 			break;
 			case 3:
+			add_difficulty(&settings);
+			break;
+			case 4:
 			// Gå tilbake til hovudmenyen
 			currentMenuState = MAIN_MENU;
 			current_menu = &mainMenu;

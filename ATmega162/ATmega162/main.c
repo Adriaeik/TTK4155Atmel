@@ -60,12 +60,15 @@ int main(void) {
 	
 	/*______MENY______*/
 	current_menu = &mainMenu; //kan kanskje teste med å starte i ein anna meny
+	settings_init(&settings);
+	
 	write_menu_oled_to_SRAM(current_menu);
 	
 	/*_______HOVUDLØKKE______*/
 	 while (1) {
 
         menu_navigate(&board, current_menu);  // Kallar `menu_navigate` med referanse til gjeldande meny
+		
 		
 		/*Så lenge vi ikkje har noko delay gåandes og ditta står her tenker eg 
 		at den oppdateres automatisk med det minnet vi har skreve til sramen?
