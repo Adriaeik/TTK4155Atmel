@@ -9,6 +9,7 @@
 
 extern Game main_game;
 extern MultiBoard board;
+extern uint16_t score_counter;
 
 void game_Init(Game *game){
 	game->difficulty = EASY;
@@ -38,9 +39,12 @@ int game_run(){
 	MultiBoard_Send(&board);
 	return 1;//fortsett å kjøre
 }
+
 void game_over(Game* game){
+	update_highscore_list(score_counter);
 	game->start_game = 0;
 	game->lives_left = game->lives;
+	
 	//printf("Startgame er nå null \r\n");
 }
 

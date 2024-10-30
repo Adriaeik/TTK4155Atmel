@@ -358,7 +358,7 @@ const char mainMenuItems[8*16] PROGMEM =
 " Start Game     "
 " Settings       "
 " High Scores    "
-" Credits        "
+" Reset Scores   "
 " Exit           ";
 
 const char scrollMenuItems[20*16] PROGMEM =

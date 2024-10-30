@@ -12,7 +12,12 @@
 #include "game.h"
 
 extern uint8_t screen_count = 0;
+extern uint8_t menu_pos_count = 0;
 extern uint8_t playGame = 0;
+extern uint16_t score_counter = 0;
+extern uint16_t fake_proc_time = 0; 
+extern uint8_t count_fake_proc = 0;
+
 Game main_game;
 MultiBoard board;
 
@@ -134,5 +139,20 @@ ISR(INT0_vect) {
 
 // Kjører i 75Hz ish
 ISR(TIMER1_OVF_vect) {
+	static second_conv = 0;
 	screen_count++;
+	menu_pos_count++;
+	
+	if (count_fake_proc){
+		fake_proc_time++;
+	}    
+	
+	if(main_game.start_game){
+		second_conv++;
+		if(second_conv%75 == 0){
+			//Har gått ett sekund (eller bittelitt mer)
+			score_counter++;
+			printf("score++: %d \r\n", score_counter);
+		}
+	}
 }

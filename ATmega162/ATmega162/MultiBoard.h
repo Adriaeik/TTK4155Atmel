@@ -45,7 +45,8 @@ typedef struct {
 	int16_t JoyXposCal;	// Kalibrert joystik pos med +/- for å kunne bruke atan2
 	int16_t JoyYposCal;	// Kalibrert joystik pos med +/- for å kunne bruke atan2
 	int16_t JoyAngle;
-	uint16_t JoyYLastAction;
+	
+	uint16_t JoyYLastAction; //Tror denne kan slettes
 	
 //FLAG
 	uint8_t LSpos_l_can;      // CH3, Left slider position

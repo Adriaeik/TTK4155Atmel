@@ -15,6 +15,8 @@ Menu settingsMenu;
 
 uint8_t playGame;
 Game main_game;
+extern uint8_t menu_pos_count;
+extern uint16_t score_counter;
 
 void oled_display_menu(Menu* menu) {
 	for (uint16_t j = 0; j < 128; j++) {
@@ -41,11 +43,9 @@ void update_menu_arrows(uint8_t new_position, uint8_t old_position) {
 // Oppdaterer menyposisjonen frå joystick-input hugs å kalle på MultiBoard_Update(board);  // Oppdater joystick-posisjonen
 void update_menu_position_from_joystick(MultiBoard* board, Menu* menu) {
 	int16_t joyY = (int16_t)(board->JoyYposCal);  // Les Y-posisjonen frå joysticken
-	int32_t deltaT = (general_ms() - board->JoyYLastAction);
 	
-	board->JoyYLastAction = (deltaT < 0) ? general_ms() : board->JoyYLastAction;
-	
-	if( deltaT > 100){
+	if( menu_pos_count >= 8){
+		menu_pos_count = 0;
 		// Beveg oppover i menyen
 		if (joyY > 50) {
 			if (menu->current_position > 0) {
@@ -152,6 +152,9 @@ void menu_navigate(MultiBoard* board, Menu* menu) {
 #include "game.h"
 extern Game main_game;
 uint8_t screen_count;
+extern uint16_t fake_proc_time;
+extern uint8_t count_fake_proc;
+
 void handleMenuSelection(MultiBoard* board, Menu* menu) {
 	oled_clear_screen();
 	switch (currentMenuState) {
@@ -165,6 +168,7 @@ void handleMenuSelection(MultiBoard* board, Menu* menu) {
 			print_game_status();
 			oled_write_screen_to_SRAM(&solkors);
 			oled_data_from_SRAM();
+			score_counter = 0;
 			while(game_run()){
 				if(screen_count >= 0){
 					handle_game_screen(); //Oppdaterer skjermen med lives left
@@ -187,8 +191,28 @@ void handleMenuSelection(MultiBoard* board, Menu* menu) {
 			current_menu = &scrollMenu;  // Oppdater til scrollemeny
 			break;
 			case 3:
-			oled_write_line_to_SRAM(0, "Viser kredittar...");
-			oled_write_screen_to_SRAM(solkors);  // Vis kredittar på skjermen
+			count_fake_proc = 1;
+			clear_highscore_list();  // Vis kredittar på skjermen
+			oled_clear_screen();
+			for(uint8_t i = 0; i < 2; i++){
+				oled_write_line_to_SRAM(0, "Resetter score  ");
+				oled_data_from_SRAM();
+				while(fake_proc_time < 35){printf("     \r");}
+				fake_proc_time = 0;
+				oled_write_char_to_SRAM(0, 14, '.');
+				oled_data_from_SRAM();
+				while(fake_proc_time < 35){printf("     \r");}
+				fake_proc_time = 0;
+				oled_write_char_to_SRAM(0, 15, '.');
+				oled_data_from_SRAM();
+				while(fake_proc_time < 35){printf("     \r");}
+				fake_proc_time = 0;
+				oled_write_char_to_SRAM(0, 15, ' ');
+				oled_data_from_SRAM();
+				while(fake_proc_time < 35){printf("     \r");}
+				fake_proc_time = 0;
+			}
+			count_fake_proc = 0;
 			break;
 			case 4:
 			oled_write_line_to_SRAM(0, "Avsluttar...");
