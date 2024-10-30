@@ -312,6 +312,16 @@ void handle_game_screen(void){
 			oled_write_screen_to_SRAM(&solkors); 
 	}
 	
+	//Skrive score:
+	uint16_t score_temp = score_counter;
+	uint8_t score_len = count_digits(score_temp);
+	char score_char[score_len+1];
+	number_to_chars(score_temp, score_char, score_len);	 
+	 //Om vi fikser uint16 må denne fikses litt lenger. col 9-i gir plass for 3 siffer
+	for(int i = 0; i < score_len; i++){
+		oled_write_char_to_SRAM(0, 9-i, score_char[i]);		
+	}
+	
 	
 	oled_data_from_SRAM();
 	
