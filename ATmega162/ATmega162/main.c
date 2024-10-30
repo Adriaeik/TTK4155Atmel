@@ -119,7 +119,6 @@ ISR(TIMER1_OVF_vect) {
 		if(second_conv%75 == 0){
 			//Har gått ett sekund (eller bittelitt mer)
 			score_counter++;
-			printf("score++: %d \r\n", score_counter);
 		}
 	}
 	 TIFR |= (1 << TOV1); //Resett TIMER1_OVF_vect
