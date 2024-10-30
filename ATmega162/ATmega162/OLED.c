@@ -401,7 +401,7 @@ void draw_number_9() {
 }
 void draw_sunset() {
 	// Plasser sola i øvre delen av skjermen
-	oled_circle(96, 20, 12, NULL);  // Sola med radius 12 piksl
+	oled_draw_circle(96, 20, 12);  // Sola med radius 12 piksl
 
 	// Teikne åsen under sola (bølgjeforma linje)
 	oled_draw_line(0, 64, 32, 48);   // Fyrste del av åsen

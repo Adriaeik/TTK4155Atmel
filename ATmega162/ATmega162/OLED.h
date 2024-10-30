@@ -63,7 +63,7 @@ void oled_clear_screen(void);											//bruker oled_write_screen_to_SRAM og se
 
 /*ARKITEKTUR*/
 void oled_draw_line(uint8_t x0, uint8_t y0, uint8_t x1, uint8_t y1);
-void oled_circle(uint8_t x, uint8_t y, uint8_t r, uint8_t* buffer);
+void oled_draw_circle(uint8_t x0, uint8_t y0, uint8_t radius);
 void oled_draw_square(uint8_t x0, uint8_t y0, uint8_t width, uint8_t height);
 void draw_thick_line(uint8_t x0, uint8_t y0, uint8_t x1, uint8_t y1);
 void draw_number_1();
