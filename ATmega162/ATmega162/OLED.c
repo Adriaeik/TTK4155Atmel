@@ -399,4 +399,19 @@ void draw_number_9() {
 	draw_thick_line(72, 32, 104, 32);    // Midtre horisontal linje for talet 9
 	draw_thick_line(72, 16, 72, 32);     // Venstre oppover linje for talet 9
 }
+void draw_sunset() {
+	// Plasser sola i øvre delen av skjermen
+	oled_circle(96, 20, 12, NULL);  // Sola med radius 12 piksl
+
+	// Teikne åsen under sola (bølgjeforma linje)
+	oled_draw_line(0, 64, 32, 48);   // Fyrste del av åsen
+	oled_draw_line(32, 48, 64, 56);  // Andre del av åsen
+	oled_draw_line(64, 56, 96, 40);  // Tredje del av åsen
+	oled_draw_line(96, 40, 128, 64); // Fjerde del av åsen, fullfører til høgre kant
+
+	// Teikne eit lite hus på åsen
+	oled_draw_square(52, 44, 10, 10);    // Hovudbygget på huset
+	oled_draw_line(52, 44, 57, 38);      // Venstre takside
+	oled_draw_line(57, 38, 62, 44);      // Høgre takside
+}
 

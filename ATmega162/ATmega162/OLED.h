@@ -75,4 +75,5 @@ void draw_number_6();
 void draw_number_7();
 void draw_number_8();
 void draw_number_9();
+void draw_sunset();
 #endif /* OLED_H_ */
