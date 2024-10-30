@@ -277,40 +277,55 @@ void handle_game_screen(void){
 	//3. oppdatere oled fra SRAM
 	
 	uint8_t ll = main_game.lives_left;
+	oled_write_screen_to_SRAM(&lives_background);
 	
 	switch (ll) {
 		case 0:
-			oled_write_screen_to_SRAM(&null_lives);
+			//oled_write_screen_to_SRAM(&null_lives);
+			
 			break;
 		case 1:
-			oled_write_screen_to_SRAM(&one_lives);
+			//oled_write_screen_to_SRAM(&one_lives);
+			draw_number_1();
 			break;
 		case 2:
-			oled_write_screen_to_SRAM(&two_lives);
+			//oled_write_screen_to_SRAM(&two_lives);
+			draw_number_2();
 			break;
 		case 3:
-			oled_write_screen_to_SRAM(&three_lives);
+			//oled_write_screen_to_SRAM(&three_lives);
+			draw_number_3();
 			break;
 		case 4:
-			oled_write_screen_to_SRAM(&four_lives);
+			//oled_write_screen_to_SRAM(&four_lives);
+			draw_number_4();
 			break;
 		case 5:
-			oled_write_screen_to_SRAM(&five_lives);
+			//oled_write_screen_to_SRAM(&five_lives);
+			draw_number_5();
 			break;
 		case 6:
-			oled_write_screen_to_SRAM(&six_lives);
+			draw_number_6();
+			//oled_write_screen_to_SRAM(&six_lives);
 			break;
 		case 7:
-			oled_write_screen_to_SRAM(&seven_lives);
+			draw_number_7();
+			//oled_write_screen_to_SRAM(&seven_lives);
 			break;
 		case 8:
-			oled_write_screen_to_SRAM(&eight_lives);
+		draw_number_8();
+			//oled_write_screen_to_SRAM(&eight_lives);
 			break;
 		case 9:
-			oled_write_screen_to_SRAM(&nine_lives);
+			draw_number_9();
+			//oled_write_screen_to_SRAM(&nine_lives);
 			break;
 		default:
-			oled_write_screen_to_SRAM(&solkors); 
+			oled_clear_screen();
+			/*- Den komboen her var heilt nydelig -*/
+			oled_draw_line(10, 10, 100, 50);
+			oled_draw_circle(64, 32, 20);
+			oled_draw_square(20, 20, 40, 30); 
 	}
 	
 	//Skrive score:
