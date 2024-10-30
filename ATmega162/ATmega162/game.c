@@ -75,6 +75,7 @@ void game_Send(Game* game, uint8_t ID){
 	}
 	CAN_SendMessage(&msg_to_send);
 }
+
 void game_Recive(Game* game, CANMessage* msg) {
 			printf("ID: %d\n\r", msg->id);
 			
@@ -86,7 +87,11 @@ void game_Recive(Game* game, CANMessage* msg) {
 			#endif
 		break;
 		case ID_GAME_OVER:
+			animate_ash_and_pikachu_laughing();
 			game_over(&main_game);
+			
+			
+			
 			break;
 		case ID_GAME_INITIALIZED:
 			game->game_initialized = 1;

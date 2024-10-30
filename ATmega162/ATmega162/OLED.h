@@ -76,6 +76,12 @@ void draw_number_6();
 void draw_number_7();
 void draw_number_8();
 void draw_number_9();
-void draw_sunset();
+void draw_sunset_scene();
 void draw_pikachu();
+void draw_sunset_with_pikachu_and_ash();
+void draw_ash_laughing_normal();
+void draw_ash_laughing_hard();
+void draw_pikachu_laughing_normal();
+void draw_pikachu_laughing_hard();
+void animate_ash_and_pikachu_laughing();
 #endif /* OLED_H_ */

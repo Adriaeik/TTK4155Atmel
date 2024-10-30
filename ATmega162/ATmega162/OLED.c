@@ -497,3 +497,165 @@ void draw_pikachu() {
 	oled_draw_line(84, 32, 90, 30);  // Oppover del av halen
 }
 
+void draw_sunset_with_pikachu_and_ash() {
+	// Teikne sola og solstrålar
+	oled_draw_circle(96, 20, 12);   // Sola
+	oled_draw_arc(96, 20, 16, 45, 135);    // Øvre venstre stråle
+	oled_draw_arc(96, 20, 16, 135, 225);   // Øvre høgre stråle
+	oled_draw_arc(96, 20, 16, 225, 315);   // Nedre venstre stråle
+	oled_draw_arc(96, 20, 16, 315, 45);    // Nedre høgre stråle
+
+	// Teikne åsen
+	oled_draw_line(0, 64, 32, 48);   // Fyrste del av åsen
+	oled_draw_line(32, 48, 64, 56);  // Andre del av åsen
+	oled_draw_line(64, 56, 96, 40);  // Tredje del av åsen
+	oled_draw_line(96, 40, 128, 64); // Fjerde del av åsen, fullfører til høgre kant
+
+	// Teikne innsjøen under åsen
+	oled_draw_line(0, 60, 32, 52);   // Første del av innsjølinja
+	oled_draw_line(32, 52, 64, 60);  // Andre del av innsjølinja
+	oled_draw_line(64, 60, 96, 52);  // Tredje del av innsjølinja
+	oled_draw_line(96, 52, 128, 60); // Fjerde del av innsjølinja
+
+	// Tegn Ash på åsen
+	oled_draw_circle(50, 35, 3);     // Hovudet til Ash
+	oled_draw_line(47, 35, 53, 35);  // Hatten (en enkel linje over hovudet)
+	oled_draw_line(50, 38, 50, 45);  // Kroppen til Ash
+	oled_draw_line(50, 40, 45, 42);  // Venstre arm
+	oled_draw_line(50, 40, 55, 42);  // Høgre arm
+	oled_draw_line(50, 45, 47, 50);  // Venstre bein
+	oled_draw_line(50, 45, 53, 50);  // Høgre bein
+
+	// Tegn Pikachu ved siden av Ash
+	oled_draw_circle(58, 35, 2);     // Hovudet til Pikachu
+	oled_draw_line(56, 30, 57, 33);  // Venstre øyre
+	oled_draw_line(60, 30, 59, 33);  // Høgre øyre
+	oled_draw_circle(56, 36, 1);     // Venstre kinn
+	oled_draw_circle(60, 36, 1);     // Høgre kinn
+	oled_draw_line(58, 37, 58, 42);  // Kroppen til Pikachu
+	oled_draw_line(56, 40, 54, 42);  // Venstre arm
+	oled_draw_line(60, 40, 62, 42);  // Høgre arm
+	oled_draw_line(58, 42, 56, 46);  // Venstre bein
+	oled_draw_line(58, 42, 60, 46);  // Høgre bein
+
+	// Teikne Pikachu sin hale
+	oled_draw_line(63, 35, 68, 33);  // Første del av halen
+	oled_draw_line(68, 33, 65, 30);  // Andre del av halen
+	oled_draw_line(65, 30, 70, 28);  // Tredje del av halen
+}
+void draw_ash_laughing_normal() {
+	// Stort hovud og kropp for Ash
+	oled_draw_circle(40, 30, 12);         // Hovudet til Ash
+	oled_draw_line(28, 30, 52, 30);       // Hatten (brei linje over hovudet)
+	oled_draw_line(40, 42, 40, 60);       // Kroppen til Ash
+	oled_draw_line(40, 45, 25, 55);       // Venstre arm, peikar
+	oled_draw_line(40, 45, 55, 55);       // Høgre arm
+
+	// Ansikt
+	oled_draw_circle(36, 34, 2);          // Venstre auge
+	oled_draw_circle(44, 34, 2);          // Høgre auge
+	oled_draw_arc(40, 50, 6, 0, 180);     // Stort smil
+}
+
+void draw_ash_laughing_hard() {
+	// Stort hovud og kropp for Ash med lukka auge og tårer
+	oled_draw_circle(40, 30, 12);         // Hovudet til Ash
+	oled_draw_line(28, 30, 52, 30);       // Hatten
+	oled_draw_line(40, 42, 40, 60);       // Kroppen
+	oled_draw_line(40, 45, 25, 55);       // Venstre arm, peikar
+	oled_draw_line(40, 45, 55, 55);       // Høgre arm
+
+	// Ansikt med lukka auge og tårer
+	oled_draw_line(36, 34, 36, 34);       // Venstre auge lukka
+	oled_draw_line(44, 34, 44, 34);       // Høgre auge lukka
+	oled_draw_arc(40, 50, 6, 0, 180);     // Stor open munn for latter
+	oled_draw_circle(34, 45, 2);          // Tåre på venstre side
+	oled_draw_circle(46, 45, 2);          // Tåre på høgre side
+}
+
+void draw_pikachu_laughing_normal() {
+	// Stort hovud og kropp for Pikachu
+	oled_draw_circle(90, 30, 10);         // Hovudet til Pikachu
+	oled_draw_line(85, 18, 88, 25);       // Venstre øyre
+	oled_draw_line(95, 18, 92, 25);       // Høgre øyre
+	oled_draw_circle(86, 36, 2);          // Venstre kinn
+	oled_draw_circle(94, 36, 2);          // Høgre kinn
+	oled_draw_line(90, 40, 90, 60);       // Kroppen
+	oled_draw_line(85, 45, 75, 55);       // Venstre arm, peikar
+	oled_draw_line(95, 45, 105, 55);      // Høgre arm
+
+	// Ansikt
+	oled_draw_circle(88, 34, 2);          // Venstre auge
+	oled_draw_circle(92, 34, 2);          // Høgre auge
+	oled_draw_arc(90, 50, 4, 0, 180);     // Stort smil
+}
+
+void draw_pikachu_laughing_hard() {
+	// Stort hovud og kropp for Pikachu med lukka auge og tårer
+	oled_draw_circle(90, 30, 10);         // Hovudet til Pikachu
+	oled_draw_line(85, 18, 88, 25);       // Venstre øyre
+	oled_draw_line(95, 18, 92, 25);       // Høgre øyre
+	oled_draw_circle(86, 36, 2);          // Venstre kinn
+	oled_draw_circle(94, 36, 2);          // Høgre kinn
+	oled_draw_line(90, 40, 90, 60);       // Kroppen
+	oled_draw_line(85, 45, 75, 55);       // Venstre arm, peikar
+	oled_draw_line(95, 45, 105, 55);      // Høgre arm
+
+	// Ansikt med lukka auge og tårer
+	oled_draw_line(88, 34, 88, 34);       // Venstre auge lukka
+	oled_draw_line(92, 34, 92, 34);       // Høgre auge lukka
+	oled_draw_arc(90, 50, 5, 0, 180);     // Stor open munn for latter
+	oled_draw_circle(84, 46, 2);          // Tåre på venstre side
+	oled_draw_circle(96, 46, 2);          // Tåre på høgre side
+}
+
+
+#include <avr/interrupt.h>
+#include <avr/wdt.h> // For Watchdog Timer
+
+extern MultiBoard board;
+extern volatile uint8_t screen_count;
+extern volatile uint8_t screen_count_two = 0;
+
+void animate_ash_and_pikachu_laughing() {
+	static uint8_t loooser = 0;
+
+	// Start Watchdog Timer med 2 sekunders timeout
+	//wdt_enable(WDTO_2S);
+		oled_clear_screen();
+		draw_pikachu_laughing_hard();
+		oled_write_line_to_SRAM(0, "!!!DIN TAPAR!!!!");
+		oled_data_from_SRAM();
+		
+	while (board.JoyBtn != 1) {
+		MultiBoard_Update(&board);
+
+		if (screen_count == 2) {
+			screen_count_two ++;
+			if (screen_count_two > 102)
+			{
+				loooser++;
+				if (loooser >= 347) { loooser = 0; }
+			}
+		}
+
+		// Teikn utan å clear skjermen kvar gong for å redusere belastning
+		if (loooser % 149 == 0) {
+			oled_clear_screen();
+			oled_write_line_to_SRAM(0, "!!!DIN TAPAR!!!!");
+			draw_ash_laughing_normal();
+			draw_pikachu_laughing_normal();
+			oled_data_from_SRAM();
+		}
+
+		if (loooser % 347 == 0) {
+			oled_clear_screen();
+			oled_write_line_to_SRAM(0, "!!!DIN TAPAR!!!!");
+			draw_ash_laughing_hard();
+			draw_pikachu_laughing_hard();
+			oled_data_from_SRAM();
+		}
+		printf(" er i while     \r");
+	}
+}
+

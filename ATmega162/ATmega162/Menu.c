@@ -166,7 +166,7 @@ void handleMenuSelection(MultiBoard* board, Menu* menu) {
 			main_game.start_game = 1;
 			game_Start(&main_game);
 			print_game_status();
-			draw_sunset();
+			draw_sunset_with_pikachu_and_ash();
 			oled_data_from_SRAM();
 			while(!main_game.game_initialized){printf("     \r");}
 			score_counter = 0;

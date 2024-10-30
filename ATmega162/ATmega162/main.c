@@ -116,5 +116,5 @@ ISR(TIMER1_OVF_vect) {
 			printf("score++: %d \r\n", score_counter);
 		}
 	}
-	TIFR |= (1 << TOV1); //Resett TIMER1_OVF_vect
+	 TIFR |= (1 << TOV1); //Resett TIMER1_OVF_vect
 }
