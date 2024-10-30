@@ -66,6 +66,7 @@ void oled_draw_line(uint8_t x0, uint8_t y0, uint8_t x1, uint8_t y1);
 void oled_draw_circle(uint8_t x0, uint8_t y0, uint8_t radius);
 void oled_draw_square(uint8_t x0, uint8_t y0, uint8_t width, uint8_t height);
 void draw_thick_line(uint8_t x0, uint8_t y0, uint8_t x1, uint8_t y1);
+void oled_draw_arc(uint8_t x0, uint8_t y0, uint8_t radius, int start_angle, int end_angle);
 void draw_number_1();
 void draw_number_2();
 void draw_number_3();
