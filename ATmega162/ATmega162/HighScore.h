@@ -24,8 +24,7 @@ void update_highscore_list(uint16_t new_score);
 void highscore_to_SRAM(uint8_t scroll_offset);
 
 //Hjelpefunksjon, kan flyttes til utils
-uint8_t count_digits(uint16_t number);
-void number_to_chars(uint16_t number, char* buffer, int length);
+
 
 
 

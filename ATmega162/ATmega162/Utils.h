@@ -36,4 +36,8 @@ uint32_t general_ms(void);  // Funksjon for å hente tida i millisekund
 uint32_t general_cycles(void);
 void restart_general_timer();
 
+
+uint8_t count_digits(uint16_t number);
+void number_to_chars(uint16_t number, char* buffer, int length);
+
 #endif /* UTILS_H_ */

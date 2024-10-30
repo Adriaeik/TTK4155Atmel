@@ -79,3 +79,27 @@ void restart_general_timer(){
 	TCNT3 = 0;
 	overflow_count3 = 0;
 }
+
+
+
+uint8_t count_digits(uint16_t number) {
+	int digits = 0;
+	if (number == 0) {
+		return 1;
+	}
+	while (number > 0) {
+		number /= 10;
+		digits++;
+	}
+	return digits;
+}
+
+void number_to_chars(uint16_t number, char* buffer, int length) {
+	buffer[length] = '\0';  // Null-terminator for å avslutte strengen
+
+	// Fyll buffer fra høyre til venstre
+	for (int i = length - 1; i >= 0; i--) {
+		buffer[i] = (number % 10) + '0';  // Konverter siste siffer til ASCII-tegn
+		number /= 10;  // Fjern det siste sifferet
+	}
+}
