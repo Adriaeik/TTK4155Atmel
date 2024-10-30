@@ -16,6 +16,7 @@ void game_Init(Game *game){
 	game->sensitivity = 5;
 	game->score = 0;
 	game->start_game = 0;
+	game->lives_left = game->lives;
 	set_difficulty(game->difficulty);
 }
 void game_Start(Game* game){
@@ -72,9 +73,9 @@ void game_Recive(Game* game, CANMessage* msg) {
 			
 	switch (msg->id) {
 		case ID_GAME_LIVES_LEFT:  // ID for lives
-			game->lives = msg->data[0];
+			game->lives_left = msg->data[0];
 			#if DEBUG_GAME == 1
-			printf("Lives: %d\n\r", game->lives);
+			printf("Lives left: %d\n\r", game->lives_left);
 			#endif
 		break;
 

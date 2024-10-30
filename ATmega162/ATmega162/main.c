@@ -11,7 +11,7 @@
 #include "DriverCAN.h"
 #include "game.h"
 
-static uint8_t screen_count = 0;
+extern uint8_t screen_count = 0;
 extern uint8_t playGame = 0;
 Game main_game;
 MultiBoard board;

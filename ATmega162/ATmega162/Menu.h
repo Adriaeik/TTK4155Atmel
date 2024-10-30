@@ -47,6 +47,7 @@ void menu_navigate(MultiBoard* board, Menu* menu);
 /* dinna må fremmover deklareres då den er definert i Menu_init.c
 KAnskje det lager noko problem for menyvalg*/
 void handleMenuSelection(MultiBoard* board, Menu* menu);		//implementert i menu_init.c
+void handle_game_screen(void);
 
 
 #endif /* MENU_H */

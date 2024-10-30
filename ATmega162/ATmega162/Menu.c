@@ -151,6 +151,7 @@ void menu_navigate(MultiBoard* board, Menu* menu) {
 }
 #include "game.h"
 extern Game main_game;
+uint8_t screen_count;
 void handleMenuSelection(MultiBoard* board, Menu* menu) {
 	oled_clear_screen();
 	switch (currentMenuState) {
@@ -164,7 +165,13 @@ void handleMenuSelection(MultiBoard* board, Menu* menu) {
 			print_game_status();
 			oled_write_screen_to_SRAM(&solkors);
 			oled_data_from_SRAM();
-			while(game_run());
+			while(game_run()){
+				if(screen_count >= 0){
+					handle_game_screen(); //Oppdaterer skjermen med lives left
+				}
+				
+			};
+				
 
 
 			oled_data_from_SRAM();
@@ -236,4 +243,52 @@ void handleMenuSelection(MultiBoard* board, Menu* menu) {
 		}
 		break;	
 	}
+}
+
+
+void handle_game_screen(void){
+	//Trenger å:
+	//1. skrive lives left til SRAM
+	//3. oppdatere oled fra SRAM
+	
+	uint8_t ll = main_game.lives_left;
+	
+	switch (ll) {
+		case 0:
+			oled_write_screen_to_SRAM(&null_lives);
+			break;
+		case 1:
+			oled_write_screen_to_SRAM(&one_lives);
+			break;
+		case 2:
+			oled_write_screen_to_SRAM(&two_lives);
+			break;
+		case 3:
+			oled_write_screen_to_SRAM(&three_lives);
+			break;
+		case 4:
+			oled_write_screen_to_SRAM(&four_lives);
+			break;
+		case 5:
+			oled_write_screen_to_SRAM(&five_lives);
+			break;
+		case 6:
+			oled_write_screen_to_SRAM(&six_lives);
+			break;
+		case 7:
+			oled_write_screen_to_SRAM(&seven_lives);
+			break;
+		case 8:
+			oled_write_screen_to_SRAM(&eight_lives);
+			break;
+		case 9:
+			oled_write_screen_to_SRAM(&nine_lives);
+			break;
+		default:
+			oled_write_screen_to_SRAM(&solkors); 
+	}
+	
+	
+	oled_data_from_SRAM();
+	
 }

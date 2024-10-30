@@ -375,3 +375,110 @@ const char settingsMenuItems[5*16] PROGMEM =
 	" Sensitivity    "
 	" Difficulty     "
 	" Back           ";
+	
+	
+	
+	
+	
+/*___________________ TALL 0-9 ___________________*/
+//En 'square': 8x8, en linje: 16 squares, en skjerm: 8 linjer
+//Bør tegne en strek som blir tynnere oppover i øverste linje, resten tom:
+extern const char null_lives[128] PROGMEM = 
+"Lives:          "
+"         ---    "
+"        |   |   "
+"        |   |   "
+"        |   |   "
+"        |   |   "
+"         ---    "
+"                ";
+
+extern const char one_lives[128] PROGMEM = 
+"Lives:          "
+"          ___   "
+"         / ||   "
+"           ||   "
+"           ||   "
+"           ||   "
+"          ----  "
+"                ";
+
+extern const char two_lives[128] PROGMEM=
+"Lives:          "
+"        ___     "
+"       /   \    "
+"          /     "
+"         /      "
+"        /       "
+"       /-----   "
+"                ";
+
+extern const char three_lives[128] PROGMEM =
+"Lives:          "
+"        ___     "
+"       /   \    "
+"          _/    "
+"           \    "
+"           /    "
+"       \__/     "
+"                ";
+
+extern const char four_lives[128] PROGMEM =
+"Lives:          "
+"       |   |    "
+"       |   |    "
+"       |___|    "
+"           |    "
+"           |    "
+"           |    "
+"                ";
+
+extern const char five_lives[128] PROGMEM =
+"Lives:  ____    "
+"       |        "
+"       |        "
+"       |___     "
+"           |    "
+"           |    "
+"        ___|    "
+"                ";
+
+extern const char six_lives[128] PROGMEM =
+"Lives:  ____    "
+"       |        "
+"       |        "
+"       |___     "
+"       |   |    "
+"       |   |    "
+"       |___|    "
+"                ";
+extern const char seven_lives[128] PROGMEM =
+"Lives:          "
+"       ______   "
+"            /   "
+"           /    "
+"          /     "
+"         /      "
+"        /       "
+"                ";
+
+extern const char eight_lives[128] PROGMEM =
+"Lives:          "
+"        ___     "
+"       |   |    "
+"       |___|    "
+"       |   |    "
+"       |   |    "
+"       |___|    "
+"                ";
+
+extern const char nine_lives[128] PROGMEM =
+"Lives:          "
+"        ___     "
+"       |   |    "
+"       |___|    "
+"           |    "
+"           |    "
+"        ___|    "
+"                ";
+
