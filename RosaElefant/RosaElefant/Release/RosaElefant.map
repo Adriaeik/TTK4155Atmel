@@ -188,6 +188,8 @@ Discarded input sections
  .text.motor_control_velocity
                 0x00000000      0x1c0 src/motor.o
  .text.clamp    0x00000000       0x10 src/motor.o
+ .text.calibrate_motor_pos
+                0x00000000       0x48 src/motor.o
  .text          0x00000000        0x0 src/MultiBoard.o
  .data          0x00000000        0x0 src/MultiBoard.o
  .bss           0x00000000        0x0 src/MultiBoard.o
