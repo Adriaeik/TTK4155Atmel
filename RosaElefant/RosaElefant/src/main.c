@@ -15,10 +15,7 @@ int main(void) {
 	while (1) {
 		
 
-		if (main_game.start_game == 1){
-			start_game(); // krever at det er verdia på lives og sånt, skal sendast frå atmega
-		}
-		
+		start_game(); // krever at det er verdia på lives og sånt, skal sendast frå atmega
 		CAN0_Handler();
 		
 	}

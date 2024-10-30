@@ -44,5 +44,6 @@ void start_game();
 void update_game_status_from_can(Game* game, CAN_MESSAGE* msg);
 void run_game(void);
 void game_Send(Game* game, uint8_t ID);
+void game_Send_lives(void);
 
 #endif /* GAME_H_ */
