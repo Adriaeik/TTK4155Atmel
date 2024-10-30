@@ -6,11 +6,6 @@
  */ 
 
 #include "init.h"
-#include "DriverUART.h"
-#include "SRAM.h"
-#include "Menu_init.h"
-#include "DriverCAN.h"
-#include "game.h"
 
 extern uint8_t screen_count = 0;
 extern uint8_t menu_pos_count = 0;
@@ -21,7 +16,7 @@ extern uint8_t count_fake_proc = 0;
 
 Game main_game;
 MultiBoard board;
-
+extern Menu* current_menu;
 
 
 
@@ -74,10 +69,11 @@ int main(void) {
 	system_init(&main_game, &board);
 	
 	/*______MENY______*/
-	extern Menu* current_menu = &mainMenu; //kan kanskje teste med å starte i ein anna meny
+	current_menu = &mainMenu; //kan kanskje teste med å starte i ein anna meny
 	write_menu_oled_to_SRAM(current_menu);
 	
 	print_game_status();
+	sei();
 	
 	
 	/*_______HOVUDL�KKE______*/

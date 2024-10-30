@@ -1,4 +1,4 @@
-main.d main.o: .././main.c .././init.h .././game.h .././DriverCAN.h \
+init.d init.o: .././init.c .././init.h .././game.h .././DriverCAN.h \
  .././DriverMCP2515.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\io.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\sfr_defs.h \

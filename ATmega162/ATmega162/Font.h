@@ -29,5 +29,6 @@ extern const char six_lives[128] PROGMEM;
 extern const char seven_lives[128] PROGMEM;
 extern const char eight_lives[128] PROGMEM;
 extern const char nine_lives[128] PROGMEM;
+extern const char lives_background[128] PROGMEM;
 
 #endif /* FONT_H_ */

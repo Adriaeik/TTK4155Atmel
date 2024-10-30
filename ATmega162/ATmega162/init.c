@@ -1,6 +1,7 @@
 #include "init.h"
 
-void system_init(Game *game, Multiboard *board){
+
+void system_init(Game* game, MultiBoard* board){
   /*_________________INITIALISERINGER START______________________*/
 	/*--- Initialiser UART ---*/
 	UART_Init(MYUBBR);
@@ -15,7 +16,7 @@ void system_init(Game *game, Multiboard *board){
 	initialize_menus();
 	MultiBoard_Init(board);			// Initialiser MultiBoard og kalibrer joystickens origo
 	game_Init(game);
-	game->lives = 5;
+	game->lives = 9;
 	oled_init();						// Initialiser OLED-skjermen
 		/*--- Optional setup ---*/
 			//setup_printf_for_oled();		

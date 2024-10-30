@@ -18,6 +18,8 @@ GameSettings.c
 
 HighScore.c
 
+init.c
+
 main.c
 
 Menu.c

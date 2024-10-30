@@ -406,7 +406,7 @@ extern const char one_lives[128] PROGMEM =
 extern const char two_lives[128] PROGMEM=
 "Score:          "
 "Lives:  ___     "
-"      //  \\    "
+"      //  \\\\    "
 "          //    "
 "         //     "
 "        //      "
@@ -415,19 +415,19 @@ extern const char two_lives[128] PROGMEM=
 
 extern const char three_lives[128] PROGMEM =
 "Score:          "
-"Lives:  ___     "
-"      //   \\   "
+"Lives:  ~~~     "
+"       /   \\\\   "
 "          _//   "
-"           \\   "
-"           //   "
-"      \\__//    "
-"                ";
+"           \\\\   "
+"           ))   "
+"       \\  //    "
+"        ~~~     ";
 
 extern const char four_lives[128] PROGMEM =
 "Score:          "
 "Lives: ||  ||   "
 "       ||  ||   "
-"       \\__||   "
+"       \\\\__||   "
 "           ||   "
 "           ||   "
 "           ||   "
@@ -436,9 +436,9 @@ extern const char four_lives[128] PROGMEM =
 extern const char five_lives[128] PROGMEM =
 "Score:          "
 "Lives:  ___     "
-"      ||        "
-"      ||___     "
-"          \\    "
+"       |        "
+"       |___     "
+"          \\\\    "
 "          ||    "
 "        __//    "
 "                ";
@@ -448,9 +448,9 @@ extern const char six_lives[128] PROGMEM =
 "Lives:  ___     "
 "      //        "
 "      ||___     "
-"      ||   \\   "
+"      ||   \\\\   "
 "      ||   ||    "
-"      \\___//   "
+"     \\\\__//     "
 "                ";
 extern const char seven_lives[128] PROGMEM =
 "Score:          "
@@ -465,20 +465,31 @@ extern const char seven_lives[128] PROGMEM =
 extern const char eight_lives[128] PROGMEM =
 "Score:          "
 "Lives: ____     "
-"      //  \\    "
-"      \\__//    "
-"      //  \\    "
-"     ||    ||   "
-"      \\__//    "
+"      //  \\\\    "
+"      \\\\__//    "
+"      //  \\\\    "
+"      ||  ||    "
+"      \\\\__//    "
 "                ";
 
 extern const char nine_lives[128] PROGMEM =
 "Score:          "
 "Lives:  ___     "
-"      //   \\   "
-"      \\___||   "
+"      //   \\\\   "
+"      \\\\\___||   "
 "           ||   "
 "           ||   "
 "        ___//   "
 "                ";
 
+
+
+extern const char lives_background[128] PROGMEM =
+"Score:          "
+"Lives:          "
+"                "
+"                "
+"                "
+"                "
+"                "
+"                ";

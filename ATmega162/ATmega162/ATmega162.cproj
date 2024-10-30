@@ -169,6 +169,12 @@
     <Compile Include="HighScore.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="init.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="init.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="main.c">
       <SubType>compile</SubType>
     </Compile>
