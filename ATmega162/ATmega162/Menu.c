@@ -319,7 +319,7 @@ void handle_game_screen(void){
 	number_to_chars(score_temp, score_char, score_len);	 
 	 //Om vi fikser uint16 må denne fikses litt lenger. col 9-i gir plass for 3 siffer
 	for(int i = 0; i < score_len; i++){
-		oled_write_char_to_SRAM(0, 9-i, score_char[i]);		
+		oled_write_char_to_SRAM(0, 7+i, score_char[i]);		
 	}
 	
 	

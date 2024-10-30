@@ -2096,7 +2096,7 @@ Disassembly of section .text:
     1976:	c6 01       	movw	r24, r12
     1978:	0e 94 67 13 	call	0x26ce	; 0x26ce <number_to_chars>
     197c:	67 01       	movw	r12, r14
-    197e:	89 e0       	ldi	r24, 0x09	; 9
+    197e:	87 e0       	ldi	r24, 0x07	; 7
     1980:	b8 2e       	mov	r11, r24
     1982:	c6 01       	movw	r24, r12
     1984:	8e 19       	sub	r24, r14
@@ -2110,7 +2110,7 @@ Disassembly of section .text:
     1994:	6b 2d       	mov	r22, r11
     1996:	80 e0       	ldi	r24, 0x00	; 0
     1998:	0e 94 82 11 	call	0x2304	; 0x2304 <oled_write_char_to_SRAM>
-    199c:	ba 94       	dec	r11
+    199c:	b3 94       	inc	r11
     199e:	f1 cf       	rjmp	.-30     	; 0x1982 <handle_game_screen+0xbc>
     19a0:	0e 94 7a 10 	call	0x20f4	; 0x20f4 <oled_data_from_SRAM>
     19a4:	0f b6       	in	r0, 0x3f	; 63
