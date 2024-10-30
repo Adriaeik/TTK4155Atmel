@@ -63,8 +63,15 @@ void CAN0_Handler(void)
 			if(DEBUG_INTERRUPT)printf("%d ", message.data[i]);
 		}
 		if(DEBUG_INTERRUPT)printf("\n\r");
-		update_board_from_can(&board, &message);
-		update_game_status_from_can(&main_game, &message);
+		if (message.id > 0 && message.id < ID_JOY_ANGLE)
+		{
+			update_board_from_can(&board, &message);
+		}
+		if (message.id > ID_JOY_ANGLE && message.id < ID_GAME_START)
+		{
+			update_game_status_from_can(&main_game, &message);
+		}
+		
 		
 	}
 	

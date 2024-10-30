@@ -17,7 +17,7 @@
 
 #define ENCODER_RANGE 5654
 #define SLIDER_RANGE 255
-#define PARAM_SCALE 10E6
+#define PARAM_SCALE 10E7
 
 // Definert extern og value i external.h
 extern  long long int Kp = 199.0;

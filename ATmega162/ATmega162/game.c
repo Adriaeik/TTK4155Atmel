@@ -87,13 +87,13 @@ void set_difficulty(Difficulty difficulty) {
 	main_game.difficulty = difficulty;
 }
 
-void print_game_status(Game *game) {
+void print_game_status(void) {
 	printf("\n==================== Game Status ====================\n\r");
 	printf("| %-15s | %-10s |\n\r", "Attribute", "Value");
 	printf("|-----------------|------------|\n\r");
-	printf("| %-15s | %-10s |\n\r", "Difficulty", game->difficulty == EASY ? "Easy" : "Hard");
-	printf("| %-15s | %-10d |\n\r", "Lives", game->lives);
-	printf("| %-15s | %-10d |\n\r", "Score", game->score);
-	printf("| %-15s | %-10s |\n\r", "Start Game", game->start_game ? "Yes" : "No");
+	printf("| %-15s | %-10s |\n\r", "Difficulty", main_game.difficulty == EASY ? "Easy" : "Hard");
+	printf("| %-15s | %-10d |\n\r", "Lives", main_game.lives);
+	printf("| %-15s | %-10d |\n\r", "Score", main_game.score);
+	printf("| %-15s | %-10s |\n\r", "Start Game", main_game.start_game ? "Yes" : "No");
 	printf("=====================================================\n\n\r");
 }

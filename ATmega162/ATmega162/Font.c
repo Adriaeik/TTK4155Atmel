@@ -361,11 +361,13 @@ const char mainMenuItems[8*16] PROGMEM =
 " Credits        "
 " Exit           ";
 
-const char scrollMenuItems[20*16] PROGMEM = 
-	" Item 1  BACK   " " Item 2         " " Item 3         " " Item 4         " " Item 5         "
-	" Item 6         " " Item 7         " " Item 8         " " Item 9         " " Item 10        "
-	" Item 11        " " Item 12        " " Item 13        " " Item 14        " " Item 15        "
-	" Item 16        " " Item 17        " " Item 18        " " Item 19        " " Item 20        ";
+const char scrollMenuItems[20*16] PROGMEM =
+" BACK           " " Nr. 1:         " " Nr. 2:         " " Nr. 3:         " " Nr. 4:         "
+" Nr. 5:         " " Nr. 6:         " " Nr. 7:         " " Nr. 8:         " " Nr. 9:         "
+" Nr. 10:        " " Nr. 11:        " " Nr. 12:        " " Nr. 13:        " " Nr. 14:        "
+" Nr. 15:        " " Nr. 16:        " " Nr. 17:        " " Nr. 18:        " " Nr. 19:        ";
+
+
 
 const char settingsMenuItems[5*16] PROGMEM = 
 	" Reset settings "

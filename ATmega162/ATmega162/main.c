@@ -11,6 +11,7 @@
 #include "DriverCAN.h"
 #include "game.h"
 
+static uint8_t screen_count = 0;
 extern uint8_t playGame = 0;
 Game main_game;
 MultiBoard board;
@@ -64,13 +65,21 @@ int main(void) {
 	extern Menu* current_men;//u = &mainMenu; //kan kanskje teste med å starte i ein anna meny
 	write_menu_oled_to_SRAM(current_menu);
 	
-	print_game_status(&main_game);
+	print_game_status();
+	
+	
+	
 	
 	/*_______HOVUDLØKKE______*/
 	 while (1) {
 
         menu_navigate(&board, current_menu);  // Kallar `menu_navigate` med referanse til gjeldande meny
 		
+		
+		if(screen_count >= 2){
+			oled_data_from_SRAM();
+			screen_count = 0;
+		}
 		/*Så lenge vi ikkje har noko delay gåandes og ditta står her tenker eg 
 		at den oppdateres automatisk med det minnet vi har skreve til sramen?
 		Det kunne vert fornuftig med eit flag her då
@@ -120,16 +129,5 @@ ISR(INT0_vect) {
 
 // Kjører i 75Hz ish
 ISR(TIMER1_OVF_vect) {
-	static uint8_t screen_count = 0;
-	cli();
-	
-	//static uint16_t count = 0;
-	//count++;
 	screen_count++;
-	if(screen_count >= 2){
-		oled_data_from_SRAM();
-		screen_count = 0;
-	}	
-	sei();
-	//printf("%d ", count/75);
 }

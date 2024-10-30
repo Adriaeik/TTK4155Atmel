@@ -24,9 +24,9 @@ void game_Init(Game *game){
 static void set_difficulty(Difficulty difficulty) {
 	switch (difficulty) {
 		case EASY:
-		Kp = 2;
-		Ki = 2;
-		Kd = 0;
+		Kp = 4;
+		Ki = 3;
+		Kd = 1;
 		break;
 		case MEDIUM:
 		Kp = 150;

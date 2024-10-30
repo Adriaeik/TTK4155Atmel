@@ -54,22 +54,24 @@ void update_highscore_list(uint16_t new_score) {
 
 
 void highscore_to_SRAM(uint8_t scroll_offset){
-	
-	for(uint8_t k = 0; k < 8; k++){
-		uint16_t score = SRAM_read(HS_START_IDX + scroll_offset*16 + k*16);
+	uint8_t k = 0;
+	if(scroll_offset == 0){
+		k = 1;
+	}
+	for(k; k < 8; k++){
+		uint16_t score = SRAM_read(HS_START_IDX + scroll_offset*16 + (k-1)*16);
 		uint8_t score_len = count_digits(score);
 		char score_as_string[score_len+1];
 		number_to_chars(score, score_as_string, score_len);
 		
 		for(uint8_t i = 0; i < score_len; i++){
-			oled_write_char_to_SRAM(k, 15-i, score_as_string[score_len-i-1]);	
+			oled_write_char_to_SRAM(k, 15-i, score_as_string[score_len-i-1]);
 		}
 		
 	}
-	
-	
-	
 }
+	
+
 
 
 uint8_t count_digits(uint16_t number) {

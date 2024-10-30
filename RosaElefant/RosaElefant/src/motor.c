@@ -79,14 +79,14 @@ int clamp(int value, int min, int max) {
 }
 
 uint8_t reset_PID_flag = 0;
-int ref = 0;
+long long int ref = 0;
 // PID-regulator
 void motor_control_PID(void) {
 	// Normaliser posisjon og referanse
-	static int prev_ref = 0;
-	static int prev_pos = 0;
+	static long long int prev_ref = 0;
+	static long long int prev_pos = 0;
 	
-	int pos = normalize_pos_encoder(prev_pos);
+	long long int pos = normalize_pos_encoder(prev_pos);
 	ref = reset_PID_flag == 0 ? normalize_pos_ref(prev_ref) : PARAM_SCALE/2; // Set referanse til midtposisjon ved reset
 	prev_ref = ref;
 	prev_pos = pos;
@@ -109,22 +109,16 @@ void motor_control_PID(void) {
 		PIOC->PIO_CODR = PHASE_PIN;  // Sett pin låg (negativ retning)
 	}
 	
-	int actuation = (Kp * error) + (Ki * integral) + (Kd * derivat);
+	long long int actuation = (Kp * error) + (Ki * integral) + (Kd * derivat);
 	//printf("podrag1: %d ", (int)(actuation));
 	prev_error = error;
 	
 	//VIKTIG med abs verdi då u må vere eit tall mellom 0 og 1
-	int u = clamp(abs(actuation), 0, PARAM_SCALE);	// Normaliser og klamp pådraget
-	//printf("podrag2: %d ", (int)(u));
+	long long int u = clamp(abs(actuation), 0, PARAM_SCALE);	// Normaliser og klamp pådraget
+
 	// Oppdater PWM duty cycle. normalisert
-	//update_motor_pwm((double)u/PARAM_SCALE);
-	
-	//printf(" ");
-	//printf("1000 ganger error: %d     ", test);
-	//printf("1000 ganger integral: %d     ", integral_1000);
-	//printf("1000 ganger derivat: %d \r\n",derivat_1000);
-	//printf("Pos: %d  ", (int)(pos));
-	//printf("Ref: %d \r\n", (int)(ref));
+	update_motor_pwm((double)u/PARAM_SCALE);
+
 }
 
 // Funksjon for å oppdatere motor PWM

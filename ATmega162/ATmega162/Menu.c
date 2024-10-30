@@ -119,7 +119,7 @@ void write_menu_oled_to_SRAM(Menu* menu){
 	//Om det er mer enn 8 linjer
 	//litt usikker om scroll kan gå for høy her, men satser på nei
 	else{
-		highscore_to_SRAM(menu->scroll_offset);
+		
 		for(uint16_t j = 0; j < 8*16; j++) {
 			char c = pgm_read_byte(&menu->items[menu->scroll_offset*16 + j]);
 			for(int i = 0; i < 8; i++){
@@ -131,6 +131,7 @@ void write_menu_oled_to_SRAM(Menu* menu){
 				}
 			}
 		}
+		highscore_to_SRAM(menu->scroll_offset);
 	}
 	
 }
@@ -160,7 +161,9 @@ void handleMenuSelection(MultiBoard* board, Menu* menu) {
 			playGame = 1;
 			main_game.start_game = 1;
 			game_Start(&main_game);
-			print_game_status(&main_game);
+			print_game_status();
+			oled_write_screen_to_SRAM(&solkors);
+			oled_data_from_SRAM();
 			while(game_run());
 
 
