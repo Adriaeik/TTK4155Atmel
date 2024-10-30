@@ -145,3 +145,14 @@ void reset_pid(void) {
 	}
 	reset_PID_flag = 0;
 }
+#include "../include/time.h"
+void calibrate_motor_pos(void){
+	uint8_t new_pos = 0;
+	while (new_pos != read_encoder_position() ){
+		new_pos = read_encoder_position();
+		update_motor_pwm(0.5); //halvfart
+		time_spinFor(msecs(100));// vent i 0.1 sek for å sjekke på ny
+	}
+	// når ferdig. sett referanse
+	
+}
