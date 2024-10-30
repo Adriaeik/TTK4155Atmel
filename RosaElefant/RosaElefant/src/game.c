@@ -55,27 +55,6 @@ static void handle_game_over(void) {
 	
 	
 }
-
-#include <stdio.h>
-void print_game_status(Game *game) {
-	int diff = (int)game->difficulty;
-	int liv = game->lives;
-	int liv_left = game->remaining_lives;
-	int sco = game->score;
-	int start = game->start_game;
-	
-	printf("\n==================== Game Status ====================\n\r");
-	printf("| %-15s | %-10s |\n\r", "Attribute", "Value");
-	printf("|-----------------|------------|\n\r");
-	printf("");
-	printf("| %-15s | %-10s |\n\r", "Difficulty", diff == 0 ? "Easy" : "Hard");
-	printf("| %-15s | %-10d |\n\r", "Lives", liv);
-	printf("| %-15s | %-10d |\n\r", "Lives left", liv_left);
-	printf("| %-15s | %-10d |\n\r", "Score", sco);
-	printf("| %-15s | %-10s |\n\r", "Start Game", start ? "Yes" : "No");
-	printf("=====================================================\n\r");
-}
-
 // Hovudfunksjon for spelet - non-blocking versjon
 // Bær startes av ein melding fra 
 void start_game() {
@@ -204,7 +183,6 @@ void game_Send(Game* game, uint8_t ID){
 	can_send(&msg_to_send, 0);
 }
 
-
 void game_Send_lives(void){
 	CAN_MESSAGE msg = {
 		.id = ID_GAME_LIVES_LEFT,
@@ -216,4 +194,24 @@ void game_Send_lives(void){
 	if (!can_send(&msg, 0)) {
 		printf("Send melding om resterande liv: %d\n\r",main_game.remaining_lives);
 	}
+}
+
+#include <stdio.h>
+void print_game_status(Game *game) {
+	int diff = (int)game->difficulty;
+	int liv = game->lives;
+	int liv_left = game->remaining_lives;
+	int sco = game->score;
+	int start = game->start_game;
+	
+	printf("\n==================== Game Status ====================\n\r");
+	printf("| %-15s | %-10s |\n\r", "Attribute", "Value");
+	printf("|-----------------|------------|\n\r");
+	printf("");
+	printf("| %-15s | %-10s |\n\r", "Difficulty", diff == 0 ? "Easy" : "Hard");
+	printf("| %-15s | %-10d |\n\r", "Lives", liv);
+	printf("| %-15s | %-10d |\n\r", "Lives left", liv_left);
+	printf("| %-15s | %-10d |\n\r", "Score", sco);
+	printf("| %-15s | %-10s |\n\r", "Start Game", start ? "Yes" : "No");
+	printf("=====================================================\n\r");
 }

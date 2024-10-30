@@ -56,7 +56,6 @@ void update_menu_position_from_joystick(MultiBoard* board, Menu* menu) {
 				if (menu->current_position < menu->scroll_offset) {
 					menu->scroll_offset--;
 				} 
-				board->JoyYLastAction = general_ms();  // Forsinkelse for å unngå rask scrolling
 			}
 		}
 		// Beveg nedover i menyen
@@ -70,7 +69,6 @@ void update_menu_position_from_joystick(MultiBoard* board, Menu* menu) {
 				if (menu->current_position >= menu->scroll_offset + MENU_ITEMS_PER_PAGE) {
 					menu->scroll_offset++;
 				} 
-				board->JoyYLastAction = general_ms();   // Forsinkelse for å unngå rask scrolling
 			}
 		}
 	}

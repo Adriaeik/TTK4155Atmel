@@ -93,6 +93,7 @@ void motor_control_PID(void) {
 	prev_pos = pos;
 	
 	// Beregn avviket
+	static int error_hyst = 100000;
 	error = pos - ref;
 	integral = clamp((integral + error)/50, -PARAM_SCALE,PARAM_SCALE);
 	derivat = error - prev_error;
@@ -104,10 +105,15 @@ void motor_control_PID(void) {
 
 
 	// Sett motor retning basert på fortegnet til avviket
+
 	if (error > 0) {
-		PIOC->PIO_SODR = PHASE_PIN;  // Sett pin høg (positiv retning) mot høyre?
+		if (abs(error)> error_hyst){
+			PIOC->PIO_SODR = PHASE_PIN;  // Sett pin høg (positiv retning) mot høyre?
+			}
 		} else if (error < 0) {
-		PIOC->PIO_CODR = PHASE_PIN;  // Sett pin låg (negativ retning)
+		if (abs(error)> error_hyst){
+			PIOC->PIO_CODR = PHASE_PIN;  // Sett pin låg (negativ retning)
+		}
 	}
 	
 	long long int actuation = (Kp * error) + (Ki * integral) + (Kd * derivat);
