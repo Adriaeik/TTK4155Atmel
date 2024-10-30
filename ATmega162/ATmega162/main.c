@@ -79,7 +79,7 @@ int main(void) {
 	/*_______HOVUDLØKKE______*/
 	while (1) {
 
-        	menu_navigate(&board, current_menu);  // Kallar `menu_navigate` med referanse til gjeldande meny
+        menu_navigate(&board, current_menu);  // Kallar `menu_navigate` med referanse til gjeldande meny
 		
 		if(screen_count >= 2){
 			oled_data_from_SRAM();
