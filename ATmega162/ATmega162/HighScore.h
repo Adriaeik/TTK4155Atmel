@@ -13,7 +13,7 @@
 #include "XMEM_Decode.h"
 
 #define HS_START_IDX 1024
-#define HIGHSCORE_LIST_SIZE 20 
+#define HIGHSCORE_LIST_SIZE 19 
 
 void clear_highscore_list(void);
 

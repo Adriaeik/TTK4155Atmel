@@ -12,7 +12,12 @@
 #include "game.h"
 
 extern uint8_t screen_count = 0;
+extern uint8_t menu_pos_count = 0;
 extern uint8_t playGame = 0;
+extern uint16_t score_counter = 0;
+extern uint16_t fake_proc_time = 0; 
+extern uint8_t count_fake_proc = 0;
+
 Game main_game;
 MultiBoard board;
 
@@ -68,6 +73,7 @@ int main(void) {
 	print_game_status();
 	
 	
+
 	
 	
 	/*_______HOVUDLØKKE______*/
@@ -80,54 +86,37 @@ int main(void) {
 			oled_data_from_SRAM();
 			screen_count = 0;
 		}
-		/*Så lenge vi ikkje har noko delay gåandes og ditta står her tenker eg 
-		at den oppdateres automatisk med det minnet vi har skreve til sramen?
-		Det kunne vert fornuftig med eit flag her då
-		
-		16ms skal gi ich 60hz, gitt at resten av programmet kjører raskt nok...
-		*/	
-			//while(main_game.start_game == 1){
-				//oled_write_screen_to_SRAM(&solkors);
-				////TIMSK &= ~(1 << TOIE1);
-				//
-				//MultiBoard_Update(&board);
-				//MultiBoard_Send(&board);
-				//if (main_game.lives == 0)
-				//{
-					//currentMenuState = MAIN_MENU;
-					//current_menu = &mainMenu;
-					//main_game.start_game = 0;
-				//}
-			//}
-			//printf("%d,   %d\r\n", main_game.start_game, main_game.lives);
 	 }
 	return 0;
 }
 
-/*
-switch (menu->current_position) {
-	case 0:
-	oled_write_line_to_SRAM(0, "Startar spelet...");
-	playGame = 1;
-	main_game.start_game = 1;
-*/
+
 ISR(INT0_vect) {
 	CANMessage msg;
 	CAN_ReceiveMessage(&msg);
-		//printf("data[0]: %c adresse = %d\n\r",msg.data[0], msg.id);
-		//playGame = 0;
-		printf("melding tatt imot ID: %d\n\r", msg.id);
-		game_Recive(&main_game, &msg);
-		//TIMSK |= (1 << TOIE1);
-	/* VI TROR at dette handterast i recive, trøbbel å ha det med*/
-		//MCP2515_BitModify(MCP2515_CANINTF, MCP2515_RX1IF | MCP2515_RX0IF, 0xFF);
+	printf("melding tatt imot ID: %d\n\r", msg.id);
+	game_Recive(&main_game, &msg);
 }
 
-//ISR(TIMER1_COMPA_vect){
-	//oled_data_from_SRAM();
-//};
+
 
 // Kjører i 75Hz ish
 ISR(TIMER1_OVF_vect) {
+	static second_conv = 0;
 	screen_count++;
+	menu_pos_count++;
+	
+	if (count_fake_proc){
+		fake_proc_time++;
+	}    
+	
+	if(main_game.start_game){
+		second_conv++;
+		if(second_conv%75 == 0){
+			//Har gått ett sekund (eller bittelitt mer)
+			score_counter++;
+			printf("score++: %d \r\n", score_counter);
+		}
+	}
+	TIFR |= (1 << TOV1); //Resett TIMER1_OVF_vect
 }

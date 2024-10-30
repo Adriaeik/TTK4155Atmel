@@ -9,6 +9,7 @@
 
 extern Game main_game;
 extern MultiBoard board;
+extern uint16_t score_counter;
 
 void game_Init(Game *game){
 	game->difficulty = EASY;
@@ -27,7 +28,7 @@ void game_Start(Game* game){
 }
 
 int game_run(){
-	if (main_game.lives == 0)
+	if (main_game.start_game == 0)
 	{
 		main_game.start_game = 0;
 		
@@ -38,9 +39,13 @@ int game_run(){
 	MultiBoard_Send(&board);
 	return 1;//fortsett å kjøre
 }
+
 void game_over(Game* game){
+	update_highscore_list(score_counter);
 	game->start_game = 0;
-	game_Send(game, ID_GAME_START);
+	game->lives_left = game->lives;
+	
+	//printf("Startgame er nå null \r\n");
 }
 
 void game_Send(Game* game, uint8_t ID){
@@ -78,6 +83,9 @@ void game_Recive(Game* game, CANMessage* msg) {
 			printf("Lives left: %d\n\r", game->lives_left);
 			#endif
 		break;
+		case ID_GAME_OVER:
+			game_over(&main_game);
+			break;
 
 		default:
 		// Håndter ukjente CAN-meldinger her, om nødvendig
