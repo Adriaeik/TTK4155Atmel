@@ -11,7 +11,7 @@
 void settings_init(Game* s){
 	s->lives = 5;
 	s->sensitivity = 5;
-	s->difficulty = 1;
+	s->difficulty = 0;
 }
 
 void add_lives(Game* s){
@@ -27,7 +27,7 @@ void add_sensitivity(Game* s){
 }
 
 void add_difficulty(Game* s){
-	if(s->difficulty == 3){s->difficulty = 1; return;}
+	if(s->difficulty == 2){s->difficulty = 0; return;}
 	
 	s->difficulty++;
 }

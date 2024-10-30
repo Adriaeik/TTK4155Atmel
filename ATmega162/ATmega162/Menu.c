@@ -168,6 +168,7 @@ void handleMenuSelection(MultiBoard* board, Menu* menu) {
 			print_game_status();
 			oled_write_screen_to_SRAM(&solkors);
 			oled_data_from_SRAM();
+			while(!main_game.game_initialized){printf("     \r");}
 			score_counter = 0;
 			while(game_run()){
 				if(screen_count >= 0){
