@@ -30,7 +30,7 @@ typedef struct game_t {
 	uint8_t initialized;
 	Difficulty difficulty;
 	uint8_t start_game;
-	uint16_t score;
+	uint16_t score; // kor mange gonga ballen har brudt IR sensoren
 
 } Game;
 
@@ -44,5 +44,6 @@ void start_game();
 void update_game_status_from_can(Game* game, CAN_MESSAGE* msg);
 void run_game(void);
 void game_Send(Game* game, uint8_t ID);
+void game_Send_lives(void);
 
 #endif /* GAME_H_ */

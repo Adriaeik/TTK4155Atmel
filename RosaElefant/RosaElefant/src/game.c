@@ -31,14 +31,14 @@ static void set_difficulty(Difficulty difficulty) {
 		Kd = 1;
 		break;
 		case MEDIUM:
-		Kp = 150;
-		Ki = 10;
-		Kd = 15;
+		Kp = 15;
+		Ki = 1;
+		Kd = 5;
 		break;
 		case HARD:
-		Kp = 200;
-		Ki = 15;
-		Kd = 20;
+		Kp = 20;
+		Ki = 5;
+		Kd = 0;
 		break;
 	}
 }
@@ -56,65 +56,69 @@ static void handle_game_over(void) {
 	
 }
 
+#include <stdio.h>
 void print_game_status(Game *game) {
+	int diff = (int)game->difficulty;
+	int liv = game->lives;
+	int liv_left = game->remaining_lives;
+	int sco = game->score;
+	int start = game->start_game;
+	
 	printf("\n==================== Game Status ====================\n\r");
 	printf("| %-15s | %-10s |\n\r", "Attribute", "Value");
-	printf("|-----------------|------------|\n");
+	printf("|-----------------|------------|\n\r");
 	printf("");
-	printf("| %-15s | %-10s |\n\r", "Difficulty", game->difficulty == EASY ? "Easy" : "Hard");
-	printf("| %-15s | %-10d |\n\r", "Lives", game->lives);
-	printf("| %-15s | %-10d |\n\r", "Score", game->score);
-	printf("| %-15s | %-10s |\n\r", "Start Game", game->start_game ? "Yes" : "No");
+	printf("| %-15s | %-10s |\n\r", "Difficulty", diff == 0 ? "Easy" : "Hard");
+	printf("| %-15s | %-10d |\n\r", "Lives", liv);
+	printf("| %-15s | %-10d |\n\r", "Lives left", liv_left);
+	printf("| %-15s | %-10d |\n\r", "Score", sco);
+	printf("| %-15s | %-10s |\n\r", "Start Game", start ? "Yes" : "No");
 	printf("=====================================================\n\r");
 }
-static uint8_t game_initialized = 0;
+
 // Hovudfunksjon for spelet - non-blocking versjon
 // Bær startes av ein melding fra 
 void start_game() {
-
-	// Initiering av spelet
-	if (!main_game.initialized) {
-		set_difficulty(main_game.difficulty);
-		calibrate_motor_pos();
-		main_game.score = 0;
-		main_game.remaining_lives = main_game.lives;
-		print_game_status(&main_game);
-		printf("\n\r %d\n\r", main_game.lives);
-		main_game.initialized = 1;
-	}
-
-	// Sjekk om exit-knappen er trykt
-	if (board.RBtn == 1) {
-		handle_game_over();
-		game_initialized = 0;
-		return;
-	}
-
-	// Her legg vi til logikk for spelets gang, som å sjekke kollisjonar, oppdatere ballen sin posisjon osv.
-	if (main_game.remaining_lives != main_game.lives - main_game.score) {
-		main_game.remaining_lives = main_game.lives - main_game.score;
-
-		// Konfigurer meldinga som skal sendast Kanskje sende meir info og?
-		CAN_MESSAGE msg = {
-			.id = ID_GAME_LIVES_LEFT,
-			.data_length = 1,
-			.data = {main_game.remaining_lives, 0, 0, 0, 0, 0, 0, 0}
-		};
-
-		// Send meldinga over CAN med mailboks 0
-		if (!can_send(&msg, 0)) {
-			printf("Send melding om resterande liv: %d\n\r",main_game.remaining_lives);
+	if (main_game.start_game == 1){
+		// Initiering av spelet
+		if (!main_game.initialized) {
+			set_difficulty(main_game.difficulty);
+			calibrate_motor_pos();
+			main_game.score = 0;
+			main_game.remaining_lives = main_game.lives;
+			print_game_status(&main_game);
+			game_Send_lives();
+			main_game.initialized = 1;
+			game_Send(&main_game, ID_GAME_INITIALIZED);
+			printf("INITIALIZED");
+			board.RBtn = 0;
 		}
-	}
-
-	// Handter game over dersom ingen liv igjen
-	if (main_game.remaining_lives == 0) {
-		handle_game_over();
-		game_initialized = 0;
-	}
-	
-	if (game_initialized == 1){
-		run_game();
+		// Sjekk om exit-knappen er trykt
+		if (board.RBtn == 1) {
+			handle_game_over();
+			main_game.initialized = 0;
+			return;
+		}
+		
+		if (main_game.remaining_lives != main_game.lives - main_game.score) {
+			main_game.remaining_lives = main_game.lives - main_game.score;
+			game_Send_lives();
+		}
+		// Handter game over dersom ingen liv igjen
+		if (main_game.remaining_lives == 0) {
+			handle_game_over();
+			main_game.initialized = 0; // SKAL SKJE I handle_game_over
+		}
+		
+		if (main_game.initialized == 1){
+			run_game();
+		}
+		
+	} else{
+		//game_Init(&main_game);
+		//print_game_status(&main_game);
+		printf("vi er i else: strt game: %d \n\r", main_game.start_game);
+		
 	}
 }
 
@@ -149,7 +153,7 @@ void update_game_status_from_can(Game* game, CAN_MESSAGE* msg) {
 		case ID_GAME_START:  // ID for lives
 		if (msg->data_length == 1) {
 			game->start_game = msg->data[0];
-			game_initialized = 0;
+			main_game.initialized = 0;
 			#if DEBUG_GAME == 1
 			printf("Lives: %d\n\r", game->start_game);
 			#endif
@@ -183,8 +187,14 @@ void game_Send(Game* game, uint8_t ID){
 		msg_to_send.data[0]= (int)game->difficulty;
 		
 		break;
+		case ID_GAME_LIVES_LEFT:
+		msg_to_send.data[0] = game->remaining_lives;
+		
 		case ID_GAME_OVER:
 		msg_to_send.data[0] = game->start_game;
+		
+		case ID_GAME_INITIALIZED:
+		msg_to_send.data[0] = game->initialized;
 		
 		break;
 		default:
@@ -192,4 +202,18 @@ void game_Send(Game* game, uint8_t ID){
 		break;
 	}
 	can_send(&msg_to_send, 0);
+}
+
+
+void game_Send_lives(void){
+	CAN_MESSAGE msg = {
+		.id = ID_GAME_LIVES_LEFT,
+		.data_length = 1,
+		.data = {main_game.remaining_lives, 0, 0, 0, 0, 0, 0, 0}
+	};
+	
+	// Send meldinga over CAN med mailboks 0
+	if (!can_send(&msg, 0)) {
+		printf("Send melding om resterande liv: %d\n\r",main_game.remaining_lives);
+	}
 }

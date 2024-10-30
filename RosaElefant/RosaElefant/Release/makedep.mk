@@ -14,8 +14,6 @@ lib\urat\printf-stdarg.c
 
 lib\urat\uart.c
 
-src\can.c
-
 src\driver_IR.c
 
 src\encoder.c
