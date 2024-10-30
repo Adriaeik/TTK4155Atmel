@@ -166,7 +166,7 @@ void handleMenuSelection(MultiBoard* board, Menu* menu) {
 			main_game.start_game = 1;
 			game_Start(&main_game);
 			print_game_status();
-			oled_write_screen_to_SRAM(&solkors);
+			draw_sunset();
 			oled_data_from_SRAM();
 			while(!main_game.game_initialized){printf("     \r");}
 			score_counter = 0;
@@ -285,47 +285,38 @@ void handle_game_screen(void){
 			
 			break;
 		case 1:
-			//oled_write_screen_to_SRAM(&one_lives);
 			draw_number_1();
 			break;
 		case 2:
-			//oled_write_screen_to_SRAM(&two_lives);
 			draw_number_2();
 			break;
 		case 3:
-			//oled_write_screen_to_SRAM(&three_lives);
 			draw_number_3();
 			break;
 		case 4:
-			//oled_write_screen_to_SRAM(&four_lives);
 			draw_number_4();
 			break;
 		case 5:
-			//oled_write_screen_to_SRAM(&five_lives);
 			draw_number_5();
 			break;
 		case 6:
 			draw_number_6();
-			//oled_write_screen_to_SRAM(&six_lives);
 			break;
 		case 7:
 			draw_number_7();
-			//oled_write_screen_to_SRAM(&seven_lives);
 			break;
 		case 8:
-		draw_number_8();
-			//oled_write_screen_to_SRAM(&eight_lives);
+			draw_number_8();
 			break;
 		case 9:
 			draw_number_9();
-			//oled_write_screen_to_SRAM(&nine_lives);
 			break;
 		default:
 			oled_clear_screen();
-			/*- Den komboen her var heilt nydelig -*/
+			/*- Logo ellerno -*/
 			oled_draw_line(10, 10, 100, 50);
 			oled_draw_circle(64, 32, 20);
-			oled_draw_square(20, 20, 40, 30); 
+			oled_draw_square(20, 20, 40, 30);
 	}
 	
 	//Skrive score:
