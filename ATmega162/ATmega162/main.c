@@ -96,7 +96,6 @@ ISR(INT0_vect) {
 	CAN_ReceiveMessage(&msg);
 	printf("melding tatt imot ID: %d\n\r", msg.id);
 	game_Recive(&main_game, &msg);
-	GIFR |= (1 << INTF0); //Clear interrupt flag		
 }
 
 
