@@ -63,16 +63,18 @@ void print_game_status(Game *game) {
 	printf("| %-15s | %-10s |\n\r", "Start Game", game->start_game ? "Yes" : "No");
 	printf("=====================================================\n\r");
 }
-
+static uint8_t game_initialized = 0;
 // Hovudfunksjon for spelet - non-blocking versjon
 // Bær startes av ein melding fra 
 void start_game() {
 	static uint8_t remaining_lives = 0;
-	static uint8_t game_initialized = 0;
-
+	
+	//Kalibrer pos
+	
 	// Initiering av spelet
 	if (!game_initialized) {
 		set_difficulty(main_game.difficulty);
+		calibrate_motor_pos();
 		main_game.score = 0;
 		remaining_lives = main_game.lives;
 		game_initialized = 1;
@@ -146,6 +148,7 @@ void update_game_status_from_can(Game* game, CAN_MESSAGE* msg) {
 		case ID_GAME_START:  // ID for lives
 		if (msg->data_length == 1) {
 			game->start_game = msg->data[0];
+			game_initialized = 0;
 			#if DEBUG_GAME == 1
 			printf("Lives: %d\n\r", game->start_game);
 			#endif

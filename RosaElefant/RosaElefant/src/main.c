@@ -9,6 +9,7 @@
 
 Game main_game;
 
+
 int main(void) {
 	init();
 	//main_game.start_game = 1;
@@ -21,7 +22,8 @@ int main(void) {
 		// Lage conditions for dette!
 		// kan lage ein ID for start game og sette ein variabel true/false
 		// i game objektet
-		if (main_game.lives > 0){
+	
+		if (main_game.start_game == 1){
 			start_game(); // krever at det er verdia på lives og sånt, skal sendast frå atmega
 		}
 		
