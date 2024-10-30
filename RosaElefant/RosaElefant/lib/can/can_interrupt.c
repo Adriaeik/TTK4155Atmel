@@ -71,14 +71,6 @@ void CAN0_Handler(void)
 		{
 			update_game_status_from_can(&main_game, &message);
 		}
-		if(message.id == ID_GAME_LIVES)
-		{
-			main_game->lives = message.data;
-		}
-		if(message.id == ID_GAME_DIFFICULTY)
-		{
-			main_game->difficulty = message.data;
-		}
 		
 		
 	}
