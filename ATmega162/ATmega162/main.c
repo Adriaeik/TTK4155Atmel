@@ -71,16 +71,16 @@ int main(void) {
 
 
 //kaller main init funksjonen
-	system_init(*main_game, *board)
+	system_init(&main_game, &board);
 	
 	/*______MENY______*/
-	extern Menu* current_men;//u = &mainMenu; //kan kanskje teste med å starte i ein anna meny
+	extern Menu* current_menu = &mainMenu; //kan kanskje teste med å starte i ein anna meny
 	write_menu_oled_to_SRAM(current_menu);
 	
 	print_game_status();
 	
 	
-	/*_______HOVUDLØKKE______*/
+	/*_______HOVUDL�KKE______*/
 	while (1) {
 
         	menu_navigate(&board, current_menu);  // Kallar `menu_navigate` med referanse til gjeldande meny
