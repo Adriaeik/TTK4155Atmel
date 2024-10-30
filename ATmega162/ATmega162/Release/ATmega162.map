@@ -141,8 +141,10 @@ Discarded input sections
                 0x00000000       0x18 OLED.o
  .text.oled_write_FULLscreen_to_SRAM
                 0x00000000       0x30 OLED.o
- .text.draw_sunset
-                0x00000000       0x5e OLED.o
+ .text.oled_draw_arc
+                0x00000000       0xf0 OLED.o
+ .text.draw_sunset_scene
+                0x00000000       0xf4 OLED.o
  .data.oled_stdout
                 0x00000000        0xe OLED.o
  .bss.current_col
@@ -1029,7 +1031,7 @@ END GROUP
                 0x0080036e                PROVIDE (__bss_start, .)
  *(.bss)
  *(.bss*)
- .bss.second_conv.2569
+ .bss.second_conv.2575
                 0x0080036e        0x2 main.o
  .bss.count_fake_proc
                 0x00800370        0x1 main.o

@@ -337,6 +337,36 @@ void draw_thick_line(uint8_t x0, uint8_t y0, uint8_t x1, uint8_t y1) {
 	oled_draw_line(x0 - 1, y0, x1 - 1, y1);   // Skift linje 1 piksel til venstre
 }
 
+void oled_draw_arc(uint8_t x0, uint8_t y0, uint8_t radius, int start_angle, int end_angle) {
+	int x = radius;
+	int y = 0;
+	int err = 0;
+
+	while (x >= y) {
+		if (start_angle <= 45 && end_angle >= 45) {
+			oled_write_pixel_to_SRAM(y0 + y, x0 + x, 1);
+		}
+		if (start_angle <= 135 && end_angle >= 135) {
+			oled_write_pixel_to_SRAM(y0 + x, x0 - y, 1);
+		}
+		if (start_angle <= 225 && end_angle >= 225) {
+			oled_write_pixel_to_SRAM(y0 - y, x0 - x, 1);
+		}
+		if (start_angle <= 315 && end_angle >= 315) {
+			oled_write_pixel_to_SRAM(y0 - x, x0 + y, 1);
+		}
+
+		if (err <= 0) {
+			y += 1;
+			err += 2 * y + 1;
+		}
+		if (err > 0) {
+			x -= 1;
+			err -= 2 * x + 1;
+		}
+	}
+}
+
 void draw_number_1() {
 	draw_thick_line(72, 16, 72, 48);   // Vertikal linje for talet 1
 }
@@ -399,19 +429,34 @@ void draw_number_9() {
 	draw_thick_line(72, 32, 104, 32);    // Midtre horisontal linje for talet 9
 	draw_thick_line(72, 16, 72, 32);     // Venstre oppover linje for talet 9
 }
-void draw_sunset() {
-	// Plasser sola i øvre delen av skjermen
-	oled_draw_circle(96, 20, 12);  // Sola med radius 12 piksl
+void draw_sunset_scene() {
+	// Teikne sola
+	oled_draw_circle(96, 20, 12);   // Sola
 
-	// Teikne åsen under sola (bølgjeforma linje)
+	// Teikne solstrålar med `oled_draw_arc`
+	oled_draw_arc(96, 20, 16, 45, 135);    // Øvre venstre stråle
+	oled_draw_arc(96, 20, 16, 135, 225);   // Øvre høgre stråle
+	oled_draw_arc(96, 20, 16, 225, 315);   // Nedre venstre stråle
+	oled_draw_arc(96, 20, 16, 315, 45);    // Nedre høgre stråle
+
+	// Teikne åsen
 	oled_draw_line(0, 64, 32, 48);   // Fyrste del av åsen
 	oled_draw_line(32, 48, 64, 56);  // Andre del av åsen
 	oled_draw_line(64, 56, 96, 40);  // Tredje del av åsen
 	oled_draw_line(96, 40, 128, 64); // Fjerde del av åsen, fullfører til høgre kant
 
+	// Teikne innsjøen under åsen
+	oled_draw_line(0, 60, 32, 52);   // Første del av innsjølinja
+	oled_draw_line(32, 52, 64, 60);  // Andre del av innsjølinja
+	oled_draw_line(64, 60, 96, 52);  // Tredje del av innsjølinja
+	oled_draw_line(96, 52, 128, 60); // Fjerde del av innsjølinja
+
 	// Teikne eit lite hus på åsen
 	oled_draw_square(52, 44, 10, 10);    // Hovudbygget på huset
 	oled_draw_line(52, 44, 57, 38);      // Venstre takside
 	oled_draw_line(57, 38, 62, 44);      // Høgre takside
-}
 
+	// Teikne eit tre ved sida av huset
+	oled_draw_line(70, 44, 70, 38);      // Stammens lengde
+	oled_draw_circle(70, 36, 3);         // Topp av treet
+}
