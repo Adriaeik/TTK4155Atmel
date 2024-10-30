@@ -139,9 +139,6 @@
     <Compile Include="Device_Startup\system_sam3xa.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="include\can.h">
-      <SubType>compile</SubType>
-    </Compile>
     <Compile Include="include\driver_IR.h">
       <SubType>compile</SubType>
     </Compile>
@@ -200,9 +197,6 @@
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="lib\urat\uart.h">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="src\can.c">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="src\driver_IR.c">

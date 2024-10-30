@@ -30,7 +30,7 @@ typedef struct game_t {
 	uint8_t initialized;
 	Difficulty difficulty;
 	uint8_t start_game;
-	uint16_t score;
+	uint16_t score; // kor mange gonga ballen har brudt IR sensoren
 
 } Game;
 

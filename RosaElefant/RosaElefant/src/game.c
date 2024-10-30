@@ -67,54 +67,56 @@ void print_game_status(Game *game) {
 	printf("| %-15s | %-10s |\n\r", "Start Game", game->start_game ? "Yes" : "No");
 	printf("=====================================================\n\r");
 }
-static uint8_t game_initialized = 0;
+
 // Hovudfunksjon for spelet - non-blocking versjon
 // Bær startes av ein melding fra 
 void start_game() {
-
-	// Initiering av spelet
-	if (!main_game.initialized) {
-		set_difficulty(main_game.difficulty);
-		calibrate_motor_pos();
-		main_game.score = 0;
-		main_game.remaining_lives = main_game.lives;
-		print_game_status(&main_game);
-		printf("\n\r %d\n\r", main_game.lives);
-		main_game.initialized = 1;
-	}
-
-	// Sjekk om exit-knappen er trykt
-	if (board.RBtn == 1) {
-		handle_game_over();
-		game_initialized = 0;
-		return;
-	}
-
-	// Her legg vi til logikk for spelets gang, som å sjekke kollisjonar, oppdatere ballen sin posisjon osv.
-	if (main_game.remaining_lives != main_game.lives - main_game.score) {
-		main_game.remaining_lives = main_game.lives - main_game.score;
-
-		// Konfigurer meldinga som skal sendast Kanskje sende meir info og?
-		CAN_MESSAGE msg = {
-			.id = ID_GAME_LIVES_LEFT,
-			.data_length = 1,
-			.data = {main_game.remaining_lives, 0, 0, 0, 0, 0, 0, 0}
-		};
-
-		// Send meldinga over CAN med mailboks 0
-		if (!can_send(&msg, 0)) {
-			printf("Send melding om resterande liv: %d\n\r",main_game.remaining_lives);
+	if (main_game.start_game == 1){
+		// Initiering av spelet
+		if (!main_game.initialized) {
+			set_difficulty(main_game.difficulty);
+			calibrate_motor_pos();
+			main_game.score = 0;
+			main_game.remaining_lives = main_game.lives;
+			print_game_status(&main_game);
+			main_game.initialized = 1;
 		}
-	}
 
-	// Handter game over dersom ingen liv igjen
-	if (main_game.remaining_lives == 0) {
-		handle_game_over();
-		game_initialized = 0;
-	}
+		// Sjekk om exit-knappen er trykt
+		if (board.RBtn == 1) {
+			handle_game_over();
+			main_game.initialized = 0;
+			return;
+		}
+
+		if (main_game.remaining_lives != main_game.lives - main_game.score) {
+			main_game.remaining_lives = main_game.lives - main_game.score;
+
+			// Konfigurer meldinga som skal sendast Kanskje sende meir info og?
+			CAN_MESSAGE msg = {
+				.id = ID_GAME_LIVES_LEFT,
+				.data_length = 1,
+				.data = {main_game.remaining_lives, 0, 0, 0, 0, 0, 0, 0}
+			};
+
+			// Send meldinga over CAN med mailboks 0
+			if (!can_send(&msg, 0)) {
+				printf("Send melding om resterande liv: %d\n\r",main_game.remaining_lives);
+			}
+		}
+
+		// Handter game over dersom ingen liv igjen
+		if (main_game.remaining_lives == 0) {
+			handle_game_over();
+			//main_game.initialized = 0; // SKAL SKJE I handle_game_over
+		}
 	
-	if (game_initialized == 1){
-		run_game();
+		if (main_game.initialized == 1){
+			run_game();
+		}
+	} else{
+		game_Init(&main_game);
+		print_game_status(&main_game);
 	}
 }
 
@@ -149,7 +151,7 @@ void update_game_status_from_can(Game* game, CAN_MESSAGE* msg) {
 		case ID_GAME_START:  // ID for lives
 		if (msg->data_length == 1) {
 			game->start_game = msg->data[0];
-			game_initialized = 0;
+			main_game.initialized = 0;
 			#if DEBUG_GAME == 1
 			printf("Lives: %d\n\r", game->start_game);
 			#endif

@@ -52,7 +52,6 @@ void IR_Init(){
 
 uint16_t IR_Read(){
 	// Returner ADC-data frå kanal 7 (PA2 / A7)
-	//printf("IR VERDI: %d \n\r", ADC->ADC_CDR[0] );
 	return ADC->ADC_CDR[0];
 }
 
