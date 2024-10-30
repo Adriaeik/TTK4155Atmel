@@ -77,4 +77,5 @@ void draw_number_7();
 void draw_number_8();
 void draw_number_9();
 void draw_sunset();
+void draw_pikachu();
 #endif /* OLED_H_ */

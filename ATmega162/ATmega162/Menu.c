@@ -195,6 +195,7 @@ void handleMenuSelection(MultiBoard* board, Menu* menu) {
 			count_fake_proc = 1;
 			clear_highscore_list();  // Vis kredittar på skjermen
 			oled_clear_screen();
+			draw_pikachu();
 			for(uint8_t i = 0; i < 2; i++){
 				oled_write_line_to_SRAM(0, "Resetter score  ");
 				oled_data_from_SRAM();

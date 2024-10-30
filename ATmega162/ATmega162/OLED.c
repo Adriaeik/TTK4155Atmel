@@ -460,3 +460,40 @@ void draw_sunset_scene() {
 	oled_draw_line(70, 44, 70, 38);      // Stammens lengde
 	oled_draw_circle(70, 36, 3);         // Topp av treet
 }
+
+void draw_pikachu() {
+	// Hovudet
+	oled_draw_circle(64, 32, 10); // Hovudet er ein sirkel med radius 10
+
+	// Øyre til venstre
+	oled_draw_line(58, 22, 54, 12);  // Venstre del av øyret
+	oled_draw_line(58, 22, 64, 18);  // Høgre del av venstre øyre
+
+	// Øyre til høgre
+	oled_draw_line(70, 22, 74, 12);  // Venstre del av høgre øyre
+	oled_draw_line(70, 22, 64, 18);  // Høgre del av høgre øyre
+
+	// Auga
+	oled_draw_circle(60, 30, 1);     // Venstre auge
+	oled_draw_circle(68, 30, 1);     // Høgre auge
+
+	// Kinn
+	oled_draw_circle(55, 35, 2);     // Venstre kinn
+	oled_draw_circle(73, 35, 2);     // Høgre kinn
+
+	// Munnen (en enkel smil)
+	oled_draw_arc(64, 37, 3, 0, 180); // Nedoverbogen for smil
+
+	// Kroppen
+	oled_draw_circle(64, 50, 8);     // Kroppen er ein litt større sirkel
+
+	// Armar
+	oled_draw_line(58, 44, 52, 48);  // Venstre arm
+	oled_draw_line(70, 44, 76, 48);  // Høgre arm
+
+	// Halen (lynforma)
+	oled_draw_line(80, 40, 88, 38);  // Første del av halen oppover
+	oled_draw_line(88, 38, 84, 32);  // Nedover del av halen
+	oled_draw_line(84, 32, 90, 30);  // Oppover del av halen
+}
+
