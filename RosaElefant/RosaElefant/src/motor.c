@@ -106,7 +106,7 @@ void motor_control_PID(void) {
 	prev_pos = pos;
 	
 	// Beregn avviket
-	static int error_hyst = 100000;
+	static int error_hyst = 100;
 	error = pos - ref;
 	integral = clamp((integral + error)/50, -PARAM_SCALE,PARAM_SCALE);
 	derivat = error - prev_error;
