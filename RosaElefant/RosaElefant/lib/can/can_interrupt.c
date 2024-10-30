@@ -67,7 +67,7 @@ void CAN0_Handler(void)
 		{
 			update_board_from_can(&board, &message);
 		}
-		if (message.id > ID_JOY_ANGLE && message.id <= ID_GAME_START)
+		if (message.id > ID_JOY_ANGLE && message.id <= ID_GAME_OVER)
 		{
 			update_game_status_from_can(&main_game, &message);
 		}

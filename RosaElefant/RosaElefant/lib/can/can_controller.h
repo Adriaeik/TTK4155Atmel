@@ -38,6 +38,8 @@
 #define ID_GAME_DIFFICULTY	11
 #define ID_GAME_SCORE	12
 #define ID_GAME_START	13
+#define ID_GAME_OVER	14
+
 
 typedef struct can_message_t
 {
