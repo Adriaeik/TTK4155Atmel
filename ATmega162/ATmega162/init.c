@@ -28,4 +28,9 @@ void system_init(Game *game, Multiboard *board){
 	oled_draw_square(20, 20, 40, 30);
 	oled_data_from_SRAM();
 	_delay_ms(500);
+
+	//check if can is in correct mode
+	CAN_Check_startup();
+	//activate interrupts
+	sei();	
 }
