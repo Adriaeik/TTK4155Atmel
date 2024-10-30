@@ -26,9 +26,12 @@ typedef enum {
 // Definer Game struct
 typedef struct game_t {
 	uint8_t lives;
+	uint8_t remaining_lives;
+	uint8_t initialized;
 	Difficulty difficulty;
 	uint8_t start_game;
 	uint16_t score;
+
 } Game;
 
 
@@ -40,5 +43,6 @@ static void handle_game_over(void);
 void start_game();
 void update_game_status_from_can(Game* game, CAN_MESSAGE* msg);
 void run_game(void);
+void game_Send(Game* game, uint8_t ID);
 
 #endif /* GAME_H_ */
