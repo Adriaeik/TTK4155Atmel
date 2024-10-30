@@ -13,8 +13,7 @@ int main(void) {
 	init();
 
 	while (1) {
-		
-
+	
 		start_game(); // krever at det er verdia på lives og sånt, skal sendast frå atmega
 		CAN0_Handler();
 		

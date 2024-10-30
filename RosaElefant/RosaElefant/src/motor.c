@@ -81,14 +81,27 @@ int clamp(int value, int min, int max) {
 
 uint8_t reset_PID_flag = 0;
 long long int ref = 0;
+extern int inverted_controll;
 // PID-regulator
 void motor_control_PID(void) {
 	// Normaliser posisjon og referanse
 	static long long int prev_ref = 0;
 	static long long int prev_pos = 0;
 	
-	long long int pos = normalize_pos_encoder(prev_pos);
-	ref = reset_PID_flag == 0 ? normalize_pos_ref(prev_ref) : PARAM_SCALE/2; // Set referanse til midtposisjon ved reset
+	long long int pos = clamp(normalize_pos_encoder(prev_pos), 0, PARAM_SCALE);
+	if (reset_PID_flag == 0) {
+		if (inverted_controll) {
+			// Inverter referansen basert på SLIDER_RANGE
+			ref = clamp(PARAM_SCALE - normalize_pos_ref(prev_ref),0, PARAM_SCALE);
+			} else {
+			// Normal referanse utan invertering
+			ref = clamp(normalize_pos_ref(prev_ref), 0,  PARAM_SCALE) ;
+		}
+		} else {
+		// Set referanse til midtposisjon ved reset
+		ref = PARAM_SCALE / 2;
+	}
+
 	prev_ref = ref;
 	prev_pos = pos;
 	

@@ -11,6 +11,7 @@ MultiBoard board;
 long long int Kp;
 long long int Ki;
 long long int Kd;
+extern int inverted_controll = 0;
 
 
 void game_Init(Game *game){
@@ -29,16 +30,19 @@ static void set_difficulty(Difficulty difficulty) {
 		Kp = 4;
 		Ki = 3;
 		Kd = 1;
+		inverted_controll = 0;
 		break;
 		case MEDIUM:
+		Kp = 4;
+		Ki = 3;
+		Kd = 1;
+		inverted_controll = 1;
+		break;
+		case HARD:
 		Kp = 15;
 		Ki = 1;
 		Kd = 5;
-		break;
-		case HARD:
-		Kp = 20;
-		Ki = 5;
-		Kd = 0;
+		inverted_controll = 0;
 		break;
 	}
 }
@@ -57,6 +61,7 @@ static void handle_game_over(void) {
 }
 // Hovudfunksjon for spelet - non-blocking versjon
 // Bær startes av ein melding fra 
+#include "../include/servo.h"
 void start_game() {
 	if (main_game.start_game == 1){
 		// Initiering av spelet
@@ -65,6 +70,7 @@ void start_game() {
 			calibrate_motor_pos();
 			main_game.score = 0;
 			main_game.remaining_lives = main_game.lives;
+			PIOC->PIO_SODR = SOLENOID_PIN; // ta inn stempelet
 			print_game_status(&main_game);
 			game_Send_lives();
 			main_game.initialized = 1;
