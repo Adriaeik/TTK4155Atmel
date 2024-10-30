@@ -37,6 +37,7 @@ int normalize_pos_encoder(int prev_pos);
 int normalize_pos_ref(int prev_ref);
 int clamp(int value, int min, int max);
 void reset_pid(void);
+int calibrate_motor_pos(void);
 
 
 #endif /* MOTOR_H_ */

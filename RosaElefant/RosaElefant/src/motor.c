@@ -56,6 +56,7 @@ void motor_control_velocity(void) {
 }
 // Funksjonar for normalisering
 int normalize_pos_encoder(int prev_pos) {
+	//printf("encoder val: %d\n\r", read_encoder_position() );
 	int32_t encoder_pos = read_encoder_position();
 	// Sørg for at posisjonen ikkje er negativ
 	if (encoder_pos < 0)encoder_pos = 0;
@@ -146,13 +147,46 @@ void reset_pid(void) {
 	reset_PID_flag = 0;
 }
 #include "../include/time.h"
-void calibrate_motor_pos(void){
-	uint8_t new_pos = 0;
-	while (new_pos != read_encoder_position() ){
-		new_pos = read_encoder_position();
-		update_motor_pwm(0.5); //halvfart
-		time_spinFor(msecs(100));// vent i 0.1 sek for å sjekke på ny
-	}
-	// når ferdig. sett referanse
+int calibrate_motor_pos(void) {
+	int prev_pos = read_encoder_position();  // Startposisjon
+	int curr_pos;
+	int stable_count = 0;       // Teller for stabil posisjon
+	const int stable_threshold = 15;  // Antal gonger posisjonen må vere uendra
+	const int hysteresis = 2;   // Toleranse for stillstand
+
+	PIOC->PIO_CODR = PHASE_PIN;  // Sett pin låg (negativ retning)
+	printf("Starting calibration towards wall...\n\r");
+
+	while (stable_count < stable_threshold) {
+		// Beveg motoren mot veggen
+		PIOC->PIO_SODR = PHASE_PIN;  // Sett pin låg (negativ retning)
+		// Sett motor retning basert på fortegnet til avviket
+		//error = -1;
+		//if (error > 0) {
+			//PIOC->PIO_SODR = PHASE_PIN;  // Sett pin høg (positiv retning) mot høyre?
+			//} else if (error < 0) {
+			//PIOC->PIO_CODR = PHASE_PIN;  // Sett pin låg (negativ retning)
+		//}
+		update_motor_pwm(0.4);
+
+		curr_pos = read_encoder_position();  
+		printf("Position: %d\n\r", curr_pos);
+
+		// Sjekk om posisjonen er stabil innanfor hysterese
+		if (abs(curr_pos - prev_pos) <= hysteresis) {
+			stable_count++;  
+			} else {
+			stable_count = 0; 
+		}
 	
+		prev_pos = curr_pos;  
+		time_spinFor(msecs(100));
+	}
+
+	update_motor_pwm(0); 
+	encoder_init();  // Sett referansepunktet til 0
+	printf("Calibration complete. Reference set to 0.\n\r");
+
+	return 0;
 }
+
