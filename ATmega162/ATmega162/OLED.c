@@ -330,3 +330,73 @@ void oled_draw_square(uint8_t x0, uint8_t y0, uint8_t width, uint8_t height) {
 	oled_draw_line(x0, y0, x0, y0 + height);           // Venstre linje
 	oled_draw_line(x0 + width, y0, x0 + width, y0 + height);   // Høyre linje
 }
+
+void draw_thick_line(uint8_t x0, uint8_t y0, uint8_t x1, uint8_t y1) {
+	oled_draw_line(x0, y0, x1, y1);           // Hovudlinje
+	oled_draw_line(x0 + 1, y0, x1 + 1, y1);   // Skift linje 1 piksel til høgre
+	oled_draw_line(x0 - 1, y0, x1 - 1, y1);   // Skift linje 1 piksel til venstre
+}
+
+void draw_number_1() {
+	draw_thick_line(72, 16, 72, 48);   // Vertikal linje for talet 1
+}
+
+// Liknande funksjonar for andre tal
+void draw_number_2() {
+	draw_thick_line(72, 16, 104, 16);    // Øvre horisontal linje for 2
+	draw_thick_line(104, 16, 104, 32);   // Nedover høgre linje for 2
+	draw_thick_line(104, 32, 72, 32);    // Midt horisontal linje for 2
+	draw_thick_line(72, 32, 72, 48);     // Venstre nedover linje for 2
+	draw_thick_line(72, 48, 104, 48);    // Nedre horisontal linje for 2
+}
+
+// Eksempel for talet 3
+void draw_number_3() {
+	draw_thick_line(72, 16, 104, 16);    // Øvre horisontal linje
+	draw_thick_line(104, 16, 104, 48);   // Vertikal høgre linje
+	draw_thick_line(72, 32, 104, 32);    // Midtre horisontal linje
+	draw_thick_line(72, 48, 104, 48);    // Nedre horisontal linje
+}
+
+void draw_number_4() {
+	draw_thick_line(72, 16, 72, 32);     // Venstre vertikal linje for talet 4
+	draw_thick_line(72, 32, 104, 32);    // Midtre horisontal linje for talet 4
+	draw_thick_line(104, 16, 104, 48);   // Høgre vertikal linje for talet 4
+}
+
+void draw_number_5() {
+	draw_thick_line(104, 16, 72, 16);    // Øvre horisontal linje for talet 5
+	draw_thick_line(72, 16, 72, 32);     // Venstre nedover linje for talet 5
+	draw_thick_line(72, 32, 104, 32);    // Midtre horisontal linje for talet 5
+	draw_thick_line(104, 32, 104, 48);   // Høgre nedover linje for talet 5
+	draw_thick_line(72, 48, 104, 48);    // Nedre horisontal linje for talet 5
+}
+
+void draw_number_6() {
+	draw_thick_line(104, 16, 72, 16);    // Øvre horisontal linje for talet 6
+	draw_thick_line(72, 16, 72, 48);     // Venstre vertikal linje for talet 6
+	draw_thick_line(72, 48, 104, 48);    // Nedre horisontal linje for talet 6
+	draw_thick_line(104, 32, 72, 32);    // Midtre horisontal linje for talet 6
+	draw_thick_line(104, 32, 104, 48);   // Høgre nedover linje for talet 6
+}
+
+void draw_number_7() {
+	draw_thick_line(72, 16, 104, 16);    // Øvre horisontal linje for talet 7
+	draw_thick_line(104, 16, 104, 48);   // Høgre nedover linje for talet 7
+}
+
+void draw_number_8() {
+	draw_thick_line(72, 16, 104, 16);    // Øvre horisontal linje for talet 8
+	draw_thick_line(72, 48, 104, 48);    // Nedre horisontal linje for talet 8
+	draw_thick_line(72, 16, 72, 48);     // Venstre vertikal linje for talet 8
+	draw_thick_line(104, 16, 104, 48);   // Høgre vertikal linje for talet 8
+	draw_thick_line(72, 32, 104, 32);    // Midtre horisontal linje for talet 8
+}
+
+void draw_number_9() {
+	draw_thick_line(72, 16, 104, 16);    // Øvre horisontal linje for talet 9
+	draw_thick_line(104, 16, 104, 48);   // Høgre vertikal linje for talet 9
+	draw_thick_line(72, 32, 104, 32);    // Midtre horisontal linje for talet 9
+	draw_thick_line(72, 16, 72, 32);     // Venstre oppover linje for talet 9
+}
+

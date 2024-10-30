@@ -17,9 +17,9 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY, DEBUGGING
   6 .debug_abbrev 00000580  00000000  00000000  000037e8  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_line   0000013f  00000000  00000000  00003d68  2**0
+  7 .debug_line   0000001a  00000000  00000000  00003d68  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_str    000001f6  00000000  00000000  00003ea7  2**0
+  8 .debug_str    000001f6  00000000  00000000  00003d82  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -3667,16 +3667,16 @@ Disassembly of section .text:
     2686:	89 bf       	out	0x39, r24	; 57
     2688:	1d bc       	out	0x2d, r1	; 45
     268a:	1c bc       	out	0x2c, r1	; 44
-    268c:	10 92 8b 00 	sts	0x008B, r1	; 0x80008b <__DATA_REGION_ORIGIN__+0x2b>
+    268c:	10 92 8b 00 	sts	0x008B, r1	; 0x80008b <__TEXT_REGION_LENGTH__+0x7fc08b>
     2690:	85 e0       	ldi	r24, 0x05	; 5
-    2692:	80 93 8a 00 	sts	0x008A, r24	; 0x80008a <__DATA_REGION_ORIGIN__+0x2a>
+    2692:	80 93 8a 00 	sts	0x008A, r24	; 0x80008a <__TEXT_REGION_LENGTH__+0x7fc08a>
     2696:	ed e7       	ldi	r30, 0x7D	; 125
     2698:	f0 e0       	ldi	r31, 0x00	; 0
     269a:	80 81       	ld	r24, Z
     269c:	84 60       	ori	r24, 0x04	; 4
     269e:	80 83       	st	Z, r24
-    26a0:	10 92 89 00 	sts	0x0089, r1	; 0x800089 <__DATA_REGION_ORIGIN__+0x29>
-    26a4:	10 92 88 00 	sts	0x0088, r1	; 0x800088 <__DATA_REGION_ORIGIN__+0x28>
+    26a0:	10 92 89 00 	sts	0x0089, r1	; 0x800089 <__TEXT_REGION_LENGTH__+0x7fc089>
+    26a4:	10 92 88 00 	sts	0x0088, r1	; 0x800088 <__TEXT_REGION_LENGTH__+0x7fc088>
     26a8:	08 95       	ret
 
 000026aa <general_cycles>:
@@ -3684,8 +3684,8 @@ Disassembly of section .text:
     26ae:	90 91 7c 03 	lds	r25, 0x037C	; 0x80037c <overflow_count3+0x1>
     26b2:	a0 91 7d 03 	lds	r26, 0x037D	; 0x80037d <overflow_count3+0x2>
     26b6:	b0 91 7e 03 	lds	r27, 0x037E	; 0x80037e <overflow_count3+0x3>
-    26ba:	20 91 88 00 	lds	r18, 0x0088	; 0x800088 <__DATA_REGION_ORIGIN__+0x28>
-    26be:	30 91 89 00 	lds	r19, 0x0089	; 0x800089 <__DATA_REGION_ORIGIN__+0x29>
+    26ba:	20 91 88 00 	lds	r18, 0x0088	; 0x800088 <__TEXT_REGION_LENGTH__+0x7fc088>
+    26be:	30 91 89 00 	lds	r19, 0x0089	; 0x800089 <__TEXT_REGION_LENGTH__+0x7fc089>
     26c2:	dc 01       	movw	r26, r24
     26c4:	99 27       	eor	r25, r25
     26c6:	88 27       	eor	r24, r24
