@@ -73,6 +73,12 @@ int main(void) {
 	write_menu_oled_to_SRAM(current_menu);
 	
 	print_game_status();
+	
+	clear_highscore_list();
+	update_highscore_list(69);
+	update_highscore_list(420);
+	update_highscore_list(1234);
+	update_highscore_list(12345);
 	sei();
 	
 	
