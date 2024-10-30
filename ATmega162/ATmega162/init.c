@@ -16,7 +16,6 @@ void system_init(Game* game, MultiBoard* board){
 	initialize_menus();
 	MultiBoard_Init(board);			// Initialiser MultiBoard og kalibrer joystickens origo
 	game_Init(game);
-	game->lives = 1;
 	oled_init();						// Initialiser OLED-skjermen
 		/*--- Optional setup ---*/
 			//setup_printf_for_oled();		

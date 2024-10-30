@@ -17,7 +17,8 @@
 
 void clear_highscore_list(void);
 
-void printf_highscore_list(void);
+uint16_t get_highscore_value(uint8_t index);
+void place_highscore_value(uint8_t index, uint16_t value);
 void update_highscore_list(uint16_t new_score);
 
 //Må fikses: Siden vi bruker uint16 og hver adresse er 8bit må det gjøres noe multiplexing i lesing (ogg sikkert skriving) av higscores. 

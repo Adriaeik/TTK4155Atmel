@@ -73,6 +73,12 @@ int main(void) {
 	write_menu_oled_to_SRAM(current_menu);
 	
 	print_game_status();
+	
+	clear_highscore_list();
+	update_highscore_list(69);
+	update_highscore_list(420);
+	update_highscore_list(1234);
+	update_highscore_list(12345);
 	sei();
 	
 	
@@ -113,7 +119,6 @@ ISR(TIMER1_OVF_vect) {
 		if(second_conv%75 == 0){
 			//Har gått ett sekund (eller bittelitt mer)
 			score_counter++;
-			printf("score++: %d \r\n", score_counter);
 		}
 	}
 	 TIFR |= (1 << TOV1); //Resett TIMER1_OVF_vect

@@ -12,8 +12,8 @@ extern MultiBoard board;
 extern uint16_t score_counter;
 
 void game_Init(Game *game){
-	game->difficulty = EASY;
-	game->lives = 5;
+	game->difficulty = MEDIUM;
+	game->lives = 9;
 	game->sensitivity = 5;
 	game->score = 0;
 	game->start_game = 0;
