@@ -27,6 +27,7 @@ typedef struct game_t {
 	uint16_t score;
 	uint8_t sensitivity;
 	uint8_t lives_left;
+	uint8_t game_initialized;
 } Game;
 extern Game main_game;
 

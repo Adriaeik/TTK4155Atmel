@@ -94,7 +94,7 @@ uint8_t count_digits(uint16_t number) {
 	return digits;
 }
 
-void number_to_chars(uint16_t number, char* buffer, int length) {
+void number_to_chars(uint16_t number, char* buffer, uint8_t length) {
 	buffer[length] = '\0';  // Null-terminator for å avslutte strengen
 
 	// Fyll buffer fra høyre til venstre

@@ -18,6 +18,7 @@ void game_Init(Game *game){
 	game->score = 0;
 	game->start_game = 0;
 	game->lives_left = game->lives;
+	game->game_initialized = 0;
 	set_difficulty(game->difficulty);
 }
 void game_Start(Game* game){
@@ -44,6 +45,7 @@ void game_over(Game* game){
 	update_highscore_list(score_counter);
 	game->start_game = 0;
 	game->lives_left = game->lives;
+	game->game_initialized = 0;
 	
 	//printf("Startgame er nå null \r\n");
 }
@@ -86,7 +88,9 @@ void game_Recive(Game* game, CANMessage* msg) {
 		case ID_GAME_OVER:
 			game_over(&main_game);
 			break;
-
+		case ID_GAME_INITIALIZED:
+			game->game_initialized = 1;
+			
 		default:
 		// Håndter ukjente CAN-meldinger her, om nødvendig
 		break;

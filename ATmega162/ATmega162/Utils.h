@@ -38,6 +38,6 @@ void restart_general_timer();
 
 
 uint8_t count_digits(uint16_t number);
-void number_to_chars(uint16_t number, char* buffer, int length);
+void number_to_chars(uint16_t number, char* buffer, uint8_t length);
 
 #endif /* UTILS_H_ */

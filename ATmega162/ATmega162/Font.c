@@ -384,8 +384,8 @@ const char settingsMenuItems[5*16] PROGMEM =
 //En 'square': 8x8, en linje: 16 squares, en skjerm: 8 linjer
 //Bør tegne en strek som blir tynnere oppover i øverste linje, resten tom:
 extern const char null_lives[128] PROGMEM = 
-"Lives:          "
-"         ---    "
+"Score:          "
+"Lives:   ---    "
 "        |   |   "
 "        |   |   "
 "        |   |   "
@@ -394,8 +394,8 @@ extern const char null_lives[128] PROGMEM =
 "                ";
 
 extern const char one_lives[128] PROGMEM = 
-"Lives:          "
-"          ___   "
+"Score:          "
+"Lives:    ___   "
 "         / ||   "
 "           ||   "
 "           ||   "
@@ -404,8 +404,8 @@ extern const char one_lives[128] PROGMEM =
 "                ";
 
 extern const char two_lives[128] PROGMEM=
-"Lives:          "
-"        ___     "
+"Score:          "
+"Lives:  ___     "
 "       /   \    "
 "          /     "
 "         /      "
@@ -414,8 +414,8 @@ extern const char two_lives[128] PROGMEM=
 "                ";
 
 extern const char three_lives[128] PROGMEM =
-"Lives:          "
-"        ___     "
+"Score:          "
+"Lives:  ___     "
 "       /   \    "
 "          _/    "
 "           \    "
@@ -424,8 +424,8 @@ extern const char three_lives[128] PROGMEM =
 "                ";
 
 extern const char four_lives[128] PROGMEM =
-"Lives:          "
-"       |   |    "
+"Score:          "
+"Lives: |   |    "
 "       |   |    "
 "       |___|    "
 "           |    "
@@ -434,8 +434,8 @@ extern const char four_lives[128] PROGMEM =
 "                ";
 
 extern const char five_lives[128] PROGMEM =
-"Lives:  ____    "
-"       |        "
+"Score:          "
+"Lives:  ___     "
 "       |        "
 "       |___     "
 "           |    "
@@ -444,8 +444,8 @@ extern const char five_lives[128] PROGMEM =
 "                ";
 
 extern const char six_lives[128] PROGMEM =
-"Lives:  ____    "
-"       |        "
+"Score:          "
+"Lives:  ___     "
 "       |        "
 "       |___     "
 "       |   |    "
@@ -453,8 +453,8 @@ extern const char six_lives[128] PROGMEM =
 "       |___|    "
 "                ";
 extern const char seven_lives[128] PROGMEM =
-"Lives:          "
-"       ______   "
+"Score:          "
+"Lives: ______   "
 "            /   "
 "           /    "
 "          /     "
@@ -463,8 +463,8 @@ extern const char seven_lives[128] PROGMEM =
 "                ";
 
 extern const char eight_lives[128] PROGMEM =
-"Lives:          "
-"        ___     "
+"Score:          "
+"Lives:  ___     "
 "       |   |    "
 "       |___|    "
 "       |   |    "
@@ -473,8 +473,8 @@ extern const char eight_lives[128] PROGMEM =
 "                ";
 
 extern const char nine_lives[128] PROGMEM =
-"Lives:          "
-"        ___     "
+"Score:          "
+"Lives:  ___     "
 "       |   |    "
 "       |___|    "
 "           |    "

@@ -168,6 +168,7 @@ void handleMenuSelection(MultiBoard* board, Menu* menu) {
 			print_game_status();
 			oled_write_screen_to_SRAM(&solkors);
 			oled_data_from_SRAM();
+			while(!main_game.game_initialized){printf("     \r");}
 			score_counter = 0;
 			while(game_run()){
 				if(screen_count >= 0){
@@ -310,6 +311,16 @@ void handle_game_screen(void){
 			break;
 		default:
 			oled_write_screen_to_SRAM(&solkors); 
+	}
+	
+	//Skrive score:
+	uint16_t score_temp = score_counter;
+	uint8_t score_len = count_digits(score_temp);
+	char score_char[score_len+1];
+	number_to_chars(score_temp, score_char, score_len);	 
+	 //Om vi fikser uint16 må denne fikses litt lenger. col 9-i gir plass for 3 siffer
+	for(int i = 0; i < score_len; i++){
+		oled_write_char_to_SRAM(0, 7+i, score_char[i]);		
 	}
 	
 	
