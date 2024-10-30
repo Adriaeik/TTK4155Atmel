@@ -68,6 +68,11 @@ int main(void) {
 	print_game_status();
 	
 	
+	//clear_highscore_list();
+	//update_highscore_list(10);
+	//update_highscore_list(255);
+	//update_highscore_list(69);
+	//update_highscore_list(1);
 	
 	
 	/*_______HOVUDLØKKE______*/
