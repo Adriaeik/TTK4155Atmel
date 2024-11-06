@@ -36,6 +36,7 @@ void servo_set_position(double ms) {
 
 	//printf("Ny PWM duty cycle sett til: %u ticks (for %f ms)\n\r", inverted_duty_cycle, ms);
 }
+extern int inverted_controll;
 void servo_set_position_joy(void) {
 	// Sjekk og avgrens millisekundverdien innanfor 0.9 ms og 2.1 ms
 	// til venstre frå 0 til - 161. til høgre 0 til 93 for JoyXposCal
@@ -44,7 +45,7 @@ void servo_set_position_joy(void) {
 	double righZat = 93;
 	double midt = (0.9+2.1)/2;
 	
-	int x_pos = board.JoyXposCal;  // Les joystick posisjon
+	int x_pos = (inverted_controll == 1) ? -board.JoyXposCal : board.JoyXposCal; // Les joystick posisjon if (abs(x_pos) < 2){
 	if (abs(x_pos) < 2){
 		ms = midt;
 	} else if (x_pos > 5){
