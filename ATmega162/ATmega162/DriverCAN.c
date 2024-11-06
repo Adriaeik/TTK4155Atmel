@@ -7,7 +7,7 @@
 
 #include "DriverCAN.h"
 
-static char recieved_flag = 0;
+//static char recieved_flag = 0;
 
 static void CAN_Interrupt_recive_init(){
 	DDRD &= ~(1 << PD2);

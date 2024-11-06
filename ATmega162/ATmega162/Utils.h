@@ -23,6 +23,7 @@
 #define loopUntilBitIsSet(reg, bit) while(!testBit(reg, bit))
 #define loopUntilBitIsClear(reg, bit) while(testBit(reg, bit))
 
+
 extern volatile uint32_t overflow_count;  // Extern deklarasjon av millis_counter
 
 

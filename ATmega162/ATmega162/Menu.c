@@ -17,6 +17,7 @@ uint8_t playGame;
 Game main_game;
 extern uint8_t menu_pos_count;
 extern uint16_t score_counter;
+extern uint8_t startGame_l;
 
 void oled_display_menu(Menu* menu) {
 	for (uint16_t j = 0; j < 128; j++) {
@@ -162,6 +163,7 @@ void handleMenuSelection(MultiBoard* board, Menu* menu) {
 			oled_write_line_to_SRAM(0, "Startar spelet...");
 			playGame = 1;
 			main_game.start_game = 1;
+			startGame_l = 1;
 			game_Start(&main_game);
 			print_game_status();
 			draw_sunset_with_pikachu_and_ash();
@@ -176,7 +178,7 @@ void handleMenuSelection(MultiBoard* board, Menu* menu) {
 			};
 				
 
-
+			startGame_l = 0;
 			oled_data_from_SRAM();
 			break;
 			case 1:
