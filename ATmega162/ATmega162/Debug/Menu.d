@@ -20,7 +20,9 @@ Menu.d Menu.o: .././Menu.c .././Menu.h .././OLED.h .././Utils.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\pgmspace.h \
  .././XMEM_Decode.h .././MultiBoard.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdio.h \
- c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\gcc\avr\5.4.0\include\stdarg.h
+ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\gcc\avr\5.4.0\include\stdarg.h \
+ .././GameSettings.h .././utils.h .././game.h .././DriverCAN.h \
+ .././DriverMCP2515.h .././DriverSPI.h .././DriverUART.h
 
 .././Menu.h:
 
@@ -73,3 +75,17 @@ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\
 c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdio.h:
 
 c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\gcc\avr\5.4.0\include\stdarg.h:
+
+.././GameSettings.h:
+
+.././utils.h:
+
+.././game.h:
+
+.././DriverCAN.h:
+
+.././DriverMCP2515.h:
+
+.././DriverSPI.h:
+
+.././DriverUART.h:

@@ -12,6 +12,14 @@ DriverUART.c
 
 Font.c
 
+game.c
+
+GameSettings.c
+
+HighScore.c
+
+init.c
+
 main.c
 
 Menu.c

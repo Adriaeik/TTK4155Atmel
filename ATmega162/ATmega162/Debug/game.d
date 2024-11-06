@@ -1,4 +1,4 @@
-main.d main.o: .././main.c .././init.h .././game.h .././DriverCAN.h \
+game.d game.o: .././game.c .././game.h .././DriverCAN.h \
  .././DriverMCP2515.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\io.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\sfr_defs.h \
@@ -23,10 +23,7 @@ main.d main.o: .././main.c .././init.h .././game.h .././DriverCAN.h \
  .././DriverUART.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdio.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\gcc\avr\5.4.0\include\stdarg.h \
- .././MultiBoard.h .././XMEM_Decode.h .././SRAM.h .././Menu_init.h \
- .././Menu.h .././OLED.h .././GameSettings.h .././utils.h
-
-.././init.h:
+ .././MultiBoard.h .././XMEM_Decode.h
 
 .././game.h:
 
@@ -85,15 +82,3 @@ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\
 .././MultiBoard.h:
 
 .././XMEM_Decode.h:
-
-.././SRAM.h:
-
-.././Menu_init.h:
-
-.././Menu.h:
-
-.././OLED.h:
-
-.././GameSettings.h:
-
-.././utils.h:

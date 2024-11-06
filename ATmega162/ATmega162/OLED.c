@@ -619,7 +619,7 @@ extern volatile uint8_t screen_count_two = 0;
 
 void animate_ash_and_pikachu_laughing() {
 	static uint8_t loooser = 0;
-
+	uint16_t timout = 0;
 	// Start Watchdog Timer med 2 sekunders timeout
 	//wdt_enable(WDTO_2S);
 		oled_clear_screen();
@@ -627,14 +627,16 @@ void animate_ash_and_pikachu_laughing() {
 		oled_write_line_to_SRAM(0, "!!!DIN TAPAR!!!!");
 		oled_data_from_SRAM();
 		
-	while (board.JoyBtn != 1) {
+	while (board.JoyBtn != 1 && timout < 100) {
 		MultiBoard_Update(&board);
-
+		
 		if (screen_count == 2) {
 			screen_count_two ++;
+			
 			if (screen_count_two > 102)
 			{
 				loooser++;
+				
 				if (loooser >= 347) { loooser = 0; }
 			}
 		}
@@ -649,13 +651,14 @@ void animate_ash_and_pikachu_laughing() {
 		}
 
 		if (loooser % 347 == 0) {
+			timout++;
 			oled_clear_screen();
 			oled_write_line_to_SRAM(0, "!!!DIN TAPAR!!!!");
 			draw_ash_laughing_hard();
 			draw_pikachu_laughing_hard();
 			oled_data_from_SRAM();
 		}
-		printf(" er i while     \r");
+		printf(" er i while     %d\r", timout);
 	}
 }
 

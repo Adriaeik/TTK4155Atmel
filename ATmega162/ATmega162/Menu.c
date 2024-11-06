@@ -43,8 +43,8 @@ void update_menu_arrows(uint8_t new_position, uint8_t old_position) {
 // Oppdaterer menyposisjonen frå joystick-input hugs å kalle på MultiBoard_Update(board);  // Oppdater joystick-posisjonen
 void update_menu_position_from_joystick(MultiBoard* board, Menu* menu) {
 	int16_t joyY = (int16_t)(board->JoyYposCal);  // Les Y-posisjonen frå joysticken
-	
-	if( menu_pos_count >= 8){
+	uint8_t menu_pos_count_temp = menu_pos_count;
+	if( menu_pos_count_temp >= 8){
 		menu_pos_count = 0;
 		// Beveg oppover i menyen
 		if (joyY > 50) {
@@ -195,21 +195,22 @@ void handleMenuSelection(MultiBoard* board, Menu* menu) {
 			oled_clear_screen();
 			draw_pikachu();
 			for(uint8_t i = 0; i < 2; i++){
+				uint8_t count_fake_proc_temp = fake_proc_time;
 				oled_write_line_to_SRAM(0, "Resetter score  ");
 				oled_data_from_SRAM();
-				while(fake_proc_time < 35){printf("     \r");}
+				while(count_fake_proc_temp < 35){printf("     \r"); count_fake_proc_temp = fake_proc_time;}
 				fake_proc_time = 0;
 				oled_write_char_to_SRAM(0, 14, '.');
 				oled_data_from_SRAM();
-				while(fake_proc_time < 35){printf("     \r");}
+				while(count_fake_proc_temp < 35){printf("     \r");count_fake_proc_temp = fake_proc_time;}
 				fake_proc_time = 0;
 				oled_write_char_to_SRAM(0, 15, '.');
 				oled_data_from_SRAM();
-				while(fake_proc_time < 35){printf("     \r");}
+				while(count_fake_proc_temp < 35){printf("     \r");count_fake_proc_temp = fake_proc_time;}
 				fake_proc_time = 0;
 				oled_write_char_to_SRAM(0, 15, ' ');
 				oled_data_from_SRAM();
-				while(fake_proc_time < 35){printf("     \r");}
+				while(count_fake_proc_temp < 35){printf("     \r");count_fake_proc_temp = fake_proc_time;}
 				fake_proc_time = 0;
 			}
 			count_fake_proc = 0;
