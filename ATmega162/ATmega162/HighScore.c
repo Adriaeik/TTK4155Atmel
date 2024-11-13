@@ -79,7 +79,7 @@ void highscore_to_SRAM(uint8_t scroll_offset){
 	if(scroll_offset == 0){
 		k = 1;
 	}
-	for(k; k < 8; k++){
+	for(;k < 8; k++){
 		uint16_t score = get_highscore_value(scroll_offset + (k-1));
 		uint8_t score_len = count_digits(score);
 		char score_as_string[score_len+1];

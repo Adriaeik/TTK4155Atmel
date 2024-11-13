@@ -30,14 +30,14 @@ void externalMemoryInit(void) {
 // Funksjon for � skrive data til SRAM
 void SRAM_write(volatile uint16_t addr, uint8_t data) {
 	volatile char *ext_ram = (char *) SRAM_START; // Startadresse for SRAM
-	uint16_t ext_ram_size = SRAM_SIZE; // St�rrelsen p� SRAM (2 KB) - kan fjernast
+	//uint16_t ext_ram_size = SRAM_SIZE; // St�rrelsen p� SRAM (2 KB) - kan fjernast
 	ext_ram[addr] = data;
 }
 
 // Funksjon for � lese data fr� SRAM
 uint8_t SRAM_read(volatile uint16_t addr) {
 	volatile char *ext_ram = (char *) SRAM_START; // Startadresse for SRAM
-	uint16_t ext_ram_size = SRAM_SIZE; // St�rrelsen p� SRAM (2 KB) - kan fjernast
+	//uint16_t ext_ram_size = SRAM_SIZE; // St�rrelsen p� SRAM (2 KB) - kan fjernast
 	uint8_t data = ext_ram[addr];
 	
 	return data;
