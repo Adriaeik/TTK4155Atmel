@@ -50,11 +50,21 @@ void MultiBoard_Init(MultiBoard* board) {
 	board->JoyAngle_l_can = 0;
 }
 
-
+extern uint8_t screen_count;
 void MultiBoard_Update(MultiBoard* board) {
 	// Velg kanal for venstre skyvebryter (LSpos)
 	Universal_write(ADC_START, 0x00);
-	loopUntilBitIsClear(PINB, BUSY_PIN);		// Vent til BUSY g�r lav - klar for � sende p� ny
+	//loopUntilBitIsClear(PINB, BUSY_PIN) //Lager problem, løsning under!!!;		// Vent til BUSY g�r lav - klar for � sende p� ny
+	
+	uint8_t start_time = screen_count;
+	uint8_t now_time = start_time;
+	
+	 while(testBit(PINB, BUSY_PIN) && (now_time - start_time < 5)){
+		 now_time = screen_count;
+		 printf("Time i multiboard_update: time: %d \r\n", now_time-start_time);
+	 }
+	 if((now_time - start_time >= 75)){return;}
+	
 	board->JoyYpos = Universal_read(ADC_START); //  - CH0 f�rste RD low gir channel 0
 	board->JoyXpos = Universal_read(ADC_START); //	- CH1 andre RD low gir channel 1
 	board->RSpos = Universal_read(ADC_START);	//	- CH2

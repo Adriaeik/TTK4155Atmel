@@ -24,50 +24,6 @@ extern Menu* current_menu;
 
 int main(void) {
 	/*_________________INITIALISERINGER START______________________*/
-	/*--- Initialiser UART ---*/
-/*
-	UART_Init(MYUBBR);
-	URAT_initStudio();
-	UART_EnableReceiveInterrupt();
-    setup_timer();						// Start millisekundteljinga
-	CAN_Init(MCP2515_MODE_NORMAL);
-	
-	printf("GO!");
-	/*--- Ditta må (noko av det ihvertfall) vere etter sei() ---*/
-	/*
-	externalMemoryInit();				// Initialiser eksternt minne må vere etter sei
-	initialize_menus();
-	MultiBoard_Init(&board);			// Initialiser MultiBoard og kalibrer joystickens origo
-	game_Init(&main_game);
-	main_game.lives = 5;
-	oled_init();						// Initialiser OLED-skjermen
-		/*--- Optional setup ---*/
-			//setup_printf_for_oled();		
-			//SRAM_test();
-	/*_______OLED + LOGO_______*/
-	
-	//oled_clear_screen();
-	/*- Den komboen her var heilt nydelig -*/
-	/*
-	oled_draw_line(10, 10, 100, 50);
-	oled_draw_circle(64, 32, 20);
-	oled_draw_square(20, 20, 40, 30);
-	oled_data_from_SRAM();
-	_delay_ms(500);
-	
-	/*_________________SPI_________________*/
-	// Initialiser SPI og MCP2515 i loopback-modus
-	
-	
-    //MCP2515_SetMode(MCP2515_MODE_CONFIG);  // Sett MCP2515 i Configuration Mode
-	// Les CANSTAT-registeret (0x0E) for å sjekke om MCP2515 er i loopback-modus
-
-	
-	//CAN_Check_startup();
-	//sei();	// Aktiver globale avbrot
-
-
-//kaller main init funksjonen
 	system_init(&main_game, &board);
 	
 	/*______MENY______*/
@@ -76,20 +32,18 @@ int main(void) {
 	
 	print_game_status();
 	
-	clear_highscore_list();
-	update_highscore_list(69);
-	update_highscore_list(420);
-	update_highscore_list(1234);
-	update_highscore_list(12345);
+	
 	sei();
 	
-	
+	uint8_t screen_count_temp = 0;
 	/*_______HOVUDL�KKE______*/
 	while (1) {
 
         menu_navigate(&board, current_menu);  // Kallar `menu_navigate` med referanse til gjeldande meny
 		
-		if(screen_count >= 2){
+		
+		screen_count_temp = screen_count;
+		if(screen_count_temp >= 2){
 			oled_data_from_SRAM();
 			screen_count = 0;
 		}
