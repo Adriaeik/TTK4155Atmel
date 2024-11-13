@@ -20,7 +20,7 @@ Game main_game;
 MultiBoard board;
 extern Menu* current_menu;
 
-
+ 
 
 int main(void) {
 	/*_________________INITIALISERINGER START______________________*/
@@ -36,7 +36,7 @@ int main(void) {
 	sei();
 	
 	uint8_t screen_count_temp = 0;
-	/*_______HOVUDLØKKE______*/
+	/*_______HOVUDLï¿½KKE______*/
 	while (1) {
 
         menu_navigate(&board, current_menu);  // Kallar `menu_navigate` med referanse til gjeldande meny
