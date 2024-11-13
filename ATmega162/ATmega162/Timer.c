@@ -21,6 +21,8 @@ void initTimer1(void){
 	//Overflow på 2^16. her er prescale 1 som bør gi 75 Hz overflow -> t_ovf = 0.01333... s ~ 13.33ms
 	
 	TCCR1B |= (1 << CS10); //Skru på chipclock uten prescale som source
+	
+	//For å måle pwm sigal på ICP1
 	TCCR1B |= (1 << ICNC1) | (1 << ICES1); // skru på filter på ICP1 og capt på rising edge
 	
 	TIFR |= (1 << TOV1); //Clear int på overflow
@@ -30,8 +32,10 @@ void initTimer1(void){
 }
 
 void initTimer0(void){
+	//For å sende PWM signalet ut
 	DDRB |= (1 << DDB0); //Sett PB0 som output (OC0)
 	
+	//FastmodePWM bare er bedre. 
 	TCCR0 |= (1 << WGM00) | (1 << WGM01); //Sett i fastPWM mode
 	
 	//Prescale 64 vil gi PWM freq 1/300, t_pwm = 3.333 ms
@@ -39,7 +43,7 @@ void initTimer0(void){
 	TCCR0 |= (1 << COM01); //Clear oc0 på compare, set oc0 på TOP (først høy så lav)
 	
 	
-	OCR0 = TC0TOP/2; //starter på dutycycle 0.5
+	OCR0 = TC0TOP/2; //starter på dutycycle 50%
 	TIFR |= (1 << OCF0); //Clear output compare flag
 	TIMSK |= (1 << OCIE0); //Enable output compare timer 0
 }
@@ -60,6 +64,7 @@ ISR(TIMER1_OVF_vect){
 	if(tc1_overflow_flag == 75){
 		second_flag = 1;
 		tc1_overflow_flag = 0;
+		//Skru på for å gjøre en måling på ICP1
 		TCCR1B |= (1 << ICES1); // skru på capt på rising edge
 		TIMSK |= (1 << TICIE1); //Enable input capture int
 		
@@ -75,7 +80,7 @@ ISR(TIMER1_CAPT_vect){
 	else{
 		on_time = TCNT1 - on_time;
 		prev_on_time = on_time;
-		TIMSK &= ~(1 << TICIE1); //Disable input capture int
+		TIMSK &= ~(1 << TICIE1); //Disable input capture int så man kun gjør én måling per sekund
 	}
 }
 
