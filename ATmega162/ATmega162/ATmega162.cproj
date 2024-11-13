@@ -129,6 +129,12 @@
     <Compile Include="main.c">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="Timer.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Timer.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="Utils.c">
       <SubType>compile</SubType>
     </Compile>
