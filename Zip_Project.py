@@ -16,5 +16,5 @@ def zip_source_files(directory, zip_name):
     print(f'Files have been zipped into {zip_name}')
 
 source_directory = '../TTK4155Atmel' 
-output_zip = 'source_files.zip'  
+output_zip = 'group_20_ttk4155_h23.zip'  
 zip_source_files(source_directory, output_zip)
