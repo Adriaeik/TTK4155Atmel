@@ -2,6 +2,10 @@
 
 Welcome to our Pong Game project! This repository contains the code and documentation for a distributed, microcontroller-based ping pong game developed as part of the TTK4155 course at NTNU.
 
+## 🔗 GitHub Repository
+
+You can find the project on GitHub here: [GitHub Repository](https://github.com/Adriaeik/TTK4155Atmel)
+
 ## 📁 Repository Structure
 
 - **ATmega162/**: Contains code and configurations for Node 1.
@@ -30,8 +34,14 @@ The game logic includes:
 - **Initialization**: Sets up game parameters and prepares hardware components.
 - **Input Handling**: Reads user inputs to control game elements.
 - **State Management**: Maintains the current state of the game and transitions between states based on events.
-- **Scoring System**: Updates and displays scores based on game events. And store the 19 highest scores!
-- **Feedback Mechanisms**: Provides visual feedback to enhance user experience.
+- **Scoring System**: Updates and displays scores based on game events, storing the top 19 highest scores.
+- **Feedback Mechanisms**: Provides visual feedback to enhance user experience, such as displaying images of Pikachu and Ash laughing when the player loses. 
+
+<p align="center">
+  <img src="images/pikachu_ler.png" alt="Pikachu ler" width="200" />
+  <img src="images/ashOgpikachu_ler.png" alt="Ash og Pikachu ler" width="200" />
+</p>
+
 
 ## 🚀 Getting Started
 
@@ -41,7 +51,14 @@ To get started with the project:
 2. Navigate to the respective directories for Node 1 and Node 2.
 3. Follow the setup instructions provided in each directory's README file.
 
+**Note**: This project was developed using Atmel Studio on Windows.
+
 ## 🤝 Contributors
 
 - **Adriaeik**: [GitHub Profile](https://github.com/Adriaeik)
 
+
+
+
+
+ 
