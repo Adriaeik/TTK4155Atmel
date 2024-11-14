@@ -8,7 +8,7 @@ def zip_source_files(directory, zip_name):
         for root, _, files in os.walk(directory):
             for file in files:
                 # Check if the file has the desired extension
-                if file.endswith(('.c', '.h', '.md')):
+                if file.endswith(('.c', '.h', '.md', '.png')):
                     # Get the full file path
                     full_path = os.path.join(root, file)
                     # Add the file to the ZIP archive with a relative path
