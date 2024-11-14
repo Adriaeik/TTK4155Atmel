@@ -55,8 +55,9 @@ To get started with the project:
 
 ## 🤝 Contributors
 
-- **Adriaeik**: [GitHub Profile](https://github.com/Adriaeik)
-
+- **Adrian Eikeland**: [GitHub Profile](https://github.com/Adriaeik)
+- **Ravn Erik Budde**: [GitHub Profile](https://github.com/ravnbudde)
+- **Pontus Leon Ekman Vangen**: [GitHub Profile](https://github.com/poelekva)
 
 
 
