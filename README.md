@@ -55,13 +55,15 @@ To get started with the project:
 
 ## 🤝 Contributors
 
-- **Adrian Eikeland**: [🔗](https://github.com/Adriaeik)<a href="https://www.linkedin.com/in/adrianvalakereikeland">
+- **Adrian Eikeland**: [🔗](https://github.com/Adriaeik)<a href="https://www.linkedin.com/in/adrianvalakereikeland/">
   <img src="images/linkedin-logo.png" alt="" width="20" height="20" />
 </a>
-- **Ravn Erik Budde**: [🔗](https://github.com/ravnbudde)<a href="https://www.linkedin.com/in/ravn-erik-budde-040456225">
+
+- **Ravn Erik Budde**: [🔗](https://github.com/ravnbudde)<a href="https://www.linkedin.com/in/ravn-erik-budde-040456225/">
   <img src="images/linkedin-logo.png" alt="" width="20" height="20" />
 </a>
-- **Pontus Leon Ekman Vangen**: [🔗](https://github.com/poelekva)<a href="https://www.linkedin.com/in/pontus-vangen-9baa54224">
+
+- **Pontus Leon Ekman Vangen**: [🔗](https://github.com/poelekva)<a href="https://www.linkedin.com/in/pontus-vangen-9baa54224/">
   <img src="images/linkedin-logo.png" alt="" width="20" height="20" />
 </a>
 
