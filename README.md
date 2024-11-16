@@ -2,7 +2,7 @@
 
 Welcome to our Pong Game project! This repository contains the code and documentation for a distributed, microcontroller-based pong game developed as part of the TTK4155 course at NTNU.
 
-## <img src="images/GitHub.png" alt="" width="20" height="20" /> </a> GitHub Repository
+## <a href="https://github.com/Adriaeik/TTK4155Atmel"> <img src="images/GitHub.png" alt="" width="20" height="20" /></a> GitHub Repository
 
 You can find the project on GitHub here: [GitHub Repository](https://github.com/Adriaeik/TTK4155Atmel)
 
