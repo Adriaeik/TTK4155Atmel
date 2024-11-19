@@ -41,8 +41,8 @@ void servo_set_position_joy(void) {
 	// Sjekk og avgrens millisekundverdien innanfor 0.9 ms og 2.1 ms
 	// til venstre frå 0 til - 161. til høgre 0 til 93 for JoyXposCal
 	double ms;
-	double leftZat = (inverted_controll == 0) ? 161 : -161; // egentlig 93
-	double righZat = (inverted_controll == 0) ? -161 : 161;
+	double leftZat = (inverted_controll == 1) ? -93 : -161; // egentlig 93
+	double righZat = (inverted_controll == 1) ? 161 : 93;
 	double midt = (0.9+2.1)/2;
 	
 	int x_pos = (inverted_controll == 1) ? -board.JoyXposCal : board.JoyXposCal; // Les joystick posisjon if (abs(x_pos) < 2){

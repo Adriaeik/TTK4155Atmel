@@ -102,7 +102,7 @@ void start_game() {
 	} else{
 		//game_Init(&main_game);
 		//print_game_status(&main_game);
-		printf("vi er i else: strt game: %d \n\r", main_game.start_game);
+		//printf("vi er i else: strt game: %d \n\r", main_game.start_game);
 		
 	}
 }
