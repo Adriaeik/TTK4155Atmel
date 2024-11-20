@@ -76,6 +76,7 @@ void game_Send(Game* game, uint8_t ID){
 	CAN_SendMessage(&msg_to_send);
 }
 
+extern volatile uint8_t game_over_flag = 0;
 void game_Recive(Game* game, CANMessage* msg) {
 			printf("ID: %d\n\r", msg->id);
 			
@@ -87,8 +88,9 @@ void game_Recive(Game* game, CANMessage* msg) {
 			#endif
 		break;
 		case ID_GAME_OVER:
-			animate_ash_and_pikachu_laughing();
-			game_over(&main_game);
+			game_over_flag = 1;
+			//animate_ash_and_pikachu_laughing();
+			//game_over(&main_game);
 			
 			
 			

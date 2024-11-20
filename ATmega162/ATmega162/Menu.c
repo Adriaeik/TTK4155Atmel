@@ -152,7 +152,7 @@ extern Game main_game;
 uint8_t screen_count;
 extern uint16_t fake_proc_time;
 extern uint8_t count_fake_proc;
-
+extern volatile uint8_t game_over_flag;
 void handleMenuSelection(MultiBoard* board, Menu* menu) {
 	oled_clear_screen();
 	switch (currentMenuState) {
@@ -172,11 +172,15 @@ void handleMenuSelection(MultiBoard* board, Menu* menu) {
 				if(screen_count >= 0){
 					handle_game_screen(); //Oppdaterer skjermen med lives left
 				}
-				
+				if(game_over_flag){
+					animate_ash_and_pikachu_laughing();
+					game_over(&main_game);
+					game_over_flag = 0;
+				}	
 			};
 				
 
-
+			
 			oled_data_from_SRAM();
 			break;
 			case 1:
