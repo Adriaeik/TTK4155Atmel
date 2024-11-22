@@ -13,6 +13,17 @@ void motor_init(void) {
 	PIOC->PIO_PER |= PHASE_PIN; // Aktiver PIO kontroll over PHASE_PIN
 }
 
+/* dinna har kanskje drept eit sheild*/
+// void motor_init(void) {
+// 	// 1. Aktivere klokke for PIOA og PIOB
+// 	PMC->PMC_PCER0 |= (1 << ID_PIOA) | (1 << ID_PIOB) | (1 << ID_PWM);  // Aktivere klokkene for PIOA, PIOB, og PWM
+
+// 	// 2. Konfigurer PHASE_PIN (PC23) som utgang for retning
+// 	PIOC->PIO_OER |= PHASE_PIN; // Sett PHASE_PIN som utgang
+// 	PIOC->PIO_PER |= PHASE_PIN; // Aktiver PIO kontroll over PHASE_PIN
+// }
+
+
 void motor_control_velocity(void) {
 	// Definer parametrene for joystickkalibrering og duty cycle
 	double ms;
@@ -20,11 +31,11 @@ void motor_control_velocity(void) {
 	double righZat = 93;
 	double minDutyMs = 0.0; // Minimum duty cycle (0 %)
 	double maxDutyMs = 1.0; // Maksimum duty cycle (100 %)
-	double midDutyMs = 0.0; // Midtverdi, som er 0 % når motoren står stille
+	double midDutyMs = 0.0; // Midtverdi, som er 0 % nï¿½r motoren stï¿½r stille
 
 	int x_pos = board.JoyXposCal;  // Les joystick posisjon
 
-	// Kalkuler ms-verdi (duty cycle) basert på joystickens posisjon
+	// Kalkuler ms-verdi (duty cycle) basert pï¿½ joystickens posisjon
 	if (abs(x_pos) < 5) {
 		ms = midDutyMs;  // Midtposisjon, ingen bevegelse (0 % duty cycle)
 		} else if (x_pos > 0) {
@@ -40,25 +51,25 @@ void motor_control_velocity(void) {
 		ms = maxDutyMs;
 	}
 
-	// Kalkuler duty cycle basert på den nye ms-verdien
+	// Kalkuler duty cycle basert pï¿½ den nye ms-verdien
 	uint32_t duty_cycle_ticks = (uint32_t)(ms * PWM->PWM_CH_NUM[5].PWM_CPRD);
-	// Inverter duty cycle slik at høg tid svarer til 0.9 til 2.1 ms
+	// Inverter duty cycle slik at hï¿½g tid svarer til 0.9 til 2.1 ms
 	uint32_t inverted_duty_cycle = PWM->PWM_CH_NUM[5].PWM_CPRD - duty_cycle_ticks;
-	// Oppdater duty cycle direkte ved å skrive til PWM_CDTYUPD
+	// Oppdater duty cycle direkte ved ï¿½ skrive til PWM_CDTYUPD
 	PWM->PWM_CH_NUM[5].PWM_CDTYUPD = inverted_duty_cycle;
 
-	// Sett motor retning basert på fortegnet til joystick-verdien
-	if (x_pos > 0)PIOC->PIO_SODR = PHASE_PIN;  // Sett pin 0 høg (positiv retning)} 
-	else if (x_pos < 0)PIOC->PIO_CODR = PHASE_PIN;  // Sett pin 0 låg (negativ retning)
+	// Sett motor retning basert pï¿½ fortegnet til joystick-verdien
+	if (x_pos > 0)PIOC->PIO_SODR = PHASE_PIN;  // Sett pin 0 hï¿½g (positiv retning)} 
+	else if (x_pos < 0)PIOC->PIO_CODR = PHASE_PIN;  // Sett pin 0 lï¿½g (negativ retning)
 
-	// Optional: printf for å debug duty cycle og retning
+	// Optional: printf for ï¿½ debug duty cycle og retning
 	// printf("Ny PWM duty cycle sett til: %u ticks (for joystick posisjon: %d)\n\r", duty_cycle_ticks, x_pos);
 }
 // Funksjonar for normalisering
 int normalize_pos_encoder(int prev_pos) {
 	//printf("encoder val: %d\n\r", read_encoder_position() );
 	int32_t encoder_pos = read_encoder_position();
-	// Sørg for at posisjonen ikkje er negativ
+	// Sï¿½rg for at posisjonen ikkje er negativ
 	if (encoder_pos < 0)encoder_pos = 0;
 	if (encoder_pos > ENCODER_RANGE)encoder_pos = ENCODER_RANGE;
 	double a = 10;
@@ -70,7 +81,7 @@ int normalize_pos_ref(int prev_ref) {
 	int a = 10;
 	int b = 10 - a;
 	uint8_t slider_pos = board.RSpos;
-	return (int)((double)slider_pos / SLIDER_RANGE* a*PARAM_SCALE + prev_ref * b)/10; //IKKJE 1000 for å fjerne 10
+	return (int)((double)slider_pos / SLIDER_RANGE* a*PARAM_SCALE + prev_ref * b)/10; //IKKJE 1000 for ï¿½ fjerne 10
 }
 
 int clamp(int value, int min, int max) {
@@ -91,7 +102,7 @@ void motor_control_PID(void) {
 	long long int pos = clamp(normalize_pos_encoder(prev_pos), 0, PARAM_SCALE);
 	if (reset_PID_flag == 0) {
 		if (inverted_controll) {
-			// Inverter referansen basert på SLIDER_RANGE
+			// Inverter referansen basert pï¿½ SLIDER_RANGE
 			ref = clamp(PARAM_SCALE - normalize_pos_ref(prev_ref),0, PARAM_SCALE);
 			} else {
 			// Normal referanse utan invertering
@@ -117,15 +128,15 @@ void motor_control_PID(void) {
 
 
 
-	// Sett motor retning basert på fortegnet til avviket
+	// Sett motor retning basert pï¿½ fortegnet til avviket
 
 	if (error > 0) {
 		if (abs(error)> error_hyst){
-			PIOC->PIO_SODR = PHASE_PIN;  // Sett pin høg (positiv retning) mot høyre?
+			PIOC->PIO_SODR = PHASE_PIN;  // Sett pin hï¿½g (positiv retning) mot hï¿½yre?
 			}
 		} else if (error < 0) {
 		if (abs(error)> error_hyst){
-			PIOC->PIO_CODR = PHASE_PIN;  // Sett pin låg (negativ retning)
+			PIOC->PIO_CODR = PHASE_PIN;  // Sett pin lï¿½g (negativ retning)
 		}
 	}
 	
@@ -133,15 +144,15 @@ void motor_control_PID(void) {
 	//printf("podrag1: %d ", (int)(actuation));
 	prev_error = error;
 	
-	//VIKTIG med abs verdi då u må vere eit tall mellom 0 og 1
-	long long int u = clamp(abs(actuation), 0, PARAM_SCALE);	// Normaliser og klamp pådraget
+	//VIKTIG med abs verdi dï¿½ u mï¿½ vere eit tall mellom 0 og 1
+	long long int u = clamp(abs(actuation), 0, PARAM_SCALE);	// Normaliser og klamp pï¿½draget
 
 	// Oppdater PWM duty cycle. normalisert
 	update_motor_pwm((double)u/PARAM_SCALE);
 
 }
 
-// Funksjon for å oppdatere motor PWM
+// Funksjon for ï¿½ oppdatere motor PWM
 void update_motor_pwm(double u) {
 	uint32_t duty_cycle_ticks = (uint32_t)(u * PWM->PWM_CH_NUM[5].PWM_CPRD);
 	uint32_t inverted_duty_cycle = PWM->PWM_CH_NUM[5].PWM_CPRD - duty_cycle_ticks;
@@ -149,13 +160,13 @@ void update_motor_pwm(double u) {
 }
 
 // Reset PID og sett motor til midtposisjon
-//blokerer men la gå
+//blokerer men la gï¿½
 void reset_pid(void) {
 	error = 0;
 	prev_error = 0;
 	integral = 0;
 	derivat = 0;
-	uint32_t timeout = 1000; // Tidsavbrudd for å unngå evig løkke
+	uint32_t timeout = 1000; // Tidsavbrudd for ï¿½ unngï¿½ evig lï¿½kke
 	ref = 0;
 	
 	reset_PID_flag = 1;
@@ -170,21 +181,21 @@ int calibrate_motor_pos(void) {
 	int prev_pos = read_encoder_position();  // Startposisjon
 	int curr_pos;
 	int stable_count = 0;       // Teller for stabil posisjon
-	const int stable_threshold = 15;  // Antal gonger posisjonen må vere uendra
+	const int stable_threshold = 15;  // Antal gonger posisjonen mï¿½ vere uendra
 	const int hysteresis = 2;   // Toleranse for stillstand
 
-	PIOC->PIO_CODR = PHASE_PIN;  // Sett pin låg (negativ retning)
+	PIOC->PIO_CODR = PHASE_PIN;  // Sett pin lï¿½g (negativ retning)
 	printf("Starting calibration towards wall...\n\r");
 
 	while (stable_count < stable_threshold) {
 		// Beveg motoren mot veggen
-		PIOC->PIO_SODR = PHASE_PIN;  // Sett pin låg (negativ retning)
-		// Sett motor retning basert på fortegnet til avviket
+		PIOC->PIO_SODR = PHASE_PIN;  // Sett pin lï¿½g (negativ retning)
+		// Sett motor retning basert pï¿½ fortegnet til avviket
 		//error = -1;
 		//if (error > 0) {
-			//PIOC->PIO_SODR = PHASE_PIN;  // Sett pin høg (positiv retning) mot høyre?
+			//PIOC->PIO_SODR = PHASE_PIN;  // Sett pin hï¿½g (positiv retning) mot hï¿½yre?
 			//} else if (error < 0) {
-			//PIOC->PIO_CODR = PHASE_PIN;  // Sett pin låg (negativ retning)
+			//PIOC->PIO_CODR = PHASE_PIN;  // Sett pin lï¿½g (negativ retning)
 		//}
 		update_motor_pwm(0.4);
 
